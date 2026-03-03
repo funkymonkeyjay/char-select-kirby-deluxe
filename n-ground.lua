@@ -2,40 +2,6 @@ ACT_KIRBY_INHALE = allocate_mario_action(0x080 | ACT_FLAG_ALLOW_VERTICAL_WIND_AC
 ACT_KIRBY_DODGE = allocate_mario_action(0x080 | ACT_FLAG_AIR | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION | ACT_FLAG_CONTROL_JUMP_HEIGHT)
 ACT_KIRBY_HELLO = allocate_mario_action(ACT_GROUP_AUTOMATIC | ACT_FLAG_STATIONARY)
 
-local allowedBehaviors = {
-	id_bhvBobomb, 
-	id_bhvBoo, 
-	id_bhvBreakableBoxSmall, 
-	id_bhvEnemyLakitu, 
-	id_bhvFlyGuy, 
-	id_bhvGoomba, 
-	id_bhvHeaveHo, 
-	id_bhvKoopa, 
-	id_bhvKoopaShell, 
-	id_bhvMontyMoleRock, 
-	id_bhvMrBlizzard, 
-	id_bhvMrBlizzardSnowball, 
-	id_bhvMrIParticle, 
-	id_bhvScuttlebug, 
-	id_bhvSkeeter, 
-	id_bhvSmallBully, 
-	id_bhvSmallChillBully, 
-	id_bhvSnufit, 
-	id_bhvSpindrift, 
-	id_bhvSpiny, 
-	id_bhvSwoop,
-	id_bhvWaterBomb, 
-	id_bhvWaterBombShadow, 
-	id_bhvSmallPenguin, 
-	id_bhvJumpingBox, 
-	id_bhvBlueCoinJumping, 
-	id_bhvWingCap, 
-	id_bhvMetalCap, 
-	id_bhvVanishCap, 
-	id_bhvUkiki, -- I want that monkey DEAD!!!!!! (Not the one that unlocks the cage, he gets to live)
-	id_bhvMips, 
-}
-
 function act_kirby_hello(m)
     if m.actionTimer == 0 then
 		if gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ <= 0 then
@@ -93,6 +59,93 @@ function act_kirby_dodge(m)
 	return 0
 end
 
+local allowedBehaviors = {
+	id_bhvBobomb, 
+	id_bhvBoo, 
+	id_bhvBreakableBoxSmall, 
+	id_bhvEnemyLakitu, 
+	id_bhvFlyGuy, 
+	id_bhvGoomba, 
+	id_bhvHeaveHo, 
+	id_bhvKoopa, 
+	id_bhvKoopaShell, 
+	id_bhvMontyMoleRock, 
+	id_bhvMrBlizzard, 
+	id_bhvMrBlizzardSnowball, 
+	id_bhvMrIParticle, 
+	id_bhvScuttlebug, 
+	id_bhvSkeeter, 
+	id_bhvSmallBully, 
+	id_bhvSmallChillBully, 
+	id_bhvSnufit, 
+	id_bhvSpindrift, 
+	id_bhvSpiny, 
+	id_bhvSwoop,
+	id_bhvWaterBomb, 
+	id_bhvWaterBombShadow, 
+	id_bhvSmallPenguin, 
+	id_bhvJumpingBox, 
+	id_bhvBlueCoinJumping, 
+	id_bhvWingCap, 
+	id_bhvMetalCap, 
+	id_bhvVanishCap, 
+	id_bhvUkiki, -- I want that monkey DEAD!!!!!! (Not the one that unlocks the cage, he gets to live)
+	id_bhvMips, 
+}
+
+_G.kirbyDeluxe = {
+	allowedBehaviors = {
+		{id = id_bhvBobomb,             canRotate = true,  canEat = true,                                                     ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvBoo,                canRotate = true,  canEat = true,                                                     ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvBreakableBoxSmall,  canRotate = true,  canEat = true,                                                     ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvEnemyLakitu,        canRotate = true,  canEat = true,                                                     ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvFlyGuy,             canRotate = true,  canEat = true,                                                     ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvGoomba,             canRotate = true,  canEat = true,                                                     ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvHeaveHo,            canRotate = true,  canEat = true,                                                     ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvKoopa,              canRotate = true,  canEat = true,                                                     ignoreOnFuncOrCond = function (o) return o.oKoopaMovementType >= KOOPA_BP_KOOPA_THE_QUICK_BASE end, deleteOnDetect = false}, 
+		{id = id_bhvKoopaShell,         canRotate = true,  canEat = true,                                                     ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvMontyMoleRock,      canRotate = true,  canEat = true,                                                     ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvMrBlizzard,         canRotate = true,  canEat = true,                                                     ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvMrBlizzardSnowball, canRotate = true,  canEat = true,                                                     ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvMrIParticle,        canRotate = true,  canEat = true,                                                     ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvScuttlebug,         canRotate = true,  canEat = true,                                                     ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvSkeeter,            canRotate = true,  canEat = true,                                                     ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvSmallBully,         canRotate = true,  canEat = true,                                                     ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false, onEatFunc = function (o) 
+			if o.parentObj and o.oBullySubtype == BULLY_STYPE_MINION then o.parentObj.oBullyKBTimerAndMinionKOCounter = o.parentObj.oBullyKBTimerAndMinionKOCounter + 1 end
+		end}, 
+		{id = id_bhvSmallChillBully,    canRotate = true,  canEat = true,                                                     ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false, onEatFunc = function (o) 
+			if o.parentObj and o.oBullySubtype == BULLY_STYPE_MINION then o.parentObj.oBullyKBTimerAndMinionKOCounter = o.parentObj.oBullyKBTimerAndMinionKOCounter + 1 end
+		end},  
+		{id = id_bhvSpindrift,          canRotate = true,  canEat = true,                                                     ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvSpiny,              canRotate = true,  canEat = true,                                                     ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvSwoop,              canRotate = true,  canEat = true,                                                     ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false},
+		{id = id_bhvWaterBomb,          canRotate = true,  canEat = true,                                                     ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvWaterBombShadow,    canRotate = false, canEat = false,                                                    ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = true }, 
+		{id = id_bhvSmallPenguin,       canRotate = true,  canEat = false,                                                    ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvJumpingBox,         canRotate = true,  canEat = false,                                                    ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvBlueCoinJumping,    canRotate = false, canEat = false,                                                    ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvWingCap,            canRotate = false, canEat = false,                                                    ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvMetalCap,           canRotate = false, canEat = false,                                                    ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvVanishCap,          canRotate = false, canEat = false,                                                    ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvUkiki,              canRotate = true,  canEat = function (o) return o.oBehParams2ndByte ~= UKIKI_CAP end, ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+		{id = id_bhvMips,               canRotate = true,  canEat = false,                                                    ignoreOnFuncOrCond = false,                                                                         deleteOnDetect = false}, 
+	}
+}
+
+_G.kirbyDeluxe.hookBehavior = function (id, canRotate, canEat, ignoreOnFuncOrCond, deleteOnDetect, onEatFunc)
+	if not id then return end
+	return table.insert(_G.kirbyDeluxe.allowedBehaviors, {
+		id = id,                                              -- Behavior ID of the object to inhale.
+		canRotate = canRotate or true,                        -- Check to see if an object can rotate as its being inhaled.
+		canEat = canEat or true,                              -- Check to see if an object can be removed once it reaches Kirby's mouth.
+		ignoreOnFuncOrCond = ignoreOnFuncOrCond or false,     -- Special checks for special objects (I.E. Koopa the Quick)
+		deleteOnDetect = deleteOnDetect or false,             -- Deletes an object if it's within Kirby's inhale range.
+		onEatFunc = onEatFunc                                 -- Special function that activates once the object's been deleted (I.E. add to Big Bully #2's condition once a bully has been eaten)
+	})
+end
+
+local function run_func_or_get_var(x, ...) if type(x) == "function" then return x(...) else return x end end
+
 function act_kirby_inhale(m)
 	local ENEMY_SPEED = 72.5
 	local PLAYER_ANGLE_LIMIT = 35
@@ -138,31 +191,29 @@ function act_kirby_inhale(m)
 	end
 	
 	-- SUCK
-	for i = 1, #allowedBehaviors do
-		local o = obj_get_nearest_object_with_behavior_id(m.marioObj, allowedBehaviors[i])
-		if o and (o.oKirbySuckPlayer == 0 or idx + 1 == o.oKirbySuckPlayer) and not (obj_has_behavior_id(o, id_bhvKoopa) ~= 0 and o.oKoopaMovementType >= KOOPA_BP_KOOPA_THE_QUICK_BASE) then -- Main check + simple check for Koopa the Quick.
+	for i = 1, #_G.kirbyDeluxe.allowedBehaviors do
+		local currentBehavior = _G.kirbyDeluxe.allowedBehaviors[i]
+		local o = obj_get_nearest_object_with_behavior_id(m.marioObj, currentBehavior.id)
+
+		if o and (o.oKirbySuckPlayer == 0 or idx + 1 == o.oKirbySuckPlayer) and not run_func_or_get_var(currentBehavior.ignoreOnFuncOrCond, o) then
 			local distToKirby = calc_abs_dist({x = o.oPosX, y = o.oPosY, z = o.oPosZ}, {x = m.pos.x, y = m.pos.y, z = m.pos.z})
 			
 			local angle = mario_obj_angle_to_object(m, o)
 			local angleDiff = (sm64_to_degrees(m.faceAngle.y) - sm64_to_degrees(angle) + 180 + 360) % 360 - 180
 			
 			if distToKirby < 700 and (angleDiff <= PLAYER_ANGLE_LIMIT and angleDiff >= -PLAYER_ANGLE_LIMIT) and not (steepFloorCond or letGoButtonCond) then -- Added "steepFloorCond" to avoid having enemies be stuck after Kirby gets on a slope.
-				if obj_has_behavior_id(o, id_bhvWaterBombShadow) == 1 then -- If its a water bomb's shadow, delete it so that it doesn't appear after inhaling the normal water bomb.
+				if currentBehavior.deleteOnDetect then
 					obj_mark_for_deletion(o)
 					break
 				end
 				
-				local isBlueCoin = obj_has_behavior_id(o, id_bhvBlueCoinJumping) ~= 0 or obj_has_behavior_id(o, id_bhvSnufit) ~= 0
-				
-				local isBabyPenguin = obj_has_behavior_id(o, id_bhvSmallPenguin) ~= 0 or obj_has_behavior_id(o, id_bhvJumpingBox) ~= 0 or isBlueCoin or obj_has_behavior_id(o, id_bhvWingCap) ~= 0
-									  or obj_has_behavior_id(o, id_bhvMetalCap) ~= 0 or obj_has_behavior_id(o, id_bhvVanishCap) ~= 0 or (obj_has_behavior_id(o, id_bhvUkiki) ~= 0 and o.oBehParams2ndByte ~= UKIKI_CAP)
-									  or obj_has_behavior_id(o, id_bhvMips) ~= 0
-									  -- Don't eat the baby... or the coin!
+				local canRotate = run_func_or_get_var(currentBehavior.canRotate, o)
+				local canEat = run_func_or_get_var(currentBehavior.canEat, o)
 				
 				o.oHasKirbySucked = 1
 				o.oKirbySuckPlayer = idx + 1
 				
-				if not isBlueCoin then
+				if canRotate then
 					local turnAngle = get_area_update_counter() * 840 * TURN_ANGLE_SPEED
 					obj_set_move_angle(o, approach_s32(o.oMoveAnglePitch, turnAngle, TURN_SPEED, TURN_SPEED), approach_s32(o.oMoveAngleYaw, turnAngle, TURN_SPEED, TURN_SPEED), approach_s32(o.oMoveAngleRoll, turnAngle, TURN_SPEED, TURN_SPEED))
 					obj_set_gfx_angle(o, approach_s32(o.header.gfx.angle.x, turnAngle, TURN_SPEED, TURN_SPEED), approach_s32(o.header.gfx.angle.y, turnAngle, TURN_SPEED, TURN_SPEED), approach_s32(o.header.gfx.angle.z, turnAngle, TURN_SPEED, TURN_SPEED))
@@ -176,13 +227,12 @@ function act_kirby_inhale(m)
 				obj_update_gfx_pos_and_angle(o)
 				
 				if distToKirby < 215 then
-					if not isBabyPenguin then
+					if canEat then
 						local coinAmount = math.max(o.oNumLootCoins or 0, o.oDamageOrCoinValue or 0)
 						if o.oNumLootCoins < 0 then
 							o.oNumLootCoins = math.max(o.oNumLootCoins, 1)
 							obj_spawn_loot_blue_coins(o, 1, 1, 0)
 						else
-							-- Spawning coins so that Kirby doesn't lose out on the 100 coin stars.
 							if obj_has_behavior_id(o, id_bhvKoopaShell) == 0 then
 								if obj_has_behavior_id(o, id_bhvBobomb) ~= 0 then
 									o.oNumLootCoins = 1
@@ -192,12 +242,15 @@ function act_kirby_inhale(m)
 								obj_spawn_loot_yellow_coins(o, o.oNumLootCoins, 5)
 							end
 						end
-						obj_mark_for_deletion(o)
-						if obj_has_behavior_id(o, id_bhvWaterBombShadow) == 0 then -- Added just in case.
-							m.vel.y, m.forwardVel = 7, 0
-							audio_sample_play(KIRBY_OBJECT_SOUND, m.pos, 1)
-							gPlayerSyncTable[idx].kirbyMouthCounter_JJJ = gPlayerSyncTable[idx].kirbyMouthCounter_JJJ + 1
-						end
+						
+						if currentBehavior.onEatFunc then currentBehavior.onEatFunc(o) end
+
+						o.activeFlags = ACTIVE_FLAG_DEACTIVATED
+						o.oInteractStatus = 0
+						
+						m.vel.y, m.forwardVel = 7, 0
+						audio_sample_play(KIRBY_OBJECT_SOUND, m.pos, 1)
+						gPlayerSyncTable[idx].kirbyMouthCounter_JJJ = gPlayerSyncTable[idx].kirbyMouthCounter_JJJ + 1
 					else
 						obj_set_move_angle(o, 0, 0, 0)
 						obj_set_gfx_angle(o, 0, 0, 0)
