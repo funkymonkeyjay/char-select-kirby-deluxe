@@ -4,10 +4,7 @@
 --[[
 
 	TODO:
-		- (URGENT, X) Check to see what can be done about the cloud particles that cause the slowdown.
 		- (SEMI-URGENT) Not a true problem, per-se, but when the local player is wearing a classic kirby costume, the smile present in the idle animation can also be seen on other kirby players, specifically if they're using the modern Kirby character.
-		- (SEMI-URGENT) I think there should be a way to have it so that, instead of having a list of behaviors, it uses a set of object lists, so that Kirby can be compatible with ROM Hacks.
-
 ]]
 
 define_custom_obj_fields({oHasKirbySucked = 's32', oKirbySuckPlayer = 's32'})

@@ -181,10 +181,16 @@ if _G.charSelect then
 			while oHit do
 				if o ~= oHit then
 					if oHit.oHeldState == HELD_FREE and obj_check_hitbox_overlap(o, oHit) and (oHit.header.gfx.node.flags & GRAPH_RENDER_INVISIBLE) == 0 and oHit.oIntangibleTimer >= 0 then
-						if (oHit.oInteractType == INTERACT_BREAKABLE or obj_is_attackable(oHit)) and obj_has_behavior_id(oHit, id_bhvBowser) == 0 then
-							oHit.oInteractStatus = oHit.oInteractStatus | INT_STATUS_WAS_ATTACKED | INT_STATUS_INTERACTED | INT_STATUS_TOUCHED_BOB_OMB | ATTACK_PUNCH
+						if (oHit.oInteractType == INTERACT_BREAKABLE or oHit.oInteractType == INTERACT_BULLY or oHit.oInteractType == INTERACT_SPINY_WALKING or obj_is_attackable(oHit)) and obj_has_behavior_id(oHit, id_bhvBowser) == 0 then
 							hasAttacked = 1
-							audio_sample_play(KIRBY_HIT_SOUND, o.header.gfx.pos, 1)
+							if oHit.oInteractType == INTERACT_BULLY then
+								oHit.oFaceAngleYaw = o.oMoveAngleYaw
+								oHit.oMoveAngleYaw = oHit.oFaceAngleYaw
+								oHit.oForwardVel = o.oForwardVel * 1.5
+								hasAttacked = 2
+							end
+							oHit.oInteractStatus = oHit.oInteractStatus | INT_STATUS_WAS_ATTACKED | INT_STATUS_INTERACTED | INT_STATUS_TOUCHED_BOB_OMB | ATTACK_PUNCH
+							audio_sample_play(KIRBY_HIT_SOUND, o.header.gfx.pos, 0.5)
 						end
 					end
 				end
@@ -195,7 +201,7 @@ if _G.charSelect then
 		cur_obj_update_floor_and_walls()
 		cur_obj_move_standard(-78) -- Added so that the object can move on slopes
 
-		if (o.oMoveFlags & OBJ_MOVE_HIT_WALL) ~= 0 or (o.oBehParams <= 1 and hasAttacked ~= 0) then
+		if (o.oMoveFlags & OBJ_MOVE_HIT_WALL) ~= 0 or (o.oBehParams <= 1 and hasAttacked ~= 0) or hasAttacked > 1 then
 			audio_sample_play(KIRBY_HIT_SOUND, o.header.gfx.pos, 1)
 			spawn_mist_particles()
 			spawn_triangle_break_particles(10, 139, 0.2, 3)
