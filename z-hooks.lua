@@ -193,6 +193,8 @@ if _G.charSelect then
 								oHit.oMoveAngleYaw = oHit.oFaceAngleYaw
 								oHit.oForwardVel = o.oForwardVel * 1.5
 								hasAttacked = 2
+							elseif obj_has_behavior_id(oHit, id_bhvKlepto) then
+								hasAttacked = 2
 							end
 							oHit.oInteractStatus = oHit.oInteractStatus | INT_STATUS_WAS_ATTACKED | INT_STATUS_INTERACTED | INT_STATUS_TOUCHED_BOB_OMB | ATTACK_PUNCH
 							audio_sample_play(KIRBY_HIT_SOUND, o.header.gfx.pos, 0.5)
