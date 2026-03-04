@@ -76,7 +76,7 @@ function act_kirby_puff(m)
 	local TIMER_LIMIT = 250
 
 	gPlayerSyncTable[idx].kirbyHasPuffed_JJJ = true
-	if not kirbyInfinitePuff then
+	if not kirbyInfinitePuff and idx == 0 then
 		gPlayerSyncTable[idx].kirbyPuffTimer_JJJ = gPlayerSyncTable[idx].kirbyPuffTimer_JJJ + 1
 	end
 	local kirbyIsTired = gPlayerSyncTable[idx].kirbyPuffTimer_JJJ > TIMER_LIMIT
@@ -116,7 +116,7 @@ function act_kirby_puff(m)
 			set_mario_animation(m, MARIO_ANIM_DOUBLE_JUMP_RISE)
 			if not kirbyIsTired then
 				local truePuffPower
-				if kirbyInfinitePuff then
+				if kirbyInfinitePuff and idx == 0 then
 					truePuffPower = 1
 				else
 					local ceilingValue = gPlayerSyncTable[idx].kirbyPuffCeiling_JJJ
