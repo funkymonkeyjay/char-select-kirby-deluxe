@@ -4,9 +4,16 @@
 define_custom_obj_fields({oHasKirbySucked = 's32', oKirbySuckPlayer = 's32'})
 
 if not _G.charSelectExists then
-    djui_popup_create("\\#ffffdc\\\n\"[CS+PET] Kirby Deluxe!\"\nRequires the Character Select Mod\nto use as a Library!\n\nPlease turn on the Character Select Mod\nand Restart the Room!", 6)
+    djui_popup_create("\\#ffffdc\\\n\"[CS] Kirby Deluxe!\"\nRequires the Character Select Mod\nto use as a Library!\n\nPlease turn on the Character Select Mod\nand Restart the Room!", 6)
     return 0
 end
+
+local csVersion = _G.charSelect.version_get_full()
+if csVersion.major < 16 then
+	djui_popup_create("\\#ffffdc\\\n\"[CS] Kirby Deluxe!\"\nRequires Character Select v1.16+!\n\nPlease update the Mod\nand Host a new Room!", 6)
+	return 0
+end
+
 
 local E_MODEL_KIRBY = smlua_model_util_get_id("kirby_geo") 
 local E_MODEL_KIRBY_RETRO = smlua_model_util_get_id("kirby_retro_geo") 

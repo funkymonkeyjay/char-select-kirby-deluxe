@@ -1,4 +1,6 @@
 if not _G.charSelectExists then return 0 end
+local csVersion = _G.charSelect.version_get_full()
+if csVersion.major < 16 then return 0 end
 
 local MARIO_MOUTH_NORMAL, MARIO_MOUTH_HAPPY, MARIO_MOUTH_SMILE, MARIO_MOUTH_FROWN = 0, 1, 2, 3
 local MARIO_EYES_SHOCKED, MARIO_EYES_CLOSED_INTENSE, MARIO_EYES_ANGRY = 9, 10, 11
