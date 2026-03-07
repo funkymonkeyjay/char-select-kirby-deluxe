@@ -170,7 +170,7 @@ if _G.charSelect then
 		o.header.gfx.scale.y = approach_f32(o.header.gfx.scale.y, SCALE_SIZE, SCALE_SPEED, SCALE_SPEED)
 		o.header.gfx.scale.z = approach_f32(o.header.gfx.scale.z, SCALE_SIZE, SCALE_SPEED, SCALE_SPEED)
 		
-		if o.oTimer > 4 * o.oBehParams then
+		if o.oTimer > 5 * o.oBehParams then
 			o.oInteractType = INTERACT_DAMAGE
 		end
 	
@@ -524,7 +524,7 @@ if _G.charSelect then
 				toScale = 900
 			elseif (m.action == ACT_JUMP and m.vel.y > 0) or (m.action == ACT_KIRBY_PUFF and m.vel.y > 0) or m.action == ACT_KIRBY_DODGE then
 				toScale = 1100
-			elseif m.action == ACT_KIRBY_INHALE or (m.action == ACT_EXIT_LAND_SAVE_DIALOG and (m.marioObj.header.gfx.animInfo.animFrame > 10 and m.marioObj.header.gfx.animInfo.animFrame < 28)) then
+			elseif m.action == ACT_KIRBY_INHALE or (m.action == ACT_EXIT_LAND_SAVE_DIALOG and m.marioObj.header.gfx.animInfo.animID ~= CHAR_ANIM_THROW_CATCH_KEY and (m.marioObj.header.gfx.animInfo.animFrame > 10 and m.marioObj.header.gfx.animInfo.animFrame < 28)) then
 				toScale = 1200
 			elseif m.action == ACT_JUMP_KICK and m.marioObj.header.gfx.animInfo.animFrame < 2 then
 				toScale = 1300
