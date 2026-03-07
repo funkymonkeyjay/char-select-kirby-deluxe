@@ -251,22 +251,3 @@ hook_event(HOOK_MARIO_UPDATE, function (m) -- Based on original "Character Selec
 		gPlayerSyncTable[idx].kirbyMouthState = mouthState
 	end
 end)
-
-local function on_character_sound(m, sound)
-    if not CSloaded then return end
-    if _G.charSelect.character_get_voice(m) == KIRBY_VOICETABLE then
-		if m.action ~= ACT_JUMBO_STAR_CUTSCENE then
-			return _G.charSelect.voice.sound(m, sound) 
-		else
-			return NO_SOUND
-		end
-	end
-end
-
-local function on_character_snore(m)
-    if not CSloaded then return end
-    if _G.charSelect.character_get_voice(m) == KIRBY_VOICETABLE then return _G.charSelect.voice.snore(m) end
-end
-
-hook_event(HOOK_CHARACTER_SOUND, on_character_sound)
-hook_event(HOOK_MARIO_UPDATE, on_character_snore)

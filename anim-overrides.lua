@@ -50,7 +50,7 @@ kirbyAnims = {
 		[CHAR_ANIM_MISSING_CAP] =          function (m, frame) if frame > 30 then return MARIO_MOUTH_SMILE end return MARIO_MOUTH_NORMAL end, 
 		[CHAR_ANIM_KIRBY_HELLO] = function (m, frame) if frame > 5 and frame < 48 then return MARIO_MOUTH_HAPPY end return MARIO_MOUTH_SMILE end, 
 		[CHAR_ANIM_PUT_CAP_ON] = function (m, frame) if frame > 9 and frame < 20 then return MARIO_MOUTH_HAPPY end return MARIO_MOUTH_SMILE end, 
-		[CHAR_ANIM_FIRST_PERSON] = function (m, frame) if m.action == ACT_CREDITS_CUTSCENE or m.action == ACT_FIRST_PERSON or m.action == ACT_INTRO_CUTSCENE then return MARIO_MOUTH_NORMAL end return MARIO_MOUTH_FROWN end, 
+		[CHAR_ANIM_FIRST_PERSON] = function (m, frame) if m.action == ACT_CREDITS_CUTSCENE or m.action == ACT_FIRST_PERSON or m.action == ACT_INTRO_CUTSCENE or m.action == ACT_WARP_DOOR_SPAWN then return MARIO_MOUTH_NORMAL end return MARIO_MOUTH_FROWN end, 
 		[CHAR_ANIM_CREDITS_LOOK_UP] = MARIO_MOUTH_SMILE, 
 		[CHAR_ANIM_IDLE_HEAD_LEFT] = function (m, frame) if charSelect.character_get_current_costume(m.playerIndex) == kirbyRetroCosID then return MARIO_MOUTH_SMILE end return MARIO_MOUTH_NORMAL end, 
 		[CHAR_ANIM_IDLE_HEAD_RIGHT] = function (m, frame) if charSelect.character_get_current_costume(m.playerIndex) == kirbyRetroCosID then return MARIO_MOUTH_SMILE end return MARIO_MOUTH_NORMAL end, 

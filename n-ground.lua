@@ -53,8 +53,8 @@ function act_kirby_dodge(m)
 			intendedYaw = atan2s(-gPlayerSyncTable[idx].kirbyDodgeY, gPlayerSyncTable[idx].kirbyDodgeX) + m.area.camera.yaw
 		end
 
-		m.vel.x = approach_s32(m.vel.x, m.forwardVel * sins(intendedYaw), 0x20, 0x20)
-		m.vel.z = approach_s32(m.vel.z, m.forwardVel * coss(intendedYaw), 0x20, 0x20)
+		m.vel.x = approach_s32(m.vel.x, m.forwardVel * sins(intendedYaw), 0x10, 0x10)
+		m.vel.z = approach_s32(m.vel.z, m.forwardVel * coss(intendedYaw), 0x10, 0x10)
 	end
 
 	m.vel.x = clamp(m.vel.x, -64 / (m.actionState + 1), 64 / (m.actionState + 1))
