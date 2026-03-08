@@ -158,7 +158,7 @@ _G.kirbyInhaleEditBehavior = function (id, canRotate, canEat, allowSuckFunc, del
 		if canEat ~= nil then returnBeh.canEat = canEat end
 		if allowSuckFunc ~= nil then returnBeh.allowSuckFunc = allowSuckFunc end
 		if deleteOnDetect ~= nil then returnBeh.deleteOnDetect = deleteOnDetect end
-		if returnBeh.onEatFunc and onEatFunc ~= nil then returnBeh.onEatFunc = onEatFunc end
+		if onEatFunc ~= nil then returnBeh.onEatFunc = onEatFunc end
 	end
 end
 
