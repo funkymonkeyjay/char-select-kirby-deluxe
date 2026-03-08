@@ -11,7 +11,7 @@ This mod features:
 
 # Inhale API
 
-To hook a custom object for Kirby to inhale, or if you want to edit an existing object, you first need to have its behavior ID, once you've obtained it, you can proceed with adding these functions;
+To hook a custom object for Kirby to inhale, or if you want to edit an existing object, you first need to have its behavior ID, once you've obtained it, you can proceed with adding these functions:
 
 ## _G.kirbyInhaleHookBehavior
 `_G.kirbyInhaleHookBehavior` allows the modder to hook a custom behavior for Kirby to inhale.
