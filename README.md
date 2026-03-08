@@ -35,8 +35,8 @@ To hook a custom object for Kirby to inhale, or if you want to edit an existing 
 | Field | Type | Notes |
 | ----- | ---- | ----- |
 | id | `integer (BehaviorId)` | Behavior ID of the object to modify. |
-| canRotate | `bool?`/`function?` | Check to see if an object can rotate as its being inhaled. |
-| canEat | `bool?`/`function?` | Check to see if an object can be removed once it reaches Kirby's mouth. |
-| allowSuckFunc | `bool?`/`function?` | Special checks for special objects (I.E. Koopa the Quick) |
-| deleteOnDetect | `bool?` | Deletes an object if it's within Kirby's inhale range. |
-| onEatFunc | `function?` | Special function that activates once the object's been deleted (I.E. add to Big Bully #2's condition once a bully has been eaten) |
+| canRotate | `bool?`/`function?` | Check to see if an object can rotate as its being inhaled, can be ignored. |
+| canEat | `bool?`/`function?` | Check to see if an object can be removed once it reaches Kirby's mouth, can be ignored. |
+| allowSuckFunc | `bool?`/`function?` | Special checks for special objects (I.E. Koopa the Quick), can be ignored. |
+| deleteOnDetect | `bool?` | Deletes an object if it's within Kirby's inhale range, can be ignored. |
+| onEatFunc | `function?` | Special function that activates once the object's been deleted (I.E. add to Big Bully #2's condition once a bully has been eaten), can be ignored. |
