@@ -6,6 +6,7 @@ This mod features:
 * Copy abilities in the form of the base game's power-ups, with Copy Ability Essences replacing the cap models!
 * Custom objects for the Air and Star bullets!
 * Comes with both "Normal" and "Classic" costumes!
+* A host-only configuration that allows Kirby to puff up infinitely, perfect for ROM-hacks!
 * An API that allows modders to add objects for Kirby to inhale through LUA functions!
 
 # Inhale API
