@@ -1,6 +1,6 @@
 # [CS] Kirby Deluxe!
 
-Play as the pink puffball warrior with a moveset directly inspired by **Kirby and the Forgotten Land (2022)**, made to align within Kirby's N64 era!
+Play as the pink puffball warrior with a moveset directly inspired by **Kirby and the Forgotten Land (2022)**, made to fit within Kirby's N64 era!​
 
 This mod features:
 * Copy abilities in the form of the base game's power-ups, with Copy Ability Essences replacing the cap models!
