@@ -185,6 +185,7 @@ if _G.charSelect then
 							local m = get_mario_state_from_object(oHit)
 							if m then
 								if (m.action & ACT_FLAG_INTANGIBLE) == 0 and (m.action & ACT_FLAG_INVULNERABLE) == 0 then
+									hasAttacked = 1
 									local actionToSet = ACT_BACKWARD_GROUND_KB
 									if (m.action & ACT_FLAG_SWIMMING) ~= 0 then
 										actionToSet = ACT_BACKWARD_WATER_KB
@@ -192,6 +193,7 @@ if _G.charSelect then
 										actionToSet = ACT_BACKWARD_AIR_KB
 									end
 									hurt_and_set_mario_action(m, actionToSet, 0, 4)
+									play_kirby_sound(KIRBY_HIT_SOUND, o.header.gfx.pos, 0.5)
 								end
 							end
 						else
