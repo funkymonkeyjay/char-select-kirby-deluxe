@@ -31,6 +31,7 @@ KIRBY_LAND_SOUND = audio_sample_load("SOUND_LAND.ogg")
 KIRBY_STEP_SOUND = audio_sample_load("SOUND_STEP.ogg")
 KIRBY_HIT_SOUND = audio_sample_load("SOUND_HITENEMY.ogg")
 KIRBY_INHALE_SOUND = audio_sample_load("SOUND_INHALE.ogg")
+KIRBY_SLIDE_SOUND = audio_sample_load("SOUND_SLIDE_KICK.ogg")
 
 local KIRBY_VOICETABLE = {
 	[CHAR_SOUND_OKEY_DOKEY] =         'VOICE_LETSAGO2.ogg', 
@@ -44,7 +45,6 @@ local KIRBY_VOICETABLE = {
 	[CHAR_SOUND_YAHOO_WAHA_YIPPEE] =  'VOICE_LETSAGO3.ogg', 
 	[CHAR_SOUND_UH] =                 'VOICE_LEDGE.ogg', 
 	[CHAR_SOUND_UH2] =                'VOICE_ATTACK.ogg', 
-	[CHAR_SOUND_UH2_2] =              'SOUND_SLIDE_KICK.ogg', 
 	[CHAR_SOUND_DOH] =                'VOICE_HURT.ogg', 
 	[CHAR_SOUND_OOOF] =               'VOICE_HURT2.ogg', 
 	[CHAR_SOUND_OOOF2] =              'VOICE_HURT.ogg', 
@@ -153,7 +153,7 @@ local KIRBY_PALETTES = {
 
 function play_kirby_sound(m, pos, vol)
 	if is_game_paused() or _G.charSelect.is_menu_open() then return end
-	return audio_sample_play(m, pos, vol)
+	return audio_sample_play(m, pos, vol or 1)
 end
 
 local KIRBY_HEALTHMETER = {

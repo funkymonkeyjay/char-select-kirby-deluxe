@@ -1,7 +1,4 @@
 if not _G.charSelectExists then return 0 end
-local csVersion = _G.charSelect.version_get_full()
-if csVersion.major < 16 then return 0 end
-if VERSION_NUMBER < 40 then return 0 end
 
 E_MODEL_KIRBY_STAR = smlua_model_util_get_id("kirby_star_geo")
 E_MODEL_KIRBY_AIR = smlua_model_util_get_id("kirby_air_geo")
@@ -161,6 +158,8 @@ if _G.charSelect then
 	local objectLists = {
 		OBJ_LIST_GENACTOR,
 		OBJ_LIST_SURFACE,
+		OBJ_LIST_PUSHABLE, 
+		OBJ_LIST_PLAYER, 
 	}
 	
 	local function bhv_kirby_star_loop(o)
@@ -169,10 +168,6 @@ if _G.charSelect then
 		o.header.gfx.scale.x = approach_f32(o.header.gfx.scale.x, SCALE_SIZE, SCALE_SPEED, SCALE_SPEED)
 		o.header.gfx.scale.y = approach_f32(o.header.gfx.scale.y, SCALE_SIZE, SCALE_SPEED, SCALE_SPEED)
 		o.header.gfx.scale.z = approach_f32(o.header.gfx.scale.z, SCALE_SIZE, SCALE_SPEED, SCALE_SPEED)
-		
-		if o.oTimer > 5 * o.oBehParams then
-			o.oInteractType = INTERACT_DAMAGE
-		end
 	
 		spawn_non_sync_object(id_bhvSparkleSpawn, E_MODEL_NONE, o.oPosX, o.oPosY + 30, o.oPosZ, function (o) end)
 		smlua_anim_util_set_animation(o, "ANIM_KIRBY_STAR_LOOP")
@@ -180,24 +175,40 @@ if _G.charSelect then
 		o.oPosY = o.oPosY + sins(o.oMoveAnglePitch) * o.oForwardVel
 		obj_update_gfx_pos_and_angle(o)
 		
-		local hasAttacked = obj_attack_collided_from_other_object(o)
+		local hasAttacked = 0
 		for _, list in ipairs(objectLists) do
 			local oHit = obj_get_first(list)
 			while oHit do
 				if o ~= oHit then
-					if oHit.oHeldState == HELD_FREE and obj_check_hitbox_overlap(o, oHit) and (oHit.header.gfx.node.flags & GRAPH_RENDER_INVISIBLE) == 0 and oHit.oIntangibleTimer >= 0 then
-						if (oHit.oInteractType == INTERACT_BREAKABLE or oHit.oInteractType == INTERACT_BULLY or oHit.oInteractType == INTERACT_SPINY_WALKING or obj_is_attackable(oHit)) and obj_has_behavior_id(oHit, id_bhvBowser) == 0 then
-							hasAttacked = 1
-							if oHit.oInteractType == INTERACT_BULLY then
-								oHit.oFaceAngleYaw = o.oMoveAngleYaw
-								oHit.oMoveAngleYaw = oHit.oFaceAngleYaw
-								oHit.oForwardVel = o.oForwardVel * 1.5
-								hasAttacked = 2
-							elseif obj_has_behavior_id(oHit, id_bhvKlepto) then
-								hasAttacked = 2
+					if obj_check_hitbox_overlap(o, oHit) and (oHit.header.gfx.node.flags & GRAPH_RENDER_INVISIBLE) == 0 then
+						if list == OBJ_LIST_PLAYER and oHit ~= o.parentObj then
+							local m = get_mario_state_from_object(oHit)
+							if m then
+								if (m.action & ACT_FLAG_INTANGIBLE) == 0 and (m.action & ACT_FLAG_INVULNERABLE) == 0 then
+									local actionToSet = ACT_BACKWARD_GROUND_KB
+									if (m.action & ACT_FLAG_SWIMMING) ~= 0 then
+										actionToSet = ACT_BACKWARD_WATER_KB
+									elseif (m.action & ACT_FLAG_AIR) ~= 0 then
+										actionToSet = ACT_BACKWARD_AIR_KB
+									end
+									hurt_and_set_mario_action(m, actionToSet, 0, 4)
+								end
 							end
-							oHit.oInteractStatus = oHit.oInteractStatus | INT_STATUS_WAS_ATTACKED | INT_STATUS_INTERACTED | INT_STATUS_TOUCHED_BOB_OMB | ATTACK_PUNCH
-							play_kirby_sound(KIRBY_HIT_SOUND, o.header.gfx.pos, 0.5)
+						else
+							if oHit.oHeldState == HELD_FREE and oHit.oIntangibleTimer >= 0 then
+								if (oHit.oInteractType == INTERACT_BREAKABLE or oHit.oInteractType == INTERACT_BULLY or oHit.oInteractType == INTERACT_SPINY_WALKING or obj_is_attackable(oHit)) and obj_has_behavior_id(oHit, id_bhvBowser) == 0 then
+									hasAttacked = 1
+									if oHit.oInteractType == INTERACT_BULLY then
+										oHit.oFaceAngleYaw = o.oMoveAngleYaw
+										oHit.oMoveAngleYaw = oHit.oFaceAngleYaw
+										oHit.oForwardVel = o.oForwardVel * 1.5
+										hasAttacked = 2
+									end
+									oHit.oInteractStatus = oHit.oInteractStatus | INT_STATUS_WAS_ATTACKED | INT_STATUS_INTERACTED | INT_STATUS_TOUCHED_BOB_OMB | ATTACK_PUNCH
+									play_kirby_sound(KIRBY_HIT_SOUND, o.header.gfx.pos, 0.5)
+									if hasAttacked > 1 then break end
+								end
+							end
 						end
 					end
 				end
@@ -209,7 +220,7 @@ if _G.charSelect then
 		cur_obj_update_floor_and_walls()
 		cur_obj_move_standard(78) -- Added so that the object can move on slopes
 		
-		if (o.oMoveFlags & OBJ_MOVE_HIT_WALL) ~= 0 or (o.oBehParams <= 1 and hasAttacked ~= 0) or hasAttacked > 1 or ((pastX == o.oPosX) or (pastZ == o.oPosZ)) then -- Added failsafe for standstill star bullets.
+		if (o.oMoveFlags & OBJ_MOVE_HIT_WALL) ~= 0 or (o.oBehParams <= 1 and hasAttacked == 1) or hasAttacked >= 2 or ((pastX == o.oPosX) or (pastZ == o.oPosZ)) then -- Added failsafe for standstill star bullets.
 			play_kirby_sound(KIRBY_HIT_SOUND, o.header.gfx.pos, 1)
 			spawn_mist_particles()
 			spawn_triangle_break_particles(10, 139, 0.2, 3)
@@ -217,7 +228,8 @@ if _G.charSelect then
 		end
 	end
 	
-	id_bhvKirbyStar_JJJ = hook_behavior(nil, OBJ_LIST_PUSHABLE, true, bhv_kirby_star_init, bhv_kirby_star_loop, "bhvKirbyStar_JJJ")
+	--id_bhvKirbyStar_JJJ = hook_behavior(nil, OBJ_LIST_PUSHABLE, true, bhv_kirby_star_init, bhv_kirby_star_loop, "bhvKirbyStar_JJJ")
+	id_bhvKirbyStar_JJJ = hook_behavior(nil, OBJ_LIST_GENACTOR, true, bhv_kirby_star_init, bhv_kirby_star_loop, "bhvKirbyStar_JJJ")
 	
 	-- AIR
 	local function bhv_kirby_air_init(o)
@@ -345,8 +357,20 @@ if _G.charSelect then
 		
 		if incomingAction == ACT_AIR_HIT_WALL or incomingAction == ACT_SOFT_BONK then
 			mario_set_forward_vel(m, 0.0)
-			return 1
+			if m.action == ACT_LONG_JUMP then
+				play_character_sound(m, CHAR_SOUND_UH)
+				play_kirby_sound(KIRBY_LAND_SOUND, m.pos, 1)
+				mario_set_forward_vel(m, -20)
+				m.vel.y = 20
+				return ACT_FREEFALL
+			else
+				return 1
+			end
 		end
+		
+		--if incomingAction == ACT_LONG_JUMP_LAND then
+			--return ACT_CROUCH_SLIDE
+		--end
 		
 		if m.action == ACT_KIRBY_INHALE then
 			audio_sample_stop(KIRBY_INHALE_SOUND)
@@ -460,6 +484,7 @@ if _G.charSelect then
 
 		if ((m.action == ACT_START_CROUCHING or m.action == ACT_CROUCHING or m.action == ACT_STOP_CROUCHING) and incomingAction == ACT_BACKFLIP) or
 			incomingAction == ACT_LONG_JUMP or (incomingAction == ACT_FORWARD_ROLLOUT and m.action ~= ACT_KIRBY_DODGE) or incomingAction == ACT_BACKWARD_ROLLOUT or incomingAction == ACT_DOUBLE_JUMP or incomingAction == ACT_TRIPLE_JUMP or incomingAction == ACT_SIDE_FLIP then
+			--(incomingAction == ACT_FORWARD_ROLLOUT and m.action ~= ACT_KIRBY_DODGE) or incomingAction == ACT_BACKWARD_ROLLOUT or incomingAction == ACT_DOUBLE_JUMP or incomingAction == ACT_TRIPLE_JUMP or incomingAction == ACT_SIDE_FLIP then
 			return ACT_JUMP
 		end
 
@@ -482,7 +507,7 @@ if _G.charSelect then
 			return
 		end
 		if m.action == ACT_SLIDE_KICK then
-			play_character_sound(m, CHAR_SOUND_UH2_2)
+			play_kirby_sound(KIRBY_SLIDE_SOUND, m.pos, 1)
 			set_mario_action(m, ACT_KIRBY_SLIDE, 0)
 			m.vel.y = 0
 			if m.forwardVel < 64 then m.forwardVel = 64 end
@@ -524,7 +549,7 @@ if _G.charSelect then
 			if m.action == ACT_JUMP_LAND or m.action == ACT_FREEFALL_LAND then
 				toScale = 500
 			elseif m.action == ACT_START_CROUCHING or m.action == ACT_START_CROUCHING or m.action == ACT_CROUCHING or m.action == ACT_KIRBY_SLIDE or m.action == ACT_SLIDE_KICK_SLIDE or m.action == ACT_CROUCH_SLIDE or m.action == ACT_JUMP_LAND
-				 or (m.action == ACT_EXIT_LAND_SAVE_DIALOG and (m.marioObj.header.gfx.animInfo.animFrame >= 28 and m.marioObj.header.gfx.animInfo.animFrame < 34)) then
+				 or (m.action == ACT_EXIT_LAND_SAVE_DIALOG and (m.marioObj.header.gfx.animInfo.animFrame >= 28 and m.marioObj.header.gfx.animInfo.animFrame < 34)) or m.action == ACT_LONG_JUMP_LAND then
 				toScale = 750
 			elseif m.action == ACT_FORWARD_ROLLOUT then
 				toScale = 900
@@ -571,7 +596,7 @@ if _G.charSelect then
 		
 		if m.pos.y ~= m.floorHeight and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ <= 0 and (m.action & ACT_FLAG_SWIMMING) == 0 and (m.action & ACT_FLAG_METAL_WATER) == 0 
 			and m.action ~= ACT_SOFT_BONK and m.action ~= ACT_TOP_OF_POLE_JUMP and m.action ~= ACT_KIRBY_PUFF and m.action ~= ACT_FLYING_TRIPLE_JUMP and m.action ~= ACT_FLYING and m.action ~= ACT_SHOT_FROM_CANNON and m.action ~= ACT_WATER_JUMP 
-			and m.action ~= ACT_START_HANGING and m.action ~= ACT_HANGING and m.action ~= ACT_HANG_MOVING and m.action ~= ACT_BUBBLED and m.action ~= ACT_KIRBY_INHALE then
+			and m.action ~= ACT_START_HANGING and m.action ~= ACT_HANGING and m.action ~= ACT_HANG_MOVING and m.action ~= ACT_BUBBLED and m.action ~= ACT_KIRBY_INHALE and not (m.action == ACT_LONG_JUMP and m.forwardVel < 0) and m.heldObj == nil then
 			gPlayerSyncTable[idx].kirbyFallTimer_JJJ = gPlayerSyncTable[idx].kirbyFallTimer_JJJ + 1
 			if gPlayerSyncTable[idx].kirbyFallTimer_JJJ > 40 and (m.action == ACT_JUMP or m.action == ACT_FREEFALL or m.action == ACT_JUMP_KICK or m.action == ACT_TOP_OF_POLE_JUMP) and m.vel.y < 0 then
 				m.marioObj.header.gfx.animInfo.animID = -1
@@ -669,17 +694,17 @@ if _G.charSelect then
 	end)
 	
 	hook_event(HOOK_MARIO_UPDATE, function (m)
-		if m.playerIndex == 0 then
-			local currChar = _G.charSelect.character_get_current_number()
-			if currChar == kirbyCharID then
-				m.cap = m.cap & ~(SAVE_FLAG_CAP_ON_GROUND | SAVE_FLAG_CAP_ON_KLEPTO | SAVE_FLAG_CAP_ON_UKIKI | SAVE_FLAG_CAP_ON_MR_BLIZZARD)
+		if m.playerIndex ~= 0 then return end
+		
+		local currChar = _G.charSelect.character_get_current_number()
+		if currChar == kirbyCharID then
+			if gPlayerSyncTable[0].hasAddedHatFromKirby_JJJ and (m.flags & MARIO_CAP_ON_HEAD) == 0 then
+				m.flags = MARIO_CAP_ON_HEAD | MARIO_NORMAL_CAP
+				m.cap = MARIO_CAP_ON_HEAD
 				gPlayerSyncTable[0].hasAddedHatFromKirby_JJJ = false
-			elseif (m.flags & MARIO_CAP_ON_HEAD) == 0 then
-				if not gPlayerSyncTable[0].hasAddedHatFromKirby_JJJ then
-					m.flags = (m.flags | MARIO_CAP_ON_HEAD) & ~MARIO_CAP_IN_HAND
-					gPlayerSyncTable[0].hasAddedHatFromKirby_JJJ = true
-				end
 			end
+		else
+			gPlayerSyncTable[0].hasAddedHatFromKirby_JJJ = true
 		end
 	end)
 	
@@ -708,7 +733,7 @@ if _G.charSelect then
 	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_BEFORE_SET_MARIO_ACTION, kirbyBeforeActions)
 
 	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_BEFORE_PHYS_STEP, function (m, stepType)
-		if m.action == ACT_WATER_JUMP then return end
+		if m.action == ACT_WATER_JUMP or m.action == ACT_LONG_JUMP or (m.action & ACT_FLAG_INTANGIBLE) ~= 0 then return end
 	
 		local hScale, vScale = 1.2, 1.0 -- Make Kirby 20% faster.
 		
@@ -755,8 +780,8 @@ if _G.charSelect then
 		if currChar == kirbyCharID then
 			if get_mario_cap_flag(o) ~= 0 and (obj_has_behavior_id(o, id_bhvWingCap) ~= 0 or obj_has_behavior_id(o, id_bhvMetalCap) ~= 0 or obj_has_behavior_id(o, id_bhvVanishCap) ~= 0) then
 				set_mario_action(m, ACT_PUTTING_ON_CAP, 0)
-			else
-				m.flags = (m.flags | MARIO_CAP_ON_HEAD) & ~MARIO_CAP_IN_HAND
+			--else
+				--m.flags = (m.flags | MARIO_CAP_ON_HEAD) & ~MARIO_CAP_IN_HAND
 			end
 		
 			if (obj_has_behavior_id(o,id_bhvKlepto) ~= 0) and (m.cap == SAVE_FLAG_CAP_ON_KLEPTO) then

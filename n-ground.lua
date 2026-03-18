@@ -22,7 +22,7 @@ function act_kirby_hello(m)
 
     perform_ground_step(m)
 
-    m.actionTimer = m.actionTimer + 1
+	m.actionTimer = m.actionTimer + 1
 end
 
 function act_kirby_dodge(m)
@@ -272,18 +272,22 @@ function act_kirby_inhale(m)
 	
 	mario_drop_held_object(m)
 	
-	if idx == 0 and gPlayerSyncTable[idx].kirbyInhaleTimer_JJJ == 0 then
+	--if gPlayerSyncTable[idx].kirbyInhaleTimer_JJJ == 0 then
+	if m.actionTimer == 0 then
 		play_kirby_sound(KIRBY_INHALE_SOUND, m.pos, 1)
 	end
 	
-	gPlayerSyncTable[idx].kirbyInhaleTimer_JJJ = gPlayerSyncTable[idx].kirbyInhaleTimer_JJJ + 1
-	local kirbyIsTired = gPlayerSyncTable[idx].kirbyInhaleTimer_JJJ > SUCK_TIMER
+	--gPlayerSyncTable[idx].kirbyInhaleTimer_JJJ = gPlayerSyncTable[idx].kirbyInhaleTimer_JJJ + 1
+	m.actionTimer = m.actionTimer + 1
+	--local kirbyIsTired = gPlayerSyncTable[idx].kirbyInhaleTimer_JJJ > SUCK_TIMER
+	local kirbyIsTired = m.actionTimer > SUCK_TIMER
 	
 	local steepFloorCond = mario_floor_is_steep(m) == 1 or should_begin_sliding(m) == 1
 	local letGoButtonCond = (m.controller.buttonDown & B_BUTTON) == 0 or kirbyIsTired
 	
 	if mario_check_object_grab(m) ~= 0 then
 		mario_grab_used_object(m)
+		play_kirby_sound(KIRBY_OBJECT_SOUND, m.pos, 1)
 		play_character_sound(m, CHAR_SOUND_UH)
         if m.interactObj.behavior == get_behavior_from_id(id_bhvBowser) then
             m.marioBodyState.grabPos = GRAB_POS_BOWSER
@@ -328,6 +332,8 @@ function act_kirby_inhale(m)
 
 	update_air_with_turn(m)
 	local stepCase = perform_air_step(m, 0)
+	
+	
 	
 	return 0
 end

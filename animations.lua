@@ -1,8 +1,3 @@
-if not _G.charSelectExists then return 0 end
-local csVersion = _G.charSelect.version_get_full()
-if csVersion.major < 16 then return 0 end
-if VERSION_NUMBER < 40 then return 0 end
-
 smlua_anim_util_register_animation('KIRBY_JUMP', 257, 0, 0, 0, 23, { 
 	0, 170, 0, 0, 0, 0, 0, 0, 0, 
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 
