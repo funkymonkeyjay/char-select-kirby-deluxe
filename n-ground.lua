@@ -273,7 +273,7 @@ function act_kirby_inhale(m)
 	mario_drop_held_object(m)
 	
 	--if gPlayerSyncTable[idx].kirbyInhaleTimer_JJJ == 0 then
-	if m.actionTimer == 0 then
+	if m.actionTimer == 0 and m.playerIndex == 0 then
 		play_kirby_sound(KIRBY_INHALE_SOUND, m.pos, 1)
 	end
 	

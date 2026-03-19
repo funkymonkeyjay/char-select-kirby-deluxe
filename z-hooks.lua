@@ -176,29 +176,73 @@ if _G.charSelect then
 		obj_update_gfx_pos_and_angle(o)
 		
 		local hasAttacked = 0
+		
+		-- Recreating "obj_attack_collided_from_other_object", but taking intangibility into account.
+		local numCollidedObjs = o.numCollidedObjs
+		if numCollidedObjs ~= 0 then
+			local other = o.collidedObjs[1]
+			if other.oIntangibleTimer >= 0 and (other.oInteractType & INTERACT_PLAYER) == 0 then
+				other.oInteractStatus = other.oInteractStatus | (ATTACK_PUNCH | INT_STATUS_WAS_ATTACKED | INT_STATUS_INTERACTED | INT_STATUS_TOUCHED_BOB_OMB)
+				hasAttacked = 1
+			end
+		end
+		
 		for _, list in ipairs(objectLists) do
 			local oHit = obj_get_first(list)
 			while oHit do
-				if o ~= oHit then
+				if o ~= oHit and oHit ~= o.parentObj then
 					if obj_check_hitbox_overlap(o, oHit) and (oHit.header.gfx.node.flags & GRAPH_RENDER_INVISIBLE) == 0 then
-						if list == OBJ_LIST_PLAYER and oHit ~= o.parentObj then
+						if list == OBJ_LIST_PLAYER then
 							local m = get_mario_state_from_object(oHit)
-							if m then
-								if (m.action & ACT_FLAG_INTANGIBLE) == 0 and (m.action & ACT_FLAG_INVULNERABLE) == 0 then
+							if m and m.playerIndex == 0 then
+								if (m.action & ACT_FLAG_INTANGIBLE) == 0 and (m.action & ACT_FLAG_INVULNERABLE) == 0 and m.invincTimer == 0 and (m.flags & MARIO_VANISH_CAP) == 0 and (m.flags & MARIO_METAL_CAP) == 0 and (o.oInteractionSubtype & INT_SUBTYPE_DELAY_INVINCIBILITY) == 0 then
 									hasAttacked = 1
-									local actionToSet = ACT_BACKWARD_GROUND_KB
-									if (m.action & ACT_FLAG_SWIMMING) ~= 0 then
-										actionToSet = ACT_BACKWARD_WATER_KB
-									elseif (m.action & ACT_FLAG_AIR) ~= 0 then
-										actionToSet = ACT_BACKWARD_AIR_KB
+									
+									update_mario_sound_and_camera(m)
+									
+									-- Recreating "determine_knockback_action" because the function isn't exposed to LUA for whatever reason.
+									local angleToObject = mario_obj_angle_to_object(m, o)
+									local facingDYaw = angleToObject - m.faceAngle.y
+									
+									m.faceAngle.y = angleToObject
+									
+									if (m.action & (ACT_FLAG_SWIMMING | ACT_FLAG_METAL_WATER)) ~= 0 then
+										if m.forwardVel < 28 then mario_set_forward_vel(m, 28) end
+										if m.pos.y >= o.oPosY then
+											if m.vel.y < 20 then m.vel.y = 20 end
+										else
+											if m.vel.y > 0 then m.vel.y = 0 end
+										end
+									else
+										if m.forwardVel < 16 then mario_set_forward_vel(m, 16) end
 									end
+									
+									local actionToSet = ACT_BACKWARD_GROUND_KB
+									if -0x4000 <= facingDYaw and facingDYaw <= 0x4000 then
+										m.forwardVel = -m.forwardVel
+										if (m.action & ACT_FLAG_SWIMMING) ~= 0 then
+											actionToSet = ACT_BACKWARD_WATER_KB
+										elseif (m.action & ACT_FLAG_AIR) ~= 0 then
+											actionToSet = ACT_BACKWARD_AIR_KB
+										end
+									else
+										m.faceAngle.y = m.faceAngle.y + 0x8000
+										actionToSet = ACT_FORWARD_GROUND_KB
+										if (m.action & ACT_FLAG_SWIMMING) ~= 0 then
+											actionToSet = ACT_FORWARD_AIR_KB
+										elseif (m.action & ACT_FLAG_AIR) ~= 0 then
+											actionToSet = ACT_FORWARD_WATER_KB
+										end
+									end
+	
 									hurt_and_set_mario_action(m, actionToSet, 0, 4)
 									play_kirby_sound(KIRBY_HIT_SOUND, o.header.gfx.pos, 0.5)
 								end
 							end
 						else
 							if oHit.oHeldState == HELD_FREE and oHit.oIntangibleTimer >= 0 then
-								if (oHit.oInteractType == INTERACT_BREAKABLE or oHit.oInteractType == INTERACT_BULLY or oHit.oInteractType == INTERACT_SPINY_WALKING or obj_is_attackable(oHit)) and obj_has_behavior_id(oHit, id_bhvBowser) == 0 then
+								if (oHit.oInteractType == INTERACT_BREAKABLE or oHit.oInteractType == INTERACT_BULLY or oHit.oInteractType == INTERACT_SPINY_WALKING or obj_is_attackable(oHit))
+									and obj_has_behavior_id(oHit, id_bhvBowser) == 0 then
 									hasAttacked = 1
 									if oHit.oInteractType == INTERACT_BULLY then
 										oHit.oFaceAngleYaw = o.oMoveAngleYaw
