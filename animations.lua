@@ -1,3 +1,5 @@
+if incompatibilityCond then return 0 end
+
 smlua_anim_util_register_animation('KIRBY_JUMP', 257, 0, 0, 0, 23, { 
 	0, 170, 0, 0, 0, 0, 0, 0, 0, 
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 

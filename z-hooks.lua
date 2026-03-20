@@ -1,4 +1,4 @@
-if not _G.charSelectExists then return 0 end
+if incompatibilityCond then return 0 end
 
 E_MODEL_KIRBY_STAR = smlua_model_util_get_id("kirby_star_geo")
 E_MODEL_KIRBY_AIR = smlua_model_util_get_id("kirby_air_geo")
