@@ -779,7 +779,7 @@ if _G.charSelect then
 	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_BEFORE_SET_MARIO_ACTION, kirbyBeforeActions)
 
 	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_BEFORE_PHYS_STEP, function (m, stepType)
-		if m.action == ACT_WATER_JUMP or m.action == ACT_LONG_JUMP or (m.action & ACT_FLAG_INTANGIBLE) ~= 0 then return end
+		if m.action == ACT_WATER_JUMP or m.action == ACT_LONG_JUMP or (m.action & ACT_FLAG_INVULNERABLE) ~= 0 or (m.action & ACT_FLAG_INTANGIBLE) ~= 0 then return end
 	
 		local hScale, vScale = 1.2, 1.0 -- Make Kirby 20% faster.
 		
