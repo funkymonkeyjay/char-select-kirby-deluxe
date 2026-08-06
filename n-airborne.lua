@@ -85,6 +85,12 @@ function act_kirby_puff(m)
 		return
 	end
 	
+	if m.pos.y == m.floorHeight and m.floor.type == HAZARD_TYPE_LAVA_FLOOR then
+		m.hurtCounter = m.hurtCounter + 12
+		drop_and_set_mario_action(m, ACT_LAVA_BOOST, 0)
+		return
+	end
+	
 	if (m.input & INPUT_Z_PRESSED) ~= 0 then
 		gPlayerSyncTable[idx].kirbyPuffTimer_JJJ = 0
 		return set_mario_action(m, ACT_GROUND_POUND, 0)

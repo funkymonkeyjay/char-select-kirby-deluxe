@@ -163,8 +163,9 @@ function kirbyWing_JJJ(node, matStackIndex)
 	local leftWing = node.next
 	local rightWing = node.next.next
 	local ringWing = node.next.next.next
-	
 	local bodyState = geo_get_body_state()
+	
+	if not (leftWing and rightWing and ringWing and bodyState) then return end
 
 	if bodyState.capState & 2 ~= 0 then
 		leftWing.flags = leftWing.flags | GRAPH_RENDER_ACTIVE
@@ -180,6 +181,8 @@ end
 function kirbyInhale_JJJ(node, matStackIndex)
 	local asSwitchNode = cast_graph_node(node)
 	local m = geo_get_mario_state()
+	if not (m and asSwitchNode) then return end
+	
 	local idx = m.playerIndex
 	local toNode = 0
 	if m.action == ACT_KIRBY_INHALE or (m.action == ACT_JUMP_KICK and m.marioObj.header.gfx.animInfo.animFrame < 10) or (m.action == ACT_WATER_PUNCH and m.marioObj.header.gfx.animInfo.animFrame < 5) then
