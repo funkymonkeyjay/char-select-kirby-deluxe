@@ -1,5 +1,6 @@
 -- name: [CS] \\#FF79AA\\Kirby \\#FFFF3C\\Deluxe!
 -- description: Play as the pink puffball warrior with a moveset inspired by \\#FFFF3C\\Kirby and the Forgotten Land (2022)\\#DBDBDB\\, comes with both "Normal" and "Classic" costumes!\n\nKirby is owned by HAL Laboratory, Inc., voice clips from existing works (K64, SSB, SSBM) by Makiko Ohmoto.\n\n\\#ff7777\\This Pack requires Character Select\nto use as a Library!
+-- category: characters
 
 if incompatibilityCond then return 0 end
 
@@ -227,6 +228,8 @@ _G.charSelect.character_add_voice(E_MODEL_KIRBY_RETRO, KIRBY_VOICETABLE)
 _G.charSelect.character_add_animations(E_MODEL_KIRBY_RETRO, kirbyAnims.anims, kirbyAnims.eyes)
 _G.charSelect.character_add_menu_instrumental(kirbyCharID, audio_stream_load("menu.ogg"))
 _G.charSelect.character_add_graffiti(kirbyCharID, TEX_GRAFFITI_KIRBY)
+
+_G.charSelect.character_set_category(kirbyCharID, "Kirby", true)
 
 local function run_func_or_get_var(x, ...) if type(x) == "function" then return x(...) else return x end end
 
