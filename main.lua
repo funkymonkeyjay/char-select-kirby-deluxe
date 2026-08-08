@@ -247,3 +247,16 @@ hook_event(HOOK_MARIO_UPDATE, function (m) -- Based on original "Character Selec
 		gPlayerSyncTable[idx].kirbyMouthState = mouthState
 	end
 end)
+
+if retroCharAPI then
+	local NES_OUTLINE = {r = 0, g = 0, b = 0}
+	local NES_SHADE = {r = 252, g = 110, b = 202}
+	local NES_MAIN = {r = 251, g = 193, b = 227}
+	local NES_SHADE_FIRE = {r = 251, g = 129, b = 116}
+	local NES_MAIN_FIRE = {r = 251, g = 201, b = 195}
+	function setup_retro_sprites()
+		retroCharAPI.add_cs_character_sprites(kirbyCharID, get_texture_info("small_kirby"), get_texture_info("big_kirby"), 16, 16, 3, 24, 24, 2)
+		retroCharAPI.add_cs_character_palette(kirbyCharID, {NES_OUTLINE, NES_SHADE, NES_MAIN}, {NES_OUTLINE, NES_SHADE_FIRE, NES_MAIN_FIRE}, 1, 3)
+	end
+	hook_event(HOOK_ON_MODS_LOADED, setup_retro_sprites)
+end
