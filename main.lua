@@ -212,10 +212,10 @@ for i = 1, #KIRBY_PALETTES do
 	charSelect.character_add_palette_preset(E_MODEL_KIRBY_RETRO, KIRBY_PALETTES[i], KIRBY_PALETTES[i].name)
 end
 
-kirbyCharID = _G.charSelect.character_add("Kirby", "The fearless hero of Planet Popstar! His naïveté may lead him to act on sheer impulse, but this pink puffball will do whatever it takes to protect their friends from evil, hopefully he'll get a slice of cake afterward as a reward!", "JayJayJay!", "FF79AA", E_MODEL_KIRBY, CT_MARIO, TEX_CUSTOM_LIFE_ICON)
+kirbyCharID = _G.charSelect.character_add("Kirby", "The fearless hero of Planet Popstar! His naïveté may lead him to act on sheer impulse, but this pink puffball will do whatever it takes to protect their friends from evil, hopefully he'll get a slice of cake afterward as a reward!", "@funkymonkeyjay", "FF79AA", E_MODEL_KIRBY, CT_MARIO, TEX_CUSTOM_LIFE_ICON)
 _G.charSelect.character_add_health_meter(kirbyCharID, KIRBY_HEALTHMETER)
 
-kirbyRetroCosID = _G.charSelect.character_add_costume(kirbyCharID, "Kirby (Classic)", "The one that started it all! Coming in like a warm spring breeze in the early 90s, this helper-turned-hero's got the agility and bravery to take on the nefarious King De-... Bowser?! ... Ah, forget it, you know what they say, can't go wrong with taking on the classics every once in a while!", "JayJayJay!", "FF79AA", E_MODEL_KIRBY_RETRO, CT_MARIO, TEX_CUSTOM_LIFE_ICON)
+kirbyRetroCosID = _G.charSelect.character_add_costume(kirbyCharID, "Kirby (Classic)", "The one that started it all! Coming in like a warm spring breeze in the early 90s, this helper-turned-hero's got the agility and bravery to take on the nefarious King De-... Bowser?! ... Ah, forget it, you know what they say, can't go wrong with taking on the classics every once in a while!", "@funkymonkeyjay", "FF79AA", E_MODEL_KIRBY_RETRO, CT_MARIO, TEX_CUSTOM_LIFE_ICON)
 _G.charSelect.character_add_costume_health_meter(kirbyCharID, kirbyRetroCosID, KIRBY_HEALTHMETER)
 
 _G.charSelect.character_add_caps(E_MODEL_KIRBY, kirbyCaps)

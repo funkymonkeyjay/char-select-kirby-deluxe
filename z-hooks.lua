@@ -414,10 +414,6 @@ if _G.charSelect then
 			end
 		end
 		
-		--if incomingAction == ACT_LONG_JUMP_LAND then
-			--return ACT_CROUCH_SLIDE
-		--end
-		
 		if m.action == ACT_KIRBY_INHALE then
 			audio_sample_stop(KIRBY_INHALE_SOUND)
 		end
@@ -429,7 +425,6 @@ if _G.charSelect then
 					o.oForwardVel = m.forwardVel + floorObjectVel + 64
 				end)
 			end
-			return incomingAction
 		end
 		
 		if incomingAction == ACT_PUTTING_ON_CAP then
@@ -517,8 +512,6 @@ if _G.charSelect then
 				if incomingAction ~= ACT_WATER_PUNCH then
 					m.vel.y = 24
 					return ACT_JUMP_KICK
-				else
-					return incomingAction
 				end
 			elseif incomingAction ~= ACT_WATER_PUNCH then
 				if m.pos.y == m.floorHeight then m.vel.y = 0 end
@@ -543,8 +536,6 @@ if _G.charSelect then
 			gPlayerSyncTable[idx].kirbyFallTimer_JJJ = 0
 			return ACT_FORWARD_ROLLOUT
 		end
-		
-		return incomingAction
 	end
 	
 	local function kirbyActions(m)
