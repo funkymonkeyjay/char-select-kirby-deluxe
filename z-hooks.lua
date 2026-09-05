@@ -770,9 +770,9 @@ if _G.charSelect then
 	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_BEFORE_SET_MARIO_ACTION, kirbyBeforeActions)
 
 	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_BEFORE_PHYS_STEP, function (m, stepType)
-		if m.action == ACT_WATER_JUMP or m.action == ACT_LONG_JUMP or (m.action & ACT_FLAG_INVULNERABLE) ~= 0 or (m.action & ACT_FLAG_INTANGIBLE) ~= 0 then return end
+		if m.action == ACT_WATER_JUMP or m.action == ACT_LONG_JUMP or m.action == ACT_BUBBLED or (m.action & ACT_FLAG_INVULNERABLE) ~= 0 or (m.action & ACT_FLAG_INTANGIBLE) ~= 0 then return end
 	
-		local hScale, vScale = 1.2, 1.0 -- Make Kirby 20% faster.
+		local hScale, vScale = (m.action & ACT_FLAG_MOVING) ~= 0 and 1.2 or 1.0, 1.0 -- Make Kirby 20% faster.
 		
 		if gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ > 0 then
 			if (m.action & ACT_FLAG_SWIMMING) ~= 0 then
@@ -782,7 +782,7 @@ if _G.charSelect then
 				end
 				hScale = hScale * 0.6
 			else
-				if (m.action & ACT_FLAG_MOVING) ~= 0 and m.action ~= ACT_BUBBLED then
+				if (m.action & ACT_FLAG_MOVING) ~= 0 then
 					hScale = hScale * 0.75
 				elseif m.action & ACT_FLAG_AIR ~= 0 and m.vel.y > 0 then
 					vScale = vScale * 0.9375
