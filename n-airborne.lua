@@ -13,8 +13,8 @@ if network_is_server() then
 end
 -- AIRBORNE ACTS
 
-ACT_KIRBY_SLIDE = allocate_mario_action(0x0AA | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
-ACT_KIRBY_PUFF = allocate_mario_action(0x080 | ACT_FLAG_AIR | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION | ACT_FLAG_CONTROL_JUMP_HEIGHT)
+ACT_KIRBY_SLIDE = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
+ACT_KIRBY_PUFF = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION | ACT_FLAG_CONTROL_JUMP_HEIGHT)
 
 function act_kirby_slide(m)
 	if m.actionState == 0 and m.actionTimer == 0 then
@@ -53,6 +53,14 @@ local function s16(num)
 end
 
 PUFF_TIMER_LIMIT = 250 -- Global constant for allowed puff time.
+
+local function puffHazardSurface(m, type) -- Hacky bugfix for quicksand death on puffing.
+	if m.playerIndex ~= 0 then return end
+	if (type == HAZARD_TYPE_QUICKSAND or type == SURFACE_INSTANT_QUICKSAND or type == SURFACE_DEEP_QUICKSAND) and m.action == ACT_KIRBY_PUFF and m.pos.y ~= m.floorHeight then
+		return false
+	end
+end
+hook_event(HOOK_ALLOW_HAZARD_SURFACE, puffHazardSurface)
 
 function act_kirby_puff(m)
 	local idx = m.playerIndex
@@ -96,15 +104,15 @@ function act_kirby_puff(m)
 		return set_mario_action(m, ACT_GROUND_POUND, 0)
     end
 
-	if m.marioObj.header.gfx.animInfo.animID == MARIO_ANIM_DOUBLE_JUMP_RISE and is_anim_at_end(m) == 1 then
-		set_mario_animation(m, MARIO_ANIM_DOUBLE_JUMP_FALL)
+	if m.marioObj.header.gfx.animInfo.animID == CHAR_ANIM_KIRBY_PUFF_RISE and is_anim_at_end(m) == 1 then
+		set_mario_animation(m, CHAR_ANIM_KIRBY_PUFF_FALL)
 	end
 
 	local pressedButton = (m.input & INPUT_A_PRESSED) ~= 0
 	if (m.controller.buttonDown & A_BUTTON) ~= 0 or pressedButton then
 		if is_anim_at_end(m) == 1 or pressedButton then
 			play_character_sound(m, CHAR_SOUND_HOOHOO)
-			set_mario_animation(m, MARIO_ANIM_DOUBLE_JUMP_RISE)
+			set_mario_animation(m, CHAR_ANIM_KIRBY_PUFF_RISE)
 			if not kirbyIsTired then
 				local truePuffPower
 				if gGlobalSyncTable.kirbyInfinitePuff and idx == 0 then

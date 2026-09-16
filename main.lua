@@ -188,16 +188,28 @@ function kirbyInhale_JJJ(node, matStackIndex)
 	local toNode = 0
 	if m.action == ACT_KIRBY_INHALE or (m.action == ACT_JUMP_KICK and m.marioObj.header.gfx.animInfo.animFrame < 10) or (m.action == ACT_WATER_PUNCH and m.marioObj.header.gfx.animInfo.animFrame < 5) then
 		toNode = 1
-	elseif gPlayerSyncTable[idx].kirbyMouthCounter_JJJ > 0 or m.action == ACT_KIRBY_PUFF then
+	elseif gPlayerSyncTable[idx].kirbyMouthCounter_JJJ ~= 0 or m.action == ACT_KIRBY_PUFF then
 		toNode = 2
 	end
 	asSwitchNode.selectedCase = toNode
 end
 
+local function run_func_or_get_var(x, ...) if type(x) == "function" then return x(...) else return x end end
 function kirbyMouth_JJJ(node, matStackIndex)
 	local asSwitchNode = cast_graph_node(node)
+	
 	local m = geo_get_mario_state()
-	asSwitchNode.selectedCase = gPlayerSyncTable[m.playerIndex].kirbyMouthState
+	local idx = m.playerIndex
+	local modelId = _G.charSelect.character_get_current_number(idx)
+	
+	local animInfo = m.marioObj.header.gfx.animInfo
+	local setMouthState = 0
+	local mouthState = kirbyAnims.mouth and run_func_or_get_var(kirbyAnims.mouth[animInfo.animID], m, animInfo.animFrame)
+	
+	if mouthState then
+		setMouthState = mouthState
+	end
+	asSwitchNode.selectedCase = setMouthState
 end
 
 local kirbyCaps = {
@@ -230,23 +242,6 @@ _G.charSelect.character_add_menu_instrumental(kirbyCharID, audio_stream_load("me
 _G.charSelect.character_add_graffiti(kirbyCharID, TEX_GRAFFITI_KIRBY)
 
 _G.charSelect.character_set_category(kirbyCharID, "Kirby", true)
-
-local function run_func_or_get_var(x, ...) if type(x) == "function" then return x(...) else return x end end
-
-hook_event(HOOK_MARIO_UPDATE, function (m) -- Based on original "Character Select" code by Squishy, made to provide compatibility with mouth states.
-	local idx = m.playerIndex
-	local modelId = _G.charSelect.character_get_current_number(idx)
-	
-	if modelId ~= kirbyCharID then return end
-	
-	local animInfo = m.marioObj.header.gfx.animInfo
-	
-	gPlayerSyncTable[idx].kirbyMouthState = 0
-	local mouthState = kirbyAnims.mouth and run_func_or_get_var(kirbyAnims.mouth[animInfo.animID], m, animInfo.animFrame)
-	if mouthState then
-		gPlayerSyncTable[idx].kirbyMouthState = mouthState
-	end
-end)
 
 if retroCharAPI then
 	local NES_OUTLINE = {r = 0, g = 0, b = 0}

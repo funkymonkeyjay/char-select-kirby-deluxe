@@ -363,7 +363,6 @@ if _G.charSelect then
 		gPlayerSyncTable[i].kirbyDodgeY = 0
 		
 		gPlayerSyncTable[i].kirbyMouthCounter_JJJ = 0 -- How many objects in Kirby's mouth?
-		gPlayerSyncTable[i].kirbyInhaleTimer_JJJ = 0
 		
 		gPlayerSyncTable[i].kirbyScaleY = 1000
 		gPlayerSyncTable[i].kirbyMouthState = 0
@@ -394,6 +393,7 @@ if _G.charSelect then
 		end
 	end})
 	hook_mario_action(ACT_KIRBY_HELLO, act_kirby_hello)
+	hook_mario_action(ACT_BEING_INHALED, act_being_inhaled)
 	
 	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_WARP, function() audio_sample_stop(KIRBY_INHALE_SOUND) end) -- Added to prevent the inhale sound from playing outside a level forever.
 	
@@ -496,9 +496,9 @@ if _G.charSelect then
 		end
 		
 		if incomingAction ~= ACT_PICKING_UP and (incomingAction == ACT_DIVE or (incomingAction == ACT_PUNCHING and m.action ~= ACT_CROUCHING) or incomingAction == ACT_MOVE_PUNCHING or (incomingAction == ACT_JUMP_KICK and m.action ~= ACT_KIRBY_PUFF)) or incomingAction == ACT_WATER_PUNCH then
-			if gPlayerSyncTable[idx].kirbyMouthCounter_JJJ > 0 then
+			if gPlayerSyncTable[idx].kirbyMouthCounter_JJJ ~= 0	then
 				m.forwardVel = 0
-				if m.playerIndex == 0 then
+				if m.playerIndex == 0 and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ > 0 then
 					local pitch = (m.action & ACT_FLAG_SWIMMING) ~= 0 and m.faceAngle.x or 0
 					spawn_sync_object(id_bhvKirbyStar_JJJ, E_MODEL_KIRBY_STAR, m.pos.x, m.pos.y, m.pos.z, function(o)
 						o.oMoveAnglePitch = pitch
@@ -515,7 +515,6 @@ if _G.charSelect then
 				end
 			elseif incomingAction ~= ACT_WATER_PUNCH then
 				if m.pos.y == m.floorHeight then m.vel.y = 0 end
-				gPlayerSyncTable[idx].kirbyInhaleTimer_JJJ = 0
 				if m.playerIndex == 0 then spawn_non_sync_object(id_bhvKirbyInhale_JJJ, E_MODEL_KIRBY_VORTEX, m.pos.x, m.pos.y + 25, m.pos.z, function(o) o.parentObj = m.marioObj end) end
 				return ACT_KIRBY_INHALE
 			end
@@ -609,7 +608,7 @@ if _G.charSelect then
 			gPlayerSyncTable[idx].kirbyDodgeStick = false
 		end
 		
-		if ((m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) or (m.action & ACT_GROUP_MASK) == ACT_GROUP_CUTSCENE) and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ > 0 then -- Eat the contents
+		if ((m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) or (m.action & ACT_GROUP_MASK) == ACT_GROUP_CUTSCENE) and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ ~= 0 then -- Eat the contents
 			play_character_sound(m, CHAR_SOUND_PUNCH_WAH)
 			if not (m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) then
 				m.marioObj.header.gfx.scale.y = 0.75
@@ -631,7 +630,7 @@ if _G.charSelect then
 			gPlayerSyncTable[idx].kirbyPuffCeiling_JJJ = m.marioObj.header.gfx.pos.y + 800
 		end
 		
-		if m.pos.y ~= m.floorHeight and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ <= 0 and (m.action & ACT_FLAG_SWIMMING) == 0 and (m.action & ACT_FLAG_METAL_WATER) == 0 
+		if m.pos.y ~= m.floorHeight and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ == 0 and (m.action & ACT_FLAG_SWIMMING) == 0 and (m.action & ACT_FLAG_METAL_WATER) == 0 
 			and m.action ~= ACT_SOFT_BONK and m.action ~= ACT_TOP_OF_POLE_JUMP and m.action ~= ACT_KIRBY_PUFF and m.action ~= ACT_FLYING_TRIPLE_JUMP and m.action ~= ACT_FLYING and m.action ~= ACT_SHOT_FROM_CANNON and m.action ~= ACT_WATER_JUMP 
 			and m.action ~= ACT_START_HANGING and m.action ~= ACT_HANGING and m.action ~= ACT_HANG_MOVING and m.action ~= ACT_BUBBLED and m.action ~= ACT_KIRBY_INHALE and not (m.action == ACT_LONG_JUMP and m.forwardVel < 0) and m.heldObj == nil then
 			gPlayerSyncTable[idx].kirbyFallTimer_JJJ = gPlayerSyncTable[idx].kirbyFallTimer_JJJ + 1
@@ -658,7 +657,7 @@ if _G.charSelect then
 					play_character_sound(m, CHAR_SOUND_HOOHOO)
 					gPlayerSyncTable[idx].kirbyHasMovedStick_JJJ = false
 					set_mario_action(m, ACT_KIRBY_PUFF, 0)
-					set_mario_animation(m, MARIO_ANIM_DOUBLE_JUMP_RISE)
+					set_mario_animation(m, CHAR_ANIM_KIRBY_PUFF_RISE)
 					m.vel.y = 16
 				end
 			end
@@ -668,6 +667,13 @@ if _G.charSelect then
 				gPlayerSyncTable[idx].kirbyHasPuffed_JJJ = false
 				gPlayerSyncTable[idx].kirbyPuffTimer_JJJ = 0
 			end
+		end
+		
+		if m.action == ACT_JUMP or (m.action == ACT_JUMP_KICK and m.marioObj.header.gfx.animInfo.animFrame >= 8) or m.action == ACT_FREEFALL then -- Air turning!
+			m.faceAngle.y = approach_s16_symmetric(m.faceAngle.y, m.intendedYaw, gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ ~= 0 and 1000 or 1750)
+		
+			m.vel.x = m.forwardVel * sins(m.faceAngle.y)
+			m.vel.z = m.forwardVel * coss(m.faceAngle.y)
 		end
 	end
 	
@@ -774,7 +780,7 @@ if _G.charSelect then
 	
 		local hScale, vScale = (m.action & ACT_FLAG_MOVING) ~= 0 and 1.2 or 1.0, 1.0 -- Make Kirby 20% faster.
 		
-		if gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ > 0 then
+		if gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ ~= 0 then
 			if (m.action & ACT_FLAG_SWIMMING) ~= 0 then
 				m.pos.y = m.pos.y - 5.5
 				if m.vel.y > 0 then
@@ -845,4 +851,23 @@ if _G.charSelect then
 	end
 
 	hook_event(HOOK_BEFORE_MARIO_UPDATE, before_update)
+	
+	hook_event(HOOK_ON_WARP, function (type, levelNum, areaIdx, nodeId, arg)		
+		gPlayerSyncTable[0].kirbyFallTimer_JJJ = 0
+		gPlayerSyncTable[0].kirbyPuffCeiling_JJJ = 0
+		gPlayerSyncTable[0].kirbyHasMovedStick_JJJ = false
+		gPlayerSyncTable[0].kirbyForwardVel = 0
+		gPlayerSyncTable[0].kirbyVelX = 0
+		gPlayerSyncTable[0].kirbyVelY = 0
+		gPlayerSyncTable[0].kirbyVelZ = 0
+		gPlayerSyncTable[0].kirbyPuffTimer_JJJ = 0
+		gPlayerSyncTable[0].kirbyHasPuffed_JJJ = false
+		gPlayerSyncTable[0].kirbyDodgeStick = false
+		gPlayerSyncTable[0].kirbyDodgeX = 0
+		gPlayerSyncTable[0].kirbyDodgeY = 0
+		gPlayerSyncTable[0].kirbyMouthCounter_JJJ = 0
+		gPlayerSyncTable[0].kirbyScaleY = 1000
+		gPlayerSyncTable[0].kirbyMouthState = 0
+	end)
 end
+
