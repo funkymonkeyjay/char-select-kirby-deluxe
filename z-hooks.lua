@@ -239,6 +239,11 @@ if _G.charSelect then
 									play_kirby_sound(KIRBY_HIT_SOUND, o.header.gfx.pos, 0.5)
 								end
 							end
+						elseif obj_has_behavior_id(oHit, id_bhvMrI) == 1 then
+							play_kirby_sound(KIRBY_HIT_SOUND, o.header.gfx.pos, 0.5)
+							oHit.oAction = 3
+							hasAttacked = 1
+							break
 						else
 							if oHit.oHeldState == HELD_FREE and oHit.oIntangibleTimer >= 0 then
 								if (oHit.oInteractType == INTERACT_BREAKABLE or oHit.oInteractType == INTERACT_BULLY or oHit.oInteractType == INTERACT_SPINY_WALKING or obj_is_attackable(oHit))
@@ -397,9 +402,30 @@ if _G.charSelect then
 	
 	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_WARP, function() audio_sample_stop(KIRBY_INHALE_SOUND) end) -- Added to prevent the inhale sound from playing outside a level forever.
 	
+	hook_event(HOOK_BEFORE_SET_MARIO_ACTION, function (m, incomingAction)
+		if m.action == ACT_BEING_INHALED and incomingAction ~= ACT_GRABBED and (m.marioObj.header.gfx.node.flags & GRAPH_RENDER_ACTIVE) == 0 then -- Fix to prevent inhaled player from being unvisible when preforming other actions while in the inhaled action.
+			m.marioObj.header.gfx.node.flags = m.marioObj.header.gfx.node.flags | GRAPH_RENDER_ACTIVE
+			local mOther = gMarioStates[network_local_index_from_global(m.marioObj.oKirbySuckPlayer)]
+			gPlayerSyncTable[mOther.playerIndex].kirbyMouthCounter_JJJ = 0
+			play_character_sound(mOther, CHAR_SOUND_PUNCH_HOO)
+		end
+	end)
+	
 	local function kirbyBeforeActions(m, incomingAction)
 		local idx = m.playerIndex
 		local floorObjectVel = (m.floor and m.floor.object and m.floor.object.oForwardVel) or 0
+		
+		--if incomingAction == ACT_CROUCH_SLIDE then
+			--gPlayerSyncTable[idx].kirbyDodgeStick = true
+			--return ACT_START_CROUCHING
+		--end
+		
+		if (incomingAction == ACT_CROUCHING or incomingAction == ACT_CROUCH_SLIDE or incomingAction == ACT_PULLING_DOOR or incomingAction == ACT_PUSHING_DOOR) and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ < 0 then
+			return 1
+		end
+		
+		if incomingAction == ACT_JUMP or incomingAction == ACT_KIRBY_PUFF or incomingAction == ACT_KIRBY_DODGE then gPlayerSyncTable[idx].kirbyScaleY = 1000; m.marioObj.header.gfx.scale.y = 1 end
+		if incomingAction == ACT_START_CROUCHING or incomingAction == ACT_CROUCH_SLIDE then gPlayerSyncTable[idx].kirbyScaleY = 2500; m.marioObj.header.gfx.scale.y = 2.5 end
 		
 		if incomingAction == ACT_AIR_HIT_WALL or incomingAction == ACT_SOFT_BONK then
 			mario_set_forward_vel(m, 0.0)
@@ -479,6 +505,7 @@ if _G.charSelect then
 				return 1
 			else
 				m.forwardVel = 32
+				gPlayerSyncTable[idx].kirbyScaleY = 1000; m.marioObj.header.gfx.scale.y = 1
 				return ACT_JUMP
 			end
 		end
@@ -523,6 +550,7 @@ if _G.charSelect then
 		if ((m.action == ACT_START_CROUCHING or m.action == ACT_CROUCHING or m.action == ACT_STOP_CROUCHING) and incomingAction == ACT_BACKFLIP) or
 			incomingAction == ACT_LONG_JUMP or (incomingAction == ACT_FORWARD_ROLLOUT and m.action ~= ACT_KIRBY_DODGE) or incomingAction == ACT_BACKWARD_ROLLOUT or incomingAction == ACT_DOUBLE_JUMP or incomingAction == ACT_TRIPLE_JUMP or incomingAction == ACT_SIDE_FLIP then
 			--(incomingAction == ACT_FORWARD_ROLLOUT and m.action ~= ACT_KIRBY_DODGE) or incomingAction == ACT_BACKWARD_ROLLOUT or incomingAction == ACT_DOUBLE_JUMP or incomingAction == ACT_TRIPLE_JUMP or incomingAction == ACT_SIDE_FLIP then
+			gPlayerSyncTable[idx].kirbyScaleY = 1000; m.marioObj.header.gfx.scale.y = 1
 			return ACT_JUMP
 		end
 
@@ -571,8 +599,43 @@ if _G.charSelect then
 	end
 	
 	local function kirbyPostUpdate(m)
-		local idx = 0
-		if m.playerIndex ~= idx then return end
+		local idx = m.playerIndex
+
+		if m.action ~= ACT_SQUISHED and m.action ~= ACT_BBH_ENTER_SPIN and m.squishTimer == 0 and ((m.marioObj.header.gfx.scale.x == 1 and m.marioObj.header.gfx.scale.z == 1) or (m.action == ACT_CROUCHING or m.action == ACT_START_CROUCHING or m.action == ACT_CROUCH_SLIDE)) then
+			local toScale = 1000
+			if m.action == ACT_JUMP_LAND or m.action == ACT_FREEFALL_LAND then
+				toScale = 500
+			elseif m.action == ACT_START_CROUCHING or m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE or m.action == ACT_KIRBY_SLIDE or m.action == ACT_SLIDE_KICK_SLIDE or m.action == ACT_CROUCH_SLIDE or m.action == ACT_JUMP_LAND
+				 or (m.action == ACT_EXIT_LAND_SAVE_DIALOG and (m.marioObj.header.gfx.animInfo.animFrame >= 28 and m.marioObj.header.gfx.animInfo.animFrame < 34)) or m.action == ACT_LONG_JUMP_LAND then
+				toScale = 625
+			elseif m.action == ACT_FORWARD_ROLLOUT then
+				toScale = 900
+			elseif (m.action == ACT_JUMP and m.vel.y > 0) or (m.action == ACT_KIRBY_PUFF and m.vel.y > 0) or m.action == ACT_KIRBY_DODGE then
+				toScale = 1100
+			elseif m.action == ACT_KIRBY_INHALE or (m.action == ACT_EXIT_LAND_SAVE_DIALOG and m.marioObj.header.gfx.animInfo.animID ~= CHAR_ANIM_THROW_CATCH_KEY and (m.marioObj.header.gfx.animInfo.animFrame > 10 and m.marioObj.header.gfx.animInfo.animFrame < 28)) then
+				toScale = 1200
+			elseif m.action == ACT_JUMP_KICK and m.marioObj.header.gfx.animInfo.animFrame < 2 then
+				toScale = 1300
+			end
+			
+			--local scaleSpeed = (m.pos.y == m.floorHeight or (m.action == ACT_KIRBY_DODGE and m.vel.y > 0)) and 100 or 25
+			local scaleSpeed = ((m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) and 0.85) or ((m.pos.y == m.floorHeight or (m.action == ACT_KIRBY_DODGE and m.vel.y > 0)) and 0.4) or 0.05
+			--gPlayerSyncTable[idx].kirbyScaleY = approach_f32(gPlayerSyncTable[idx].kirbyScaleY, toScale, scaleSpeed, scaleSpeed)
+			gPlayerSyncTable[idx].kirbyScaleY = math.lerp(gPlayerSyncTable[idx].kirbyScaleY, toScale, scaleSpeed)
+			m.marioObj.header.gfx.scale.y = gPlayerSyncTable[idx].kirbyScaleY / 1000
+			
+			if m.action == ACT_START_CROUCHING then
+				m.marioObj.header.gfx.scale.x = 0.75
+				m.marioObj.header.gfx.scale.z = 0.75
+			elseif m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE then
+				m.marioObj.header.gfx.scale.x = math.lerp(m.marioObj.header.gfx.scale.x, 1.5, 0.85)
+				m.marioObj.header.gfx.scale.z = math.lerp(m.marioObj.header.gfx.scale.z, 1.5, 0.85)
+			end
+		else
+			gPlayerSyncTable[idx].kirbyScaleY = 1000
+		end
+		
+		if m.playerIndex ~= 0 then return end
 		
 		if checkFlags(m) and (m.controller.buttonPressed & L_TRIG) ~= 0 and m.action ~= ACT_KIRBY_HELLO and m.pos.y == m.floorHeight and m.forwardVel == 0 then
 			set_mario_action(m, ACT_KIRBY_HELLO, 0)
@@ -580,6 +643,7 @@ if _G.charSelect then
 		
 		-- SCALING
 		
+		--[[
 		if m.action ~= ACT_SQUISHED then
 			local toScale = 1000
 			if m.action == ACT_JUMP_LAND or m.action == ACT_FREEFALL_LAND then
@@ -603,12 +667,13 @@ if _G.charSelect then
 		else
 			gPlayerSyncTable[idx].kirbyScaleY = 50
 		end
+		--]]
 
 		if (m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) and (m.controller.stickX == 0 and m.controller.stickY == 0) then
 			gPlayerSyncTable[idx].kirbyDodgeStick = false
 		end
 		
-		if ((m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) or (m.action & ACT_GROUP_MASK) == ACT_GROUP_CUTSCENE) and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ ~= 0 then -- Eat the contents
+		if ((m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) or (m.action & ACT_GROUP_MASK) == ACT_GROUP_CUTSCENE) and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ > 0 then -- Eat the contents
 			play_character_sound(m, CHAR_SOUND_PUNCH_WAH)
 			if not (m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) then
 				m.marioObj.header.gfx.scale.y = 0.75
@@ -715,12 +780,13 @@ if _G.charSelect then
 		gPlayerSyncTable[idx].kirbyFallTimer_JJJ = 0
 	end)
 	
-	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_PLAY_SOUND, function (soundBits, pos)
+	--_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_PLAY_SOUND, function (soundBits, pos)
+	hook_event(HOOK_ON_PLAY_SOUND, function (soundBits, pos)
 		for i = 0, MAX_PLAYERS - 1 do
 			local m = gMarioStates[i]
 			local currChar = _G.charSelect.character_get_current_number(m.playerIndex)
 			local checkPos = pos.x == m.marioObj.header.gfx.cameraToObject.x and pos.y == m.marioObj.header.gfx.cameraToObject.y and pos.z == m.marioObj.header.gfx.cameraToObject.z -- Shoutouts to "EmilyEmmi" for giving me advice on how to accomplish step sounds!
-			if currChar == kirbyCharID and checkPos then
+			if checkPos and currChar == kirbyCharID then
 				if soundBits == SOUND_ACTION_BONK and m.action ~= ACT_SLIDE_KICK_SLIDE then -- Avoid sounds during bonk cancellation.
 					return NO_SOUND
 				elseif soundBits == SOUND_ACTION_TERRAIN_STEP or soundBits == SOUND_ACTION_TERRAIN_STEP + m.terrainSoundAddend or soundBits == SOUND_ACTION_TERRAIN_STEP_TIPTOE or soundBits == SOUND_ACTION_TERRAIN_STEP_TIPTOE + m.terrainSoundAddend then

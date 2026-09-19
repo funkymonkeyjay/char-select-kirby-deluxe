@@ -82,64 +82,64 @@ function act_kirby_dodge(m)
 end
 
 local allowedBehaviors = {
-	{id = id_bhvBobomb,             canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvBreakableBoxSmall,  canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvEnemyLakitu,        canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvFlyGuy,             canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvGoomba,             canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvHeaveHo,            canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvKoopa,              canRotate = true,  canEat = true,                                                     allowSuckFunc = function (o) return o.oKoopaMovementType < KOOPA_BP_KOOPA_THE_QUICK_BASE end, deleteOnDetect = false}, 
-	{id = id_bhvKoopaShell,         canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvMontyMoleRock,      canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvMrBlizzard,         canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvMrBlizzardSnowball, canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvMrIParticle,        canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvScuttlebug,         canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvSkeeter,            canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvSmallBully,         canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false, onEatFunc = function (o) 
+	{id = id_bhvBobomb,             canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvBreakableBoxSmall,  canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvEnemyLakitu,        canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvFlyGuy,             canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvGoomba,             canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvHeaveHo,            canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvKoopa,              canRotate = true,  canEat = true,                                                     allowSuckFunc = function (o) return o.oKoopaMovementType < KOOPA_BP_KOOPA_THE_QUICK_BASE end,    deleteOnDetect = false}, 
+	{id = id_bhvKoopaShell,         canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvMontyMoleRock,      canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvMrBlizzard,         canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvMrBlizzardSnowball, canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvMrIParticle,        canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvScuttlebug,         canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvSkeeter,            canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvSmallBully,         canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false, onEatFunc = function (o) 
 		if o.parentObj and o.oBullySubtype == BULLY_STYPE_MINION then o.parentObj.oBullyKBTimerAndMinionKOCounter = o.parentObj.oBullyKBTimerAndMinionKOCounter + 1 end
 	end}, 
-	{id = id_bhvSmallChillBully,    canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false, onEatFunc = function (o) 
+	{id = id_bhvSmallChillBully,    canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false, onEatFunc = function (o) 
 		if o.parentObj and o.oBullySubtype == BULLY_STYPE_MINION then o.parentObj.oBullyKBTimerAndMinionKOCounter = o.parentObj.oBullyKBTimerAndMinionKOCounter + 1 end
 	end},  
-	{id = id_bhvSpindrift,          canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvSpiny,              canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvSwoop,              canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false},
-	{id = id_bhvWaterBomb,          canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvWaterBombShadow,    canRotate = false, canEat = false,                                                    allowSuckFunc = true,                                                                         deleteOnDetect = true }, 
-	{id = id_bhvSmallPenguin,       canRotate = true,  canEat = false,                                                    allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvJumpingBox,         canRotate = true,  canEat = false,                                                    allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvWingCap,            canRotate = false, canEat = false,                                                    allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvMetalCap,           canRotate = false, canEat = false,                                                    allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvVanishCap,          canRotate = false, canEat = false,                                                    allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvUkiki,              canRotate = true,  canEat = function (o) return o.oBehParams2ndByte == UKIKI_CAP end, allowSuckFunc = function (o) return o.oAction ~= UKIKI_ACT_GO_TO_CAGE end,                    deleteOnDetect = false}, 
-	{id = id_bhvMips,               canRotate = true,  canEat = false,                                                    allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvSnufitBalls,        canRotate = false, canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false}, 
-	{id = id_bhvMoneybag,           canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false, onEatFunc = function (o) 
+	{id = id_bhvSpindrift,          canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvSpiny,              canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvSwoop,              canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false},
+	{id = id_bhvWaterBomb,          canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvWaterBombShadow,    canRotate = false, canEat = false,                                                    allowSuckFunc = true,                                                                            deleteOnDetect = true }, 
+	{id = id_bhvSmallPenguin,       canRotate = true,  canEat = false,                                                    allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvJumpingBox,         canRotate = true,  canEat = false,                                                    allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvWingCap,            canRotate = false, canEat = false,                                                    allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvMetalCap,           canRotate = false, canEat = false,                                                    allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvVanishCap,          canRotate = false, canEat = false,                                                    allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvUkiki,              canRotate = true,  canEat = function (o) return o.oBehParams2ndByte == UKIKI_CAP end, allowSuckFunc = function (o) return o.oAction ~= UKIKI_ACT_GO_TO_CAGE end,                       deleteOnDetect = false}, 
+	{id = id_bhvMips,               canRotate = true,  canEat = false,                                                    allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvSnufitBalls,        canRotate = false, canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvMoneybag,           canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false, onEatFunc = function (o) 
 		o.oNumLootCoins = 5
 		obj_spawn_loot_yellow_coins(o, o.oNumLootCoins, 5)
 	end},  
-	{id = id_bhvMoneybagHidden,     canRotate = true,  canEat = true,                                                     allowSuckFunc = function (o) return o.oAction == FAKE_MONEYBAG_COIN_ACT_TRANSFORM end,        deleteOnDetect = true }, 
+	{id = id_bhvMoneybagHidden,     canRotate = true,  canEat = true,                                                     allowSuckFunc = function (o) return o.oAction == FAKE_MONEYBAG_COIN_ACT_TRANSFORM end,           deleteOnDetect = true }, 
 	{id = id_bhvToadMessage,        canRotate = function (o)
 		if o.oEnemyLakituBlinkTimer == 0 then local toadChar = gCharacters[CT_TOAD]; play_sound_with_freq_scale(toadChar.sounds[CHAR_SOUND_OOOF], o.header.gfx.cameraToObject, toadChar.soundFreqScale); o.oEnemyLakituBlinkTimer = 1; o.oOpacity = 255; o.oToadMessageState = 1 end return true
-	end,                                               canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false, onEatFunc = function (o, m)
+	end,                                               canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false, onEatFunc = function (o, m)
 		local dialogId = o.oToadMessageDialogId; local starInfo = {[gBehaviorValues.dialogs.ToadStar1Dialog] = 0, [gBehaviorValues.dialogs.ToadStar2Dialog] = 1, [gBehaviorValues.dialogs.ToadStar3Dialog] = 2}; if starInfo[dialogId] then bhv_spawn_star_no_level_exit(m.marioObj, starInfo[dialogId], 1) end
 	end, isNPC = true, onLetGoFunc = function (o, m) local localFloor = find_floor_height(o.oPosX, o.oPosY, o.oPosZ); o.oPosY = localFloor; o.oEnemyLakituBlinkTimer = 0 end}, 
-	{id = id_bhv1Up,                canRotate = false, canEat = false,                                                    allowSuckFunc = true,                                                                         deleteOnDetect = false, isNPC = true}, 
-	{id = id_bhv1upRunningAway,     canRotate = false, canEat = false,                                                    allowSuckFunc = true,                                                                         deleteOnDetect = false, isNPC = true}, 
-	{id = id_bhv1upSliding,         canRotate = false, canEat = false,                                                    allowSuckFunc = true,                                                                         deleteOnDetect = false, isNPC = true}, 
-	{id = id_bhv1upWalking,         canRotate = false, canEat = false,                                                    allowSuckFunc = true,                                                                         deleteOnDetect = false, isNPC = true}, 
-	{id = id_bhv1upJumpOnApproach,  canRotate = false, canEat = false,                                                    allowSuckFunc = true,                                                                         deleteOnDetect = false, isNPC = true}, 
-	{id = id_bhvBobombBuddy,        canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false, isNPC = true,
+	{id = id_bhv1Up,                canRotate = false, canEat = false,                                                    allowSuckFunc = true,                                                                            deleteOnDetect = false, isNPC = true}, 
+	{id = id_bhv1upRunningAway,     canRotate = false, canEat = false,                                                    allowSuckFunc = true,                                                                            deleteOnDetect = false, isNPC = true}, 
+	{id = id_bhv1upSliding,         canRotate = false, canEat = false,                                                    allowSuckFunc = true,                                                                            deleteOnDetect = false, isNPC = true}, 
+	{id = id_bhv1upWalking,         canRotate = false, canEat = false,                                                    allowSuckFunc = true,                                                                            deleteOnDetect = false, isNPC = true}, 
+	{id = id_bhv1upJumpOnApproach,  canRotate = false, canEat = false,                                                    allowSuckFunc = true,                                                                            deleteOnDetect = false, isNPC = true}, 
+	{id = id_bhvBobombBuddy,        canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false, isNPC = true,
 	onLetGoFunc = function (o, m) local localFloor = find_floor_height(o.oPosX, o.oPosY, o.oPosZ); o.oPosY = localFloor end}, 
-	{id = id_bhvBobombBuddyOpensCannon,canRotate = true,canEat = true,                                                    allowSuckFunc = true,                                                                         deleteOnDetect = false, isNPC = true, onEatFunc = function (o)
+	{id = id_bhvBobombBuddyOpensCannon,canRotate = true,canEat = true,                                                    allowSuckFunc = true,                                                                            deleteOnDetect = false, isNPC = true, onEatFunc = function (o)
 		local cannonClosed = cur_obj_nearest_object_with_behavior(get_behavior_from_id(id_bhvCannonClosed))
 		if cannonClosed then cannonClosed.oAction = 2; save_file_set_cannon_unlocked() end
 	end, onLetGoFunc = function (o, m)
 		local localFloor = find_floor_height(o.oPosX, o.oPosY, o.oPosZ); o.oPosY = localFloor end
 	}, 
-	{id = id_bhvBoo,                canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false, onEatFunc = function (o) o.oBooDeathStatus = 1 end},  
-	{id = id_bhvGhostHuntBoo,       canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false, onEatFunc = function (o)
+	{id = id_bhvBoo,                canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false, onEatFunc = function (o) o.oBooDeathStatus = 1 end},  
+	{id = id_bhvGhostHuntBoo,       canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false, onEatFunc = function (o)
 		o.oBooDeathStatus = 1
 		if o.oBooParentBigBoo then
 			o.oBooParentBigBoo.oBigBooNumMinionBoosKilled = o.oBooParentBigBoo.oBigBooNumMinionBoosKilled + 1
@@ -151,13 +151,15 @@ local allowedBehaviors = {
 			end
 		end
 	end},  
-	{id = id_bhvMerryGoRoundBoo,    canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                         deleteOnDetect = false, onEatFunc = function (o)
+	{id = id_bhvMerryGoRoundBoo,    canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false, onEatFunc = function (o)
 		o.oBooDeathStatus = 1
 		if o.oBooParentBigBoo then o.oBooParentBigBoo.oBigBooNumMinionBoosKilled = o.oBooParentBigBoo.oBigBooNumMinionBoosKilled + 1 end
 	end}, 
-	{id = id_bhvCoinInsideBoo,      canRotate = false,  canEat = false,                                                   allowSuckFunc = function (o) return o.oAction > 0 end,                                        deleteOnDetect = false, isNPC = true}, 
+	{id = id_bhvCoinInsideBoo,      canRotate = false,  canEat = false,                                                   allowSuckFunc = function (o) return o.oAction > 0 end,                                           deleteOnDetect = false, isNPC = true}, 
+	{id = id_bhvHauntedChair,       canRotate = true,   canEat = true,                                                    allowSuckFunc = function (o) return o.oAction > 0 and o.oHauntedChairUnkF4 == 0 end,             deleteOnDetect = false}, 
+	{id = id_bhvFlyingBookend,      canRotate = true,   canEat = true,                                                    allowSuckFunc = function (o) return o.oAction > 0 end,                                           deleteOnDetect = false}, 
+	{id = id_bhvHoot,               canRotate = true,   canEat = true,                                                    allowSuckFunc = function (o) return (o.header.gfx.node.flags & GRAPH_RENDER_INVISIBLE) == 0 end, deleteOnDetect = false, isNPC = true, ability = "wing"}, 
 }
--- TODO: add haunted book and chair objects, maybe also id_bhvHiddenBlueCoin, id_bhvBlueCoinNumber and id_bhvMrIBlueCoin
 
 _G.kirbyInhaleHookBehavior = function (id, canRotate, canEat, allowSuckFunc, deleteOnDetect, onEatFunc, isNPC) -- Allows the modder to hook a custom behavior for Kirby to inhale.
 	if not id then return end
@@ -199,12 +201,13 @@ _G.kirbyInhaleEditBehavior = function (id, canRotate, canEat, allowSuckFunc, del
 end
 
 if not _G.betterCoins then -- Prevents coins messing up with Squishy's "Better Coins".
-	_G.kirbyInhaleHookBehavior(id_bhvBlueCoinJumping,     false, false, true, false, nil, true)
-	_G.kirbyInhaleHookBehavior(id_bhvYellowCoin,          false, false, true, false, nil, true)
-	_G.kirbyInhaleHookBehavior(id_bhvMovingYellowCoin,    false, false, true, false, nil, true)
-	_G.kirbyInhaleHookBehavior(id_bhvTemporaryYellowCoin, false, false, true, false, nil, true)
-	_G.kirbyInhaleHookBehavior(id_bhvRedCoin,             false, false, true, false, nil, true)
-	_G.kirbyInhaleHookBehavior(id_bhvBlueCoinSliding,     false, false, true, false, nil, true)
+	_G.kirbyInhaleHookBehavior(id_bhvBlueCoinJumping,     false, false, true,                                   false, nil, true)
+	_G.kirbyInhaleHookBehavior(id_bhvYellowCoin,          false, false, true,                                   false, nil, true)
+	_G.kirbyInhaleHookBehavior(id_bhvMovingYellowCoin,    false, false, true,                                   false, nil, true)
+	_G.kirbyInhaleHookBehavior(id_bhvTemporaryYellowCoin, false, false, true,                                   false, nil, true)
+	_G.kirbyInhaleHookBehavior(id_bhvRedCoin,             false, false, true,                                   false, nil, true)
+	_G.kirbyInhaleHookBehavior(id_bhvBlueCoinSliding,     false, false, true,                                   false, nil, true)
+	_G.kirbyInhaleHookBehavior(id_bhvHiddenBlueCoin,      false, false, function (o) return o.oAction == 2 end, false, nil, true)
 end
 
 --_G.kirbyInhaleEditBehavior(id_bhvGoomba, false, false)
@@ -229,7 +232,11 @@ function act_being_inhaled(m)
 	local mOther = gMarioStates[network_local_index_from_global(m.marioObj.oKirbySuckPlayer)] -- Original player that started the inhale.
 	local o = m.marioObj
 	
-	local waterCond = (mOther.waterLevel and mOther.pos.y < (mOther.waterLevel - 30)) or ((mOther.action == ACT_CROUCHING or mOther.action == ACT_CROUCH_SLIDE) or (mOther.action & ACT_GROUP_MASK) == ACT_GROUP_CUTSCENE)
+	local waterCond = (mOther.waterLevel and mOther.pos.y < (mOther.waterLevel - 30)) or (mOther.action == ACT_CROUCHING or mOther.action == ACT_CROUCH_SLIDE)
+	or ((mOther.action & ACT_GROUP_MASK) == ACT_GROUP_CUTSCENE and not (mOther.action == ACT_PULLING_DOOR or mOther.action == ACT_PUSHING_DOOR)) or (mOther.action & ACT_GROUP_MASK) == ACT_FLAG_INTANGIBLE or (mOther.action & ACT_GROUP_MASK) == ACT_FLAG_INVULNERABLE
+	or (mOther.marioObj.header.gfx.node.flags & GRAPH_RENDER_ACTIVE) == 0
+	
+	--local waterCond = mOther.waterLevel and mOther.pos.y < (mOther.waterLevel - 30)
 	if mOther.action == ACT_JUMP_KICK or waterCond then
 		o.oPosX = mOther.pos.x + sins(mOther.faceAngle.y) * PLAYER_LAUNCH_RADIUS
 		o.oPosY = mOther.pos.y + 25
