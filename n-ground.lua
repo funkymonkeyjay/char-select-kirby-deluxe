@@ -433,24 +433,10 @@ function act_kirby_inhale(m)
 	local letGoButtonCond = (m.controller.buttonDown & B_BUTTON) == 0 or kirbyIsTired
 	
 	if mario_check_object_grab(m) ~= 0 then
-		mario_grab_used_object(m)
-		play_kirby_sound(KIRBY_OBJECT_SOUND, m.pos, 1)
-		play_character_sound(m, CHAR_SOUND_UH)
-        if m.interactObj.behavior == get_behavior_from_id(id_bhvBowser) then
-            m.marioBodyState.grabPos = GRAB_POS_BOWSER
-			set_mario_action(m, ACT_PICKING_UP_BOWSER, 0)
-        elseif (m.interactObj.oInteractionSubtype & INT_SUBTYPE_GRABS_MARIO) == 0 then
-			m.actionState = 1
-            m.marioBodyState.grabPos = GRAB_POS_LIGHT_OBJ
-			set_mario_animation(m, MARIO_ANIM_PICK_UP_LIGHT_OBJ)
-		else
-			m.actionState = 1
-			m.marioBodyState.grabPos = GRAB_POS_HEAVY_OBJ
-			set_mario_animation(m, MARIO_ANIM_GRAB_HEAVY_OBJECT)
-        end
-		
-		return 1
-	end
+		set_mario_animation(m, CHAR_ANIM_FIRST_PUNCH)
+		m.marioObj.header.gfx.animInfo.animFrame = 4
+        return 1
+    end
 	
 	if letGoButtonCond then
 		if kirbyIsTired then play_kirby_sound(KIRBY_LAND_SOUND, m.pos, 1) end
