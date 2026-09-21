@@ -46,7 +46,8 @@ local KIRBY_VOICETABLE = {
 	[CHAR_SOUND_GROUND_POUND_WAH] =   'VOICE_ATTACK.ogg', 
 	[CHAR_SOUND_WAH2] =               'VOICE_BIG_THROW.ogg', 
 	[CHAR_SOUND_HRMM] =               'VOICE_LIFT.ogg', 
-	[CHAR_SOUND_HERE_WE_GO] =         'VOICE_LETSAGO2.ogg', 
+	--[CHAR_SOUND_HERE_WE_GO] =         'VOICE_LETSAGO2.ogg', 
+	[CHAR_SOUND_HERE_WE_GO] =         function (m) if m.action == ACT_RELEASING_BOWSER then return 'VOICE_BOWSER.ogg' end end, 
 	[CHAR_SOUND_SO_LONGA_BOWSER] =    'VOICE_BOWSER.ogg', 
 
 	[CHAR_SOUND_ATTACKED] =     {'VOICE_HURT.ogg', 'VOICE_HURT3.ogg', 'VOICE_HURT2.ogg'}, 

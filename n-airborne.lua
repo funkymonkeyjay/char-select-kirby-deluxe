@@ -15,6 +15,7 @@ end
 
 ACT_KIRBY_SLIDE = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
 ACT_KIRBY_PUFF = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION | ACT_FLAG_CONTROL_JUMP_HEIGHT)
+ACT_KIRBY_POWERUP = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_STATIONARY | ACT_FLAG_INTANGIBLE)
 
 function act_kirby_slide(m)
 	if m.actionState == 0 and m.actionTimer == 0 then
@@ -160,4 +161,86 @@ function act_kirby_puff(m)
 	end
 	
 	return 0
+end
+
+local origCamY, origFocusY = 0, 0
+function act_kirby_powerup(m)
+	local TO_BRIGHTNESS_LEVEL = 1200
+
+	if m.actionTimer == 0 then
+		play_character_sound(m, CHAR_SOUND_PUNCH_WAH)
+		--
+		m.particleFlags = m.particleFlags | PARTICLE_SPARKLES
+		for i = 1, 10 do
+			spawn_non_sync_object(id_bhvBreakBoxTriangle, E_MODEL_SPARKLES, m.pos.x, m.pos.y, m.pos.z, function (o) 
+				o.oAnimState = 3
+				o.oPosY = o.oPosY + 50
+				o.oMoveAngleYaw = random_u16()
+				o.oFaceAngleYaw = o.oMoveAngleYaw
+				o.oFaceAnglePitch = random_u16()
+				o.oVelY = random_f32_around_zero(20)
+				o.oAngleVelPitch = 0x80 * (random_float() + 50)
+				o.oForwardVel = 10
+				obj_scale(o, 0.75)
+			end)
+		end
+		m.flags = m.flags & ~MARIO_CAP_IN_HAND
+		m.flags = m.flags | MARIO_CAP_ON_HEAD
+		
+		enable_time_stop_if_alone()
+		
+		if m.playerIndex == 0 then
+			m.actionArg = 45
+			m.actionState = 1000
+			origCamY, origFocusY = gLakituState.pos.y, gLakituState.focus.y
+		end
+		
+		vec3f_zero(m.vel)
+	end
+	m.actionTimer = m.actionTimer + 1
+	if m.actionTimer == 10 then
+		play_kirby_sound(KIRBY_COPY_SOUND, m.pos, 1)
+	end
+	
+	set_mario_animation(m, MARIO_ANIM_PUT_CAP_ON)
+	
+	if m.playerIndex == 0 then
+		camera_freeze()
+
+		local kirbyPos = m.marioObj.header.gfx.pos.y + 125
+		if m.actionTimer < 21 then
+			gLakituState.pos.y = math.lerp(gLakituState.pos.y, kirbyPos, 0.125)
+			gLakituState.focus.y = math.lerp(gLakituState.focus.y, kirbyPos, 0.125)
+		else
+			gLakituState.pos.y = math.lerp(gLakituState.pos.y, origCamY, 0.375)
+			gLakituState.focus.y = math.lerp(gLakituState.focus.y, origFocusY, 0.375)
+		end
+		
+		if m.actionTimer < 21 then
+			m.actionArg = math.lerp(m.actionArg, 30, 0.4)
+			set_override_fov(m.actionArg)
+			
+			set_shader_flag_enabled(SHADER_FLAG_BRIGHTNESS, true)
+			
+			m.actionState = math.lerp(m.actionState, TO_BRIGHTNESS_LEVEL, 0.4)
+			set_shader_flag_value(SHADER_FLAG_BRIGHTNESS, m.actionState / 1000)
+		else
+			m.actionArg = math.lerp(m.actionArg, 45, 0.8)
+			set_override_fov(m.actionArg)
+			
+			m.actionState = math.lerp(m.actionState, 1000, 0.8)
+			set_shader_flag_value(SHADER_FLAG_BRIGHTNESS, m.actionState / 1000)
+			if get_current_fov() <= 45 then -- TODO: this doesn't seem to do anything...
+				set_override_fov(0)
+				set_shader_flag_value(SHADER_FLAG_BRIGHTNESS, 1)
+				set_shader_flag_enabled(SHADER_FLAG_BRIGHTNESS, false)
+			end
+		end
+	end
+	
+	if is_anim_at_end(m) == 1 then
+		if m.playerIndex == 0 then camera_unfreeze() end
+		set_mario_action(m, m.pos.y == m.floorHeight and ACT_IDLE or ACT_FREEFALL, 0)
+		disable_time_stop()
+	end
 end

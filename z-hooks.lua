@@ -80,9 +80,8 @@ if _G.charSelect then
 	local function bhv_kirby_effect_init(o)
 		cur_obj_scale(0)
 		local m = get_mario_state_from_object(o.parentObj)
-		if not m or m.playerIndex ~= 0 then
-			obj_mark_for_deletion(o)
-		end
+		--if not m or m.playerIndex ~= 0 then
+		if not m then obj_mark_for_deletion(o) end
 	end
 	
 	local function bhv_kirby_effect_loop(o)
@@ -399,6 +398,7 @@ if _G.charSelect then
 	end})
 	hook_mario_action(ACT_KIRBY_HELLO, act_kirby_hello)
 	hook_mario_action(ACT_BEING_INHALED, act_being_inhaled)
+	hook_mario_action(ACT_KIRBY_POWERUP, act_kirby_powerup)
 	
 	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_WARP, function() audio_sample_stop(KIRBY_INHALE_SOUND) end) -- Added to prevent the inhale sound from playing outside a level forever.
 	
@@ -456,24 +456,29 @@ if _G.charSelect then
 		if incomingAction == ACT_PUTTING_ON_CAP then
 			if m.action == ACT_READING_NPC_DIALOG then
 				return ACT_IDLE
+			else
+				m.marioObj.header.gfx.angle.y = m.area.camera.yaw
+				m.faceAngle.y = m.marioObj.header.gfx.angle.y
+				return ACT_KIRBY_POWERUP
 			end
-			play_kirby_sound(KIRBY_COPY_SOUND, m.pos, 1)
-			m.particleFlags = m.particleFlags | PARTICLE_SPARKLES
-			for i = 1, 10 do
-				spawn_non_sync_object(id_bhvBreakBoxTriangle, E_MODEL_SPARKLES, m.pos.x, m.pos.y, m.pos.z, function (o) 
-					o.oAnimState = 3
-					o.oPosY = o.oPosY + 50
-					o.oMoveAngleYaw = random_u16()
-					o.oFaceAngleYaw = o.oMoveAngleYaw
-					o.oFaceAnglePitch = random_u16()
-					o.oVelY = random_f32_around_zero(20)
-					o.oAngleVelPitch = 0x80 * (random_float() + 50)
-					o.oForwardVel = 10
-					obj_scale(o, 0.75)
-				end)
-			end
-			m.flags = m.flags | MARIO_CAP_ON_HEAD
-			m.faceAngle.y = m.area.camera.yaw
+			--play_kirby_sound(KIRBY_COPY_SOUND, m.pos, 1)
+			--m.particleFlags = m.particleFlags | PARTICLE_SPARKLES
+			-- for i = 1, 10 do
+				-- spawn_non_sync_object(id_bhvBreakBoxTriangle, E_MODEL_SPARKLES, m.pos.x, m.pos.y, m.pos.z, function (o) 
+					-- o.oAnimState = 3
+					-- o.oPosY = o.oPosY + 50
+					-- o.oMoveAngleYaw = random_u16()
+					-- o.oFaceAngleYaw = o.oMoveAngleYaw
+					-- o.oFaceAnglePitch = random_u16()
+					-- o.oVelY = random_f32_around_zero(20)
+					-- o.oAngleVelPitch = 0x80 * (random_float() + 50)
+					-- o.oForwardVel = 10
+					-- obj_scale(o, 0.75)
+				-- end)
+			-- end
+			--m.flags = m.flags | MARIO_CAP_ON_HEAD
+			--m.faceAngle.y = m.area.camera.yaw
+			--[[
 			if m.pos.y ~= m.floorHeight then
 				set_mario_action(m, ACT_JUMP, 1)
 				m.particleFlags = m.particleFlags | PARTICLE_SPARKLES
@@ -481,6 +486,7 @@ if _G.charSelect then
 				m.flags = m.flags | MARIO_MARIO_SOUND_PLAYED
 				return 1
 			end
+			]]
 		end
 		
 		if incomingAction == ACT_BACKWARD_GROUND_KB and m.action == ACT_SLIDE_KICK_SLIDE then
@@ -542,7 +548,7 @@ if _G.charSelect then
 				end
 			elseif incomingAction ~= ACT_WATER_PUNCH then
 				if m.pos.y == m.floorHeight then m.vel.y = 0 end
-				if m.playerIndex == 0 then spawn_non_sync_object(id_bhvKirbyInhale_JJJ, E_MODEL_KIRBY_VORTEX, m.pos.x, m.pos.y + 25, m.pos.z, function(o) o.parentObj = m.marioObj end) end
+				--if m.playerIndex == 0 then spawn_non_sync_object(id_bhvKirbyInhale_JJJ, E_MODEL_KIRBY_VORTEX, m.pos.x, m.pos.y + 25, m.pos.z, function(o) o.parentObj = m.marioObj end) end
 				return ACT_KIRBY_INHALE
 			end
 		end
@@ -601,38 +607,45 @@ if _G.charSelect then
 	local function kirbyPostUpdate(m)
 		local idx = m.playerIndex
 
-		if m.action ~= ACT_SQUISHED and m.action ~= ACT_BBH_ENTER_SPIN and m.squishTimer == 0 and ((m.marioObj.header.gfx.scale.x == 1 and m.marioObj.header.gfx.scale.z == 1) or (m.action == ACT_CROUCHING or m.action == ACT_START_CROUCHING or m.action == ACT_CROUCH_SLIDE)) then
-			local toScale = 1000
-			if m.action == ACT_JUMP_LAND or m.action == ACT_FREEFALL_LAND then
-				toScale = 500
-			elseif m.action == ACT_START_CROUCHING or m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE or m.action == ACT_KIRBY_SLIDE or m.action == ACT_SLIDE_KICK_SLIDE or m.action == ACT_CROUCH_SLIDE or m.action == ACT_JUMP_LAND
-				 or (m.action == ACT_EXIT_LAND_SAVE_DIALOG and (m.marioObj.header.gfx.animInfo.animFrame >= 28 and m.marioObj.header.gfx.animInfo.animFrame < 34)) or m.action == ACT_LONG_JUMP_LAND then
-				toScale = 625
-			elseif m.action == ACT_FORWARD_ROLLOUT then
-				toScale = 900
-			elseif (m.action == ACT_JUMP and m.vel.y > 0) or (m.action == ACT_KIRBY_PUFF and m.vel.y > 0) or m.action == ACT_KIRBY_DODGE then
-				toScale = 1100
-			elseif m.action == ACT_KIRBY_INHALE or (m.action == ACT_EXIT_LAND_SAVE_DIALOG and m.marioObj.header.gfx.animInfo.animID ~= CHAR_ANIM_THROW_CATCH_KEY and (m.marioObj.header.gfx.animInfo.animFrame > 10 and m.marioObj.header.gfx.animInfo.animFrame < 28)) then
-				toScale = 1200
-			elseif m.action == ACT_JUMP_KICK and m.marioObj.header.gfx.animInfo.animFrame < 2 then
-				toScale = 1300
+		if m.action == ACT_KIRBY_INHALE and m.actionTimer <= 1 then
+			spawn_sync_object(id_bhvKirbyInhale_JJJ, E_MODEL_KIRBY_VORTEX, m.pos.x, m.pos.y + 25, m.pos.z, function(o) o.parentObj = m.marioObj end)
+		end
+
+		local modelId = _G.charSelect.character_get_current_number(idx)
+		if modelId == kirbyCharID then
+			if m.action ~= ACT_SQUISHED and m.action ~= ACT_BBH_ENTER_SPIN and m.squishTimer == 0 and ((m.marioObj.header.gfx.scale.x == 1 and m.marioObj.header.gfx.scale.z == 1) or (m.action == ACT_CROUCHING or m.action == ACT_START_CROUCHING or m.action == ACT_CROUCH_SLIDE)) then
+				local toScale = 1000
+				if m.action == ACT_JUMP_LAND or m.action == ACT_FREEFALL_LAND then
+					toScale = 500
+				elseif m.action == ACT_START_CROUCHING or m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE or m.action == ACT_KIRBY_SLIDE or m.action == ACT_SLIDE_KICK_SLIDE or m.action == ACT_CROUCH_SLIDE or m.action == ACT_JUMP_LAND
+					 or (m.action == ACT_EXIT_LAND_SAVE_DIALOG and (m.marioObj.header.gfx.animInfo.animFrame >= 28 and m.marioObj.header.gfx.animInfo.animFrame < 34)) or m.action == ACT_LONG_JUMP_LAND then
+					toScale = 625
+				elseif m.action == ACT_FORWARD_ROLLOUT then
+					toScale = 900
+				elseif (m.action == ACT_JUMP and m.vel.y > 0) or (m.action == ACT_KIRBY_PUFF and m.vel.y > 0) or m.action == ACT_KIRBY_DODGE then
+					toScale = 1100
+				elseif m.action == ACT_KIRBY_INHALE or (m.action == ACT_EXIT_LAND_SAVE_DIALOG and m.marioObj.header.gfx.animInfo.animID ~= CHAR_ANIM_THROW_CATCH_KEY and (m.marioObj.header.gfx.animInfo.animFrame > 10 and m.marioObj.header.gfx.animInfo.animFrame < 28)) then
+					toScale = 1200
+				elseif m.action == ACT_JUMP_KICK and m.marioObj.header.gfx.animInfo.animFrame < 2 then
+					toScale = 1300
+				end
+				
+				--local scaleSpeed = (m.pos.y == m.floorHeight or (m.action == ACT_KIRBY_DODGE and m.vel.y > 0)) and 100 or 25
+				local scaleSpeed = ((m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) and 0.85) or ((m.pos.y == m.floorHeight or (m.action == ACT_KIRBY_DODGE and m.vel.y > 0)) and 0.4) or 0.05
+				--gPlayerSyncTable[idx].kirbyScaleY = approach_f32(gPlayerSyncTable[idx].kirbyScaleY, toScale, scaleSpeed, scaleSpeed)
+				gPlayerSyncTable[idx].kirbyScaleY = math.lerp(gPlayerSyncTable[idx].kirbyScaleY, toScale, scaleSpeed)
+				m.marioObj.header.gfx.scale.y = gPlayerSyncTable[idx].kirbyScaleY / 1000
+				
+				if m.action == ACT_START_CROUCHING then
+					m.marioObj.header.gfx.scale.x = 0.75
+					m.marioObj.header.gfx.scale.z = 0.75
+				elseif m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE then
+					m.marioObj.header.gfx.scale.x = math.lerp(m.marioObj.header.gfx.scale.x, 1.5, 0.85)
+					m.marioObj.header.gfx.scale.z = math.lerp(m.marioObj.header.gfx.scale.z, 1.5, 0.85)
+				end
+			else
+				gPlayerSyncTable[idx].kirbyScaleY = 1000
 			end
-			
-			--local scaleSpeed = (m.pos.y == m.floorHeight or (m.action == ACT_KIRBY_DODGE and m.vel.y > 0)) and 100 or 25
-			local scaleSpeed = ((m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) and 0.85) or ((m.pos.y == m.floorHeight or (m.action == ACT_KIRBY_DODGE and m.vel.y > 0)) and 0.4) or 0.05
-			--gPlayerSyncTable[idx].kirbyScaleY = approach_f32(gPlayerSyncTable[idx].kirbyScaleY, toScale, scaleSpeed, scaleSpeed)
-			gPlayerSyncTable[idx].kirbyScaleY = math.lerp(gPlayerSyncTable[idx].kirbyScaleY, toScale, scaleSpeed)
-			m.marioObj.header.gfx.scale.y = gPlayerSyncTable[idx].kirbyScaleY / 1000
-			
-			if m.action == ACT_START_CROUCHING then
-				m.marioObj.header.gfx.scale.x = 0.75
-				m.marioObj.header.gfx.scale.z = 0.75
-			elseif m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE then
-				m.marioObj.header.gfx.scale.x = math.lerp(m.marioObj.header.gfx.scale.x, 1.5, 0.85)
-				m.marioObj.header.gfx.scale.z = math.lerp(m.marioObj.header.gfx.scale.z, 1.5, 0.85)
-			end
-		else
-			gPlayerSyncTable[idx].kirbyScaleY = 1000
 		end
 		
 		if m.playerIndex ~= 0 then return end
@@ -844,7 +857,8 @@ if _G.charSelect then
 	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_BEFORE_PHYS_STEP, function (m, stepType)
 		if m.action == ACT_WATER_JUMP or m.action == ACT_LONG_JUMP or m.action == ACT_BUBBLED or (m.action & ACT_FLAG_INVULNERABLE) ~= 0 or (m.action & ACT_FLAG_INTANGIBLE) ~= 0 then return end
 	
-		local hScale, vScale = (m.action & ACT_FLAG_MOVING) ~= 0 and 1.2 or 1.0, 1.0 -- Make Kirby 20% faster.
+		--local hScale, vScale = (m.action & ACT_FLAG_MOVING) ~= 0 and 1.2 or 1.0, 1.0 -- Make Kirby 20% faster.
+		local hScale, vScale = 1.0, 1.0
 		
 		if gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ ~= 0 then
 			if (m.action & ACT_FLAG_SWIMMING) ~= 0 then
