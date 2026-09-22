@@ -370,6 +370,7 @@ if _G.charSelect then
 		
 		gPlayerSyncTable[i].kirbyScaleY = 1000
 		gPlayerSyncTable[i].kirbyMouthState = 0
+		gPlayerSyncTable[i].kirbySplineFrame = 0
 	end
 
 	hook_mario_action(ACT_KIRBY_PUFF, {every_frame = act_kirby_puff, gravity = function (m) 
@@ -398,7 +399,6 @@ if _G.charSelect then
 	end})
 	hook_mario_action(ACT_KIRBY_HELLO, act_kirby_hello)
 	hook_mario_action(ACT_BEING_INHALED, act_being_inhaled)
-	hook_mario_action(ACT_KIRBY_POWERUP, act_kirby_powerup)
 	
 	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_WARP, function() audio_sample_stop(KIRBY_INHALE_SOUND) end) -- Added to prevent the inhale sound from playing outside a level forever.
 	
@@ -415,10 +415,7 @@ if _G.charSelect then
 		local idx = m.playerIndex
 		local floorObjectVel = (m.floor and m.floor.object and m.floor.object.oForwardVel) or 0
 		
-		--if incomingAction == ACT_CROUCH_SLIDE then
-			--gPlayerSyncTable[idx].kirbyDodgeStick = true
-			--return ACT_START_CROUCHING
-		--end
+		if incomingAction == ACT_JUMBO_STAR_CUTSCENE then return ACT_KIRBY_JUMBO_STAR end
 		
 		if (incomingAction == ACT_CROUCHING or incomingAction == ACT_CROUCH_SLIDE or incomingAction == ACT_PULLING_DOOR or incomingAction == ACT_PUSHING_DOOR) and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ < 0 then
 			return 1

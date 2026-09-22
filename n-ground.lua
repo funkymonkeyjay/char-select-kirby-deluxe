@@ -146,7 +146,6 @@ local allowedBehaviors = {
 			obj_mark_for_deletion(o) -- Done to make the puzzle jingle work.
 			local dialogId = cur_obj_nearest_object_with_behavior(get_behavior_from_id(id_bhvGhostHuntBoo)) and DIALOG_107 or DIALOG_108
 			if true then --if cur_obj_update_dialog(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TEXT_DEFAULT, dialogId, 0) ~= 0 then -- TODO: need to wait until the newest update adds this function.
-				--create_sound_spawner(SOUND_OBJ_DYING_ENEMY1)
 				if dialogId == DIALOG_108 then play_puzzle_jingle() end
 			end
 		end
@@ -168,15 +167,16 @@ local allowedBehaviors = {
 	end}, 
 }
 
-_G.kirbyInhaleHookBehavior = function (id, canRotate, canEat, allowSuckFunc, deleteOnDetect, onEatFunc, isNPC) -- Allows the modder to hook a custom behavior for Kirby to inhale.
+_G.kirbyInhaleHookBehavior = function (id, canRotate, canEat, allowSuckFunc, deleteOnDetect, onEatFunc, onEatStart, isNPC) -- Allows the modder to hook a custom behavior for Kirby to inhale.
 	if not id then return end
-	local trueCanRotate, trueCanEat, trueAllowSuckFunc, trueDeleteOnDetect, trueOnEatFunc = true, true, true, false, nil
-	if canRotate ~= nil then trueCanRotate = canRotate end
-	if canEat ~= nil then trueCanEat = canEat end
-	if allowSuckFunc ~= nil then trueAllowSuckFunc = allowSuckFunc end
+	local trueCanRotate, trueCanEat, trueAllowSuckFunc, trueDeleteOnDetect, trueOnEatFunc, trueOnEatStart, trueIsNPC = true, true, true, false, nil, nil, false
+	if canRotate ~= nil      then trueCanRotate = canRotate           end
+	if canEat ~= nil         then trueCanEat = canEat                 end
+	if allowSuckFunc ~= nil  then trueAllowSuckFunc = allowSuckFunc   end
 	if deleteOnDetect ~= nil then trueDeleteOnDetect = deleteOnDetect end
-	if onEatFunc ~= nil then trueOnEatFunc = onEatFunc end
-	if isNPC ~= nil then trueIsNPC = isNPC end
+	if onEatFunc ~= nil      then trueOnEatFunc = onEatFunc           end
+	if isNPC ~= nil          then trueIsNPC = isNPC                   end
+	if onEatStart ~= nil     then trueOnEatStart = onEatStart         end
 	return table.insert(allowedBehaviors, {
 		id = id,                             -- Behavior ID of the object to inhale.
 		canRotate = trueCanRotate,           -- Check to see if an object can rotate as its being inhaled.
@@ -184,11 +184,12 @@ _G.kirbyInhaleHookBehavior = function (id, canRotate, canEat, allowSuckFunc, del
 		allowSuckFunc = trueAllowSuckFunc,   -- Special checks for special objects (I.E. Koopa the Quick)
 		deleteOnDetect = trueDeleteOnDetect, -- Deletes an object if it's within Kirby's inhale range.
 		onEatFunc = trueOnEatFunc,           -- Special function that activates once the object's been deleted (I.E. add to Big Bully #2's condition once a bully has been eaten)
+		onEatStart = trueOnEatStart,         -- Special function that activates the moment the object starts getting inhaled, good for single-frame sounds.
 		isNPC = trueIsNPC                    -- Adds to "Unusual Objects" check.
 	})
 end
 
-_G.kirbyInhaleEditBehavior = function (id, canRotate, canEat, allowSuckFunc, deleteOnDetect, onEatFunc, isNPC) -- Allows the modder to edit an existing behavior for Kirby to inhale.
+_G.kirbyInhaleEditBehavior = function (id, canRotate, canEat, allowSuckFunc, deleteOnDetect, onEatFunc, onEatStart, isNPC) -- Allows the modder to edit an existing behavior for Kirby to inhale.
 	if not id then return end
 	local returnBeh
 	for i = 1, #allowedBehaviors do
@@ -198,12 +199,13 @@ _G.kirbyInhaleEditBehavior = function (id, canRotate, canEat, allowSuckFunc, del
 		end
 	end
 	if returnBeh then
-		if canRotate ~= nil then returnBeh.canRotate = canRotate end
-		if canEat ~= nil then returnBeh.canEat = canEat end
-		if allowSuckFunc ~= nil then returnBeh.allowSuckFunc = allowSuckFunc end
+		if canRotate ~= nil      then returnBeh.canRotate = canRotate           end
+		if canEat ~= nil         then returnBeh.canEat = canEat                 end
+		if allowSuckFunc ~= nil  then returnBeh.allowSuckFunc = allowSuckFunc   end
 		if deleteOnDetect ~= nil then returnBeh.deleteOnDetect = deleteOnDetect end
-		if onEatFunc ~= nil then returnBeh.onEatFunc = onEatFunc end
-		if isNPC ~= nil then returnBeh.isNPC = isNPC end
+		if onEatFunc ~= nil      then returnBeh.onEatFunc = onEatFunc           end
+		if onEatStart ~= nil     then returnBeh.onEatStart = onEatStart         end
+		if isNPC ~= nil          then returnBeh.isNPC = isNPC                   end
 	end
 end
 
@@ -216,9 +218,6 @@ if not _G.betterCoins then -- Prevents coins messing up with Squishy's "Better C
 	_G.kirbyInhaleHookBehavior(id_bhvBlueCoinSliding,     false, false, true,                                   false, nil, true)
 	_G.kirbyInhaleHookBehavior(id_bhvHiddenBlueCoin,      false, false, function (o) return o.oAction == 2 end, false, nil, true)
 end
-
---_G.kirbyInhaleEditBehavior(id_bhvGoomba, false, false)
---_G.kirbyInhaleHookBehavior(id_bhvSnufitBalls, false, false, nil, true)
 
 local function run_func_or_get_var(x, ...) if type(x) == "function" then return x(...) else return x end end
 local ENEMY_SPEED = 72.5
@@ -308,7 +307,6 @@ end
 
 hook_event(HOOK_MARIO_UPDATE, function (m)
 	local idx = m.playerIndex
-	--if idx ~= 0 then return end
 	
 	local isInhaling = idx == 0 and m.action == ACT_KIRBY_INHALE
 	
@@ -343,7 +341,7 @@ hook_event(HOOK_MARIO_UPDATE, function (m)
 				if distCheck then
 					if o.oHasKirbySucked == 0 then
 						network_init_object(o, false, nil)
-						if currentBehavior.onEatStart then
+						if currentBehavior.onEatStart and type(currentBehavior.onEatStart) ~= "boolean" then
 							currentBehavior.onEatStart(o, m)
 						end
 					end

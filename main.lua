@@ -244,6 +244,10 @@ _G.charSelect.character_add_graffiti(kirbyCharID, TEX_GRAFFITI_KIRBY)
 
 _G.charSelect.character_set_category(kirbyCharID, "Kirby", true)
 
+local SEQ_KIRBY_TRIUMPH = smlua_audio_utils_allocate_sequence()
+smlua_audio_utils_replace_sequence(SEQ_KIRBY_TRIUMPH, 0x1A, 100, "triumph_return")
+_G.charSelect.character_add_sequence_replacement(kirbyCharID, SEQ_EVENT_CUTSCENE_VICTORY, SEQ_KIRBY_TRIUMPH)
+
 if retroCharAPI then
 	local NES_OUTLINE = {r = 0, g = 0, b = 0}
 	local NES_SHADE = {r = 252, g = 110, b = 202}
