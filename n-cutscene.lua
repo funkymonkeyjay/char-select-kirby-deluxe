@@ -126,22 +126,24 @@ end
 
 function act_kirby_jumbo_star(m)
 	local jumboStarKeyframesVars = {
-		{ s = 20, x = 0,     y = 678,  z = -2916 },	{ s = 30, x = 0,     y = 680,  z = -3500 },	{ s = 40, x = 1000,  y = 700,  z = -4000 },
-		{ s = 50, x = 2500,  y = 750,  z = -3500 }, { s = 50, x = 3500,  y = 800,  z = -2000 }, { s = 50, x = 4000,  y = 850,  z = 0     },
-		{ s = 50, x = 3500,  y = 900,  z = 2000  },	{ s = 50, x = 2000,  y = 950,  z = 3500  },	{ s = 50, x = 0,     y = 1000, z = 4000  },
-		{ s = 50, x = -2000, y = 1050, z = 3500  }, { s = 50, x = -3500, y = 1100, z = 2000  }, { s = 50, x = -4000, y = 1150, z = 0     },
-		{ s = 50, x = -3500, y = 1200, z = -2000 }, { s = 50, x = -2000, y = 1250, z = -3500 }, { s = 50, x = 0,     y = 1300, z = -4000 },
-		{ s = 50, x = 2000,  y = 1350, z = -3500 }, { s = 50, x = 3500,  y = 1400, z = -2000 }, { s = 50, x = 4000,  y = 1450, z = 0     },
-		{ s = 50, x = 3500,  y = 1500, z = 2000  }, { s = 50, x = 2000,  y = 1600, z = 3500  }, { s = 50, x = 0,     y = 1700, z = 4000  },
-		{ s = 50, x = -2000, y = 1800, z = 3500  }, { s = 50, x = -3500, y = 1900, z = 2000  }, { s = 30, x = -4000, y = 2000, z = 0     },
-		{ s = 0,  x = -3500, y = 2100, z = -2000 }, { s = 0,  x = -2000, y = 2200, z = -3500 }, { s = 0,  x = 0,     y = 2300, z = -4000 },
+		{ x = 0,     y = 678,  z = -2916 },	{ x = 0,     y = 680,  z = -3500 },	{ x = 1000,  y = 700,  z = -4000 },
+		{ x = 2500,  y = 750,  z = -3500 }, { x = 3500,  y = 800,  z = -2000 }, { x = 4000,  y = 850,  z = 0     },
+		{ x = 3500,  y = 900,  z = 2000  },	{ x = 2000,  y = 950,  z = 3500  },	{ x = 0,     y = 1000, z = 4000  },
+		{ x = -2000, y = 1050, z = 3500  }, { x = -3500, y = 1100, z = 2000  }, { x = -4000, y = 1150, z = 0     },
+		{ x = -3500, y = 1200, z = -2000 }, { x = -2000, y = 1250, z = -3500 }, { x = 0,     y = 1300, z = -4000 },
+		{ x = 2000,  y = 1350, z = -3500 }, { x = 3500,  y = 1400, z = -2000 }, { x = 4000,  y = 1450, z = 0     },
+		{ x = 3500,  y = 1500, z = 2000  }, { x = 2000,  y = 1600, z = 3500  }, { x = 0,     y = 1700, z = 4000  },
+		{ x = -2000, y = 1800, z = 3500  }, { x = -3500, y = 1900, z = 2000  }, { x = -4000, y = 2000, z = 0     },
+		{ x = -3500, y = 2100, z = -2000 }, { x = -2000, y = 2200, z = -3500 }, { x = 0,     y = 2300, z = -4000 },
 	}
 	m.actionTimer = m.actionTimer + 1
+	
+	set_mario_animation(m, CHAR_ANIM_A_POSE) -- TODO: set anim
 
 	if m.actionState == 0 then
 		local foundFloor = find_floor_height(m.pos.x, m.pos.y, m.pos.z)
 		m.marioObj.oPosX = 100 * m.playerIndex
-		m.marioObj.oPosY = foundFloor + 200
+		m.marioObj.oPosY = foundFloor + 300
 		m.marioObj.oPosZ = 0
 		
 		m.marioObj.oFaceAngleYaw = atan2s(-1, 1) + degrees_to_sm64(180)
@@ -150,7 +152,7 @@ function act_kirby_jumbo_star(m)
 		m.pos.x, m.pos.y, m.pos.z = m.marioObj.oPosX, m.marioObj.oPosY, m.marioObj.oPosZ
 		m.faceAngle.y = m.marioObj.oFaceAngleYaw
 		
-		-- TODO: spawn cutscene star and set anim
+		spawn_sync_object(id_bhvGrandWarpStar, E_MODEL_STAR, m.pos.x, m.pos.y, m.pos.z, function (o) o.parentObj = m.marioObj end)
 		
 		camera_freeze()
 		play_cutscene_music(SEQUENCE_ARGS(15, SEQ_EVENT_CUTSCENE_VICTORY))
@@ -158,23 +160,34 @@ function act_kirby_jumbo_star(m)
 		vec3f_zero(m.vel)
 		m.actionState = m.actionState + 1
 	elseif m.actionState == 1 then
-		if m.actionTimer > 52.92 and m.actionTimer < 143.91 then -- 30 * 1.764
+		if m.actionTimer >= 53 and m.actionTimer < 144 then
+			if m.actionTimer == 53 then play_sound(SOUND_GENERAL_GRAND_STAR_JUMP, m.marioObj.header.gfx.cameraToObject) end
+			
 			local yaw = atan2s(-1, 1)
 			m.marioObj.oFaceAngleYaw = lerpAngle(m.marioObj.oFaceAngleYaw, yaw, 0.075)
-		elseif m.actionTimer >= 143.91 then -- 30 * 4.797
+		elseif m.actionTimer >= 144 then
 			local currFrame = jumboStarKeyframesVars[gPlayerSyncTable[m.playerIndex].kirbySplineFrame]
 			local yaw = atan2s(currFrame.z - m.marioObj.oPosZ, currFrame.x - m.marioObj.oPosX)
+			
 			if m.actionTimer > 200 then
+				play_sound(SOUND_GENERAL_GRAND_STAR, m.marioObj.header.gfx.cameraToObject)
 				m.marioObj.oFaceAngleYaw = yaw
 				m.actionState = m.actionState + 1
 			else
+				if m.actionTimer == 144 then play_sound(SOUND_GENERAL_GRAND_STAR_JUMP, m.marioObj.header.gfx.cameraToObject) end
 				m.marioObj.oFaceAngleYaw = lerpAngle(m.marioObj.oFaceAngleYaw, yaw, 0.1)
 			end
 		end
 		obj_update_gfx_pos_and_angle(m.marioObj)
 		m.faceAngle.y = m.marioObj.oFaceAngleYaw
 	elseif m.actionState == 2 then
-		if m.actionTimer < 473 then m.particleFlags = m.particleFlags | PARTICLE_SPARKLES end
+		if m.actionTimer < 473 then
+			local movementMagnitude = math.sqrt(m.vel.x^2 + m.vel.y^2 + m.vel.z^2)
+			local freqScale = 1 + (movementMagnitude / 200)
+			play_sound_with_freq_scale(SOUND_AIR_PEACH_TWINKLE, m.marioObj.header.gfx.cameraToObject, freqScale)
+			m.particleFlags = m.particleFlags | PARTICLE_SPARKLES
+		end
+		
 		local currFrame = jumboStarKeyframesVars[gPlayerSyncTable[m.playerIndex].kirbySplineFrame]
 		if currFrame then
 			local currFramePos = {x = currFrame.x, y = currFrame.y, z = currFrame.z}
@@ -202,23 +215,48 @@ function act_kirby_jumbo_star(m)
 		end
 	end
 	
-	if m.actionTimer < 210 then
-		jumboStarCameraBeginning(m)
-	else
-		jumboStarCameraFollow(m)
-	end
+	if m.actionTimer < 210 then jumboStarCameraBeginning(m) else jumboStarCameraFollow(m) end
 	
-	if m.actionTimer >= 540 then
-		camera_unfreeze()
-	end
-	
-	if m.actionTimer > 510 then
-		level_trigger_warp(m, WARP_OP_CREDITS_START)
-	end
+	if m.actionTimer >= 540 then camera_unfreeze() end
+	if m.actionTimer > 510 then level_trigger_warp(m, WARP_OP_CREDITS_START) end
 end
 
 hook_mario_action(ACT_KIRBY_JUMBO_STAR, act_kirby_jumbo_star)
 
+-- CUSTOM ENDING "WARP STAR" OBJECT
+local function setStarPosAngle(o, m)
+	local mO = m.marioObj
+	o.oPosX = mO.oPosX
+	o.oPosY = mO.oPosY
+	o.oPosZ = mO.oPosZ
+	
+	o.oFaceAngleYaw = mO.oFaceAngleYaw + degrees_to_sm64(180)
+	o.oFaceAnglePitch = mO.oFaceAnglePitch
+	o.oFaceAngleRoll = -mO.oFaceAngleRoll
+	
+	obj_update_gfx_pos_and_angle(o)
+end
+
+function grand_warp_star_init(o)
+	local m = get_mario_state_from_object(o.parentObj)
+	if not m then obj_mark_for_deletion(o) end
+	local nearestStar = obj_get_nearest_object_with_behavior_id(o, id_bhvGrandStar) -- KILL THE ORIGINAL
+	if nearestStar then obj_mark_for_deletion(nearestStar) end
+	cur_obj_scale(2)
+	setStarPosAngle(o, m)
+	network_init_object(o, true, nil)
+end
+
+function grand_warp_star_loop(o)
+	local m = get_mario_state_from_object(o.parentObj)
+	if not m then return end
+	
+	setStarPosAngle(o, m)
+end
+
+id_bhvGrandWarpStar = hook_behavior(nil, OBJ_LIST_DEFAULT, true, grand_warp_star_init, grand_warp_star_loop, "bhvGrandWarpStar")
+
+-- DEBUG
 hook_event(HOOK_UPDATE, function()
 	local nearestBowser = obj_get_nearest_object_with_behavior_id(o, id_bhvBowser)
 	if nearestBowser then
