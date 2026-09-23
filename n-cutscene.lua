@@ -93,11 +93,35 @@ local function SEQUENCE_ARGS(priority, seqId)
 end
 
 local function jumboStarCameraBeginning(m)
+	local toX, toY, toZ = m.pos.x + 600, m.pos.y + 75, m.pos.z - 600
+	local toFocusX, toFocusY, toFocusZ = m.pos.x, m.pos.y + 75, m.pos.z
 	
+	gLakituState.pos.x = math.lerp(gLakituState.pos.x, toX, 0.05)
+	gLakituState.pos.y = math.lerp(gLakituState.pos.y, toY, 0.05)
+	gLakituState.pos.z = math.lerp(gLakituState.pos.z, toZ, 0.05)
+	
+	gLakituState.focus.x = math.lerp(gLakituState.focus.x, toFocusX, 0.1)
+	gLakituState.focus.y = math.lerp(gLakituState.focus.y, toFocusY, 0.1)
+	gLakituState.focus.z = math.lerp(gLakituState.focus.z, toFocusZ, 0.1)
 end
 
 local function jumboStarCameraFollow(m)
+	local trueTimer = ((m.actionTimer - 210) / 330)
+	local timerAngle = degrees_to_sm64(trueTimer * math.pi * 0.5)
+
+	gLakituState.pos.x = math.lerp(gLakituState.pos.x, m.pos.x + sins(timerAngle) * 500, 0.05)
+	gLakituState.pos.y = math.lerp(gLakituState.pos.y, m.pos.y, 0.05)
+	gLakituState.pos.z = math.lerp(gLakituState.pos.z, m.pos.z + coss(timerAngle) * 500, 0.05)
 	
+	gLakituState.focus.x = math.lerp(gLakituState.focus.x, m.pos.x, 0.25)
+	gLakituState.focus.y = math.lerp(gLakituState.focus.y, m.pos.y + (trueTimer * 1750), 0.01)
+	gLakituState.focus.z = math.lerp(gLakituState.focus.z, m.pos.z, 0.25)
+end
+
+local function lerpAngle(a, b, t)
+	local aConvert, bConvert = sm64_to_radians(a), sm64_to_radians(b)
+    local delta = (bConvert - aConvert + math.pi) % (2 * math.pi) - math.pi
+    return radians_to_sm64((aConvert + delta * t) % (2 * math.pi))
 end
 
 function act_kirby_jumbo_star(m)
@@ -116,27 +140,50 @@ function act_kirby_jumbo_star(m)
 
 	if m.actionState == 0 then
 		local foundFloor = find_floor_height(m.pos.x, m.pos.y, m.pos.z)
-		m.marioObj.oPosX, m.marioObj.oPosY, m.marioObj.oPosZ = 0, foundFloor + 200, 0
+		m.marioObj.oPosX = 100 * m.playerIndex
+		m.marioObj.oPosY = foundFloor + 200
+		m.marioObj.oPosZ = 0
+		
+		m.marioObj.oFaceAngleYaw = atan2s(-1, 1) + degrees_to_sm64(180)
+		
 		obj_update_gfx_pos_and_angle(m.marioObj)
 		m.pos.x, m.pos.y, m.pos.z = m.marioObj.oPosX, m.marioObj.oPosY, m.marioObj.oPosZ
+		m.faceAngle.y = m.marioObj.oFaceAngleYaw
+		
+		-- TODO: spawn cutscene star and set anim
+		
 		camera_freeze()
 		play_cutscene_music(SEQUENCE_ARGS(15, SEQ_EVENT_CUTSCENE_VICTORY))
 		gPlayerSyncTable[m.playerIndex].kirbySplineFrame = 1
 		vec3f_zero(m.vel)
 		m.actionState = m.actionState + 1
 	elseif m.actionState == 1 then
-		jumboStarCameraBeginning(m)
-		if m.actionTimer > 30 * 6.672 then
-			m.actionState = m.actionState + 1
+		if m.actionTimer > 52.92 and m.actionTimer < 143.91 then -- 30 * 1.764
+			local yaw = atan2s(-1, 1)
+			m.marioObj.oFaceAngleYaw = lerpAngle(m.marioObj.oFaceAngleYaw, yaw, 0.075)
+		elseif m.actionTimer >= 143.91 then -- 30 * 4.797
+			local currFrame = jumboStarKeyframesVars[gPlayerSyncTable[m.playerIndex].kirbySplineFrame]
+			local yaw = atan2s(currFrame.z - m.marioObj.oPosZ, currFrame.x - m.marioObj.oPosX)
+			if m.actionTimer > 200 then
+				m.marioObj.oFaceAngleYaw = yaw
+				m.actionState = m.actionState + 1
+			else
+				m.marioObj.oFaceAngleYaw = lerpAngle(m.marioObj.oFaceAngleYaw, yaw, 0.1)
+			end
 		end
+		obj_update_gfx_pos_and_angle(m.marioObj)
+		m.faceAngle.y = m.marioObj.oFaceAngleYaw
 	elseif m.actionState == 2 then
-		jumboStarCameraFollow(m)
+		if m.actionTimer < 473 then m.particleFlags = m.particleFlags | PARTICLE_SPARKLES end
 		local currFrame = jumboStarKeyframesVars[gPlayerSyncTable[m.playerIndex].kirbySplineFrame]
 		if currFrame then
 			local currFramePos = {x = currFrame.x, y = currFrame.y, z = currFrame.z}
 			local frameDist = calc_abs_dist(m.pos, currFramePos)
 			
 			local yaw = atan2s(currFrame.z - m.marioObj.oPosZ, currFrame.x - m.marioObj.oPosX)
+			
+			m.marioObj.oFaceAngleYaw = math.lerp(m.marioObj.oFaceAngleYaw, yaw, 0.05)
+			m.marioObj.oFaceAngleRoll = m.marioObj.oFaceAngleRoll + 25
 			
 			m.vel.x = math.lerp(m.vel.x, sins(yaw) * 100, 0.1)
 			m.vel.y = math.lerp(m.vel.y, (currFrame.y - m.pos.y) / 2, 0.1)
@@ -149,11 +196,16 @@ function act_kirby_jumbo_star(m)
 			obj_update_gfx_pos_and_angle(m.marioObj)
 			m.pos.x, m.pos.y, m.pos.z = m.marioObj.oPosX, m.marioObj.oPosY, m.marioObj.oPosZ
 
-			
 			if frameDist <= 3000 then
 				gPlayerSyncTable[m.playerIndex].kirbySplineFrame = gPlayerSyncTable[m.playerIndex].kirbySplineFrame + 1
 			end
 		end
+	end
+	
+	if m.actionTimer < 210 then
+		jumboStarCameraBeginning(m)
+	else
+		jumboStarCameraFollow(m)
 	end
 	
 	if m.actionTimer >= 540 then
