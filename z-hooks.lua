@@ -600,50 +600,9 @@ if _G.charSelect then
 		end
 		return true
 	end
-	
+		
 	local function kirbyPostUpdate(m)
 		local idx = m.playerIndex
-
-		if m.action == ACT_KIRBY_INHALE and m.actionTimer <= 1 then
-			spawn_sync_object(id_bhvKirbyInhale_JJJ, E_MODEL_KIRBY_VORTEX, m.pos.x, m.pos.y + 25, m.pos.z, function(o) o.parentObj = m.marioObj end)
-		end
-
-		local modelId = _G.charSelect.character_get_current_number(idx)
-		if modelId == kirbyCharID then
-			if m.action ~= ACT_SQUISHED and m.action ~= ACT_BBH_ENTER_SPIN and m.squishTimer == 0 and ((m.marioObj.header.gfx.scale.x == 1 and m.marioObj.header.gfx.scale.z == 1) or (m.action == ACT_CROUCHING or m.action == ACT_START_CROUCHING or m.action == ACT_CROUCH_SLIDE)) then
-				local toScale = 1000
-				if m.action == ACT_JUMP_LAND or m.action == ACT_FREEFALL_LAND then
-					toScale = 500
-				elseif m.action == ACT_START_CROUCHING or m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE or m.action == ACT_KIRBY_SLIDE or m.action == ACT_SLIDE_KICK_SLIDE or m.action == ACT_CROUCH_SLIDE or m.action == ACT_JUMP_LAND
-					 or (m.action == ACT_EXIT_LAND_SAVE_DIALOG and (m.marioObj.header.gfx.animInfo.animFrame >= 28 and m.marioObj.header.gfx.animInfo.animFrame < 34)) or m.action == ACT_LONG_JUMP_LAND then
-					toScale = 625
-				elseif m.action == ACT_FORWARD_ROLLOUT then
-					toScale = 900
-				elseif (m.action == ACT_JUMP and m.vel.y > 0) or (m.action == ACT_KIRBY_PUFF and m.vel.y > 0) or m.action == ACT_KIRBY_DODGE then
-					toScale = 1100
-				elseif m.action == ACT_KIRBY_INHALE or (m.action == ACT_EXIT_LAND_SAVE_DIALOG and m.marioObj.header.gfx.animInfo.animID ~= CHAR_ANIM_THROW_CATCH_KEY and (m.marioObj.header.gfx.animInfo.animFrame > 10 and m.marioObj.header.gfx.animInfo.animFrame < 28)) then
-					toScale = 1200
-				elseif m.action == ACT_JUMP_KICK and m.marioObj.header.gfx.animInfo.animFrame < 2 then
-					toScale = 1300
-				end
-				
-				--local scaleSpeed = (m.pos.y == m.floorHeight or (m.action == ACT_KIRBY_DODGE and m.vel.y > 0)) and 100 or 25
-				local scaleSpeed = ((m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) and 0.85) or ((m.pos.y == m.floorHeight or (m.action == ACT_KIRBY_DODGE and m.vel.y > 0)) and 0.4) or 0.05
-				--gPlayerSyncTable[idx].kirbyScaleY = approach_f32(gPlayerSyncTable[idx].kirbyScaleY, toScale, scaleSpeed, scaleSpeed)
-				gPlayerSyncTable[idx].kirbyScaleY = math.lerp(gPlayerSyncTable[idx].kirbyScaleY, toScale, scaleSpeed)
-				m.marioObj.header.gfx.scale.y = gPlayerSyncTable[idx].kirbyScaleY / 1000
-				
-				if m.action == ACT_START_CROUCHING then
-					m.marioObj.header.gfx.scale.x = 0.75
-					m.marioObj.header.gfx.scale.z = 0.75
-				elseif m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE then
-					m.marioObj.header.gfx.scale.x = math.lerp(m.marioObj.header.gfx.scale.x, 1.5, 0.85)
-					m.marioObj.header.gfx.scale.z = math.lerp(m.marioObj.header.gfx.scale.z, 1.5, 0.85)
-				end
-			else
-				gPlayerSyncTable[idx].kirbyScaleY = 1000
-			end
-		end
 		
 		if m.playerIndex ~= 0 then return end
 		
@@ -846,6 +805,50 @@ if _G.charSelect then
 		end
 	end)
 	
+	hook_event(HOOK_MARIO_UPDATE, function (m)
+		local idx = m.playerIndex
+
+		if m.action == ACT_KIRBY_INHALE and m.actionTimer <= 1 then
+			spawn_sync_object(id_bhvKirbyInhale_JJJ, E_MODEL_KIRBY_VORTEX, m.pos.x, m.pos.y + 25, m.pos.z, function(o) o.parentObj = m.marioObj end)
+		end
+
+		local modelId = _G.charSelect.character_get_current_number(idx)
+		if modelId == kirbyCharID then
+			if m.action ~= ACT_SQUISHED and m.action ~= ACT_BBH_ENTER_SPIN and m.squishTimer == 0 and ((m.marioObj.header.gfx.scale.x == 1 and m.marioObj.header.gfx.scale.z == 1) or (m.action == ACT_CROUCHING or m.action == ACT_START_CROUCHING or m.action == ACT_CROUCH_SLIDE)) then
+				local toScale = 1000
+				if m.action == ACT_JUMP_LAND or m.action == ACT_FREEFALL_LAND then
+					toScale = 500
+				elseif m.action == ACT_START_CROUCHING or m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE or m.action == ACT_KIRBY_SLIDE or m.action == ACT_SLIDE_KICK_SLIDE or m.action == ACT_CROUCH_SLIDE or m.action == ACT_JUMP_LAND
+					 or (m.action == ACT_EXIT_LAND_SAVE_DIALOG and (m.marioObj.header.gfx.animInfo.animFrame >= 28 and m.marioObj.header.gfx.animInfo.animFrame < 34)) or m.action == ACT_LONG_JUMP_LAND then
+					toScale = 625
+				elseif m.action == ACT_FORWARD_ROLLOUT then
+					toScale = 900
+				elseif (m.action == ACT_JUMP and m.vel.y > 0) or (m.action == ACT_KIRBY_PUFF and m.vel.y > 0) or m.action == ACT_KIRBY_DODGE then
+					toScale = 1100
+				elseif m.action == ACT_KIRBY_INHALE or (m.action == ACT_EXIT_LAND_SAVE_DIALOG and m.marioObj.header.gfx.animInfo.animID ~= CHAR_ANIM_THROW_CATCH_KEY and (m.marioObj.header.gfx.animInfo.animFrame > 10 and m.marioObj.header.gfx.animInfo.animFrame < 28)) then
+					toScale = 1200
+				elseif m.action == ACT_JUMP_KICK and m.marioObj.header.gfx.animInfo.animFrame < 2 then
+					toScale = 1300
+				end
+				
+				--local scaleSpeed = (m.pos.y == m.floorHeight or (m.action == ACT_KIRBY_DODGE and m.vel.y > 0)) and 100 or 25
+				local scaleSpeed = ((m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) and 0.85) or ((m.pos.y == m.floorHeight or (m.action == ACT_KIRBY_DODGE and m.vel.y > 0)) and 0.4) or 0.05
+				--gPlayerSyncTable[idx].kirbyScaleY = approach_f32(gPlayerSyncTable[idx].kirbyScaleY, toScale, scaleSpeed, scaleSpeed)
+				gPlayerSyncTable[idx].kirbyScaleY = math.lerp(gPlayerSyncTable[idx].kirbyScaleY, toScale, scaleSpeed)
+				m.marioObj.header.gfx.scale.y = gPlayerSyncTable[idx].kirbyScaleY / 1000
+				
+				if m.action == ACT_START_CROUCHING then
+					m.marioObj.header.gfx.scale.x = 0.75
+					m.marioObj.header.gfx.scale.z = 0.75
+				elseif m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE then
+					m.marioObj.header.gfx.scale.x = math.lerp(m.marioObj.header.gfx.scale.x, 1.5, 0.85)
+					m.marioObj.header.gfx.scale.z = math.lerp(m.marioObj.header.gfx.scale.z, 1.5, 0.85)
+				end
+			else
+				gPlayerSyncTable[idx].kirbyScaleY = 1000
+			end
+		end
+	end)
 	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_MARIO_UPDATE, kirbyPostUpdate)
 	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_BEFORE_MARIO_UPDATE, kirbyPreUpdate)
 	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_SET_MARIO_ACTION, kirbyActions)

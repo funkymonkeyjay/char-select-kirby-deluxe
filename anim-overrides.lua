@@ -8,6 +8,7 @@ CHAR_ANIM_KIRBY_INHALE_MOVE = CHAR_ANIM_MAX + 19921
 CHAR_ANIM_KIRBY_HELLO =       CHAR_ANIM_MAX + 19922
 CHAR_ANIM_KIRBY_PUFF_RISE =   CHAR_ANIM_MAX + 19923
 CHAR_ANIM_KIRBY_PUFF_FALL =   CHAR_ANIM_MAX + 19924
+CHAR_ANIM_KIRBY_ENDING =      CHAR_ANIM_MAX + 19925
 kirbyAnims = {
 	mouth = {
 		[CHAR_ANIM_IDLE_ON_POLE] = MARIO_MOUTH_SMILE, 
@@ -51,11 +52,21 @@ kirbyAnims = {
 		[CHAR_ANIM_MISSING_CAP] =          function (m, frame) if frame > 30 then return MARIO_MOUTH_SMILE end return MARIO_MOUTH_NORMAL end, 
 		[CHAR_ANIM_KIRBY_HELLO] = function (m, frame) if frame > 5 and frame < 48 then return MARIO_MOUTH_HAPPY end return MARIO_MOUTH_SMILE end, 
 		[CHAR_ANIM_PUT_CAP_ON] = function (m, frame) if frame > 19 and frame < 32 then return MARIO_MOUTH_HAPPY end return MARIO_MOUTH_SMILE end, 
-		[CHAR_ANIM_FIRST_PERSON] = function (m, frame) if m.action == ACT_CREDITS_CUTSCENE or m.action == ACT_FIRST_PERSON or m.action == ACT_INTRO_CUTSCENE or m.action == ACT_WARP_DOOR_SPAWN then return MARIO_MOUTH_NORMAL end return MARIO_MOUTH_FROWN end, 
+		[CHAR_ANIM_FIRST_PERSON] = function (m, frame) if m.action == ACT_CREDITS_CUTSCENE or m.action == ACT_FIRST_PERSON or m.action == ACT_INTRO_CUTSCENE or m.action == ACT_WARP_DOOR_SPAWN then return MARIO_MOUTH_NORMAL end return MARIO_MOUTH_OPEN end, 
 		[CHAR_ANIM_CREDITS_LOOK_UP] = MARIO_MOUTH_SMILE, 
 		[CHAR_ANIM_IDLE_HEAD_LEFT] = function (m, frame) if charSelect.character_get_current_costume(m.playerIndex) == kirbyRetroCosID then return MARIO_MOUTH_SMILE end return MARIO_MOUTH_NORMAL end, 
 		[CHAR_ANIM_IDLE_HEAD_RIGHT] = function (m, frame) if charSelect.character_get_current_costume(m.playerIndex) == kirbyRetroCosID then return MARIO_MOUTH_SMILE end return MARIO_MOUTH_NORMAL end, 
 		[CHAR_ANIM_IDLE_HEAD_CENTER] = function (m, frame) if charSelect.character_get_current_costume(m.playerIndex) == kirbyRetroCosID then return MARIO_MOUTH_SMILE end return MARIO_MOUTH_NORMAL end, 
+		[CHAR_ANIM_KIRBY_ENDING] = function (m, frame)
+			if frame > 21 and frame < 87 then
+				return MARIO_MOUTH_OPEN
+			elseif (frame > 118 and frame < 129) or frame >= 190 then
+				return MARIO_MOUTH_SMILE
+			elseif frame >= 129 and frame < 190 then
+				return MARIO_MOUTH_HAPPY
+			end
+			return MARIO_MOUTH_NORMAL
+		end, 
 	}, 
 	eyes = {
 		[CHAR_ANIM_FINAL_BOWSER_RAISE_HAND_SPIN] = function (m, frame) if frame > 62 and frame < 99 then return MARIO_EYES_CLOSED_INTENSE end return MARIO_EYES_BLINK end, 
@@ -115,6 +126,7 @@ kirbyAnims = {
 		[CHAR_ANIM_SWIM_PART1] = function (m, frame) if gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ > 0 then return MARIO_EYES_CLOSED_INTENSE end return MARIO_EYES_BLINK end, 
 		[CHAR_ANIM_SWIM_PART2] = function (m, frame) if gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ > 0 then return MARIO_EYES_CLOSED_INTENSE end return MARIO_EYES_BLINK end,
 		[CHAR_ANIM_SHOCKED] = MARIO_EYES_SHOCKED, 
+		[CHAR_ANIM_KIRBY_ENDING] = function (m, frame) if frame > 153 and frame < 195 then return MARIO_EYES_CLOSED_INTENSE end return MARIO_EYES_BLINK end, 
 	}, 
 	anims = {
 		[CHAR_ANIM_SINGLE_JUMP] = "KIRBY_JUMP", 
@@ -150,5 +162,6 @@ kirbyAnims = {
 		[CHAR_ANIM_MISSING_CAP] = "KIRBY_EXIT_LAND", 
 		[CHAR_ANIM_TAKE_CAP_OFF_THEN_ON] = "KIRBY_EXIT_LAND", 
 		[CHAR_ANIM_KIRBY_HELLO] = "KIRBY_HELLO", 
+		[CHAR_ANIM_KIRBY_ENDING] = "KIRBY_WARP_STAR_ENDING", 
 	}, 
 }

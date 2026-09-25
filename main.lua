@@ -46,8 +46,8 @@ local KIRBY_VOICETABLE = {
 	[CHAR_SOUND_GROUND_POUND_WAH] =   'VOICE_ATTACK.ogg', 
 	[CHAR_SOUND_WAH2] =               'VOICE_BIG_THROW.ogg', 
 	[CHAR_SOUND_HRMM] =               'VOICE_LIFT.ogg', 
-	--[CHAR_SOUND_HERE_WE_GO] =         'VOICE_LETSAGO2.ogg', 
-	[CHAR_SOUND_HERE_WE_GO] =         function (m) if m.action == ACT_RELEASING_BOWSER then return 'VOICE_BOWSER.ogg' end end, 
+	[CHAR_SOUND_HERE_WE_GO] =         'VOICE_LETSAGO2.ogg', 
+	--[CHAR_SOUND_HERE_WE_GO] =         function (m) if m.action == ACT_RELEASING_BOWSER then return 'VOICE_BOWSER.ogg' end end, 
 	[CHAR_SOUND_SO_LONGA_BOWSER] =    'VOICE_BOWSER.ogg', 
 
 	[CHAR_SOUND_ATTACKED] =     {'VOICE_HURT.ogg', 'VOICE_HURT3.ogg', 'VOICE_HURT2.ogg'}, 
@@ -165,9 +165,11 @@ function kirbyWing_JJJ(node, matStackIndex)
 	local leftWing = node.next
 	local rightWing = node.next.next
 	local ringWing = node.next.next.next
+	
+	local m = geo_get_mario_state()
 	local bodyState = geo_get_body_state()
 	
-	if not (leftWing and rightWing and ringWing and bodyState) then return end
+	if not (leftWing and rightWing and ringWing and bodyState and m) or m.action == ACT_END_PEACH_CUTSCENE then return end
 
 	if bodyState.capState & 2 ~= 0 then
 		leftWing.flags = leftWing.flags | GRAPH_RENDER_ACTIVE

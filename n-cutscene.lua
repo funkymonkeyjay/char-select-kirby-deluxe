@@ -86,6 +86,7 @@ end
 
 hook_mario_action(ACT_KIRBY_POWERUP, act_kirby_powerup)
 
+-- GRAND STAR ENDING CUTSCENE
 ACT_KIRBY_JUMBO_STAR = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_INTANGIBLE)
 
 local function SEQUENCE_ARGS(priority, seqId)
@@ -93,6 +94,8 @@ local function SEQUENCE_ARGS(priority, seqId)
 end
 
 local function jumboStarCameraBeginning(m)
+	if m.playerIndex ~= 0 then return end
+
 	local toX, toY, toZ = m.pos.x + 600, m.pos.y + 75, m.pos.z - 600
 	local toFocusX, toFocusY, toFocusZ = m.pos.x, m.pos.y + 75, m.pos.z
 	
@@ -106,6 +109,8 @@ local function jumboStarCameraBeginning(m)
 end
 
 local function jumboStarCameraFollow(m)
+	if m.playerIndex ~= 0 then return end
+	
 	local trueTimer = ((m.actionTimer - 210) / 330)
 	local timerAngle = degrees_to_sm64(trueTimer * math.pi * 0.5)
 
@@ -138,11 +143,15 @@ function act_kirby_jumbo_star(m)
 	}
 	m.actionTimer = m.actionTimer + 1
 	
-	set_mario_animation(m, CHAR_ANIM_A_POSE) -- TODO: set anim
+	set_mario_animation(m, CHAR_ANIM_KIRBY_ENDING)
+	if m.actionTimer == 129 then
+		play_character_sound(m, CHAR_SOUND_HERE_WE_GO)
+	end
 
 	if m.actionState == 0 then
 		local foundFloor = find_floor_height(m.pos.x, m.pos.y, m.pos.z)
-		m.marioObj.oPosX = 100 * m.playerIndex
+		--m.marioObj.oPosX = 100 * m.playerIndex
+		m.marioObj.oPosX = 300 * network_global_index_from_local(m.playerIndex)
 		m.marioObj.oPosY = foundFloor + 300
 		m.marioObj.oPosZ = 0
 		
@@ -152,16 +161,19 @@ function act_kirby_jumbo_star(m)
 		m.pos.x, m.pos.y, m.pos.z = m.marioObj.oPosX, m.marioObj.oPosY, m.marioObj.oPosZ
 		m.faceAngle.y = m.marioObj.oFaceAngleYaw
 		
-		spawn_sync_object(id_bhvGrandWarpStar, E_MODEL_STAR, m.pos.x, m.pos.y, m.pos.z, function (o) o.parentObj = m.marioObj end)
+		--spawn_sync_object(id_bhvGrandWarpStar, E_MODEL_STAR, m.pos.x, m.pos.y, m.pos.z, function (o) o.parentObj = m.marioObj end)
+		spawn_sync_object(id_bhvGrandWarpStar, E_MODEL_STAR, m.pos.x, m.pos.y, m.pos.z, function (o) o.oKirbySuckPlayer = network_global_index_from_local(m.playerIndex) end)
 		
-		camera_freeze()
-		play_cutscene_music(SEQUENCE_ARGS(15, SEQ_EVENT_CUTSCENE_VICTORY))
+		if m.playerIndex == 0 then
+			camera_freeze()
+			play_cutscene_music(SEQUENCE_ARGS(15, SEQ_EVENT_CUTSCENE_VICTORY))
+		end
 		gPlayerSyncTable[m.playerIndex].kirbySplineFrame = 1
 		vec3f_zero(m.vel)
 		m.actionState = m.actionState + 1
 	elseif m.actionState == 1 then
 		if m.actionTimer >= 53 and m.actionTimer < 144 then
-			if m.actionTimer == 53 then play_sound(SOUND_GENERAL_GRAND_STAR_JUMP, m.marioObj.header.gfx.cameraToObject) end
+			if m.actionTimer == 53 and m.playerIndex == 0 then play_sound(SOUND_GENERAL_GRAND_STAR_JUMP, m.marioObj.header.gfx.cameraToObject) end
 			
 			local yaw = atan2s(-1, 1)
 			m.marioObj.oFaceAngleYaw = lerpAngle(m.marioObj.oFaceAngleYaw, yaw, 0.075)
@@ -170,11 +182,11 @@ function act_kirby_jumbo_star(m)
 			local yaw = atan2s(currFrame.z - m.marioObj.oPosZ, currFrame.x - m.marioObj.oPosX)
 			
 			if m.actionTimer > 200 then
-				play_sound(SOUND_GENERAL_GRAND_STAR, m.marioObj.header.gfx.cameraToObject)
+				if m.playerIndex == 0 then play_sound(SOUND_GENERAL_GRAND_STAR, m.marioObj.header.gfx.cameraToObject) end
 				m.marioObj.oFaceAngleYaw = yaw
 				m.actionState = m.actionState + 1
 			else
-				if m.actionTimer == 144 then play_sound(SOUND_GENERAL_GRAND_STAR_JUMP, m.marioObj.header.gfx.cameraToObject) end
+				if m.actionTimer == 144 and m.playerIndex == 0 then play_sound(SOUND_GENERAL_GRAND_STAR_JUMP, m.marioObj.header.gfx.cameraToObject) end
 				m.marioObj.oFaceAngleYaw = lerpAngle(m.marioObj.oFaceAngleYaw, yaw, 0.1)
 			end
 		end
@@ -182,9 +194,11 @@ function act_kirby_jumbo_star(m)
 		m.faceAngle.y = m.marioObj.oFaceAngleYaw
 	elseif m.actionState == 2 then
 		if m.actionTimer < 473 then
-			local movementMagnitude = math.sqrt(m.vel.x^2 + m.vel.y^2 + m.vel.z^2)
-			local freqScale = 1 + (movementMagnitude / 200)
-			play_sound_with_freq_scale(SOUND_AIR_PEACH_TWINKLE, m.marioObj.header.gfx.cameraToObject, freqScale)
+			if m.playerIndex == 0 then
+				local movementMagnitude = math.sqrt(m.vel.x^2 + m.vel.y^2 + m.vel.z^2)
+				local freqScale = 1 + (movementMagnitude / 200)
+				play_sound_with_freq_scale(SOUND_AIR_PEACH_TWINKLE, m.marioObj.header.gfx.cameraToObject, freqScale)
+			end
 			m.particleFlags = m.particleFlags | PARTICLE_SPARKLES
 		end
 		
@@ -217,7 +231,7 @@ function act_kirby_jumbo_star(m)
 	
 	if m.actionTimer < 210 then jumboStarCameraBeginning(m) else jumboStarCameraFollow(m) end
 	
-	if m.actionTimer >= 540 then camera_unfreeze() end
+	if m.actionTimer >= 540 and m.playerIndex == 0 then camera_unfreeze() end
 	if m.actionTimer > 510 then level_trigger_warp(m, WARP_OP_CREDITS_START) end
 end
 
@@ -225,6 +239,8 @@ hook_mario_action(ACT_KIRBY_JUMBO_STAR, act_kirby_jumbo_star)
 
 -- CUSTOM ENDING "WARP STAR" OBJECT
 local function setStarPosAngle(o, m)
+	if not m or is_player_active(m) == 0 then obj_mark_for_deletion(o); return end
+	
 	local mO = m.marioObj
 	o.oPosX = mO.oPosX
 	o.oPosY = mO.oPosY
@@ -238,23 +254,35 @@ local function setStarPosAngle(o, m)
 end
 
 function grand_warp_star_init(o)
-	local m = get_mario_state_from_object(o.parentObj)
+	local m = gMarioStates[network_local_index_from_global(o.oKirbySuckPlayer)]
 	if not m then obj_mark_for_deletion(o) end
-	local nearestStar = obj_get_nearest_object_with_behavior_id(o, id_bhvGrandStar) -- KILL THE ORIGINAL
-	if nearestStar then obj_mark_for_deletion(nearestStar) end
+	if network_player_connected_count() <= 1 then -- KILL THE ORIGINAL, RAHHH (but only when the player is alone...)
+		local nearestStar = obj_get_nearest_object_with_behavior_id(o, id_bhvGrandStar)
+		if nearestStar then obj_mark_for_deletion(nearestStar) end
+	end
 	cur_obj_scale(2)
 	setStarPosAngle(o, m)
 	network_init_object(o, true, nil)
 end
 
 function grand_warp_star_loop(o)
-	local m = get_mario_state_from_object(o.parentObj)
+	local m = gMarioStates[network_local_index_from_global(o.oKirbySuckPlayer)]
 	if not m then return end
 	
 	setStarPosAngle(o, m)
 end
 
 id_bhvGrandWarpStar = hook_behavior(nil, OBJ_LIST_DEFAULT, true, grand_warp_star_init, grand_warp_star_loop, "bhvGrandWarpStar")
+
+_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_CHARACTER_SOUND, function (m, sound)
+	if sound == CHAR_SOUND_HERE_WE_GO and not (m.action == ACT_STAR_DANCE_EXIT or m.action == ACT_STAR_DANCE_NO_EXIT or m.action == ACT_STAR_DANCE_WATER) then
+		if m.action == ACT_HOLDING_BOWSER then
+			return CHAR_SOUND_SO_LONGA_BOWSER
+		else
+			return 0
+		end
+	end
+end)
 
 -- DEBUG
 hook_event(HOOK_UPDATE, function()
