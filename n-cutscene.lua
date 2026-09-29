@@ -2,13 +2,40 @@ if incompatibilityCond then return 0 end
 
 ACT_KIRBY_POWERUP = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_STATIONARY | ACT_FLAG_INTANGIBLE)
 
+le_set_mode(LE_MODE_AFFECT_ALL_SHADED_AND_COLORED)
 local origCamY, origFocusY = 0, 0
+local light1, light2 = 0, 0
 function act_kirby_powerup(m)
 	local TO_BRIGHTNESS_LEVEL = 1200
 
 	if m.actionTimer == 0 then
 		play_character_sound(m, CHAR_SOUND_PUNCH_WAH)
 
+		m.flags = m.flags & ~MARIO_CAP_IN_HAND
+		m.flags = m.flags | MARIO_CAP_ON_HEAD
+		
+		enable_time_stop_if_alone()
+		
+		if m.playerIndex == 0 then
+			m.actionArg = 45
+
+			set_skybox_color(0, 128); set_skybox_color(1, 128); set_skybox_color(2, 128)
+			set_fog_color(0, 128); set_fog_color(1, 128); set_fog_color(2, 128)
+
+			le_set_ambient_color(128, 128, 128)
+			light1 = le_add_light(m.pos.x, m.pos.y + 400, m.pos.z, 255, 255, 255, 600, 100)
+			light2 = le_add_light(m.pos.x + sins(m.faceAngle.y) * 400, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 400, 255, 255, 255, 1000, 100)
+
+			djui_chat_message_create(tostring(le_get_light_count()))
+
+			origCamY, origFocusY = gLakituState.pos.y, gLakituState.focus.y
+		end
+		
+		vec3f_zero(m.vel)
+	end
+	m.actionTimer = m.actionTimer + 1
+	if m.actionTimer == 10 then
+		play_kirby_sound(KIRBY_COPY_SOUND, m.pos, 1)
 		m.particleFlags = m.particleFlags | PARTICLE_SPARKLES
 		for i = 1, 10 do
 			spawn_non_sync_object(id_bhvBreakBoxTriangle, E_MODEL_SPARKLES, m.pos.x, m.pos.y, m.pos.z, function (o) 
@@ -23,22 +50,6 @@ function act_kirby_powerup(m)
 				obj_scale(o, 0.75)
 			end)
 		end
-		m.flags = m.flags & ~MARIO_CAP_IN_HAND
-		m.flags = m.flags | MARIO_CAP_ON_HEAD
-		
-		enable_time_stop_if_alone()
-		
-		if m.playerIndex == 0 then
-			m.actionArg = 45
-			m.actionState = 1000
-			origCamY, origFocusY = gLakituState.pos.y, gLakituState.focus.y
-		end
-		
-		vec3f_zero(m.vel)
-	end
-	m.actionTimer = m.actionTimer + 1
-	if m.actionTimer == 10 then
-		play_kirby_sound(KIRBY_COPY_SOUND, m.pos, 1)
 	end
 	
 	set_mario_animation(m, MARIO_ANIM_PUT_CAP_ON)
@@ -58,21 +69,17 @@ function act_kirby_powerup(m)
 		if m.actionTimer < 21 then
 			m.actionArg = math.lerp(m.actionArg, 30, 0.4)
 			set_override_fov(m.actionArg)
-			
-			set_shader_flag_enabled(SHADER_FLAG_BRIGHTNESS, true)
-			
-			m.actionState = math.lerp(m.actionState, TO_BRIGHTNESS_LEVEL, 0.4)
-			set_shader_flag_value(SHADER_FLAG_BRIGHTNESS, m.actionState / 1000)
 		else
 			m.actionArg = math.lerp(m.actionArg, 45, 0.8)
 			set_override_fov(m.actionArg)
 			
-			m.actionState = math.lerp(m.actionState, 1000, 0.8)
-			set_shader_flag_value(SHADER_FLAG_BRIGHTNESS, m.actionState / 1000)
 			if get_current_fov() <= 45 then
 				set_override_fov(0)
-				set_shader_flag_value(SHADER_FLAG_BRIGHTNESS, 1)
-				set_shader_flag_enabled(SHADER_FLAG_BRIGHTNESS, false)
+
+				set_skybox_color(0, 255); set_skybox_color(1, 255); set_skybox_color(2, 255)
+				set_fog_color(0, 255); set_fog_color(1, 255); set_fog_color(2, 255)
+				le_set_ambient_color(255, 255, 255)
+				le_remove_light(light1); le_remove_light(light2)
 			end
 		end
 	end
@@ -239,7 +246,10 @@ hook_mario_action(ACT_KIRBY_JUMBO_STAR, act_kirby_jumbo_star)
 
 -- CUSTOM ENDING "WARP STAR" OBJECT
 local function setStarPosAngle(o, m)
-	if not m or is_player_active(m) == 0 then obj_mark_for_deletion(o); return end
+	if is_player_active(m) == 0 or (m.marioObj.header.gfx.animInfo.animID ~= CHAR_ANIM_GENERAL_FALL and m.marioObj.header.gfx.animInfo.animID ~= CHAR_ANIM_KIRBY_ENDING) then
+		obj_mark_for_deletion(o)
+		return
+	end
 	
 	local mO = m.marioObj
 	o.oPosX = mO.oPosX
@@ -268,21 +278,10 @@ end
 function grand_warp_star_loop(o)
 	local m = gMarioStates[network_local_index_from_global(o.oKirbySuckPlayer)]
 	if not m then return end
-	
 	setStarPosAngle(o, m)
 end
 
 id_bhvGrandWarpStar = hook_behavior(nil, OBJ_LIST_DEFAULT, true, grand_warp_star_init, grand_warp_star_loop, "bhvGrandWarpStar")
-
-_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_CHARACTER_SOUND, function (m, sound)
-	if sound == CHAR_SOUND_HERE_WE_GO and not (m.action == ACT_STAR_DANCE_EXIT or m.action == ACT_STAR_DANCE_NO_EXIT or m.action == ACT_STAR_DANCE_WATER) then
-		if m.action == ACT_HOLDING_BOWSER then
-			return CHAR_SOUND_SO_LONGA_BOWSER
-		else
-			return 0
-		end
-	end
-end)
 
 -- DEBUG
 hook_event(HOOK_UPDATE, function()

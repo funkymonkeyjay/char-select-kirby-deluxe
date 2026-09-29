@@ -46,10 +46,6 @@ Lights1 kirby_retro_Metal__Skin__lights = gdSPDefLights1(
 	0x42, 0x49, 0x4E,
 	0x0, 0x0, 0x0, 0x28, 0x28, 0x28);
 
-Lights1 kirby_retro_Metal_Mouth_Inside_lights = gdSPDefLights1(
-	0x0, 0x0, 0x0,
-	0x0, 0x0, 0x0, 0x28, 0x28, 0x28);
-
 Texture kirby_retro_Eye_Classic__Normal__ia8[] = {
 	#include "actors/kirby_retro/Eye_Classic__Normal_.ia8.inc.c"
 };
@@ -3085,21 +3081,6 @@ Gfx mat_revert_kirby_retro_Eyes_Metal__Kirby__Angry_[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_kirby_retro_Metal_Mouth_Inside[] = {
-	gsSPSetLights1(kirby_retro_Metal_Mouth_Inside_lights),
-	gsDPPipeSync(),
-	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT),
-	gsDPSetAlphaDither(G_AD_NOISE),
-	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsSPEndDisplayList(),
-};
-
-Gfx mat_revert_kirby_retro_Metal_Mouth_Inside[] = {
-	gsDPPipeSync(),
-	gsDPSetAlphaDither(G_AD_DISABLE),
-	gsSPEndDisplayList(),
-};
-
 Gfx mat_kirby_retro_Wing_Tip_002[] = {
 	gsSPClearGeometryMode(G_CULL_BACK),
 	gsDPPipeSync(),
@@ -3669,9 +3650,9 @@ Gfx kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Ha
 	gsSPDisplayList(mat_kirby_retro_Metal__Skin_),
 	gsSPDisplayList(kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Half_Closed_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_kirby_retro_Metal__Skin_),
-	gsSPDisplayList(mat_kirby_retro_Metal_Mouth_Inside),
+	gsSPDisplayList(mat_kirby_retro_Kirby__Mouth_Inside_),
 	gsSPDisplayList(kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Half_Closed_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_kirby_retro_Metal_Mouth_Inside),
+	gsSPDisplayList(mat_revert_kirby_retro_Kirby__Mouth_Inside_),
 	gsSPEndDisplayList(),
 };
 
@@ -3679,9 +3660,9 @@ Gfx kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Ha
 	gsSPDisplayList(mat_kirby_retro_Metal__Skin_),
 	gsSPDisplayList(kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Half_Closed_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_kirby_retro_Metal__Skin_),
-	gsSPDisplayList(mat_kirby_retro_Metal_Mouth_Inside),
+	gsSPDisplayList(mat_kirby_retro_Kirby__Mouth_Inside_),
 	gsSPDisplayList(kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Half_Closed_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_kirby_retro_Metal_Mouth_Inside),
+	gsSPDisplayList(mat_revert_kirby_retro_Kirby__Mouth_Inside_),
 	gsSPEndDisplayList(),
 };
 
@@ -3689,9 +3670,9 @@ Gfx kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Ha
 	gsSPDisplayList(mat_kirby_retro_Metal__Skin_),
 	gsSPDisplayList(kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Half_Closed_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_kirby_retro_Metal__Skin_),
-	gsSPDisplayList(mat_kirby_retro_Metal_Mouth_Inside),
+	gsSPDisplayList(mat_kirby_retro_Kirby__Mouth_Inside_),
 	gsSPDisplayList(kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Half_Closed_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_kirby_retro_Metal_Mouth_Inside),
+	gsSPDisplayList(mat_revert_kirby_retro_Kirby__Mouth_Inside_),
 	gsSPEndDisplayList(),
 };
 
@@ -3699,9 +3680,9 @@ Gfx kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Ha
 	gsSPDisplayList(mat_kirby_retro_Metal__Skin_),
 	gsSPDisplayList(kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Half_Closed_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_kirby_retro_Metal__Skin_),
-	gsSPDisplayList(mat_kirby_retro_Metal_Mouth_Inside),
+	gsSPDisplayList(mat_kirby_retro_Kirby__Mouth_Inside_),
 	gsSPDisplayList(kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Half_Closed_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_kirby_retro_Metal_Mouth_Inside),
+	gsSPDisplayList(mat_revert_kirby_retro_Kirby__Mouth_Inside_),
 	gsSPEndDisplayList(),
 };
 
@@ -3709,9 +3690,9 @@ Gfx kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Ha
 	gsSPDisplayList(mat_kirby_retro_Metal__Skin_),
 	gsSPDisplayList(kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Half_Closed_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_kirby_retro_Metal__Skin_),
-	gsSPDisplayList(mat_kirby_retro_Metal_Mouth_Inside),
+	gsSPDisplayList(mat_kirby_retro_Kirby__Mouth_Inside_),
 	gsSPDisplayList(kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Half_Closed_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_kirby_retro_Metal_Mouth_Inside),
+	gsSPDisplayList(mat_revert_kirby_retro_Kirby__Mouth_Inside_),
 	gsSPEndDisplayList(),
 };
 
@@ -3719,9 +3700,9 @@ Gfx kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Ha
 	gsSPDisplayList(mat_kirby_retro_Metal__Skin_),
 	gsSPDisplayList(kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Half_Closed_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_kirby_retro_Metal__Skin_),
-	gsSPDisplayList(mat_kirby_retro_Metal_Mouth_Inside),
+	gsSPDisplayList(mat_kirby_retro_Kirby__Mouth_Inside_),
 	gsSPDisplayList(kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Half_Closed_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_kirby_retro_Metal_Mouth_Inside),
+	gsSPDisplayList(mat_revert_kirby_retro_Kirby__Mouth_Inside_),
 	gsSPEndDisplayList(),
 };
 
@@ -3729,9 +3710,9 @@ Gfx kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Ha
 	gsSPDisplayList(mat_kirby_retro_Metal__Skin_),
 	gsSPDisplayList(kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Half_Closed_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_kirby_retro_Metal__Skin_),
-	gsSPDisplayList(mat_kirby_retro_Metal_Mouth_Inside),
+	gsSPDisplayList(mat_kirby_retro_Kirby__Mouth_Inside_),
 	gsSPDisplayList(kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Half_Closed_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_kirby_retro_Metal_Mouth_Inside),
+	gsSPDisplayList(mat_revert_kirby_retro_Kirby__Mouth_Inside_),
 	gsSPEndDisplayList(),
 };
 
@@ -3739,9 +3720,9 @@ Gfx kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Ha
 	gsSPDisplayList(mat_kirby_retro_Metal__Skin_),
 	gsSPDisplayList(kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Half_Closed_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_kirby_retro_Metal__Skin_),
-	gsSPDisplayList(mat_kirby_retro_Metal_Mouth_Inside),
+	gsSPDisplayList(mat_kirby_retro_Kirby__Mouth_Inside_),
 	gsSPDisplayList(kirby_retro_Metal_Kirby_Switch_Option_Head_Half_Closed_Switch_Option_Head_Half_Closed_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_kirby_retro_Metal_Mouth_Inside),
+	gsSPDisplayList(mat_revert_kirby_retro_Kirby__Mouth_Inside_),
 	gsSPEndDisplayList(),
 };
 

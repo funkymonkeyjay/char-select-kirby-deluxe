@@ -165,6 +165,11 @@ local allowedBehaviors = {
 	end, onEatStart = function (o)
 		play_sound(SOUND_GENERAL_YOSHI_TALK, gGlobalSoundSource)
 	end}, 
+	{id = id_bhvStar,               canRotate = false, canEat = false,                                                    allowSuckFunc = function (o, m)
+		local mO = m.marioObj
+		local ray = collision_find_surface_on_ray(mO.oPosX, mO.oPosY + mO.hitboxHeight*0.5, mO.oPosZ, o.oPosX - mO.oPosX, (o.oPosY + o.hitboxHeight*0.5) - (mO.oPosY + mO.hitboxHeight*0.5), o.oPosZ - mO.oPosZ, 128)
+		return ray.surface == nil
+	end, deleteOnDetect = false}, 
 }
 
 _G.kirbyInhaleHookBehavior = function (id, canRotate, canEat, allowSuckFunc, deleteOnDetect, onEatFunc, onEatStart, isNPC) -- Allows the modder to hook a custom behavior for Kirby to inhale.
@@ -337,7 +342,7 @@ hook_event(HOOK_MARIO_UPDATE, function (m)
 			local distToKirby = calc_abs_dist({x = o.oPosX, y = o.oPosY, z = o.oPosZ}, {x = m.pos.x, y = m.pos.y, z = m.pos.z})
 			local distCheck = distToKirby < ACCEPTABLE_DIST and (angleDiff <= PLAYER_ANGLE_LIMIT and angleDiff >= -PLAYER_ANGLE_LIMIT) and isInhaling
 			
-			if (o.oKirbySuckPlayer == 0 or idx + 1 == o.oKirbySuckPlayer) and run_func_or_get_var(currentBehavior.allowSuckFunc, o) then
+			if (o.oKirbySuckPlayer == 0 or idx + 1 == o.oKirbySuckPlayer) and run_func_or_get_var(currentBehavior.allowSuckFunc, o, m) then
 				if distCheck then
 					if o.oHasKirbySucked == 0 then
 						network_init_object(o, false, nil)

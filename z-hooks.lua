@@ -610,6 +610,9 @@ if _G.charSelect then
 			set_mario_action(m, ACT_KIRBY_HELLO, 0)
 		end
 		
+		if (m.flags & MARIO_METAL_CAP) ~= 0 and m.action == ACT_WALKING then
+			m.marioObj.header.gfx.animInfo.animAccel = m.marioObj.header.gfx.animInfo.animAccel * 0.625
+		end
 		-- SCALING
 		
 		--[[
@@ -637,6 +640,15 @@ if _G.charSelect then
 			gPlayerSyncTable[idx].kirbyScaleY = 50
 		end
 		--]]
+		
+		-- if (m.flags & MARIO_METAL_CAP) ~= 0 and m.action == ACT_WALKING then
+			-- m.actionTimer = 2
+			-- m.forwardVel = math.min(m.forwardVel, 20)
+			-- m.intendedMag = math.min(m.intendedMag, 20)
+			-- --m.marioObj.header.gfx.animInfo.animID = -1
+			-- --set_mario_animation(m, CHAR_ANIM_WALKING)
+			-- djui_chat_message_create(tostring(m.actionTimer))
+		-- end
 
 		if (m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) and (m.controller.stickX == 0 and m.controller.stickY == 0) then
 			gPlayerSyncTable[idx].kirbyDodgeStick = false
@@ -785,6 +797,16 @@ if _G.charSelect then
 			gPlayerSyncTable[0].hasAddedHatFromKirby_JJJ = true
 		end
 	end)
+
+	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_CHARACTER_SOUND, function (m, sound)
+		if sound == CHAR_SOUND_HERE_WE_GO and not (m.action == ACT_STAR_DANCE_EXIT or m.action == ACT_STAR_DANCE_NO_EXIT or m.action == ACT_STAR_DANCE_WATER) then
+			if m.action == ACT_HOLDING_BOWSER then
+				return CHAR_SOUND_SO_LONGA_BOWSER
+			else
+				return 0
+			end
+		end
+	end)
 	
 	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_INTERACT, function(m) 
 		local idx = m.playerIndex
@@ -814,6 +836,7 @@ if _G.charSelect then
 
 		local modelId = _G.charSelect.character_get_current_number(idx)
 		if modelId == kirbyCharID then
+		
 			if m.action ~= ACT_SQUISHED and m.action ~= ACT_BBH_ENTER_SPIN and m.squishTimer == 0 and ((m.marioObj.header.gfx.scale.x == 1 and m.marioObj.header.gfx.scale.z == 1) or (m.action == ACT_CROUCHING or m.action == ACT_START_CROUCHING or m.action == ACT_CROUCH_SLIDE)) then
 				local toScale = 1000
 				if m.action == ACT_JUMP_LAND or m.action == ACT_FREEFALL_LAND then
@@ -876,6 +899,17 @@ if _G.charSelect then
 			end
 		end
 		
+		if (m.flags & MARIO_METAL_CAP) ~= 0 then
+			if m.action == ACT_KIRBY_PUFF then
+				vScale = vScale * (m.vel.y > 0 and 0.7 or 1.2)
+			else
+				if m.vel.y > 0 then vScale = vScale * 0.9375 end
+			end
+			if (m.action & ACT_FLAG_AIR) == 0 and m.action ~= ACT_KIRBY_SLIDE then
+				hScale = hScale * 0.625
+			end
+		end
+		
 		m.vel.x = m.vel.x * hScale
 		m.vel.y = m.vel.y * vScale
 		m.vel.z = m.vel.z * hScale
@@ -903,6 +937,16 @@ if _G.charSelect then
 		if currChar == kirbyCharID then
 			if get_mario_cap_flag(o) ~= 0 and (obj_has_behavior_id(o, id_bhvWingCap) ~= 0 or obj_has_behavior_id(o, id_bhvMetalCap) ~= 0 or obj_has_behavior_id(o, id_bhvVanishCap) ~= 0) then
 				set_mario_action(m, ACT_PUTTING_ON_CAP, 0)
+				m.flags = m.flags & ~(MARIO_WING_CAP | MARIO_METAL_CAP | MARIO_VANISH_CAP)
+				if obj_has_behavior_id(o, id_bhvWingCap) ~= 0 then
+					m.flags = m.flags | MARIO_WING_CAP
+				elseif obj_has_behavior_id(o, id_bhvMetalCap) ~= 0 then
+					m.flags = m.flags | MARIO_METAL_CAP
+				elseif obj_has_behavior_id(o, id_bhvVanishCap) ~= 0 then
+					m.flags = m.flags | MARIO_VANISH_CAP
+				end
+				obj_mark_for_deletion(o)
+				return false
 			--else
 				--m.flags = (m.flags | MARIO_CAP_ON_HEAD) & ~MARIO_CAP_IN_HAND
 			end
