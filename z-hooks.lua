@@ -400,7 +400,12 @@ if _G.charSelect then
 	hook_mario_action(ACT_KIRBY_HELLO, act_kirby_hello)
 	hook_mario_action(ACT_BEING_INHALED, act_being_inhaled)
 	
-	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_WARP, function() audio_sample_stop(KIRBY_INHALE_SOUND) end) -- Added to prevent the inhale sound from playing outside a level forever.
+	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_WARP, function()
+		audio_sample_stop(KIRBY_INHALE_SOUND) -- Added to prevent the inhale sound from playing outside a level forever.
+		set_skybox_color(0, 255); set_skybox_color(1, 255); set_skybox_color(2, 255)
+		set_fog_color(0, 255); set_fog_color(1, 255); set_fog_color(2, 255)
+		le_set_ambient_color(255, 255, 255)
+	end)
 	
 	hook_event(HOOK_BEFORE_SET_MARIO_ACTION, function (m, incomingAction)
 		if m.action == ACT_BEING_INHALED and incomingAction ~= ACT_GRABBED and (m.marioObj.header.gfx.node.flags & GRAPH_RENDER_ACTIVE) == 0 then -- Fix to prevent inhaled player from being unvisible when preforming other actions while in the inhaled action.
@@ -415,6 +420,13 @@ if _G.charSelect then
 		local idx = m.playerIndex
 		local floorObjectVel = (m.floor and m.floor.object and m.floor.object.oForwardVel) or 0
 		
+		if (m.flags & MARIO_VANISH_CAP) ~= 0 and (incomingAction & ACT_FLAG_INTANGIBLE) == 0 and not (incomingAction == ACT_DECELERATING or incomingAction == ACT_KIRBY_GHOST_DASH) then
+			--if incomingAction == ACT_STAR_DANCE_EXIT or incomingAction == ACT_STAR_DANCE_NO_EXIT then
+				--return ACT_STAR_DANCE_WATER
+			--end
+			return ACT_KIRBY_GHOST
+		end
+
 		if incomingAction == ACT_JUMBO_STAR_CUTSCENE then return ACT_KIRBY_JUMBO_STAR end
 		
 		if (incomingAction == ACT_CROUCHING or incomingAction == ACT_CROUCH_SLIDE or incomingAction == ACT_PULLING_DOOR or incomingAction == ACT_PUSHING_DOOR) and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ < 0 then
@@ -926,6 +938,19 @@ if _G.charSelect then
 				end
 			end
 		end
+
+		if (m.action == ACT_KIRBY_GHOST) then
+			if obj_has_behavior_id(o, id_bhvDoorWarp) ~= 0 then
+				set_mario_action(m, ACT_DECELERATING, 0)
+				interact_warp_door(m, 0, o)
+			elseif obj_has_behavior_id(o, id_bhvDoor) ~= 0 or obj_has_behavior_id(o, id_bhvStarDoor) ~= 0 then
+				set_mario_action(m, ACT_DECELERATING, 0)
+				interact_door(m, 0, o)
+			elseif obj_has_behavior_id(o, id_bhvWarp) ~= 0 then
+				set_mario_action(m, ACT_DECELERATING, 0)
+				interact_warp(m, 0, o)
+			end
+		end
 		
 		if m.playerIndex ~= 0 then
 			return
@@ -976,7 +1001,7 @@ if _G.charSelect then
 
 	hook_event(HOOK_BEFORE_MARIO_UPDATE, before_update)
 	
-	hook_event(HOOK_ON_WARP, function (type, levelNum, areaIdx, nodeId, arg)		
+	hook_event(HOOK_ON_WARP, function (type, levelNum, areaIdx, nodeId, arg)	
 		gPlayerSyncTable[0].kirbyFallTimer_JJJ = 0
 		gPlayerSyncTable[0].kirbyPuffCeiling_JJJ = 0
 		gPlayerSyncTable[0].kirbyHasMovedStick_JJJ = false
