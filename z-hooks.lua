@@ -402,9 +402,6 @@ if _G.charSelect then
 	
 	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_WARP, function()
 		audio_sample_stop(KIRBY_INHALE_SOUND) -- Added to prevent the inhale sound from playing outside a level forever.
-		set_skybox_color(0, 255); set_skybox_color(1, 255); set_skybox_color(2, 255)
-		set_fog_color(0, 255); set_fog_color(1, 255); set_fog_color(2, 255)
-		le_set_ambient_color(255, 255, 255)
 	end)
 	
 	hook_event(HOOK_BEFORE_SET_MARIO_ACTION, function (m, incomingAction)

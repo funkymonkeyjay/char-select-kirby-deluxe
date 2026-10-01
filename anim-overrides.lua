@@ -1,7 +1,7 @@
 if incompatibilityCond then return 0 end
 
-local MARIO_MOUTH_NORMAL, MARIO_MOUTH_HAPPY, MARIO_MOUTH_SMILE, MARIO_MOUTH_FROWN, MARIO_MOUTH_OPEN = 0, 1, 2, 3, 4
-local MARIO_EYES_SHOCKED, MARIO_EYES_CLOSED_INTENSE, MARIO_EYES_ANGRY = 9, 10, 11
+local MARIO_MOUTH_NORMAL, MARIO_MOUTH_HAPPY, MARIO_MOUTH_SMILE, MARIO_MOUTH_FROWN, MARIO_MOUTH_OPEN, MARIO_MOUTH_EVIL = 0, 1, 2, 3, 4, 5
+local MARIO_EYES_SHOCKED, MARIO_EYES_CLOSED_INTENSE, MARIO_EYES_ANGRY, MARIO_EYES_EVIL = 9, 10, 11, 12
 
 CHAR_ANIM_KIRBY_INHALE_IDLE = CHAR_ANIM_MAX + 19920
 CHAR_ANIM_KIRBY_INHALE_MOVE = CHAR_ANIM_MAX + 19921
@@ -67,6 +67,8 @@ kirbyAnims = {
 			end
 			return MARIO_MOUTH_NORMAL
 		end, 
+		[CHAR_ANIM_WATER_IDLE] = function (m, frame) if m.action == ACT_KIRBY_GHOST_DASH then return MARIO_MOUTH_SMILE end end, 
+		[CHAR_ANIM_SWIM_PART1] = function (m, frame) if (m.flags & MARIO_VANISH_CAP) ~= 0 then return MARIO_MOUTH_EVIL end end, 
 	}, 
 	eyes = {
 		[CHAR_ANIM_FINAL_BOWSER_RAISE_HAND_SPIN] = function (m, frame) if frame > 62 and frame < 99 then return MARIO_EYES_CLOSED_INTENSE end return MARIO_EYES_BLINK end, 
@@ -128,6 +130,9 @@ kirbyAnims = {
 		[CHAR_ANIM_SHOCKED] = MARIO_EYES_SHOCKED, 
 		[CHAR_ANIM_KIRBY_ENDING] = function (m, frame) if frame > 153 and frame < 195 then return MARIO_EYES_CLOSED_INTENSE end return MARIO_EYES_BLINK end, 
 		[CHAR_ANIM_TIPTOE] = MARIO_EYES_CLOSED, 
+		[CHAR_ANIM_WATER_IDLE] = function (m, frame) if m.action == ACT_KIRBY_GHOST_DASH then return MARIO_EYES_ANGRY end end, 
+		[CHAR_ANIM_SWIM_PART1] = function (m, frame) if (m.flags & MARIO_VANISH_CAP) ~= 0 then return MARIO_EYES_EVIL end end, 
+		[CHAR_ANIM_SWIM_PART2] = function (m, frame) if (m.flags & MARIO_VANISH_CAP) ~= 0 then return MARIO_EYES_ANGRY end end, 
 	}, 
 	anims = {
 		[CHAR_ANIM_SINGLE_JUMP] = "KIRBY_JUMP", 

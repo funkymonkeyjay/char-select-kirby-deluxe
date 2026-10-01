@@ -2,7 +2,6 @@ if incompatibilityCond then return 0 end
 
 ACT_KIRBY_POWERUP = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_STATIONARY | ACT_FLAG_INTANGIBLE)
 
-le_set_mode(LE_MODE_AFFECT_ALL_SHADED_AND_COLORED)
 local origCamY, origFocusY = 0, 0
 local light1, light2 = 0, 0
 function act_kirby_powerup(m)
@@ -19,6 +18,7 @@ function act_kirby_powerup(m)
 		if m.playerIndex == 0 then
 			m.actionArg = 45
 
+			le_set_mode(LE_MODE_AFFECT_ALL_SHADED_AND_COLORED)
 			set_skybox_color(0, 128); set_skybox_color(1, 128); set_skybox_color(2, 128)
 			set_fog_color(0, 128); set_fog_color(1, 128); set_fog_color(2, 128)
 
@@ -75,7 +75,8 @@ function act_kirby_powerup(m)
 			
 			if get_current_fov() <= 45 then
 				set_override_fov(0)
-
+				
+				le_set_mode(LE_MODE_AFFECT_ONLY_GEOMETRY_MODE)
 				set_skybox_color(0, 255); set_skybox_color(1, 255); set_skybox_color(2, 255)
 				set_fog_color(0, 255); set_fog_color(1, 255); set_fog_color(2, 255)
 				le_set_ambient_color(255, 255, 255)

@@ -9,6 +9,16 @@ define_custom_obj_fields({oHasKirbySucked = 's32', oKirbySuckPlayer = 's32'})
 local E_MODEL_KIRBY = smlua_model_util_get_id("kirby_geo") 
 local E_MODEL_KIRBY_RETRO = smlua_model_util_get_id("kirby_retro_geo") 
 
+local UvScroll = require("/lib/uv-scroll")
+
+UvScroll.hook_scrolling_function("kirby_Ghost_Kirby_Switch_Option_Torso_mesh_layer_5_tri_0", function(input_vtx, original_uv, current_uv)
+    -- adjustable constants
+    local speed = 50
+
+    -- move the UVs to the right
+    current_uv[1] = current_uv[1] + speed
+end)
+
 local TEX_GRAFFITI_KIRBY = get_texture_info("kirby-graffiti")
 local TEX_CUSTOM_LIFE_ICON = get_texture_info("kirby-icon") 
 
@@ -169,7 +179,8 @@ function kirbyWing_JJJ(node, matStackIndex)
 	local m = geo_get_mario_state()
 	local bodyState = geo_get_body_state()
 	
-	if not (leftWing and rightWing and ringWing and bodyState and m) or m.action == ACT_END_PEACH_CUTSCENE then return end
+	if not (leftWing and rightWing and ringWing and bodyState and m) or m.action == ACT_END_PEACH_CUTSCENE
+	or (m.flags & MARIO_METAL_CAP) ~= 0 or (m.flags & MARIO_VANISH_CAP) ~= 0 then return end
 
 	if bodyState.capState & 2 ~= 0 then
 		leftWing.flags = leftWing.flags | GRAPH_RENDER_ACTIVE
