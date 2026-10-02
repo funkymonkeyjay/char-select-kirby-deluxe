@@ -9,15 +9,11 @@ define_custom_obj_fields({oHasKirbySucked = 's32', oKirbySuckPlayer = 's32'})
 local E_MODEL_KIRBY = smlua_model_util_get_id("kirby_geo") 
 local E_MODEL_KIRBY_RETRO = smlua_model_util_get_id("kirby_retro_geo") 
 
-local UvScroll = require("/lib/uv-scroll")
+local UvScroll = require("/lib/uv-scroll") -- Library made by @djoslin, used to give Ghost Kirby's lower "bedsheet" torso a sort of animation.
+local scrollFunc = function(input_vtx, original_uv, current_uv) local speed = 50; current_uv[1] = current_uv[1] + speed end
 
-UvScroll.hook_scrolling_function("kirby_Ghost_Kirby_Switch_Option_Torso_mesh_layer_5_tri_0", function(input_vtx, original_uv, current_uv)
-    -- adjustable constants
-    local speed = 50
-
-    -- move the UVs to the right
-    current_uv[1] = current_uv[1] + speed
-end)
+UvScroll.hook_scrolling_function("kirby_Ghost_Kirby_Switch_Option_Torso_mesh_layer_5_tri_0", scrollFunc)
+UvScroll.hook_scrolling_function("kirby_retro_Ghost_Kirby_Switch_Option_Torso_mesh_layer_5_tri_0", scrollFunc)
 
 local TEX_GRAFFITI_KIRBY = get_texture_info("kirby-graffiti")
 local TEX_CUSTOM_LIFE_ICON = get_texture_info("kirby-icon") 
