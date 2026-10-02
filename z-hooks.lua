@@ -191,7 +191,7 @@ if _G.charSelect then
 			while oHit do
 				if o ~= oHit and oHit ~= o.parentObj then
 					if obj_check_hitbox_overlap(o, oHit) and (oHit.header.gfx.node.flags & GRAPH_RENDER_INVISIBLE) == 0 then
-						if list == OBJ_LIST_PLAYER then
+						if list == OBJ_LIST_PLAYER and gServerSettings.playerInteractions == PLAYER_INTERACTIONS_PVP then
 							local m = get_mario_state_from_object(oHit)
 							if m and m.playerIndex == 0 then
 								if (m.action & ACT_FLAG_INTANGIBLE) == 0 and (m.action & ACT_FLAG_INVULNERABLE) == 0 and m.invincTimer == 0 and (m.flags & MARIO_VANISH_CAP) == 0 and (m.flags & MARIO_METAL_CAP) == 0 and (o.oInteractionSubtype & INT_SUBTYPE_DELAY_INVINCIBILITY) == 0 then

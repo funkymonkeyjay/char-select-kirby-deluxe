@@ -315,19 +315,21 @@ hook_event(HOOK_MARIO_UPDATE, function (m)
 	
 	local isInhaling = idx == 0 and m.action == ACT_KIRBY_INHALE
 	
-	for i = 0, (MAX_PLAYERS - 1) do
-		if i ~= m.playerIndex and m.action ~= ACT_KIRBY_INHALE and m.action ~= ACT_BEING_INHALED then
-			local mOther = gMarioStates[i]
-			
-			if is_player_active(mOther) ~= 0 then
-				local angle = mario_obj_angle_to_object(mOther, m.marioObj)
-				local angleDiff = (sm64_to_degrees(mOther.faceAngle.y) - sm64_to_degrees(angle) + 180 + 360) % 360 - 180
-				local distToKirby = calc_abs_dist({x = m.pos.x, y = m.pos.y, z = m.pos.z}, {x = mOther.pos.x, y = mOther.pos.y, z = mOther.pos.z})
-				local distCheck = distToKirby < ACCEPTABLE_DIST and (angleDiff <= PLAYER_ANGLE_LIMIT and angleDiff >= -PLAYER_ANGLE_LIMIT) and mOther.action == ACT_KIRBY_INHALE
+	if gServerSettings.playerInteractions == PLAYER_INTERACTIONS_PVP then
+		for i = 0, (MAX_PLAYERS - 1) do
+			if i ~= m.playerIndex and m.action ~= ACT_KIRBY_INHALE and m.action ~= ACT_BEING_INHALED then
+				local mOther = gMarioStates[i]
 				
-				if distCheck then
-					m.marioObj.oKirbySuckPlayer = network_global_index_from_local(mOther.playerIndex)
-					set_mario_action(m, ACT_BEING_INHALED, 0)
+				if is_player_active(mOther) ~= 0 then
+					local angle = mario_obj_angle_to_object(mOther, m.marioObj)
+					local angleDiff = (sm64_to_degrees(mOther.faceAngle.y) - sm64_to_degrees(angle) + 180 + 360) % 360 - 180
+					local distToKirby = calc_abs_dist({x = m.pos.x, y = m.pos.y, z = m.pos.z}, {x = mOther.pos.x, y = mOther.pos.y, z = mOther.pos.z})
+					local distCheck = distToKirby < ACCEPTABLE_DIST and (angleDiff <= PLAYER_ANGLE_LIMIT and angleDiff >= -PLAYER_ANGLE_LIMIT) and mOther.action == ACT_KIRBY_INHALE
+					
+					if distCheck then
+						m.marioObj.oKirbySuckPlayer = network_global_index_from_local(mOther.playerIndex)
+						set_mario_action(m, ACT_BEING_INHALED, 0)
+					end
 				end
 			end
 		end
