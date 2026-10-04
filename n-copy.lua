@@ -188,9 +188,14 @@ kirbyAbilityHooks = {
         [HOOK_MARIO_UPDATE] = function (m)
             m.capTimer = 0
             m.flags = m.flags | MARIO_VANISH_CAP
+
+            -- Allow ability removal despite never idling
+            if m.controller.buttonDown & L_TRIG ~= 0 and m.pos.y < m.floorHeight + 50 then
+                return set_mario_action(m, ACT_KIRBY_HELLO, 0)
+            end
         end,
         [HOOK_BEFORE_SET_MARIO_ACTION] = function (m, incomingAction)
-            if incomingAction ~= ACT_KIRBY_GHOST and (incomingAction & ACT_FLAG_INTANGIBLE) == 0 and not (incomingAction == ACT_DECELERATING or incomingAction == ACT_KIRBY_GHOST_DASH) then
+            if incomingAction ~= ACT_KIRBY_GHOST and incomingAction ~= ACT_KIRBY_HELLO and (incomingAction & ACT_FLAG_INTANGIBLE) == 0 and not (incomingAction == ACT_DECELERATING or incomingAction == ACT_KIRBY_GHOST_DASH) then
                 --if incomingAction == ACT_STAR_DANCE_EXIT or incomingAction == ACT_STAR_DANCE_NO_EXIT then
                     --return ACT_STAR_DANCE_WATER
                 --end

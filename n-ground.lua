@@ -14,6 +14,7 @@ function act_kirby_hello(m)
 		end
         set_mario_animation(m, CHAR_ANIM_KIRBY_HELLO)
         mario_set_forward_vel(m, 0.0)
+		gPlayerSyncTable[m.playerIndex].kirbyCopyAbility_JJJ = 0
     elseif m.input & (INPUT_NONZERO_ANALOG | INPUT_A_PRESSED | INPUT_B_PRESSED | INPUT_Z_PRESSED) ~= 0 or is_anim_at_end(m) ~= 0 then
 		return set_mario_action(m, ACT_IDLE, 0)
     end
