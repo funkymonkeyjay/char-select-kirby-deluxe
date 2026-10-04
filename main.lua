@@ -6,8 +6,8 @@ if incompatibilityCond then return 0 end
 
 define_custom_obj_fields({oHasKirbySucked = 's32', oKirbySuckPlayer = 's32'})
 
-local E_MODEL_KIRBY = smlua_model_util_get_id("kirby_geo") 
-local E_MODEL_KIRBY_RETRO = smlua_model_util_get_id("kirby_retro_geo") 
+E_MODEL_KIRBY = smlua_model_util_get_id("kirby_geo") 
+E_MODEL_KIRBY_RETRO = smlua_model_util_get_id("kirby_retro_geo") 
 
 local UvScroll = require("/lib/uv-scroll") -- Library made by @djoslin, used to give Ghost Kirby's lower "bedsheet" torso a sort of animation.
 local scrollFunc = function(input_vtx, original_uv, current_uv) local speed = 50; current_uv[1] = current_uv[1] + speed end
@@ -179,7 +179,7 @@ function kirbyWing_JJJ(node, matStackIndex)
 	if not (leftWing and rightWing and ringWing and bodyState and m) or m.action == ACT_END_PEACH_CUTSCENE
 	or p.kirbyCopyAbility_JJJ == KIRBY_COPY_STEEL or p.kirbyCopyAbility_JJJ == KIRBY_COPY_GHOST then return end
 
-	if bodyState.capState & 2 ~= 0 then
+	if p.kirbyCopyAbility_JJJ == KIRBY_COPY_ANGEL then
 		leftWing.flags = leftWing.flags | GRAPH_RENDER_ACTIVE
 		rightWing.flags = rightWing.flags | GRAPH_RENDER_ACTIVE
 		ringWing.flags = ringWing.flags | GRAPH_RENDER_ACTIVE

@@ -607,12 +607,28 @@ if _G.charSelect then
 		end
 		return true
 	end
-		
+	
+	local prevPowerup = 0
 	local function kirbyPostUpdate(m)
 		local idx = m.playerIndex
 		
 		if m.playerIndex ~= 0 then return end
 
+		-- Debug Api
+		if m.controller.buttonPressed & D_JPAD ~= 0 then
+			gPlayerSyncTable[0].kirbyCopyAbility_JJJ = 4
+		end
+
+		if prevPowerup ~= gPlayerSyncTable[0].kirbyCopyAbility_JJJ then
+			if gPlayerSyncTable[0].kirbyCopyAbility_JJJ ~= 0 then
+				set_mario_action(m, ACT_PUTTING_ON_CAP, 0)
+			end
+			prevPowerup = gPlayerSyncTable[0].kirbyCopyAbility_JJJ
+		end
+
+
+		m.capTimer = 0
+		m.flags = m.flags & ~(MARIO_WING_CAP | MARIO_METAL_CAP | MARIO_VANISH_CAP)
 		local hR = call_kirby_copy_hook(idx, HOOK_MARIO_UPDATE, m)
 		if hR ~= nil then
 			return hR
@@ -622,9 +638,6 @@ if _G.charSelect then
 			set_mario_action(m, ACT_KIRBY_HELLO, 0)
 		end
 		
-		if (m.flags & MARIO_METAL_CAP) ~= 0 and m.action == ACT_WALKING then
-			m.marioObj.header.gfx.animInfo.animAccel = m.marioObj.header.gfx.animInfo.animAccel * 0.625
-		end
 		-- SCALING
 		
 		--[[
@@ -703,7 +716,7 @@ if _G.charSelect then
 				gPlayerSyncTable[idx].kirbyHasPuffed_JJJ = false
 			end
 			if (m.input & INPUT_A_PRESSED) ~= 0 and gPlayerSyncTable[idx].kirbyFallTimer_JJJ >= 2 then
-				if (m.flags & MARIO_WING_CAP) ~= 0 then
+				if gPlayerSyncTable[idx].kirbyCopyAbility_JJJ == KIRBY_COPY_ANGEL then -- hard code because i'm lazy
 					if m.action ~= ACT_GROUND_POUND then
 						spawn_mist_particles_variable(20, -20, 10)
 						play_sound(SOUND_ACTION_TWIRL, m.marioObj.header.gfx.cameraToObject)
@@ -892,6 +905,11 @@ if _G.charSelect then
 	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_BEFORE_PHYS_STEP, function (m, stepType)
 		if m.action == ACT_WATER_JUMP or m.action == ACT_LONG_JUMP or m.action == ACT_BUBBLED or (m.action & ACT_FLAG_INVULNERABLE) ~= 0 or (m.action & ACT_FLAG_INTANGIBLE) ~= 0 then return end
 	
+		local hR = call_kirby_copy_hook(m.playerIndex, HOOK_BEFORE_PHYS_STEP, m, HOOK_BEFORE_PHYS_STEP)
+		if hR ~= nil then
+			return hR
+		end
+
 		--local hScale, vScale = (m.action & ACT_FLAG_MOVING) ~= 0 and 1.2 or 1.0, 1.0 -- Make Kirby 20% faster.
 		local hScale, vScale = 1.0, 1.0
 		
@@ -908,17 +926,6 @@ if _G.charSelect then
 				elseif m.action & ACT_FLAG_AIR ~= 0 and m.vel.y > 0 then
 					vScale = vScale * 0.9375
 				end
-			end
-		end
-		
-		if (m.flags & MARIO_METAL_CAP) ~= 0 then
-			if m.action == ACT_KIRBY_PUFF then
-				vScale = vScale * (m.vel.y > 0 and 0.7 or 1.2)
-			else
-				if m.vel.y > 0 then vScale = vScale * 0.9375 end
-			end
-			if (m.action & ACT_FLAG_AIR) == 0 and m.action ~= ACT_KIRBY_SLIDE then
-				hScale = hScale * 0.625
 			end
 		end
 		
@@ -962,7 +969,6 @@ if _G.charSelect then
 		
 		if currChar == kirbyCharID then
 			if get_mario_cap_flag(o) ~= 0 and (obj_has_behavior_id(o, id_bhvWingCap) ~= 0 or obj_has_behavior_id(o, id_bhvMetalCap) ~= 0 or obj_has_behavior_id(o, id_bhvVanishCap) ~= 0) then
-				set_mario_action(m, ACT_PUTTING_ON_CAP, 0)
 				if obj_has_behavior_id(o, id_bhvWingCap) ~= 0 then
 					p.kirbyCopyAbility_JJJ = KIRBY_COPY_ANGEL
 					--m.flags = m.flags | MARIO_WING_CAP

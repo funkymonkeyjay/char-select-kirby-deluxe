@@ -148,14 +148,43 @@ KIRBY_COPY_GHOST = 3
 
 kirbyAbilityHooks = {
     [KIRBY_COPY_NONE] = {
-        [HOOK_MARIO_UPDATE] = function (m)
-            m.capTimer = 0
-            m.flags = m.flags & ~(MARIO_WING_CAP | MARIO_METAL_CAP | MARIO_VANISH_CAP)
-        end
+        model = E_MODEL_KIRBY,
     },
-    [KIRBY_COPY_ANGEL] = {},
-    [KIRBY_COPY_STEEL] = {},
+    [KIRBY_COPY_ANGEL] = {
+        model = E_MODEL_KIRBY,
+        [HOOK_MARIO_UPDATE] = function (m)
+            local p = gPlayerSyncTable[m.playerIndex]
+            m.flags = m.flags | MARIO_WING_CAP
+        end,
+    },
+    [KIRBY_COPY_STEEL] = {
+        model = E_MODEL_KIRBY,
+        [HOOK_MARIO_UPDATE] = function (m)
+            m.flags = m.flags | MARIO_METAL_CAP
+
+            if m.action == ACT_WALKING then
+                m.marioObj.header.gfx.animInfo.animAccel = m.marioObj.header.gfx.animInfo.animAccel * 0.625
+            end
+        end,
+        [HOOK_BEFORE_PHYS_STEP] = function(m, stepType)
+            local hScale, vScale = 1.0, 1.0
+
+			if m.action == ACT_KIRBY_PUFF then
+				vScale = vScale * (m.vel.y > 0 and 0.7 or 1.2)
+			else
+				if m.vel.y > 0 then vScale = vScale * 0.9375 end
+			end
+			if (m.action & ACT_FLAG_AIR) == 0 and m.action ~= ACT_KIRBY_SLIDE then
+				hScale = hScale * 0.625
+			end
+
+            m.vel.x = m.vel.x * hScale
+            m.vel.y = m.vel.y * vScale
+            m.vel.z = m.vel.z * hScale
+        end,
+    },
     [KIRBY_COPY_GHOST] = {
+        model = E_MODEL_KIRBY,
         [HOOK_MARIO_UPDATE] = function (m)
             m.capTimer = 0
             m.flags = m.flags | MARIO_VANISH_CAP
@@ -171,19 +200,26 @@ kirbyAbilityHooks = {
     },
 }
 
--- Creates a new entry in the ability hooks and returns the ID
-function allocate_kirby_copy()
-    kirbyAbilityHooks[#kirbyAbilityHooks + 1] = {}
-    return #kirbyAbilityHooks
-end
-
-function hook_kirby_copy(copyID, hook, func)
-    if not kirbyAbilityHooks[copyID] then return end
-    kirbyAbilityHooks[copyID][hook] = func
-end
-
 function call_kirby_copy_hook(index, hook, ...)
     local copyData = kirbyAbilityHooks[gPlayerSyncTable[index].kirbyCopyAbility_JJJ]
     if not copyData or not copyData[hook] then return end
     return copyData[hook](...)
 end
+
+-- Creates a new entry in the ability hooks and returns the ID
+local function allocate_kirby_copy(modelId)
+    modelId = modelId or E_MODEL_KIRBY
+    local copyNum = #kirbyAbilityHooks + 1
+    kirbyAbilityHooks[copyNum] = {model = modelId}
+    return copyNum
+end
+
+local function hook_kirby_copy(copyID, hook, func)
+    if not kirbyAbilityHooks[copyID] then return end
+    kirbyAbilityHooks[copyID][hook] = func
+end
+
+_G.kirbyDeluxe = {
+    allocate_kirby_copy = allocate_kirby_copy,
+    hook_kirby_copy = hook_kirby_copy,
+}
