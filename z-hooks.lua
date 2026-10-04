@@ -682,7 +682,7 @@ if _G.charSelect then
 		end
 		
 		if m.action ~= ACT_KIRBY_PUFF and ((m.action & ACT_FLAG_SWIMMING) ~= 0 or m.action == ACT_TWIRLING or m.pos.y == m.floorHeight) then
-			gPlayerSyncTable[idx].kirbyPuffCeiling_JJJ = m.marioObj.header.gfx.pos.y + 800
+			gPlayerSyncTable[idx].kirbyPuffCeiling_JJJ = m.marioObj.header.gfx.pos.y + 1100
 		end
 		
 		if m.pos.y ~= m.floorHeight and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ == 0 and (m.action & ACT_FLAG_SWIMMING) == 0 and (m.action & ACT_FLAG_METAL_WATER) == 0 
