@@ -1,3 +1,5 @@
+gPlayerSyncTable[0].kirbyCopyAbility_JJJ = 0
+
 ACT_KIRBY_GHOST = allocate_mario_action(ACT_FLAG_INVULNERABLE | ACT_FLAG_SWIMMING_OR_FLYING | ACT_FLAG_METAL_WATER)
 ACT_KIRBY_GHOST_DASH = allocate_mario_action(ACT_FLAG_INVULNERABLE | ACT_FLAG_SWIMMING_OR_FLYING | ACT_FLAG_ATTACKING | ACT_FLAG_METAL_WATER)
 
@@ -6,7 +8,8 @@ hook_event(HOOK_ALLOW_FORCE_WATER_ACTION, function(m, isWater) if m.action == AC
 local toApplyVel = 0
 local intendedYaw = 0
 function act_kirby_ghost(m)
-    if (m.flags & MARIO_VANISH_CAP) == 0 then
+	local p = gPlayerSyncTable[m.playerIndex]
+    if p.kirbyCopyAbility_JJJ ~= KIRBY_COPY_GHOST then
         m.vel.y = 0
         --set_camera_mode(m.area.camera, m.area.camera.defMode, 1)
         --gLakituState.mode = gLakituState.defMode
@@ -86,13 +89,14 @@ function act_kirby_ghost(m)
 end
 
 function act_kirby_ghost_dash(m)
+	local p = gPlayerSyncTable[m.playerIndex]
     m.vel.y = 0
 
     if m.actionTimer == 0 then
         --m.marioObj.header.gfx.angle.x = m.actionArg
     end
 
-    if (m.flags & MARIO_VANISH_CAP) == 0 then    
+    if p.kirbyCopyAbility_JJJ ~= KIRBY_COPY_GHOST then    
         return set_mario_action(m, ACT_FREEFALL, 0)
     end
 
@@ -134,3 +138,52 @@ end
 
 hook_mario_action(ACT_KIRBY_GHOST, act_kirby_ghost)
 hook_mario_action(ACT_KIRBY_GHOST_DASH, act_kirby_ghost_dash)
+
+-- Copy Ability Handler for Kirby
+
+KIRBY_COPY_NONE = 0
+KIRBY_COPY_ANGEL = 1
+KIRBY_COPY_STEEL = 2
+KIRBY_COPY_GHOST = 3
+
+kirbyAbilityHooks = {
+    [KIRBY_COPY_NONE] = {
+        [HOOK_MARIO_UPDATE] = function (m)
+            m.capTimer = 0
+            m.flags = m.flags & ~(MARIO_WING_CAP | MARIO_METAL_CAP | MARIO_VANISH_CAP)
+        end
+    },
+    [KIRBY_COPY_ANGEL] = {},
+    [KIRBY_COPY_STEEL] = {},
+    [KIRBY_COPY_GHOST] = {
+        [HOOK_MARIO_UPDATE] = function (m)
+            m.capTimer = 0
+            m.flags = m.flags | MARIO_VANISH_CAP
+        end,
+        [HOOK_BEFORE_SET_MARIO_ACTION] = function (m, incomingAction)
+            if incomingAction ~= ACT_KIRBY_GHOST and (incomingAction & ACT_FLAG_INTANGIBLE) == 0 and not (incomingAction == ACT_DECELERATING or incomingAction == ACT_KIRBY_GHOST_DASH) then
+                --if incomingAction == ACT_STAR_DANCE_EXIT or incomingAction == ACT_STAR_DANCE_NO_EXIT then
+                    --return ACT_STAR_DANCE_WATER
+                --end
+                return set_mario_action(m, ACT_KIRBY_GHOST, 0)
+            end
+		end,
+    },
+}
+
+-- Creates a new entry in the ability hooks and returns the ID
+function allocate_kirby_copy()
+    kirbyAbilityHooks[#kirbyAbilityHooks + 1] = {}
+    return #kirbyAbilityHooks
+end
+
+function hook_kirby_copy(copyID, hook, func)
+    if not kirbyAbilityHooks[copyID] then return end
+    kirbyAbilityHooks[copyID][hook] = func
+end
+
+function call_kirby_copy_hook(index, hook, ...)
+    local copyData = kirbyAbilityHooks[gPlayerSyncTable[index].kirbyCopyAbility_JJJ]
+    if not copyData or not copyData[hook] then return end
+    return copyData[hook](...)
+end

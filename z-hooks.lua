@@ -194,7 +194,7 @@ if _G.charSelect then
 						if list == OBJ_LIST_PLAYER and gServerSettings.playerInteractions == PLAYER_INTERACTIONS_PVP then
 							local m = get_mario_state_from_object(oHit)
 							if m and m.playerIndex == 0 then
-								if (m.action & ACT_FLAG_INTANGIBLE) == 0 and (m.action & ACT_FLAG_INVULNERABLE) == 0 and m.invincTimer == 0 and (m.flags & MARIO_VANISH_CAP) == 0 and (m.flags & MARIO_METAL_CAP) == 0 and (o.oInteractionSubtype & INT_SUBTYPE_DELAY_INVINCIBILITY) == 0 then
+								if (m.action & ACT_FLAG_INTANGIBLE) == 0 and (m.action & ACT_FLAG_INVULNERABLE) == 0 and m.invincTimer == 0 and p.kirbyCopyAbility_JJJ ~= KIRBY_COPY_GHOST and p.kirbyCopyAbility_JJJ ~= KIRBY_COPY_STEEL and (o.oInteractionSubtype & INT_SUBTYPE_DELAY_INVINCIBILITY) == 0 then
 									hasAttacked = 1
 									
 									update_mario_sound_and_camera(m)
@@ -416,12 +416,10 @@ if _G.charSelect then
 	local function kirbyBeforeActions(m, incomingAction)
 		local idx = m.playerIndex
 		local floorObjectVel = (m.floor and m.floor.object and m.floor.object.oForwardVel) or 0
-		
-		if (m.flags & MARIO_VANISH_CAP) ~= 0 and (incomingAction & ACT_FLAG_INTANGIBLE) == 0 and not (incomingAction == ACT_DECELERATING or incomingAction == ACT_KIRBY_GHOST_DASH) then
-			--if incomingAction == ACT_STAR_DANCE_EXIT or incomingAction == ACT_STAR_DANCE_NO_EXIT then
-				--return ACT_STAR_DANCE_WATER
-			--end
-			return ACT_KIRBY_GHOST
+
+		local hR = call_kirby_copy_hook(m.playerIndex, HOOK_BEFORE_SET_MARIO_ACTION, m, incomingAction)
+		if hR ~= nil then
+			return hR
 		end
 
 		if incomingAction == ACT_JUMBO_STAR_CUTSCENE then return ACT_KIRBY_JUMBO_STAR end
@@ -614,6 +612,11 @@ if _G.charSelect then
 		local idx = m.playerIndex
 		
 		if m.playerIndex ~= 0 then return end
+
+		local hR = call_kirby_copy_hook(idx, HOOK_MARIO_UPDATE, m)
+		if hR ~= nil then
+			return hR
+		end
 		
 		if checkFlags(m) and (m.controller.buttonPressed & L_TRIG) ~= 0 and m.action ~= ACT_KIRBY_HELLO and m.pos.y == m.floorHeight and m.forwardVel == 0 then
 			set_mario_action(m, ACT_KIRBY_HELLO, 0)
@@ -926,6 +929,7 @@ if _G.charSelect then
 	end)
 	
 	local function allow_interact(m, o, intType) -- Piece of code I found on "Coop Central" by "@.kristy.", originally from Sonic Rebooted which, before that, was from Pasta Castle.
+	local p = gPlayerSyncTable[m.playerIndex]
 		if m.action == ACT_KIRBY_INHALE then
 			if (intType & (INTERACT_GRABBABLE) ~= 0) and o.oInteractionSubtype & (INT_SUBTYPE_NOT_GRABBABLE) == 0 and not (obj_has_behavior_id(o, id_bhvBobomb) ~= 0 or (obj_has_behavior_id(o, id_bhvUkiki) ~= 0 and o.oBehParams2ndByte == UKIKI_CAP)) then
 				m.interactObj = o
@@ -959,13 +963,15 @@ if _G.charSelect then
 		if currChar == kirbyCharID then
 			if get_mario_cap_flag(o) ~= 0 and (obj_has_behavior_id(o, id_bhvWingCap) ~= 0 or obj_has_behavior_id(o, id_bhvMetalCap) ~= 0 or obj_has_behavior_id(o, id_bhvVanishCap) ~= 0) then
 				set_mario_action(m, ACT_PUTTING_ON_CAP, 0)
-				m.flags = m.flags & ~(MARIO_WING_CAP | MARIO_METAL_CAP | MARIO_VANISH_CAP)
 				if obj_has_behavior_id(o, id_bhvWingCap) ~= 0 then
-					m.flags = m.flags | MARIO_WING_CAP
+					p.kirbyCopyAbility_JJJ = KIRBY_COPY_ANGEL
+					--m.flags = m.flags | MARIO_WING_CAP
 				elseif obj_has_behavior_id(o, id_bhvMetalCap) ~= 0 then
-					m.flags = m.flags | MARIO_METAL_CAP
+					p.kirbyCopyAbility_JJJ = KIRBY_COPY_STEEL
+					--m.flags = m.flags | MARIO_METAL_CAP
 				elseif obj_has_behavior_id(o, id_bhvVanishCap) ~= 0 then
-					m.flags = m.flags | MARIO_VANISH_CAP
+					p.kirbyCopyAbility_JJJ = KIRBY_COPY_GHOST
+					--m.flags = m.flags | MARIO_VANISH_CAP
 				end
 				obj_mark_for_deletion(o)
 				return false

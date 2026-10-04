@@ -173,10 +173,11 @@ function kirbyWing_JJJ(node, matStackIndex)
 	local ringWing = node.next.next.next
 	
 	local m = geo_get_mario_state()
+	local p = gPlayerSyncTable[m.playerIndex]
 	local bodyState = geo_get_body_state()
 	
 	if not (leftWing and rightWing and ringWing and bodyState and m) or m.action == ACT_END_PEACH_CUTSCENE
-	or (m.flags & MARIO_METAL_CAP) ~= 0 or (m.flags & MARIO_VANISH_CAP) ~= 0 then return end
+	or p.kirbyCopyAbility_JJJ == KIRBY_COPY_STEEL or p.kirbyCopyAbility_JJJ == KIRBY_COPY_GHOST then return end
 
 	if bodyState.capState & 2 ~= 0 then
 		leftWing.flags = leftWing.flags | GRAPH_RENDER_ACTIVE
