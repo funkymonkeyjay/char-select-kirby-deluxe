@@ -589,7 +589,7 @@ if _G.charSelect then
 		end
 	end
 	
-	local function checkFlags(m) -- Same system used for my Splatoon Idols mod.
+	local function checkFlags(m)
 		local prohibitedFlags = {
 			ACT_FLAG_SWIMMING, 
 			ACT_FLAG_METAL_WATER, 
@@ -626,7 +626,6 @@ if _G.charSelect then
 			prevPowerup = gPlayerSyncTable[0].kirbyCopyAbility_JJJ
 		end
 
-
 		m.capTimer = 0
 		m.flags = m.flags & ~(MARIO_WING_CAP | MARIO_METAL_CAP | MARIO_VANISH_CAP)
 		local hR = call_kirby_copy_hook(idx, HOOK_MARIO_UPDATE, m)
@@ -636,6 +635,11 @@ if _G.charSelect then
 		
 		if checkFlags(m) and (m.controller.buttonPressed & L_TRIG) ~= 0 and m.action ~= ACT_KIRBY_HELLO and m.pos.y == m.floorHeight and m.forwardVel == 0 then
 			set_mario_action(m, ACT_KIRBY_HELLO, 0)
+		end
+
+		if (m.controller.buttonPressed & X_BUTTON) ~= 0 and gPlayerSyncTable[0].kirbyCopyAbility_JJJ ~= 0 then -- Alternative/Traditional way of getting rid of a copy ability.
+			-- TODO: Spawn Copy Ability Essence
+			gPlayerSyncTable[m.playerIndex].kirbyCopyAbility_JJJ = 0
 		end
 		
 		-- SCALING
@@ -860,7 +864,7 @@ if _G.charSelect then
 		end
 
 		local modelId = _G.charSelect.character_get_current_number(idx)
-		if modelId == kirbyCharID then
+		if modelId == kirbyCharID then -- TODO: Is it possible to know whether or not a player has movesets disabled based on their m.playerIndex?
 		
 			if m.action ~= ACT_SQUISHED and m.action ~= ACT_BBH_ENTER_SPIN and m.squishTimer == 0 and ((m.marioObj.header.gfx.scale.x == 1 and m.marioObj.header.gfx.scale.z == 1) or (m.action == ACT_CROUCHING or m.action == ACT_START_CROUCHING or m.action == ACT_CROUCH_SLIDE)) then
 				local toScale = 1000
@@ -968,7 +972,7 @@ if _G.charSelect then
 		local currChar = _G.charSelect.character_get_current_number()
 		
 		if currChar == kirbyCharID then
-			if get_mario_cap_flag(o) ~= 0 and (obj_has_behavior_id(o, id_bhvWingCap) ~= 0 or obj_has_behavior_id(o, id_bhvMetalCap) ~= 0 or obj_has_behavior_id(o, id_bhvVanishCap) ~= 0) then
+			if not isMovesetOff() and get_mario_cap_flag(o) ~= 0 and (obj_has_behavior_id(o, id_bhvWingCap) ~= 0 or obj_has_behavior_id(o, id_bhvMetalCap) ~= 0 or obj_has_behavior_id(o, id_bhvVanishCap) ~= 0) then
 				if obj_has_behavior_id(o, id_bhvWingCap) ~= 0 then
 					p.kirbyCopyAbility_JJJ = KIRBY_COPY_ANGEL
 					--m.flags = m.flags | MARIO_WING_CAP

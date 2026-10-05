@@ -167,6 +167,33 @@ local KIRBY_HEALTHMETER = {
     }
 }
 
+function isMovesetOff() -- Global function to check if movesets are off or restricted.
+	if charSelect.are_movesets_restricted() then return true end
+	if charSelect.get_options_status(charSelect.optionTableRef.localMoveset) == 0 then return true end
+	return false
+end
+
+function kirbyWing_JJJ(node, matStackIndex)
+	local leftWing = node.next
+	local rightWing = node.next.next
+	local ringWing = node.next.next.next
+	local bodyState = geo_get_body_state()
+	
+	--if not (leftWing and rightWing and ringWing and bodyState) and not isMovesetOff() then return end
+	if not (leftWing and rightWing and ringWing and bodyState) then return end
+
+	if bodyState.capState & 2 ~= 0 then
+		leftWing.flags = leftWing.flags | GRAPH_RENDER_ACTIVE
+		rightWing.flags = rightWing.flags | GRAPH_RENDER_ACTIVE
+		ringWing.flags = ringWing.flags | GRAPH_RENDER_ACTIVE
+	else
+		leftWing.flags = leftWing.flags & ~GRAPH_RENDER_ACTIVE
+		rightWing.flags = rightWing.flags & ~GRAPH_RENDER_ACTIVE
+		ringWing.flags = ringWing.flags & ~GRAPH_RENDER_ACTIVE
+	end
+end
+
+--[[
 function kirbyWing_JJJ(node, matStackIndex)
 	local leftWing = node.next
 	local rightWing = node.next.next
@@ -189,6 +216,7 @@ function kirbyWing_JJJ(node, matStackIndex)
 		ringWing.flags = ringWing.flags & ~GRAPH_RENDER_ACTIVE
 	end
 end
+]]
 
 function kirbyInhale_JJJ(node, matStackIndex)
 	local asSwitchNode = cast_graph_node(node)
