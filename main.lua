@@ -146,7 +146,7 @@ local KIRBY_PALETTES = {
 }
 
 function play_kirby_sound(m, pos, vol)
-	if is_game_paused() or _G.charSelect.is_menu_open() then return end
+	if is_game_paused() or charSelect.is_menu_open() then return end
 	return audio_sample_play(m, pos, vol or 1)
 end
 
@@ -218,6 +218,13 @@ function kirbyWing_JJJ(node, matStackIndex)
 end
 ]]
 
+function kirbyClassic_JJJ(node, matStackIndex)
+	local asSwitchNode = cast_graph_node(node)
+	local m = geo_get_mario_state()
+
+	asSwitchNode.selectedCase = charSelect.character_get_current_costume(m.playerIndex) - 1
+end
+
 function kirbyInhale_JJJ(node, matStackIndex)
 	local asSwitchNode = cast_graph_node(node)
 	local m = geo_get_mario_state()
@@ -239,7 +246,7 @@ function kirbyMouth_JJJ(node, matStackIndex)
 	
 	local m = geo_get_mario_state()
 	local idx = m.playerIndex
-	local modelId = _G.charSelect.character_get_current_number(idx)
+	local modelId = charSelect.character_get_current_number(idx)
 	
 	local animInfo = m.marioObj.header.gfx.animInfo
 	local setMouthState = 0
@@ -248,7 +255,58 @@ function kirbyMouth_JJJ(node, matStackIndex)
 	if mouthState then
 		setMouthState = mouthState
 	end
+
+	-- Classic Kirby Check
+	if (setMouthState == 2 or setMouthState == 3) and charSelect.character_get_current_costume(m.playerIndex) == 2 then
+		setMouthState = setMouthState + 4
+	end
+
 	asSwitchNode.selectedCase = setMouthState
+end
+
+--[[
+Gfx* geo_switch_mario_eyes(s32 callContext, struct GraphNode* node, UNUSED Mat4* c) {
+    struct GraphNodeSwitchCase* switchCase = (struct GraphNodeSwitchCase*) node;
+    struct MarioBodyState* bodyState = geo_get_body_state();
+    s16 blinkFrame;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        if (bodyState->eyeState == 0) {
+            blinkFrame = ((switchCase->parameter * 32 + (gAreaUpdateCounter + geo_get_processing_object_index() * 32)) >> 1) & 0x1F;
+            if (blinkFrame < 7) {
+                switchCase->selectedCase = gMarioBlinkAnimation[blinkFrame];
+            }
+            else {
+                switchCase->selectedCase = 0;
+            }
+        }
+        else {
+            switchCase->selectedCase = bodyState->eyeState - 1;
+        }
+    }
+    return NULL;
+}]]
+function kirbyEyes_JJJ(node, matStackIndex)
+	local switchCase = cast_graph_node(node)
+	local bodyState = geo_get_body_state()
+	local m = geo_get_mario_state()
+	local marioBlinkAnimation = {1, 2, 1, 0, 1, 2, 1}
+
+	if bodyState.eyeState == 0 then
+		local blinkFrame = ((switchCase.parameter * 32 + (get_area_update_counter() + m.playerIndex * 32)) >> 1) & 31
+		if blinkFrame <= 7 then
+			djui_chat_message_create(tostring(blinkFrame))
+			switchCase.selectedCase = marioBlinkAnimation[blinkFrame] or 0
+		else
+			switchCase.selectedCase = 0
+		end
+	else
+		switchCase.selectedCase = bodyState.eyeState - 1
+	end
+
+	if charSelect.character_get_current_costume(m.playerIndex) == 2 then
+		switchCase.selectedCase = switchCase.selectedCase + 12
+	end
 end
 
 local kirbyCaps = {
@@ -260,31 +318,32 @@ local kirbyCaps = {
 
 for i = 1, #KIRBY_PALETTES do
 	charSelect.character_add_palette_preset(E_MODEL_KIRBY, KIRBY_PALETTES[i], KIRBY_PALETTES[i].name)
-	charSelect.character_add_palette_preset(E_MODEL_KIRBY_RETRO, KIRBY_PALETTES[i], KIRBY_PALETTES[i].name)
+	--charSelect.character_add_palette_preset(E_MODEL_KIRBY_RETRO, KIRBY_PALETTES[i], KIRBY_PALETTES[i].name)
 end
 
-kirbyCharID = _G.charSelect.character_add("Kirby", "The fearless hero of Planet Popstar! His naïveté may lead him to act on sheer impulse, but this pink puffball will do whatever it takes to protect their friends from evil, hopefully he'll get a slice of cake afterward as a reward!", "@funkymonkeyjay", "FF79AA", E_MODEL_KIRBY, CT_MARIO, TEX_CUSTOM_LIFE_ICON)
-_G.charSelect.character_add_health_meter(kirbyCharID, KIRBY_HEALTHMETER)
+kirbyCharID = charSelect.character_add("Kirby", "The fearless hero of Planet Popstar! His naïveté may lead him to act on sheer impulse, but this pink puffball will do whatever it takes to protect their friends from evil, hopefully he'll get a slice of cake afterward as a reward!", "@funkymonkeyjay", "FF79AA", E_MODEL_KIRBY, CT_MARIO, TEX_CUSTOM_LIFE_ICON)
+charSelect.character_add_health_meter(kirbyCharID, KIRBY_HEALTHMETER)
 
-kirbyRetroCosID = _G.charSelect.character_add_costume(kirbyCharID, "Kirby (Classic)", "The one that started it all! Coming in like a warm spring breeze in the early 90s, this helper-turned-hero's got the agility and bravery to take on the nefarious King De-... Bowser?! ... Ah, forget it, you know what they say, can't go wrong with taking on the classics every once in a while!", "@funkymonkeyjay", "FF79AA", E_MODEL_KIRBY_RETRO, CT_MARIO, TEX_CUSTOM_LIFE_ICON)
-_G.charSelect.character_add_costume_health_meter(kirbyCharID, kirbyRetroCosID, KIRBY_HEALTHMETER)
+--kirbyRetroCosID = charSelect.character_add_costume(kirbyCharID, "Kirby (Classic)", "The one that started it all! Coming in like a warm spring breeze in the early 90s, this helper-turned-hero's got the agility and bravery to take on the nefarious King De-... Bowser?! ... Ah, forget it, you know what they say, can't go wrong with taking on the classics every once in a while!", "@funkymonkeyjay", "FF79AA", E_MODEL_KIRBY_RETRO, CT_MARIO, TEX_CUSTOM_LIFE_ICON)
+kirbyRetroCosID = charSelect.character_add_costume(kirbyCharID, "Kirby (Classic)", "The one that started it all! Coming in like a warm spring breeze in the early 90s, this helper-turned-hero's got the agility and bravery to take on the nefarious King De-... Bowser?! ... Ah, forget it, you know what they say, can't go wrong with taking on the classics every once in a while!", "@funkymonkeyjay", "FF79AA", E_MODEL_KIRBY, CT_MARIO, TEX_CUSTOM_LIFE_ICON)
+charSelect.character_add_costume_health_meter(kirbyCharID, kirbyRetroCosID, KIRBY_HEALTHMETER)
 
-_G.charSelect.character_add_caps(E_MODEL_KIRBY, kirbyCaps)
-_G.charSelect.character_add_voice(E_MODEL_KIRBY, KIRBY_VOICETABLE)
-_G.charSelect.character_add_animations(E_MODEL_KIRBY, kirbyAnims.anims, kirbyAnims.eyes)
+charSelect.character_add_caps(E_MODEL_KIRBY, kirbyCaps)
+charSelect.character_add_voice(E_MODEL_KIRBY, KIRBY_VOICETABLE)
+charSelect.character_add_animations(E_MODEL_KIRBY, kirbyAnims.anims, kirbyAnims.eyes)
 
-_G.charSelect.character_add_caps(E_MODEL_KIRBY_RETRO, kirbyCaps)
-_G.charSelect.character_add_voice(E_MODEL_KIRBY_RETRO, KIRBY_VOICETABLE)
+--charSelect.character_add_caps(E_MODEL_KIRBY_RETRO, kirbyCaps)
+--charSelect.character_add_voice(E_MODEL_KIRBY_RETRO, KIRBY_VOICETABLE)
 
-_G.charSelect.character_add_animations(E_MODEL_KIRBY_RETRO, kirbyAnims.anims, kirbyAnims.eyes)
-_G.charSelect.character_add_menu_instrumental(kirbyCharID, audio_stream_load("menu.ogg"))
-_G.charSelect.character_add_graffiti(kirbyCharID, TEX_GRAFFITI_KIRBY)
+--charSelect.character_add_animations(E_MODEL_KIRBY_RETRO, kirbyAnims.anims, kirbyAnims.eyes)
+charSelect.character_add_menu_instrumental(kirbyCharID, audio_stream_load("menu.ogg"))
+charSelect.character_add_graffiti(kirbyCharID, TEX_GRAFFITI_KIRBY)
 
-_G.charSelect.character_set_category(kirbyCharID, "Kirby", true)
+charSelect.character_set_category(kirbyCharID, "Kirby", true)
 
 local SEQ_KIRBY_TRIUMPH = smlua_audio_utils_allocate_sequence()
 smlua_audio_utils_replace_sequence(SEQ_KIRBY_TRIUMPH, 0x1A, 100, "triumph_return")
-_G.charSelect.character_add_sequence_replacement(kirbyCharID, SEQ_EVENT_CUTSCENE_VICTORY, SEQ_KIRBY_TRIUMPH)
+charSelect.character_add_sequence_replacement(kirbyCharID, SEQ_EVENT_CUTSCENE_VICTORY, SEQ_KIRBY_TRIUMPH)
 
 if retroCharAPI then
 	local NES_OUTLINE = {r = 0, g = 0, b = 0}
