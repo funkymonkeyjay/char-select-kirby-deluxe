@@ -7,7 +7,7 @@ if incompatibilityCond then return 0 end
 define_custom_obj_fields({oHasKirbySucked = 's32', oKirbySuckPlayer = 's32'})
 
 E_MODEL_KIRBY = smlua_model_util_get_id("kirby_geo") 
-E_MODEL_KIRBY_RETRO = smlua_model_util_get_id("kirby_retro_geo") 
+--E_MODEL_KIRBY_RETRO = smlua_model_util_get_id("kirby_retro_geo") 
 
 local UvScroll = require("/lib/uv-scroll") -- Library made by @djoslin, used to give Ghost Kirby's lower "bedsheet" torso a sort of animation.
 local scrollFunc = function(input_vtx, original_uv, current_uv) local speed = 50; current_uv[1] = current_uv[1] + speed end
@@ -264,28 +264,6 @@ function kirbyMouth_JJJ(node, matStackIndex)
 	asSwitchNode.selectedCase = setMouthState
 end
 
---[[
-Gfx* geo_switch_mario_eyes(s32 callContext, struct GraphNode* node, UNUSED Mat4* c) {
-    struct GraphNodeSwitchCase* switchCase = (struct GraphNodeSwitchCase*) node;
-    struct MarioBodyState* bodyState = geo_get_body_state();
-    s16 blinkFrame;
-
-    if (callContext == GEO_CONTEXT_RENDER) {
-        if (bodyState->eyeState == 0) {
-            blinkFrame = ((switchCase->parameter * 32 + (gAreaUpdateCounter + geo_get_processing_object_index() * 32)) >> 1) & 0x1F;
-            if (blinkFrame < 7) {
-                switchCase->selectedCase = gMarioBlinkAnimation[blinkFrame];
-            }
-            else {
-                switchCase->selectedCase = 0;
-            }
-        }
-        else {
-            switchCase->selectedCase = bodyState->eyeState - 1;
-        }
-    }
-    return NULL;
-}]]
 function kirbyEyes_JJJ(node, matStackIndex)
 	local switchCase = cast_graph_node(node)
 	local bodyState = geo_get_body_state()
@@ -295,7 +273,6 @@ function kirbyEyes_JJJ(node, matStackIndex)
 	if bodyState.eyeState == 0 then
 		local blinkFrame = ((switchCase.parameter * 32 + (get_area_update_counter() + m.playerIndex * 32)) >> 1) & 31
 		if blinkFrame <= 7 then
-			djui_chat_message_create(tostring(blinkFrame))
 			switchCase.selectedCase = marioBlinkAnimation[blinkFrame] or 0
 		else
 			switchCase.selectedCase = 0

@@ -3212,7 +3212,7 @@ Gfx kirby_Head_Half_Closed_Switch_Option_Head_Half_Closed_mesh_layer_1_mat_overr
 	gsSPEndDisplayList(),
 };
 
-Gfx kirby_Head_Half_Closed_Switch_Option_Head_Half_Closed_mesh_layer_1_mat_override_Eyes__Kirby__Angry__001_13[] = {
+Gfx kirby_Head_Half_Closed_Switch_Option_Head_Half_Closed_mesh_layer_1_mat_override_Eyes__Kirby__Angry__001_3[] = {
 	gsSPDisplayList(mat_kirby_Kirby__Skin_),
 	gsSPDisplayList(kirby_Head_Half_Closed_Switch_Option_Head_Half_Closed_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_kirby_Kirby__Skin_),
@@ -3305,27 +3305,7 @@ Gfx kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_1_mat_override_Eyes__
 	gsSPEndDisplayList(),
 };
 
-Gfx kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_1_mat_override_Eyes__Kirby__Dead__001_7[] = {
-	gsSPDisplayList(mat_kirby_Kirby__Skin_),
-	gsSPDisplayList(kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_kirby_Kirby__Skin_),
-	gsSPDisplayList(mat_kirby_Eyes__Kirby__Dead__001),
-	gsSPDisplayList(kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_kirby_Eyes__Kirby__Dead__001),
-	gsSPEndDisplayList(),
-};
-
-Gfx kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_1_mat_override_Eyes__Kirby__Shocked__001_8[] = {
-	gsSPDisplayList(mat_kirby_Kirby__Skin_),
-	gsSPDisplayList(kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_kirby_Kirby__Skin_),
-	gsSPDisplayList(mat_kirby_Eyes__Kirby__Shocked__001),
-	gsSPDisplayList(kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_kirby_Eyes__Kirby__Shocked__001),
-	gsSPEndDisplayList(),
-};
-
-Gfx kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_1_mat_override_Eyes__Kirby__Intense_Closed__001_9[] = {
+Gfx kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_1_mat_override_Eyes__Kirby__Intense_Closed__001_7[] = {
 	gsSPDisplayList(mat_kirby_Kirby__Skin_),
 	gsSPDisplayList(kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_kirby_Kirby__Skin_),
@@ -3335,7 +3315,7 @@ Gfx kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_1_mat_override_Eyes__
 	gsSPEndDisplayList(),
 };
 
-Gfx kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_1_mat_override_Eyes__Kirby__Angry__001_0[] = {
+Gfx kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_1_mat_override_Eyes__Kirby__Angry__001_8[] = {
 	gsSPDisplayList(mat_kirby_Kirby__Skin_),
 	gsSPDisplayList(kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_kirby_Kirby__Skin_),
@@ -3401,28 +3381,14 @@ Gfx kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_mat_override_Eyes__
 	gsSPEndDisplayList(),
 };
 
-Gfx kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_mat_override_Eyes__Kirby__Dead__001_7[] = {
+Gfx kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_mat_override_Eyes__Kirby__Intense_Closed__001_7[] = {
 	gsSPDisplayList(mat_kirby_Mouth__Kirby__Puffed_Cheeks_),
 	gsSPDisplayList(kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_tri_0),
 	gsSPDisplayList(mat_revert_kirby_Mouth__Kirby__Puffed_Cheeks_),
 	gsSPEndDisplayList(),
 };
 
-Gfx kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_mat_override_Eyes__Kirby__Shocked__001_8[] = {
-	gsSPDisplayList(mat_kirby_Mouth__Kirby__Puffed_Cheeks_),
-	gsSPDisplayList(kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_tri_0),
-	gsSPDisplayList(mat_revert_kirby_Mouth__Kirby__Puffed_Cheeks_),
-	gsSPEndDisplayList(),
-};
-
-Gfx kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_mat_override_Eyes__Kirby__Intense_Closed__001_9[] = {
-	gsSPDisplayList(mat_kirby_Mouth__Kirby__Puffed_Cheeks_),
-	gsSPDisplayList(kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_tri_0),
-	gsSPDisplayList(mat_revert_kirby_Mouth__Kirby__Puffed_Cheeks_),
-	gsSPEndDisplayList(),
-};
-
-Gfx kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_mat_override_Eyes__Kirby__Angry__001_0[] = {
+Gfx kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_mat_override_Eyes__Kirby__Angry__001_8[] = {
 	gsSPDisplayList(mat_kirby_Mouth__Kirby__Puffed_Cheeks_),
 	gsSPDisplayList(kirby_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_tri_0),
 	gsSPDisplayList(mat_revert_kirby_Mouth__Kirby__Puffed_Cheeks_),
