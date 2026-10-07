@@ -173,7 +173,7 @@ local allowedBehaviors = {
 	end, deleteOnDetect = false}, 
 }
 
-_G.kirbyInhaleHookBehavior = function (id, canRotate, canEat, allowSuckFunc, deleteOnDetect, onEatFunc, onEatStart, isNPC) -- Allows the modder to hook a custom behavior for Kirby to inhale.
+_G.kirbyDeluxe.hook_inhale_behavior = function (id, canRotate, canEat, allowSuckFunc, deleteOnDetect, onEatFunc, onEatStart, isNPC) -- Allows the modder to hook a custom behavior for Kirby to inhale.
 	if not id then return end
 	local trueCanRotate, trueCanEat, trueAllowSuckFunc, trueDeleteOnDetect, trueOnEatFunc, trueOnEatStart, trueIsNPC = true, true, true, false, nil, nil, false
 	if canRotate ~= nil      then trueCanRotate = canRotate           end
@@ -195,7 +195,7 @@ _G.kirbyInhaleHookBehavior = function (id, canRotate, canEat, allowSuckFunc, del
 	})
 end
 
-_G.kirbyInhaleEditBehavior = function (id, canRotate, canEat, allowSuckFunc, deleteOnDetect, onEatFunc, onEatStart, isNPC) -- Allows the modder to edit an existing behavior for Kirby to inhale.
+_G.kirbyDeluxe.edit_inhale_behavior = function (id, canRotate, canEat, allowSuckFunc, deleteOnDetect, onEatFunc, onEatStart, isNPC) -- Allows the modder to edit an existing behavior for Kirby to inhale.
 	if not id then return end
 	local returnBeh
 	for i = 1, #allowedBehaviors do
@@ -214,6 +214,10 @@ _G.kirbyInhaleEditBehavior = function (id, canRotate, canEat, allowSuckFunc, del
 		if isNPC ~= nil          then returnBeh.isNPC = isNPC                   end
 	end
 end
+
+-- Keeping original definitions for legacy reasons.
+_G.kirbyInhaleHookBehavior = _G.kirbyDeluxe.hook_inhale_behavior
+_G.kirbyInhaleEditBehavior = _G.kirbyDeluxe.edit_inhale_behavior
 
 if not _G.betterCoins then -- Prevents coins messing up with Squishy's "Better Coins".
 	_G.kirbyInhaleHookBehavior(id_bhvBlueCoinJumping,     false, false, true,                                   false, nil, true)

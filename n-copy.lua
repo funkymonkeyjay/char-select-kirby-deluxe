@@ -146,6 +146,12 @@ KIRBY_COPY_ANGEL = 1
 KIRBY_COPY_STEEL = 2
 KIRBY_COPY_GHOST = 3
 
+local E_MODEL_KIRBY_GHOST = smlua_model_util_get_id("kirby_ghost_geo")
+local E_MODEL_KIRBY_METAL = smlua_model_util_get_id("kirby_metal_geo")
+
+local UvScroll = require("/lib/uv-scroll") -- Library made by @djoslin, used to give Ghost Kirby's lower "bedsheet" torso a sort of animation.
+UvScroll.hook_scrolling_function("kirby_ghost_Torso_mesh_layer_5_tri_0", function(input_vtx, original_uv, current_uv) local speed = 50; current_uv[1] = current_uv[1] + speed end)
+
 kirbyAbilityHooks = {
     [KIRBY_COPY_NONE] = {
         model = E_MODEL_KIRBY,
@@ -156,9 +162,20 @@ kirbyAbilityHooks = {
             local p = gPlayerSyncTable[m.playerIndex]
             m.flags = m.flags | MARIO_WING_CAP
         end,
+        [HOOK_BEFORE_SET_MARIO_ACTION] = function (m, incomingAction)
+            if incomingAction == ACT_KIRBY_PUFF then
+                --if m.action == ACT_GROUND_POUND then return 1 end -- Does it really matter if all im going to be doing is replacing this eventually?
+                gPlayerSyncTable[m.playerIndex].kirbyHasPuffed_JJJ = true
+                spawn_mist_particles_variable(20, -20, 10)
+				play_sound(SOUND_ACTION_TWIRL, m.marioObj.header.gfx.cameraToObject)
+                m.angleVel.x = 0
+				m.vel.y = 64
+                return ACT_FLYING_TRIPLE_JUMP
+            end
+        end, 
     },
     [KIRBY_COPY_STEEL] = {
-        model = E_MODEL_KIRBY,
+        model = E_MODEL_KIRBY_METAL,
         [HOOK_MARIO_UPDATE] = function (m)
             m.flags = m.flags | MARIO_METAL_CAP
 
@@ -184,7 +201,7 @@ kirbyAbilityHooks = {
         end,
     },
     [KIRBY_COPY_GHOST] = {
-        model = E_MODEL_KIRBY,
+        model = E_MODEL_KIRBY_GHOST,
         [HOOK_MARIO_UPDATE] = function (m)
             m.capTimer = 0
             m.flags = m.flags | MARIO_VANISH_CAP

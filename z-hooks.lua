@@ -45,7 +45,7 @@ smlua_anim_util_register_animation('ANIM_KIRBY_CAP_LOOP', 256, 0, 0, 0, 40, {
 
 });
 
-if _G.charSelect then
+if charSelect then
 	-- CUSTOM OBJECTS --
 	
 	-- INHALE PARTICLES
@@ -400,7 +400,7 @@ if _G.charSelect then
 	hook_mario_action(ACT_KIRBY_HELLO, act_kirby_hello)
 	hook_mario_action(ACT_BEING_INHALED, act_being_inhaled)
 	
-	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_WARP, function()
+	charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_WARP, function()
 		audio_sample_stop(KIRBY_INHALE_SOUND) -- Added to prevent the inhale sound from playing outside a level forever.
 	end)
 	
@@ -720,20 +720,20 @@ if _G.charSelect then
 				gPlayerSyncTable[idx].kirbyHasPuffed_JJJ = false
 			end
 			if (m.input & INPUT_A_PRESSED) ~= 0 and gPlayerSyncTable[idx].kirbyFallTimer_JJJ >= 2 then
-				if gPlayerSyncTable[idx].kirbyCopyAbility_JJJ == KIRBY_COPY_ANGEL then -- hard code because i'm lazy
-					if m.action ~= ACT_GROUND_POUND then
-						spawn_mist_particles_variable(20, -20, 10)
-						play_sound(SOUND_ACTION_TWIRL, m.marioObj.header.gfx.cameraToObject)
-						set_mario_action(m, ACT_FLYING_TRIPLE_JUMP, 0)
-						m.angleVel.x = 0
-						m.vel.y = 64
-					end
-				elseif not gPlayerSyncTable[idx].kirbyHasPuffed_JJJ then
+				--if gPlayerSyncTable[idx].kirbyCopyAbility_JJJ == KIRBY_COPY_ANGEL then -- hard code because i'm lazy
+					--if m.action ~= ACT_GROUND_POUND then
+						--spawn_mist_particles_variable(20, -20, 10)
+						--play_sound(SOUND_ACTION_TWIRL, m.marioObj.header.gfx.cameraToObject)
+						--set_mario_action(m, ACT_FLYING_TRIPLE_JUMP, 0)
+						--m.angleVel.x = 0
+						--m.vel.y = 64
+					--end
+				if not gPlayerSyncTable[idx].kirbyHasPuffed_JJJ then
 					play_character_sound(m, CHAR_SOUND_HOOHOO)
 					gPlayerSyncTable[idx].kirbyHasMovedStick_JJJ = false
+					m.vel.y = 16
 					set_mario_action(m, ACT_KIRBY_PUFF, 0)
 					set_mario_animation(m, CHAR_ANIM_KIRBY_PUFF_RISE)
-					m.vel.y = 16
 				end
 			end
 		else
@@ -770,7 +770,7 @@ if _G.charSelect then
 			end
 		end
 		
-		if m.action == ACT_PUTTING_ON_CAP or (m.action == ACT_JUMP and m.actionArg == 1 and m.vel.y > 0 and _G.charSelect.character_get_current_number(0) == kirbyCharID) then
+		if m.action == ACT_PUTTING_ON_CAP or (m.action == ACT_JUMP and m.actionArg == 1 and m.vel.y > 0 and charSelect.character_get_current_number(0) == kirbyCharID) then
 			m.particleFlags = m.particleFlags | PARTICLE_SPARKLES
 		end
 		
@@ -785,16 +785,16 @@ if _G.charSelect then
 		gPlayerSyncTable[idx].kirbyVelZ = m.vel.z
 	end
 	
-	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_INTERACT, function(m) 
+	charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_INTERACT, function(m) 
 		local idx = m.playerIndex
 		gPlayerSyncTable[idx].kirbyFallTimer_JJJ = 0
 	end)
 	
-	--_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_PLAY_SOUND, function (soundBits, pos)
+	--charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_PLAY_SOUND, function (soundBits, pos)
 	hook_event(HOOK_ON_PLAY_SOUND, function (soundBits, pos)
 		for i = 0, MAX_PLAYERS - 1 do
 			local m = gMarioStates[i]
-			local currChar = _G.charSelect.character_get_current_number(m.playerIndex)
+			local currChar = charSelect.character_get_current_number(m.playerIndex)
 			local checkPos = pos.x == m.marioObj.header.gfx.cameraToObject.x and pos.y == m.marioObj.header.gfx.cameraToObject.y and pos.z == m.marioObj.header.gfx.cameraToObject.z -- Shoutouts to "EmilyEmmi" for giving me advice on how to accomplish step sounds!
 			if checkPos and currChar == kirbyCharID then
 				if soundBits == SOUND_ACTION_BONK and m.action ~= ACT_SLIDE_KICK_SLIDE then -- Avoid sounds during bonk cancellation.
@@ -815,7 +815,7 @@ if _G.charSelect then
 	hook_event(HOOK_MARIO_UPDATE, function (m)
 		if m.playerIndex ~= 0 then return end
 		
-		local currChar = _G.charSelect.character_get_current_number()
+		local currChar = charSelect.character_get_current_number()
 		if currChar == kirbyCharID then
 			if gPlayerSyncTable[0].hasAddedHatFromKirby_JJJ and (m.flags & MARIO_CAP_ON_HEAD) == 0 then
 				m.flags = MARIO_CAP_ON_HEAD | MARIO_NORMAL_CAP
@@ -827,7 +827,7 @@ if _G.charSelect then
 		end
 	end)
 
-	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_CHARACTER_SOUND, function (m, sound)
+	charSelect.character_hook_moveset(kirbyCharID, HOOK_CHARACTER_SOUND, function (m, sound)
 		if sound == CHAR_SOUND_HERE_WE_GO and not (m.action == ACT_STAR_DANCE_EXIT or m.action == ACT_STAR_DANCE_NO_EXIT or m.action == ACT_STAR_DANCE_WATER) then
 			if m.action == ACT_HOLDING_BOWSER then
 				return CHAR_SOUND_SO_LONGA_BOWSER
@@ -837,14 +837,14 @@ if _G.charSelect then
 		end
 	end)
 	
-	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_INTERACT, function(m) 
+	charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_INTERACT, function(m) 
 		local idx = m.playerIndex
 		gPlayerSyncTable[idx].kirbyFallTimer_JJJ = 0
 	end)
 	
 	hook_event(HOOK_OBJECT_SET_MODEL, function (o, model, extendedModel, charNum) 
 		local m = gMarioStates[0]
-		local currChar = _G.charSelect.character_get_current_number()
+		local currChar = charSelect.character_get_current_number()
 		if currChar == kirbyCharID then
 			if obj_has_behavior_id(o, id_bhvNormalCap) ~= 0 and m.character.capModelId == model then
 				obj_mark_for_deletion(o) -- DELETE NORMAL CAP!
@@ -863,7 +863,7 @@ if _G.charSelect then
 			spawn_sync_object(id_bhvKirbyInhale_JJJ, E_MODEL_KIRBY_VORTEX, m.pos.x, m.pos.y + 25, m.pos.z, function(o) o.parentObj = m.marioObj end)
 		end
 
-		local modelId = _G.charSelect.character_get_current_number(idx)
+		local modelId = charSelect.character_get_current_number(idx)
 		if modelId == kirbyCharID then -- TODO: Is it possible to know whether or not a player has movesets disabled based on their m.playerIndex?
 		
 			if m.action ~= ACT_SQUISHED and m.action ~= ACT_BBH_ENTER_SPIN and m.squishTimer == 0 and ((m.marioObj.header.gfx.scale.x == 1 and m.marioObj.header.gfx.scale.z == 1) or (m.action == ACT_CROUCHING or m.action == ACT_START_CROUCHING or m.action == ACT_CROUCH_SLIDE)) then
@@ -901,12 +901,12 @@ if _G.charSelect then
 			end
 		end
 	end)
-	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_MARIO_UPDATE, kirbyPostUpdate)
-	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_BEFORE_MARIO_UPDATE, kirbyPreUpdate)
-	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_SET_MARIO_ACTION, kirbyActions)
-	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_BEFORE_SET_MARIO_ACTION, kirbyBeforeActions)
+	charSelect.character_hook_moveset(kirbyCharID, HOOK_MARIO_UPDATE, kirbyPostUpdate)
+	charSelect.character_hook_moveset(kirbyCharID, HOOK_BEFORE_MARIO_UPDATE, kirbyPreUpdate)
+	charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_SET_MARIO_ACTION, kirbyActions)
+	charSelect.character_hook_moveset(kirbyCharID, HOOK_BEFORE_SET_MARIO_ACTION, kirbyBeforeActions)
 
-	_G.charSelect.character_hook_moveset(kirbyCharID, HOOK_BEFORE_PHYS_STEP, function (m, stepType)
+	charSelect.character_hook_moveset(kirbyCharID, HOOK_BEFORE_PHYS_STEP, function (m, stepType)
 		if m.action == ACT_WATER_JUMP or m.action == ACT_LONG_JUMP or m.action == ACT_BUBBLED or (m.action & ACT_FLAG_INVULNERABLE) ~= 0 or (m.action & ACT_FLAG_INTANGIBLE) ~= 0 then return end
 	
 		local hR = call_kirby_copy_hook(m.playerIndex, HOOK_BEFORE_PHYS_STEP, m, HOOK_BEFORE_PHYS_STEP)
@@ -969,7 +969,7 @@ if _G.charSelect then
 		end
 		
 		local oUpdated = false
-		local currChar = _G.charSelect.character_get_current_number()
+		local currChar = charSelect.character_get_current_number()
 		
 		if currChar == kirbyCharID then
 			if not isMovesetOff() and get_mario_cap_flag(o) ~= 0 and (obj_has_behavior_id(o, id_bhvWingCap) ~= 0 or obj_has_behavior_id(o, id_bhvMetalCap) ~= 0 or obj_has_behavior_id(o, id_bhvVanishCap) ~= 0) then
@@ -1005,7 +1005,7 @@ if _G.charSelect then
 	hook_event(HOOK_ALLOW_INTERACT, allow_interact)
 	
 	local function before_update(m) -- Code by Baconator2558, meant to use one idle animation instead of three.
-		if (kirbyCharID == _G.charSelect.character_get_current_number(m.playerIndex)) then
+		if (kirbyCharID == charSelect.character_get_current_number(m.playerIndex)) then
 			if (m.action == ACT_IDLE) then
 				m.actionState = 0
 			end

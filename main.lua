@@ -6,14 +6,7 @@ if incompatibilityCond then return 0 end
 
 define_custom_obj_fields({oHasKirbySucked = 's32', oKirbySuckPlayer = 's32'})
 
-E_MODEL_KIRBY = smlua_model_util_get_id("kirby_geo") 
---E_MODEL_KIRBY_RETRO = smlua_model_util_get_id("kirby_retro_geo") 
-
-local UvScroll = require("/lib/uv-scroll") -- Library made by @djoslin, used to give Ghost Kirby's lower "bedsheet" torso a sort of animation.
-local scrollFunc = function(input_vtx, original_uv, current_uv) local speed = 50; current_uv[1] = current_uv[1] + speed end
-
-UvScroll.hook_scrolling_function("kirby_Ghost_Kirby_Switch_Option_Torso_mesh_layer_5_tri_0", scrollFunc)
-UvScroll.hook_scrolling_function("kirby_retro_Ghost_Kirby_Switch_Option_Torso_mesh_layer_5_tri_0", scrollFunc)
+E_MODEL_KIRBY = smlua_model_util_get_id("kirby_geo")
 
 local TEX_GRAFFITI_KIRBY = get_texture_info("kirby-graffiti")
 local TEX_CUSTOM_LIFE_ICON = get_texture_info("kirby-icon") 
@@ -178,9 +171,10 @@ function kirbyWing_JJJ(node, matStackIndex)
 	local rightWing = node.next.next
 	local ringWing = node.next.next.next
 	local bodyState = geo_get_body_state()
+	local m = geo_get_mario_state()
 	
 	--if not (leftWing and rightWing and ringWing and bodyState) and not isMovesetOff() then return end
-	if not (leftWing and rightWing and ringWing and bodyState) then return end
+	if not (leftWing and rightWing and ringWing and bodyState and m) or (not isMovesetOff() and m.action == ACT_END_PEACH_CUTSCENE) then return end
 
 	if bodyState.capState & 2 ~= 0 then
 		leftWing.flags = leftWing.flags | GRAPH_RENDER_ACTIVE

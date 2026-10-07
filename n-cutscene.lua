@@ -26,8 +26,6 @@ function act_kirby_powerup(m)
 			light1 = le_add_light(m.pos.x, m.pos.y + 400, m.pos.z, 255, 255, 255, 600, 100)
 			light2 = le_add_light(m.pos.x + sins(m.faceAngle.y) * 400, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 400, 255, 255, 255, 1000, 100)
 
-			djui_chat_message_create(tostring(le_get_light_count()))
-
 			origCamY, origFocusY = gLakituState.pos.y, gLakituState.focus.y
 		end
 		
