@@ -197,8 +197,7 @@ function kirbyWing_JJJ(node, matStackIndex)
 	local p = gPlayerSyncTable[m.playerIndex]
 	local bodyState = geo_get_body_state()
 	
-	if not (leftWing and rightWing and ringWing and bodyState and m) or m.action == ACT_END_PEACH_CUTSCENE
-	or p.kirbyCopyAbility_JJJ == KIRBY_COPY_STEEL or p.kirbyCopyAbility_JJJ == KIRBY_COPY_GHOST then return end
+	if not (leftWing and rightWing and ringWing and bodyState and m) or m.action == ACT_END_PEACH_CUTSCENE then return end
 
 	if p.kirbyCopyAbility_JJJ == KIRBY_COPY_ANGEL then
 		leftWing.flags = leftWing.flags | GRAPH_RENDER_ACTIVE
