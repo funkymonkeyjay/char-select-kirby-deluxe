@@ -212,11 +212,14 @@ function kirbyWing_JJJ(node, matStackIndex)
 end
 ]]
 
+hook_event(HOOK_MARIO_UPDATE, function(m) if m.playerIndex ~= 0 then return end gPlayerSyncTable[m.playerIndex].kirbyAltCostume = charSelect.character_get_current_costume(m.playerIndex) end)
+
 function kirbyClassic_JJJ(node, matStackIndex)
 	local asSwitchNode = cast_graph_node(node)
 	local m = geo_get_mario_state()
 
-	asSwitchNode.selectedCase = charSelect.character_get_current_costume(m.playerIndex) - 1
+	--asSwitchNode.selectedCase = charSelect.character_get_current_costume(m.playerIndex) - 1
+	asSwitchNode.selectedCase = gPlayerSyncTable[m.playerIndex].kirbyAltCostume - 1
 end
 
 function kirbyInhale_JJJ(node, matStackIndex)
@@ -251,7 +254,8 @@ function kirbyMouth_JJJ(node, matStackIndex)
 	end
 
 	-- Classic Kirby Check
-	if (setMouthState == 2 or setMouthState == 3) and charSelect.character_get_current_costume(m.playerIndex) == 2 then
+	--if (setMouthState == 2 or setMouthState == 3) and charSelect.character_get_current_costume(m.playerIndex) == 2 then
+	if (setMouthState == 2 or setMouthState == 3) and gPlayerSyncTable[m.playerIndex].kirbyAltCostume == 2 then
 		setMouthState = setMouthState + 4
 	end
 
@@ -275,7 +279,7 @@ function kirbyEyes_JJJ(node, matStackIndex)
 		switchCase.selectedCase = bodyState.eyeState - 1
 	end
 
-	if charSelect.character_get_current_costume(m.playerIndex) == 2 then
+	if gPlayerSyncTable[m.playerIndex].kirbyAltCostume == 2 then
 		switchCase.selectedCase = switchCase.selectedCase + 12
 	end
 end
