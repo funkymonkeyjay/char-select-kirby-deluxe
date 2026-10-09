@@ -46,6 +46,13 @@ function act_kirby_slide(m)
 	return false
 end
 
+hook_mario_action(ACT_KIRBY_SLIDE, {every_frame = act_kirby_slide, gravity = function (m) 
+	m.vel.y = m.vel.y - 4
+	if m.vel.y < -75 then
+		m.vel.y = -75
+	end
+end})
+
 local function s16(num)
     num = math.floor(num) & 0xFFFF
     if num >= 32768 then return num - 65536 end
@@ -161,3 +168,10 @@ function act_kirby_puff(m)
 	
 	return 0
 end
+
+hook_mario_action(ACT_KIRBY_PUFF, {every_frame = act_kirby_puff, gravity = function (m) 
+	m.vel.y = m.vel.y - 1
+	if m.vel.y < -15 then
+		m.vel.y = -15
+	end
+end})

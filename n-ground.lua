@@ -24,6 +24,8 @@ function act_kirby_hello(m)
 	m.actionTimer = m.actionTimer + 1
 end
 
+hook_mario_action(ACT_KIRBY_HELLO, act_kirby_hello)
+
 function act_kirby_dodge(m)
 	local idx = m.playerIndex
 
@@ -81,6 +83,13 @@ function act_kirby_dodge(m)
 
 	return 0
 end
+
+hook_mario_action(ACT_KIRBY_DODGE, {every_frame = act_kirby_dodge, gravity = function (m)
+	m.vel.y = m.vel.y - 5.5
+	if m.vel.y < -75 then
+		m.vel.y = -75
+	end
+end})
 
 local allowedBehaviors = {
 	{id = id_bhvBobomb,             canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
@@ -315,6 +324,8 @@ function act_being_inhaled(m)
 	m.pos.x, m.pos.y, m.pos.z = o.oPosX, o.oPosY, o.oPosZ
 end
 
+hook_mario_action(ACT_BEING_INHALED, act_being_inhaled)
+
 hook_event(HOOK_MARIO_UPDATE, function (m)
 	local idx = m.playerIndex
 	
@@ -490,3 +501,10 @@ function act_kirby_inhale(m)
 	
 	return 0
 end
+
+hook_mario_action(ACT_KIRBY_INHALE, {every_frame = act_kirby_inhale, gravity = function (m)
+	m.vel.y = m.vel.y - 4
+	if m.vel.y < -75 then
+		m.vel.y = -75
+	end
+end})
