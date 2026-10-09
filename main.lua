@@ -7,6 +7,7 @@ if incompatibilityCond then return 0 end
 define_custom_obj_fields({oHasKirbySucked = 's32', oKirbySuckPlayer = 's32'})
 
 E_MODEL_KIRBY = smlua_model_util_get_id("kirby_geo")
+E_MODEL_DEDEDE = smlua_model_util_get_id("dedede_geo")
 
 local TEX_GRAFFITI_KIRBY = get_texture_info("kirby-graffiti")
 local TEX_CUSTOM_LIFE_ICON = get_texture_info("kirby-icon") 
@@ -213,6 +214,17 @@ end
 
 hook_event(HOOK_MARIO_UPDATE, function(m) if m.playerIndex ~= 0 then return end gPlayerSyncTable[m.playerIndex].kirbyAltCostume = charSelect.character_get_current_costume(m.playerIndex) end)
 
+function dededeHammer_JJJ(node, matStackIndex)
+	local asSwitchNode = cast_graph_node(node)
+
+	if asSwitchNode.parameter == 1 then -- Hand
+		asSwitchNode.selectedCase = 0
+	else -- Back
+		local hammer = node.next
+		hammer.flags = hammer.flags & ~GRAPH_RENDER_ACTIVE
+	end
+end
+
 function kirbyClassic_JJJ(node, matStackIndex)
 	local asSwitchNode = cast_graph_node(node)
 	local m = geo_get_mario_state()
@@ -310,14 +322,33 @@ charSelect.character_add_animations(E_MODEL_KIRBY, kirbyAnims.anims, kirbyAnims.
 --charSelect.character_add_voice(E_MODEL_KIRBY_RETRO, KIRBY_VOICETABLE)
 
 --charSelect.character_add_animations(E_MODEL_KIRBY_RETRO, kirbyAnims.anims, kirbyAnims.eyes)
-charSelect.character_add_menu_instrumental(kirbyCharID, audio_stream_load("menu.ogg"))
+local KIRBY_MENU_THEME = audio_stream_load("menu.ogg")
+charSelect.character_add_menu_instrumental(kirbyCharID, KIRBY_MENU_THEME)
 charSelect.character_add_graffiti(kirbyCharID, TEX_GRAFFITI_KIRBY)
 
 charSelect.character_set_category(kirbyCharID, "Kirby", true)
 
+-- KING DEDEDE --
+charSelect.character_add_palette_preset(E_MODEL_DEDEDE, {
+	[PANTS] = "FFDA89", 
+	[SHIRT] = "FF0000", 
+	[GLOVES] = "FFBC00", 
+	[HAIR] = "FFCF00", 
+	[SKIN] = "0089FF", 
+	[CAP] = "FF0000",
+	[SHOES] = "FFCF00", 
+	[EMBLEM] = "FFBC00"
+})
+
+dededeCharID = charSelect.character_add("King Dedede", "Lorem Ipsum", "@funkymonkeyjay", "FF0000", E_MODEL_DEDEDE, CT_MARIO, TEX_CUSTOM_LIFE_ICON)
+charSelect.character_add_caps(E_MODEL_DEDEDE, kirbyCaps)
+charSelect.character_add_menu_instrumental(dededeCharID, KIRBY_MENU_THEME)
+charSelect.character_set_category(dededeCharID, "Kirby", true)
+
 local SEQ_KIRBY_TRIUMPH = smlua_audio_utils_allocate_sequence()
 smlua_audio_utils_replace_sequence(SEQ_KIRBY_TRIUMPH, 0x1A, 100, "triumph_return")
 charSelect.character_add_sequence_replacement(kirbyCharID, SEQ_EVENT_CUTSCENE_VICTORY, SEQ_KIRBY_TRIUMPH)
+charSelect.character_add_sequence_replacement(dededeCharID, SEQ_EVENT_CUTSCENE_VICTORY, SEQ_KIRBY_TRIUMPH)
 
 if retroCharAPI then
 	local NES_OUTLINE = {r = 0, g = 0, b = 0}
