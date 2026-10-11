@@ -22,6 +22,8 @@ for i = 0, (MAX_PLAYERS - 1) do
 	gPlayerSyncTable[i].kirbyScaleY = 1000
 	gPlayerSyncTable[i].kirbyMouthState = 0
 	gPlayerSyncTable[i].kirbySplineFrame = 0
+
+	gPlayerSyncTable[i].dededeIsHammer_JJJ = false
 end
 
 if charSelect then
@@ -141,14 +143,19 @@ if charSelect then
 			end
 		end
 
-		if currChar == dededeCharID and m.action == ACT_KIRBY_INHALE and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ ~= 0 and m.action ~= ACT_DEDEDE_FULL_AIM then
-			return ACT_DEDEDE_FULL_AIM
+		if currChar == dededeCharID then
+			if m.action == ACT_KIRBY_INHALE and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ ~= 0 and m.action ~= ACT_DEDEDE_FULL_AIM then
+				return ACT_DEDEDE_FULL_AIM
+			elseif incomingAction == ACT_DIVE_SLIDE then
+				m.vel.y = 24
+				return ACT_DEDEDE_DIVE_SLIDE
+			end
 		end
 		
 		if incomingAction ~= ACT_PICKING_UP and (incomingAction == ACT_DIVE
 		or (incomingAction == ACT_PUNCHING and m.action ~= ACT_CROUCHING) or incomingAction == ACT_MOVE_PUNCHING
 		or (incomingAction == ACT_JUMP_KICK and m.action ~= ACT_KIRBY_PUFF)) or incomingAction == ACT_WATER_PUNCH then
-			if currChar == dededeCharID and incomingAction == ACT_DIVE then
+			if currChar == dededeCharID and incomingAction == ACT_DIVE and m.pos.y == m.floorHeight then
 				return -- TODO: recreate ACT_DIVE but without rollout nor rotating based on slope, possibly?
 			end
 			if gPlayerSyncTable[idx].kirbyMouthCounter_JJJ ~= 0	then
@@ -270,6 +277,20 @@ if charSelect then
 				-- TODO: Spawn Copy Ability Essence
 				gPlayerSyncTable[m.playerIndex].kirbyCopyAbility_JJJ = 0
 			end
+		else
+			if (m.controller.buttonDown & X_BUTTON) ~= 0 then
+				if not gPlayerSyncTable[0].dededeIsHammer_JJJ then -- or m.action ~= ACT_DEDEDE_SPIN
+					if m.forwardVel == 0 then
+						set_mario_action(m, ACT_JUMP_LAND, 0)
+						gPlayerSyncTable[0].dededeIsHammer_JJJ = true
+					else
+						djui_chat_message_create("spin!")
+					end
+				end
+			elseif gPlayerSyncTable[0].dededeIsHammer_JJJ then
+				set_mario_action(m, ACT_GROUND_POUND_LAND, 0)
+				gPlayerSyncTable[0].dededeIsHammer_JJJ = false
+			end
 		end
 
 		if (m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) and (m.controller.stickX == 0 and m.controller.stickY == 0) then
@@ -383,9 +404,6 @@ if charSelect then
 
 	charSelect.character_hook_moveset(kirbyCharID, HOOK_BEFORE_MARIO_UPDATE, kirbyPreUpdate)
 	charSelect.character_hook_moveset(dededeCharID, HOOK_BEFORE_MARIO_UPDATE, kirbyPreUpdate)
-	
-	charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_INTERACT, function(m) local idx = m.playerIndex; gPlayerSyncTable[idx].kirbyFallTimer_JJJ = 0 end)
-	charSelect.character_hook_moveset(dededeCharID, HOOK_ON_INTERACT, function(m) local idx = m.playerIndex; gPlayerSyncTable[idx].kirbyFallTimer_JJJ = 0 end)
 	
 	hook_event(HOOK_ON_PLAY_SOUND, function (soundBits, pos)
 		for i = 0, MAX_PLAYERS - 1 do
@@ -529,7 +547,8 @@ if charSelect then
 	
 	hook_event(HOOK_ALLOW_INTERACT, function (m, o, intType) -- Piece of code I found on "Coop Central" by "@.kristy.", originally from Sonic Rebooted which, before that, was from Pasta Castle.
 		local p = gPlayerSyncTable[m.playerIndex]
-		if m.action == ACT_KIRBY_INHALE then
+
+		if m.action == ACT_KIRBY_INHALE or m.action == ACT_DEDEDE_DIVE_SLIDE then
 			if (intType & (INTERACT_GRABBABLE) ~= 0) and o.oInteractionSubtype & (INT_SUBTYPE_NOT_GRABBABLE) == 0 and not (obj_has_behavior_id(o, id_bhvBobomb) ~= 0 or (obj_has_behavior_id(o, id_bhvUkiki) ~= 0 and o.oBehParams2ndByte == UKIKI_CAP)) then
 				m.interactObj = o
 				m.input = m.input | INPUT_INTERACT_OBJ_GRABBABLE
@@ -538,19 +557,10 @@ if charSelect then
 				end
 			end
 		end
-
-		-- I feel like this could be included in the hook stuff...?
-		if (m.action == ACT_KIRBY_GHOST) then
-			if obj_has_behavior_id(o, id_bhvDoorWarp) ~= 0 then
-				set_mario_action(m, ACT_DECELERATING, 0)
-				interact_warp_door(m, 0, o)
-			elseif obj_has_behavior_id(o, id_bhvDoor) ~= 0 or obj_has_behavior_id(o, id_bhvStarDoor) ~= 0 then
-				set_mario_action(m, ACT_DECELERATING, 0)
-				interact_door(m, 0, o)
-			elseif obj_has_behavior_id(o, id_bhvWarp) ~= 0 then
-				set_mario_action(m, ACT_DECELERATING, 0)
-				interact_warp(m, 0, o)
-			end
+		
+		local hR = call_kirby_copy_hook(m.playerIndex, HOOK_ALLOW_INTERACT, m, o, intType)
+		if hR ~= nil then
+			return hR
 		end
 		
 		if m.playerIndex ~= 0 then return end
@@ -612,6 +622,7 @@ if charSelect then
 		gPlayerSyncTable[0].kirbyMouthCounter_JJJ = 0
 		gPlayerSyncTable[0].kirbyScaleY = 1000
 		gPlayerSyncTable[0].kirbyMouthState = 0
+		gPlayerSyncTable[0].dededeIsHammer_JJJ = false
 		audio_sample_stop(KIRBY_INHALE_SOUND) -- Added to prevent the inhale sound from playing outside a level forever.
 	end)
 end

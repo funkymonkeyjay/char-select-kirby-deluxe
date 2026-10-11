@@ -20,7 +20,7 @@ function act_kirby_ghost(m)
     --gLakituState.mode = CAMERA_MODE_BEHIND_MARIO
 
     if m.actionTimer == 0 then   
-        intendedYaw = m.intendedYaw 
+        intendedYaw = m.faceAngle.y 
         toApplyVel = m.vel.y
         m.actionTimer = 1
     end
@@ -40,7 +40,9 @@ function act_kirby_ghost(m)
         perform_air_step(m, 0)
     end
 
-    if not (m.controller.stickX == 0 and m.controller.stickY == 0) then
+    if m.controller.stickX == 0 and m.controller.stickY == 0 then
+        intendedYaw = m.faceAngle.y
+    else
         intendedYaw = m.intendedYaw
     end
 
@@ -219,6 +221,20 @@ kirbyAbilityHooks = {
                 return set_mario_action(m, ACT_KIRBY_GHOST, 0)
             end
 		end,
+        [HOOK_ALLOW_INTERACT] = function (m, o, intType)
+            if (m.action == ACT_KIRBY_GHOST) then
+                if obj_has_behavior_id(o, id_bhvDoorWarp) ~= 0 then
+                    set_mario_action(m, ACT_DECELERATING, 0)
+                    interact_warp_door(m, 0, o)
+                elseif obj_has_behavior_id(o, id_bhvDoor) ~= 0 or obj_has_behavior_id(o, id_bhvStarDoor) ~= 0 then
+                    set_mario_action(m, ACT_DECELERATING, 0)
+                    interact_door(m, 0, o)
+                elseif obj_has_behavior_id(o, id_bhvWarp) ~= 0 then
+                    set_mario_action(m, ACT_DECELERATING, 0)
+                    interact_warp(m, 0, o)
+                end
+            end
+        end, 
     },
 }
 

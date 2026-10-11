@@ -30,12 +30,19 @@ end
 
 function dededeHammer_JJJ(node, matStackIndex)
 	local asSwitchNode = cast_graph_node(node)
+	local m = geo_get_mario_state()
+
+	local isHoldingHammer = gPlayerSyncTable[m.playerIndex].dededeIsHammer_JJJ
 
 	if asSwitchNode.parameter == 1 then -- Hand
-		asSwitchNode.selectedCase = 0
+		asSwitchNode.selectedCase = isHoldingHammer and 1 or 0
 	else -- Back
 		local hammer = node.next
-		hammer.flags = hammer.flags & ~GRAPH_RENDER_ACTIVE
+		if m.action ~= ACT_KIRBY_JUMBO_STAR then
+			hammer.flags = hammer.flags & ~GRAPH_RENDER_ACTIVE
+		else
+			hammer.flags = hammer.flags | GRAPH_RENDER_ACTIVE
+		end
 	end
 end
 
