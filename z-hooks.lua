@@ -41,6 +41,7 @@ if charSelect then
 			local dededeMult = currChar == dededeCharID and 0.75 or 1
 			if incomingAction == ACT_JUMP or incomingAction == ACT_DOUBLE_JUMP or incomingAction == ACT_TRIPLE_JUMP then gPlayerSyncTable[idx].kirbyScaleY = 1000; m.marioObj.header.gfx.scale.y = 1 end
 			if incomingAction == ACT_START_CROUCHING or incomingAction == ACT_CROUCH_SLIDE then gPlayerSyncTable[idx].kirbyScaleY = 2500 * dededeMult; m.marioObj.header.gfx.scale.y = 2.5 * dededeMult end
+			-- TODO: more need to be added.
 		end
 	end)
 	
@@ -139,8 +140,17 @@ if charSelect then
 				return 1
 			end
 		end
+
+		if currChar == dededeCharID and m.action == ACT_KIRBY_INHALE and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ ~= 0 and m.action ~= ACT_DEDEDE_FULL_AIM then
+			return ACT_DEDEDE_FULL_AIM
+		end
 		
-		if incomingAction ~= ACT_PICKING_UP and (incomingAction == ACT_DIVE or (incomingAction == ACT_PUNCHING and m.action ~= ACT_CROUCHING) or incomingAction == ACT_MOVE_PUNCHING or (incomingAction == ACT_JUMP_KICK and m.action ~= ACT_KIRBY_PUFF)) or incomingAction == ACT_WATER_PUNCH then
+		if incomingAction ~= ACT_PICKING_UP and (incomingAction == ACT_DIVE
+		or (incomingAction == ACT_PUNCHING and m.action ~= ACT_CROUCHING) or incomingAction == ACT_MOVE_PUNCHING
+		or (incomingAction == ACT_JUMP_KICK and m.action ~= ACT_KIRBY_PUFF)) or incomingAction == ACT_WATER_PUNCH then
+			if currChar == dededeCharID and incomingAction == ACT_DIVE then
+				return -- TODO: recreate ACT_DIVE but without rollout nor rotating based on slope, possibly?
+			end
 			if gPlayerSyncTable[idx].kirbyMouthCounter_JJJ ~= 0	then
 				m.forwardVel = 0
 				if m.playerIndex == 0 and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ > 0 then
@@ -158,9 +168,8 @@ if charSelect then
 					m.vel.y = 24
 					return ACT_JUMP_KICK
 				end
-			elseif incomingAction ~= ACT_WATER_PUNCH then
+			elseif incomingAction ~= ACT_WATER_PUNCH and incomingAction ~= ACT_DIVE_SLIDE then
 				if m.pos.y == m.floorHeight then m.vel.y = 0 end
-				--if m.playerIndex == 0 then spawn_non_sync_object(id_bhvKirbyInhale_JJJ, E_MODEL_KIRBY_VORTEX, m.pos.x, m.pos.y + 25, m.pos.z, function(o) o.parentObj = m.marioObj end) end
 				return ACT_KIRBY_INHALE
 			end
 		end
@@ -169,7 +178,11 @@ if charSelect then
 			incomingAction == ACT_LONG_JUMP or (incomingAction == ACT_FORWARD_ROLLOUT and m.action ~= ACT_KIRBY_DODGE) or incomingAction == ACT_BACKWARD_ROLLOUT or incomingAction == ACT_DOUBLE_JUMP or incomingAction == ACT_TRIPLE_JUMP or incomingAction == ACT_SIDE_FLIP then
 			--(incomingAction == ACT_FORWARD_ROLLOUT and m.action ~= ACT_KIRBY_DODGE) or incomingAction == ACT_BACKWARD_ROLLOUT or incomingAction == ACT_DOUBLE_JUMP or incomingAction == ACT_TRIPLE_JUMP or incomingAction == ACT_SIDE_FLIP then
 			gPlayerSyncTable[idx].kirbyScaleY = 1000; m.marioObj.header.gfx.scale.y = 1
-			return ACT_JUMP
+			if currChar == dededeCharID and (incomingAction == ACT_BACKFLIP or incomingAction == ACT_LONG_JUMP) then
+				return ACT_DEDEDE_JUMP
+			else
+				return m.action == ACT_DIVE_SLIDE and 1 or ACT_JUMP -- TODO: jittering occurs when trying to go into forward rolllout action, could something be done about this?
+			end
 		end
 
 		if gPlayerSyncTable[idx].kirbyFallTimer_JJJ > 40 and m.action == ACT_VERTICAL_WIND and incomingAction == ACT_DIVE_SLIDE then
@@ -182,6 +195,9 @@ if charSelect then
 			return ACT_FORWARD_ROLLOUT
 		end
 	end
+
+	charSelect.character_hook_moveset(kirbyCharID, HOOK_BEFORE_SET_MARIO_ACTION, kirbyBeforeActions)
+	charSelect.character_hook_moveset(dededeCharID, HOOK_BEFORE_SET_MARIO_ACTION, kirbyBeforeActions)
 	
 	local function kirbyActions(m)
 		if m.action == ACT_PUNCHING and m.prevAction == ACT_CROUCHING then
@@ -196,6 +212,9 @@ if charSelect then
 			return
 		end
 	end
+
+	charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_SET_MARIO_ACTION, kirbyActions)
+	charSelect.character_hook_moveset(dededeCharID, HOOK_ON_SET_MARIO_ACTION, kirbyActions)
 	
 	local function checkFlags(m)
 		local prohibitedFlags = {
@@ -325,6 +344,9 @@ if charSelect then
 			m.vel.z = m.forwardVel * coss(m.faceAngle.y)
 		end
 	end
+
+	charSelect.character_hook_moveset(kirbyCharID, HOOK_MARIO_UPDATE, kirbyPostUpdate)
+	charSelect.character_hook_moveset(dededeCharID, HOOK_MARIO_UPDATE, kirbyPostUpdate)
 	
 	local function kirbyPreUpdate(m)
 		local idx = m.playerIndex
@@ -358,6 +380,9 @@ if charSelect then
 		gPlayerSyncTable[idx].kirbyVelY = m.vel.y
 		gPlayerSyncTable[idx].kirbyVelZ = m.vel.z
 	end
+
+	charSelect.character_hook_moveset(kirbyCharID, HOOK_BEFORE_MARIO_UPDATE, kirbyPreUpdate)
+	charSelect.character_hook_moveset(dededeCharID, HOOK_BEFORE_MARIO_UPDATE, kirbyPreUpdate)
 	
 	charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_INTERACT, function(m) local idx = m.playerIndex; gPlayerSyncTable[idx].kirbyFallTimer_JJJ = 0 end)
 	charSelect.character_hook_moveset(dededeCharID, HOOK_ON_INTERACT, function(m) local idx = m.playerIndex; gPlayerSyncTable[idx].kirbyFallTimer_JJJ = 0 end)
@@ -383,21 +408,6 @@ if charSelect then
 		end
 	end)
 	
-	hook_event(HOOK_MARIO_UPDATE, function (m)
-		if m.playerIndex ~= 0 then return end
-		
-		local currChar = charSelect.character_get_current_number()
-		if currChar == kirbyCharID then
-			if gPlayerSyncTable[0].hasAddedHatFromKirby_JJJ and (m.flags & MARIO_CAP_ON_HEAD) == 0 then
-				m.flags = MARIO_CAP_ON_HEAD | MARIO_NORMAL_CAP
-				m.cap = MARIO_CAP_ON_HEAD
-				gPlayerSyncTable[0].hasAddedHatFromKirby_JJJ = false
-			end
-		else
-			gPlayerSyncTable[0].hasAddedHatFromKirby_JJJ = true
-		end
-	end)
-
 	charSelect.character_hook_moveset(kirbyCharID, HOOK_CHARACTER_SOUND, function (m, sound)
 		if sound == CHAR_SOUND_HERE_WE_GO and not (m.action == ACT_STAR_DANCE_EXIT or m.action == ACT_STAR_DANCE_NO_EXIT or m.action == ACT_STAR_DANCE_WATER) then
 			if m.action == ACT_HOLDING_BOWSER then
@@ -424,9 +434,22 @@ if charSelect then
 			end
 		end
 	end)
-	
+
 	hook_event(HOOK_MARIO_UPDATE, function (m)
 		local idx = m.playerIndex
+
+		if idx == 0 then
+			local currChar = charSelect.character_get_current_number()
+			if currChar == kirbyCharID then
+				if gPlayerSyncTable[0].hasAddedHatFromKirby_JJJ and (m.flags & MARIO_CAP_ON_HEAD) == 0 then
+					m.flags = MARIO_CAP_ON_HEAD | MARIO_NORMAL_CAP
+					m.cap = MARIO_CAP_ON_HEAD
+					gPlayerSyncTable[0].hasAddedHatFromKirby_JJJ = false
+				end
+			else
+				gPlayerSyncTable[0].hasAddedHatFromKirby_JJJ = true
+			end
+		end
 
 		if m.action == ACT_KIRBY_INHALE and m.actionTimer <= 1 then
 			spawn_sync_object(id_bhvKirbyInhale_JJJ, E_MODEL_KIRBY_VORTEX, m.pos.x, m.pos.y + 25, m.pos.z, function(o) o.parentObj = m.marioObj end)
@@ -470,16 +493,6 @@ if charSelect then
 			end
 		end
 	end)
-
-	charSelect.character_hook_moveset(kirbyCharID, HOOK_MARIO_UPDATE, kirbyPostUpdate)
-	charSelect.character_hook_moveset(kirbyCharID, HOOK_BEFORE_MARIO_UPDATE, kirbyPreUpdate)
-	charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_SET_MARIO_ACTION, kirbyActions)
-	charSelect.character_hook_moveset(kirbyCharID, HOOK_BEFORE_SET_MARIO_ACTION, kirbyBeforeActions)
-
-	charSelect.character_hook_moveset(dededeCharID, HOOK_MARIO_UPDATE, kirbyPostUpdate)
-	charSelect.character_hook_moveset(dededeCharID, HOOK_BEFORE_MARIO_UPDATE, kirbyPreUpdate)
-	charSelect.character_hook_moveset(dededeCharID, HOOK_ON_SET_MARIO_ACTION, kirbyActions)
-	charSelect.character_hook_moveset(dededeCharID, HOOK_BEFORE_SET_MARIO_ACTION, kirbyBeforeActions)
 
 	charSelect.character_hook_moveset(kirbyCharID, HOOK_BEFORE_PHYS_STEP, function (m, stepType)
 		if m.action == ACT_WATER_JUMP or m.action == ACT_LONG_JUMP or m.action == ACT_BUBBLED or (m.action & ACT_FLAG_INVULNERABLE) ~= 0 or (m.action & ACT_FLAG_INTANGIBLE) ~= 0 then return end
@@ -526,6 +539,7 @@ if charSelect then
 			end
 		end
 
+		-- I feel like this could be included in the hook stuff...?
 		if (m.action == ACT_KIRBY_GHOST) then
 			if obj_has_behavior_id(o, id_bhvDoorWarp) ~= 0 then
 				set_mario_action(m, ACT_DECELERATING, 0)
@@ -539,9 +553,7 @@ if charSelect then
 			end
 		end
 		
-		if m.playerIndex ~= 0 then
-			return
-		end
+		if m.playerIndex ~= 0 then return end
 		
 		local oUpdated = false
 		local currChar = charSelect.character_get_current_number()

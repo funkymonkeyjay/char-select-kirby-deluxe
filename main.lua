@@ -209,6 +209,7 @@ charSelect.character_add_palette_preset(E_MODEL_DEDEDE, {
 })
 
 dededeCharID = charSelect.character_add("King Dedede", "Lorem Ipsum", "@funkymonkeyjay", "FF0000", E_MODEL_DEDEDE, CT_MARIO, TEX_CUSTOM_LIFE_ICON)
+charSelect.character_set_nickname(dededeCharID, "Dedede")
 charSelect.character_add_caps(E_MODEL_DEDEDE, kirbyCaps)
 charSelect.character_add_menu_instrumental(dededeCharID, KIRBY_MENU_THEME)
 charSelect.character_set_category(dededeCharID, "Kirby", true)
