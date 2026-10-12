@@ -36,49 +36,70 @@ const GeoLayout dedede_Beak_Full[] = {
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt1[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Half_Closed_Eyes__SKIN__0),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Half__0),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt2[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Closed_Eyes__SKIN__1),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Closed__1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt3[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Left_Eyes__SKIN__2),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Left__2),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt4[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Right_Eyes__SKIN__3),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Right__3),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt5[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Up_Eyes__SKIN__4),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Up__4),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt6[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Down_Eyes__SKIN__5),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Down__5),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt7[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Dead_Eyes__SKIN__6),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Dead__6),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt8[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Shocked__7),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt9[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Closed_Intense__8),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt10[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Angry__9),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -98,6 +119,9 @@ const GeoLayout dedede_Capless_Head[] = {
 			GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt5),
 			GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt6),
 			GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt7),
+			GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt8),
+			GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt9),
+			GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt10),
 		GEO_CLOSE_NODE(),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
@@ -129,27 +153,35 @@ const GeoLayout dedede_Right_Hand_Open[] = {
 const GeoLayout dedede_Right_Hand_Peace[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_ANIMATED_PART(LAYER_OPAQUE, 60, 0, 0, dedede_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_1),
+		GEO_ANIMATED_PART(LAYER_OPAQUE, 180, 0, 0, dedede_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_Right_Hand_Cap[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_ANIMATED_PART(LAYER_ALPHA, 60, 0, 0, dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_4),
+		GEO_ANIMATED_PART(LAYER_OPAQUE, 180, 0, 0, dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1),
 		GEO_OPEN_NODE(),
-			GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1),
+			GEO_BILLBOARD_WITH_PARAMS(LAYER_OPAQUE, 387, 115, 209),
+			GEO_OPEN_NODE(),
+				GEO_DISPLAY_LIST(LAYER_ALPHA, dedede_Right_Hand_Cap_Switch_Option_Puffball_DL_mesh_layer_4),
+			GEO_CLOSE_NODE(),
+			GEO_HELD_OBJECT(0, 0, 0, 0, geo_switch_mario_hand_grab_pos),
 		GEO_CLOSE_NODE(),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
-const GeoLayout dedede_Right_Hand_Wing_Cap[] = {
+const GeoLayout dedede_Right_Hand_Wing_Cap_001[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_ANIMATED_PART(LAYER_ALPHA, 60, 0, 0, dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_4),
+		GEO_ANIMATED_PART(LAYER_OPAQUE, 180, 0, 0, dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1),
 		GEO_OPEN_NODE(),
-			GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_1),
-			GEO_DISPLAY_LIST(LAYER_ALPHA, dedede_Right_Hand_Wing_Cap_Swtich_Option_Wings_mesh_layer_4),
+			GEO_DISPLAY_LIST(LAYER_ALPHA, dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_4),
+			GEO_BILLBOARD_WITH_PARAMS(LAYER_OPAQUE, 387, 115, 209),
+			GEO_OPEN_NODE(),
+				GEO_DISPLAY_LIST(LAYER_ALPHA, dedede_Right_Hand_Wing_Cap_Switch_Option_Puffball_DL_mesh_layer_4),
+			GEO_CLOSE_NODE(),
+			GEO_HELD_OBJECT(0, 0, 0, 0, geo_switch_mario_hand_grab_pos),
 		GEO_CLOSE_NODE(),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
@@ -570,49 +602,70 @@ const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_ded
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt1[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Half_Closed_Eyes__SKIN__0),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Half__0),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt2[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Closed_Eyes__SKIN__1),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Closed__1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt3[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Left_Eyes__SKIN__2),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Left__2),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt4[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Right_Eyes__SKIN__3),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Right__3),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt5[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Up_Eyes__SKIN__4),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Up__4),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt6[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Down_Eyes__SKIN__5),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Down__5),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt7[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Dead_Eyes__SKIN__6),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Dead__6),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt8[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Shocked__7),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt9[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Closed_Intense__8),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt10[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Angry__9),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -632,6 +685,9 @@ const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_ded
 			GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt5),
 			GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt6),
 			GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt7),
+			GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt8),
+			GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt9),
+			GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt1_Capless_Head_Eye_State_Switch_opt10),
 		GEO_CLOSE_NODE(),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
@@ -663,27 +719,35 @@ const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_ded
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Peace[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_ANIMATED_PART(LAYER_TRANSPARENT, 60, 0, 0, dedede_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_1),
+		GEO_ANIMATED_PART(LAYER_TRANSPARENT, 180, 0, 0, dedede_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Cap[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_ANIMATED_PART(LAYER_TRANSPARENT, 60, 0, 0, dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_4),
+		GEO_ANIMATED_PART(LAYER_TRANSPARENT, 180, 0, 0, dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1),
 		GEO_OPEN_NODE(),
-			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1),
+			GEO_BILLBOARD_WITH_PARAMS(LAYER_OPAQUE, 387, 115, 209),
+			GEO_OPEN_NODE(),
+				GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Right_Hand_Cap_Switch_Option_Puffball_DL_mesh_layer_4),
+			GEO_CLOSE_NODE(),
+			GEO_HELD_OBJECT(0, 0, 0, 0, geo_switch_mario_hand_grab_pos),
 		GEO_CLOSE_NODE(),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
-const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Wing_Cap[] = {
+const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Wing_Cap_001[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_ANIMATED_PART(LAYER_TRANSPARENT, 60, 0, 0, dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_4),
+		GEO_ANIMATED_PART(LAYER_TRANSPARENT, 180, 0, 0, dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1),
 		GEO_OPEN_NODE(),
-			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_1),
-			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Right_Hand_Wing_Cap_Swtich_Option_Wings_mesh_layer_4),
+			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_4),
+			GEO_BILLBOARD_WITH_PARAMS(LAYER_OPAQUE, 387, 115, 209),
+			GEO_OPEN_NODE(),
+				GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Right_Hand_Wing_Cap_Switch_Option_Puffball_DL_mesh_layer_4),
+			GEO_CLOSE_NODE(),
+			GEO_HELD_OBJECT(0, 0, 0, 0, geo_switch_mario_hand_grab_pos),
 		GEO_CLOSE_NODE(),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
@@ -691,49 +755,70 @@ const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_ded
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt0_Eye_State_Switch_opt1[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Head_DL_mesh_layer_1_mat_override_Half_Closed_Eyes__SKIN__0),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Half__0),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt0_Eye_State_Switch_opt2[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Head_DL_mesh_layer_1_mat_override_Closed_Eyes__SKIN__1),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Closed__1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt0_Eye_State_Switch_opt3[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Head_DL_mesh_layer_1_mat_override_Left_Eyes__SKIN__2),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Left__2),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt0_Eye_State_Switch_opt4[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Head_DL_mesh_layer_1_mat_override_Right_Eyes__SKIN__3),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Right__3),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt0_Eye_State_Switch_opt5[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Head_DL_mesh_layer_1_mat_override_Up_Eyes__SKIN__4),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Up__4),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt0_Eye_State_Switch_opt6[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Head_DL_mesh_layer_1_mat_override_Down_Eyes__SKIN__5),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Down__5),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt0_Eye_State_Switch_opt7[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Head_DL_mesh_layer_1_mat_override_Dead_Eyes__SKIN__6),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Dead__6),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt0_Eye_State_Switch_opt8[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Shocked__7),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt0_Eye_State_Switch_opt9[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Closed_Intense__8),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt0_Eye_State_Switch_opt10[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Angry__9),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -788,6 +873,9 @@ const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1[] = {
 												GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt0_Eye_State_Switch_opt5),
 												GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt0_Eye_State_Switch_opt6),
 												GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt0_Eye_State_Switch_opt7),
+												GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt0_Eye_State_Switch_opt8),
+												GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt0_Eye_State_Switch_opt9),
+												GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_Capless_Switch_opt0_Eye_State_Switch_opt10),
 											GEO_CLOSE_NODE(),
 											GEO_BILLBOARD_WITH_PARAMS(LAYER_OPAQUE, 341, -133, 3),
 											GEO_OPEN_NODE(),
@@ -871,7 +959,7 @@ const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1[] = {
 											GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Open),
 											GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Peace),
 											GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Cap),
-											GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Wing_Cap),
+											GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Wing_Cap_001),
 										GEO_CLOSE_NODE(),
 									GEO_CLOSE_NODE(),
 								GEO_CLOSE_NODE(),
@@ -922,49 +1010,70 @@ const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1[] = {
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt0_Eye_State_Switch_opt1[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Head_DL_mesh_layer_1_mat_override_Half_Closed_Eyes__SKIN__0),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Half__0),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt0_Eye_State_Switch_opt2[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Head_DL_mesh_layer_1_mat_override_Closed_Eyes__SKIN__1),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Closed__1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt0_Eye_State_Switch_opt3[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Head_DL_mesh_layer_1_mat_override_Left_Eyes__SKIN__2),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Left__2),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt0_Eye_State_Switch_opt4[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Head_DL_mesh_layer_1_mat_override_Right_Eyes__SKIN__3),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Right__3),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt0_Eye_State_Switch_opt5[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Head_DL_mesh_layer_1_mat_override_Up_Eyes__SKIN__4),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Up__4),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt0_Eye_State_Switch_opt6[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Head_DL_mesh_layer_1_mat_override_Down_Eyes__SKIN__5),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Down__5),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt0_Eye_State_Switch_opt7[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Head_DL_mesh_layer_1_mat_override_Dead_Eyes__SKIN__6),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Dead__6),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt0_Eye_State_Switch_opt8[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Shocked__7),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt0_Eye_State_Switch_opt9[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Closed_Intense__8),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt0_Eye_State_Switch_opt10[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Angry__9),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -1038,6 +1147,9 @@ const GeoLayout dedede_geo[] = {
 																		GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt0_Eye_State_Switch_opt5),
 																		GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt0_Eye_State_Switch_opt6),
 																		GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt0_Eye_State_Switch_opt7),
+																		GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt0_Eye_State_Switch_opt8),
+																		GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt0_Eye_State_Switch_opt9),
+																		GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_Capless_Switch_opt0_Eye_State_Switch_opt10),
 																	GEO_CLOSE_NODE(),
 																	GEO_BILLBOARD_WITH_PARAMS(LAYER_OPAQUE, 341, -133, 3),
 																	GEO_OPEN_NODE(),
@@ -1121,7 +1233,7 @@ const GeoLayout dedede_geo[] = {
 																	GEO_BRANCH(1, dedede_Right_Hand_Open),
 																	GEO_BRANCH(1, dedede_Right_Hand_Peace),
 																	GEO_BRANCH(1, dedede_Right_Hand_Cap),
-																	GEO_BRANCH(1, dedede_Right_Hand_Wing_Cap),
+																	GEO_BRANCH(1, dedede_Right_Hand_Wing_Cap_001),
 																GEO_CLOSE_NODE(),
 															GEO_CLOSE_NODE(),
 														GEO_CLOSE_NODE(),

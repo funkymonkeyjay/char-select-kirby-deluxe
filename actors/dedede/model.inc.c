@@ -62,33 +62,45 @@ Lights1 dedede_Eyes__Normal__lights = gdSPDefLights1(
 	0x0, 0x41, 0x7F,
 	0x0, 0x89, 0xFF, 0x28, 0x28, 0x28);
 
-Lights1 dedede_Half_Closed_Eyes__SKIN__lights = gdSPDefLights1(
-	0x7F, 0x5F, 0x39,
-	0xFE, 0xC1, 0x79, 0x28, 0x28, 0x28);
+Lights1 dedede_Eyes__Half__lights = gdSPDefLights1(
+	0x0, 0x41, 0x7F,
+	0x0, 0x89, 0xFF, 0x28, 0x28, 0x28);
 
-Lights1 dedede_Closed_Eyes__SKIN__lights = gdSPDefLights1(
-	0x7F, 0x5F, 0x39,
-	0xFE, 0xC1, 0x79, 0x28, 0x28, 0x28);
+Lights1 dedede_Eyes__Closed__lights = gdSPDefLights1(
+	0x0, 0x41, 0x7F,
+	0x0, 0x89, 0xFF, 0x28, 0x28, 0x28);
 
-Lights1 dedede_Left_Eyes__SKIN__lights = gdSPDefLights1(
-	0x7F, 0x5F, 0x39,
-	0xFE, 0xC1, 0x79, 0x28, 0x28, 0x28);
+Lights1 dedede_Eyes__Left__lights = gdSPDefLights1(
+	0x0, 0x41, 0x7F,
+	0x0, 0x89, 0xFF, 0x28, 0x28, 0x28);
 
-Lights1 dedede_Right_Eyes__SKIN__lights = gdSPDefLights1(
-	0x7F, 0x5F, 0x39,
-	0xFE, 0xC1, 0x79, 0x28, 0x28, 0x28);
+Lights1 dedede_Eyes__Right__lights = gdSPDefLights1(
+	0x0, 0x41, 0x7F,
+	0x0, 0x89, 0xFF, 0x28, 0x28, 0x28);
 
-Lights1 dedede_Up_Eyes__SKIN__lights = gdSPDefLights1(
-	0x7F, 0x5F, 0x39,
-	0xFE, 0xC1, 0x79, 0x28, 0x28, 0x28);
+Lights1 dedede_Eyes__Up__lights = gdSPDefLights1(
+	0x0, 0x41, 0x7F,
+	0x0, 0x89, 0xFF, 0x28, 0x28, 0x28);
 
-Lights1 dedede_Down_Eyes__SKIN__lights = gdSPDefLights1(
-	0x7F, 0x5F, 0x39,
-	0xFE, 0xC1, 0x79, 0x28, 0x28, 0x28);
+Lights1 dedede_Eyes__Down__lights = gdSPDefLights1(
+	0x0, 0x41, 0x7F,
+	0x0, 0x89, 0xFF, 0x28, 0x28, 0x28);
 
-Lights1 dedede_Dead_Eyes__SKIN__lights = gdSPDefLights1(
-	0x7F, 0x5F, 0x39,
-	0xFE, 0xC1, 0x79, 0x28, 0x28, 0x28);
+Lights1 dedede_Eyes__Dead__lights = gdSPDefLights1(
+	0x0, 0x41, 0x7F,
+	0x0, 0x89, 0xFF, 0x28, 0x28, 0x28);
+
+Lights1 dedede_Eyes__Shocked__lights = gdSPDefLights1(
+	0x0, 0x41, 0x7F,
+	0x0, 0x89, 0xFF, 0x28, 0x28, 0x28);
+
+Lights1 dedede_Eyes__Closed_Intense__lights = gdSPDefLights1(
+	0x0, 0x41, 0x7F,
+	0x0, 0x89, 0xFF, 0x28, 0x28, 0x28);
+
+Lights1 dedede_Eyes__Angry__lights = gdSPDefLights1(
+	0x0, 0x41, 0x7F,
+	0x0, 0x89, 0xFF, 0x28, 0x28, 0x28);
 
 Lights1 dedede_Coat_Inside_lights = gdSPDefLights1(
 	0x0, 0x0, 0x0,
@@ -105,22 +117,6 @@ Lights1 dedede_Hammer_lights = gdSPDefLights1(
 Lights1 dedede_Hammer_Base_lights = gdSPDefLights1(
 	0x41, 0x23, 0xD,
 	0x89, 0x50, 0x25, 0x28, 0x28, 0x28);
-
-Lights1 dedede_Gloves__GLOVES__lights = gdSPDefLights1(
-	0x7F, 0x7F, 0x7F,
-	0xFF, 0xFF, 0xFF, 0x28, 0x28, 0x28);
-
-Lights1 dedede_Cut_Out_Cap__Needed_for_recoloring___CAP__lights = gdSPDefLights1(
-	0x7F, 0x0, 0x0,
-	0xFF, 0x0, 0x0, 0x28, 0x28, 0x28);
-
-Lights1 dedede_Logo_lights = gdSPDefLights1(
-	0xFF, 0x0, 0x0,
-	0x0, 0x0, 0x0, 0x28, 0x28, 0x28);
-
-Lights1 dedede_Cap__CAP__lights = gdSPDefLights1(
-	0x7F, 0x0, 0x0,
-	0xFF, 0x0, 0x0, 0x28, 0x28, 0x28);
 
 Lights1 dedede_Cap_Inside__CAP__lights = gdSPDefLights1(
 	0x7F, 0x0, 0x0,
@@ -194,56 +190,84 @@ Texture dedede_Dedede_Eyes_pal_rgba16[] = {
 	#include "actors/dedede/Dedede_Eyes.rgba16.pal"
 };
 
-Texture dedede_mario_eyes_half_closed_rgba16_ci8[] = {
-	#include "actors/dedede/mario_eyes_half_closed.rgba16.ci8.inc.c"
+Texture dedede_Dedede_Eyes__Half__ci8[] = {
+	#include "actors/dedede/Dedede_Eyes__Half_.ci8.inc.c"
 };
 
-Texture dedede_mario_eyes_half_closed_rgba16_pal_rgba16[] = {
-	#include "actors/dedede/mario_eyes_half_closed.rgba16.pal"
+Texture dedede_Dedede_Eyes__Half__pal_rgba16[] = {
+	#include "actors/dedede/Dedede_Eyes__Half_.rgba16.pal"
 };
 
-Texture dedede_mario_eyes_closed_rgba16_ci8[] = {
-	#include "actors/dedede/mario_eyes_closed.rgba16.ci8.inc.c"
+Texture dedede_Dedede_Eyes__Closed__ci8[] = {
+	#include "actors/dedede/Dedede_Eyes__Closed_.ci8.inc.c"
 };
 
-Texture dedede_mario_eyes_closed_rgba16_pal_rgba16[] = {
-	#include "actors/dedede/mario_eyes_closed.rgba16.pal"
+Texture dedede_Dedede_Eyes__Closed__pal_rgba16[] = {
+	#include "actors/dedede/Dedede_Eyes__Closed_.rgba16.pal"
 };
 
-Texture dedede_mario_eyes_left_unused_rgba16_ci8[] = {
-	#include "actors/dedede/mario_eyes_left_unused.rgba16.ci8.inc.c"
+Texture dedede_Dedede_Eyes__Left__ci8[] = {
+	#include "actors/dedede/Dedede_Eyes__Left_.ci8.inc.c"
 };
 
-Texture dedede_mario_eyes_left_unused_rgba16_pal_rgba16[] = {
-	#include "actors/dedede/mario_eyes_left_unused.rgba16.pal"
+Texture dedede_Dedede_Eyes__Left__pal_rgba16[] = {
+	#include "actors/dedede/Dedede_Eyes__Left_.rgba16.pal"
 };
 
-Texture dedede_mario_eyes_right_unused_rgba16_ci8[] = {
-	#include "actors/dedede/mario_eyes_right_unused.rgba16.ci8.inc.c"
+Texture dedede_Dedede_Eyes__Right__ci8[] = {
+	#include "actors/dedede/Dedede_Eyes__Right_.ci8.inc.c"
 };
 
-Texture dedede_mario_eyes_right_unused_rgba16_pal_rgba16[] = {
-	#include "actors/dedede/mario_eyes_right_unused.rgba16.pal"
+Texture dedede_Dedede_Eyes__Right__pal_rgba16[] = {
+	#include "actors/dedede/Dedede_Eyes__Right_.rgba16.pal"
 };
 
-Texture dedede_mario_eyes_up_unused_rgba16_ci8[] = {
-	#include "actors/dedede/mario_eyes_up_unused.rgba16.ci8.inc.c"
+Texture dedede_Dedede_Eyes__Up__ci8[] = {
+	#include "actors/dedede/Dedede_Eyes__Up_.ci8.inc.c"
 };
 
-Texture dedede_mario_eyes_up_unused_rgba16_pal_rgba16[] = {
-	#include "actors/dedede/mario_eyes_up_unused.rgba16.pal"
+Texture dedede_Dedede_Eyes__Up__pal_rgba16[] = {
+	#include "actors/dedede/Dedede_Eyes__Up_.rgba16.pal"
 };
 
-Texture dedede_mario_eyes_down_unused_rgba16_ci8[] = {
-	#include "actors/dedede/mario_eyes_down_unused.rgba16.ci8.inc.c"
+Texture dedede_Dedede_Eyes__Down__ci8[] = {
+	#include "actors/dedede/Dedede_Eyes__Down_.ci8.inc.c"
 };
 
-Texture dedede_mario_eyes_down_unused_rgba16_pal_rgba16[] = {
-	#include "actors/dedede/mario_eyes_down_unused.rgba16.pal"
+Texture dedede_Dedede_Eyes__Down__pal_rgba16[] = {
+	#include "actors/dedede/Dedede_Eyes__Down_.rgba16.pal"
 };
 
-Texture dedede_mario_eyes_dead_rgba16_ia8[] = {
-	#include "actors/dedede/mario_eyes_dead.rgba16.ia8.inc.c"
+Texture dedede_Dedede_Eyes__Dead__ci8[] = {
+	#include "actors/dedede/Dedede_Eyes__Dead_.ci8.inc.c"
+};
+
+Texture dedede_Dedede_Eyes__Dead__pal_rgba16[] = {
+	#include "actors/dedede/Dedede_Eyes__Dead_.rgba16.pal"
+};
+
+Texture dedede_Dedede_Eyes__Shocked__ci8[] = {
+	#include "actors/dedede/Dedede_Eyes__Shocked_.ci8.inc.c"
+};
+
+Texture dedede_Dedede_Eyes__Shocked__pal_rgba16[] = {
+	#include "actors/dedede/Dedede_Eyes__Shocked_.rgba16.pal"
+};
+
+Texture dedede_Dedede_Eyes__Closed_Intense__ci8[] = {
+	#include "actors/dedede/Dedede_Eyes__Closed_Intense_.ci8.inc.c"
+};
+
+Texture dedede_Dedede_Eyes__Closed_Intense__pal_rgba16[] = {
+	#include "actors/dedede/Dedede_Eyes__Closed_Intense_.rgba16.pal"
+};
+
+Texture dedede_Dedede_Eyes__Angry__ci8[] = {
+	#include "actors/dedede/Dedede_Eyes__Angry_.ci8.inc.c"
+};
+
+Texture dedede_Dedede_Eyes__Angry__pal_rgba16[] = {
+	#include "actors/dedede/Dedede_Eyes__Angry_.rgba16.pal"
 };
 
 Texture dedede_Dedede_Puffball_ci4[] = {
@@ -276,18 +300,6 @@ Texture dedede_Dedede_Hammer_Base_i8[] = {
 
 Texture dedede_Dedede_Hammer_Rim_ia8[] = {
 	#include "actors/dedede/Dedede_Hammer_Rim.ia8.inc.c"
-};
-
-Texture dedede_custom_mario_cap_ia8[] = {
-	#include "actors/dedede/custom_mario_cap.ia8.inc.c"
-};
-
-Texture dedede_innn_ia8[] = {
-	#include "actors/dedede/innn.ia8.inc.c"
-};
-
-Texture dedede_custom_mario_logo_blend_i8[] = {
-	#include "actors/dedede/custom_mario_logo_blend.i8.inc.c"
 };
 
 Texture dedede_Metal_Shade_rgba16_rgba16[] = {
@@ -1901,522 +1913,459 @@ Gfx dedede_Right_Hand_Open_Switch_Option_Right_Hand_Open_mesh_layer_1_tri_0[] = 
 	gsSPEndDisplayList(),
 };
 
-Vtx dedede_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_1_vtx_0[81] = {
-	{{{56, 80, 1}, 0, {-16, -16}, {0x0E, 0x6C, 0x41, 0xFF}}},
-	{{{84, 48, 24}, 0, {-16, -16}, {0x2E, 0x40, 0x64, 0xFF}}},
-	{{{84, 60, -7}, 0, {-16, -16}, {0x4D, 0x5E, 0x24, 0xFF}}},
-	{{{46, 49, 45}, 0, {-16, -16}, {0xF7, 0x48, 0x68, 0xFF}}},
-	{{{8, 58, -2}, 0, {-16, -16}, {0xB7, 0x52, 0x40, 0xFF}}},
-	{{{18, 30, 41}, 0, {-16, -16}, {0xC9, 0x2E, 0x69, 0xFF}}},
-	{{{-4, 38, 0}, 0, {-16, -16}, {0xDD, 0x6A, 0x3D, 0xFF}}},
-	{{{0, 21, 37}, 0, {-16, -16}, {0x05, 0x44, 0x6B, 0xFF}}},
-	{{{-15, 23, 43}, 0, {-16, -16}, {0xD4, 0x3B, 0x67, 0xFF}}},
-	{{{-22, 43, -3}, 0, {-16, -16}, {0x18, 0x74, 0x2F, 0xFF}}},
-	{{{15, -39, 42}, 0, {-16, -16}, {0x13, 0xBA, 0x68, 0xFF}}},
-	{{{23, -29, 36}, 0, {-16, -16}, {0x17, 0xC5, 0x6E, 0xFF}}},
-	{{{24, -59, -3}, 0, {-16, -16}, {0x66, 0xC5, 0x30, 0xFF}}},
-	{{{32, -43, 0}, 0, {-16, -16}, {0x30, 0x95, 0x32, 0xFF}}},
-	{{{45, -29, 52}, 0, {-16, -16}, {0xE7, 0xBC, 0x68, 0xFF}}},
-	{{{56, -47, -5}, 0, {-16, -16}, {0x10, 0x83, 0x10, 0xFF}}},
-	{{{88, -34, 39}, 0, {-16, -16}, {0x3D, 0xA6, 0x41, 0xFF}}},
-	{{{101, -29, 15}, 0, {-16, -16}, {0x47, 0x97, 0xFA, 0xFF}}},
-	{{{94, -22, -18}, 0, {-16, -16}, {0x2B, 0x8C, 0xE4, 0xFF}}},
-	{{{155, -15, 21}, 0, {-16, -16}, {0x15, 0x83, 0xF6, 0xFF}}},
-	{{{166, -13, -17}, 0, {-16, -16}, {0x10, 0x82, 0xFE, 0xFF}}},
-	{{{90, -3, 52}, 0, {-16, -16}, {0x48, 0x03, 0x69, 0xFF}}},
-	{{{98, 10, 29}, 0, {-16, -16}, {0x5F, 0x1A, 0x51, 0xFF}}},
-	{{{139, 53, 25}, 0, {-16, -16}, {0xFC, 0x13, 0x7D, 0xFF}}},
-	{{{123, 72, 21}, 0, {-16, -16}, {0xFC, 0x17, 0x7D, 0xFF}}},
-	{{{-22, 43, -3}, 0, {-16, -16}, {0x28, 0x4A, 0xA1, 0xFF}}},
-	{{{-4, 38, 0}, 0, {-16, -16}, {0x24, 0x48, 0x9E, 0xFF}}},
-	{{{14, -1, -22}, 0, {-16, -16}, {0x4B, 0x23, 0x9F, 0xFF}}},
-	{{{2, -5, -33}, 0, {-16, -16}, {0x4A, 0x26, 0xA0, 0xFF}}},
-	{{{32, -43, 0}, 0, {-16, -16}, {0x50, 0xEC, 0xA0, 0xFF}}},
-	{{{24, -59, -3}, 0, {-16, -16}, {0x4F, 0xEB, 0x9F, 0xFF}}},
-	{{{105, 17, 3}, 0, {-16, -16}, {0x09, 0x7D, 0x12, 0xFF}}},
-	{{{98, 10, 29}, 0, {-16, -16}, {0x0A, 0x7A, 0x23, 0xFF}}},
-	{{{153, 7, 24}, 0, {-16, -16}, {0x0C, 0x7B, 0x1E, 0xFF}}},
-	{{{162, 14, -11}, 0, {-16, -16}, {0x0B, 0x7D, 0x13, 0xFF}}},
-	{{{89, 18, -34}, 0, {-16, -16}, {0x07, 0x7F, 0x00, 0xFF}}},
-	{{{166, -13, -17}, 0, {-16, -16}, {0x7A, 0x09, 0x22, 0xFF}}},
-	{{{162, 14, -11}, 0, {-16, -16}, {0x7A, 0x0B, 0x22, 0xFF}}},
-	{{{153, 7, 24}, 0, {-16, -16}, {0x7A, 0x08, 0x23, 0xFF}}},
-	{{{155, -15, 21}, 0, {-16, -16}, {0x7A, 0x06, 0x24, 0xFF}}},
-	{{{101, -29, 15}, 0, {-16, -16}, {0x04, 0xDC, 0x7A, 0xFF}}},
-	{{{153, 7, 24}, 0, {-16, -16}, {0xFE, 0xE4, 0x7C, 0xFF}}},
-	{{{98, 10, 29}, 0, {-16, -16}, {0x09, 0xD6, 0x77, 0xFF}}},
-	{{{155, -15, 21}, 0, {-16, -16}, {0xF7, 0xEE, 0x7D, 0xFF}}},
-	{{{89, 18, -34}, 0, {-16, -16}, {0x07, 0x0A, 0x82, 0xFF}}},
-	{{{162, 14, -11}, 0, {-16, -16}, {0x27, 0x20, 0x8B, 0xFF}}},
-	{{{166, -13, -17}, 0, {-16, -16}, {0x1E, 0x07, 0x85, 0xFF}}},
-	{{{94, -22, -18}, 0, {-16, -16}, {0x08, 0xCC, 0x8C, 0xFF}}},
-	{{{33, 7, -37}, 0, {-16, -16}, {0xDF, 0xF9, 0x85, 0xFF}}},
-	{{{56, -47, -5}, 0, {-16, -16}, {0xF2, 0xBB, 0x96, 0xFF}}},
-	{{{32, -43, 0}, 0, {-16, -16}, {0xDC, 0xB8, 0x9E, 0xFF}}},
-	{{{14, -1, -22}, 0, {-16, -16}, {0xBB, 0xE4, 0x99, 0xFF}}},
-	{{{-4, 38, 0}, 0, {-16, -16}, {0xB6, 0x1E, 0x9D, 0xFF}}},
-	{{{8, 58, -2}, 0, {-16, -16}, {0xD4, 0x34, 0x95, 0xFF}}},
-	{{{56, 80, 1}, 0, {-16, -16}, {0xF9, 0x40, 0x93, 0xFF}}},
-	{{{84, 60, -7}, 0, {-16, -16}, {0xFE, 0x45, 0x95, 0xFF}}},
-	{{{126, 84, -3}, 0, {-16, -16}, {0x06, 0x33, 0x8C, 0xFF}}},
-	{{{146, 59, -8}, 0, {-16, -16}, {0x17, 0x2A, 0x8A, 0xFF}}},
-	{{{84, 60, -7}, 0, {-16, -16}, {0xC1, 0x67, 0x28, 0xFF}}},
-	{{{84, 48, 24}, 0, {-16, -16}, {0xC2, 0x67, 0x29, 0xFF}}},
-	{{{126, 84, -3}, 0, {-16, -16}, {0xC3, 0x67, 0x2A, 0xFF}}},
-	{{{123, 72, 21}, 0, {-16, -16}, {0xC4, 0x67, 0x2C, 0xFF}}},
-	{{{146, 59, -8}, 0, {-16, -16}, {0x59, 0xA6, 0xF5, 0xFF}}},
-	{{{105, 17, 3}, 0, {-16, -16}, {0x58, 0xA6, 0xF0, 0xFF}}},
-	{{{89, 18, -34}, 0, {-16, -16}, {0x52, 0xA6, 0xDA, 0xFF}}},
-	{{{139, 53, 25}, 0, {-16, -16}, {0x5B, 0xA8, 0x03, 0xFF}}},
-	{{{98, 10, 29}, 0, {-16, -16}, {0x5C, 0xA8, 0x01, 0xFF}}},
-	{{{146, 59, -8}, 0, {-16, -16}, {0x5E, 0x4B, 0x29, 0xFF}}},
-	{{{126, 84, -3}, 0, {-16, -16}, {0x61, 0x44, 0x2E, 0xFF}}},
-	{{{123, 72, 21}, 0, {-16, -16}, {0x5D, 0x4C, 0x28, 0xFF}}},
-	{{{139, 53, 25}, 0, {-16, -16}, {0x5A, 0x53, 0x22, 0xFF}}},
-	{{{24, -59, -3}, 0, {-16, -16}, {0xC0, 0x95, 0xE8, 0xFF}}},
-	{{{-8, -12, -20}, 0, {-16, -16}, {0x9B, 0xD0, 0xC4, 0xFF}}},
-	{{{2, -5, -33}, 0, {-16, -16}, {0xAA, 0xDC, 0xAA, 0xFF}}},
-	{{{6, -49, 0}, 0, {-16, -16}, {0xAB, 0xA5, 0xE6, 0xFF}}},
-	{{{15, -39, 42}, 0, {-16, -16}, {0x13, 0xBA, 0x68, 0xFF}}},
-	{{{0, -35, 32}, 0, {-16, -16}, {0xA4, 0xB8, 0x32, 0xFF}}},
-	{{{-15, 23, 43}, 0, {-16, -16}, {0xD4, 0x3B, 0x67, 0xFF}}},
-	{{{-21, 9, 33}, 0, {-16, -16}, {0x8D, 0xE6, 0x2F, 0xFF}}},
-	{{{-22, 43, -3}, 0, {-16, -16}, {0x85, 0x11, 0xE6, 0xFF}}},
-	{{{-25, 24, 0}, 0, {-16, -16}, {0x84, 0xFB, 0xE5, 0xFF}}},
+Vtx dedede_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_1_vtx_0[51] = {
+	{{{128, -5, 61}, 0, {368, 240}, {0x19, 0xAF, 0x5E, 0xFF}}},
+	{{{117, 49, 66}, 0, {-16, 1008}, {0x13, 0xEF, 0x7C, 0xFF}}},
+	{{{87, 27, 55}, 0, {447, 319}, {0xE2, 0xEE, 0x7A, 0xFF}}},
+	{{{106, 102, 82}, 0, {-16, 1008}, {0x24, 0x1E, 0x76, 0xFF}}},
+	{{{80, 140, 79}, 0, {624, 240}, {0xFD, 0x5E, 0x55, 0xFF}}},
+	{{{67, 72, 90}, 0, {232, 726}, {0xE6, 0xEA, 0x7A, 0xFF}}},
+	{{{121, -2, -137}, 0, {368, 1008}, {0x28, 0xD5, 0x8F, 0xFF}}},
+	{{{17, 29, -93}, 0, {368, 752}, {0xB6, 0xEC, 0x9B, 0xFF}}},
+	{{{-9, 101, -71}, 0, {624, 752}, {0xA5, 0x3C, 0xC0, 0xFF}}},
+	{{{118, 169, -65}, 0, {624, 1008}, {0x25, 0x6E, 0xCD, 0xFF}}},
+	{{{75, -64, -30}, 0, {368, 112}, {0x0B, 0x85, 0xE3, 0xFF}}},
+	{{{121, -2, -137}, 0, {368, -16}, {0x28, 0xD5, 0x8F, 0xFF}}},
+	{{{183, 20, -24}, 0, {483, 54}, {0x49, 0xC7, 0xA9, 0xFF}}},
+	{{{118, 169, -65}, 0, {624, -16}, {0x25, 0x6E, 0xCD, 0xFF}}},
+	{{{75, -64, -30}, 0, {240, 240}, {0x0B, 0x85, 0xE3, 0xFF}}},
+	{{{-3, -29, -22}, 0, {240, 496}, {0xA0, 0xB1, 0xE6, 0xFF}}},
+	{{{62, -63, 57}, 0, {297, 383}, {0xFD, 0x8F, 0x3A, 0xFF}}},
+	{{{128, -5, 61}, 0, {368, 240}, {0x5B, 0xDA, 0x4F, 0xFF}}},
+	{{{-3, -29, -22}, 0, {368, 624}, {0xA0, 0xB1, 0xE6, 0xFF}}},
+	{{{-26, 47, -8}, 0, {516, 550}, {0x81, 0xFF, 0x02, 0xFF}}},
+	{{{-3, 6, 53}, 0, {368, 496}, {0x99, 0xE3, 0x44, 0xFF}}},
+	{{{62, -63, 57}, 0, {368, 454}, {0xFD, 0x8F, 0x3A, 0xFF}}},
+	{{{63, 21, 112}, 0, {368, 359}, {0x0A, 0x1C, 0x7C, 0xFF}}},
+	{{{87, 27, 55}, 0, {447, 319}, {0x43, 0x64, 0x27, 0xFF}}},
+	{{{29, 60, 65}, 0, {495, 427}, {0xDC, 0x4F, 0x5D, 0xFF}}},
+	{{{-5, 99, 17}, 0, {624, 496}, {0x97, 0x3E, 0x23, 0xFF}}},
+	{{{-9, 101, -71}, 0, {624, 624}, {0xA5, 0x3C, 0xC0, 0xFF}}},
+	{{{29, 60, 65}, 0, {495, 427}, {0xAA, 0x21, 0x58, 0xFF}}},
+	{{{183, 20, -24}, 0, {437, 163}, {0x49, 0xC7, 0xA9, 0xFF}}},
+	{{{247, -4, -19}, 0, {437, 163}, {0x39, 0xC3, 0xA0, 0xFF}}},
+	{{{245, 48, -6}, 0, {511, 185}, {0x47, 0x58, 0xC5, 0xFF}}},
+	{{{170, 65, -6}, 0, {511, 185}, {0x61, 0x39, 0xC5, 0xFF}}},
+	{{{135, 113, 20}, 0, {587, 207}, {0x30, 0x75, 0xFA, 0xFF}}},
+	{{{-5, 99, 17}, 0, {624, 496}, {0xB2, 0x55, 0x35, 0xFF}}},
+	{{{29, 60, 65}, 0, {495, 427}, {0xBD, 0xFD, 0x6C, 0xFF}}},
+	{{{67, 72, 90}, 0, {549, 349}, {0xE6, 0xEA, 0x7A, 0xFF}}},
+	{{{106, 102, 82}, 0, {496, 240}, {0x24, 0x1E, 0x76, 0xFF}}},
+	{{{204, 151, 72}, 0, {496, 240}, {0x21, 0x5A, 0x54, 0xFF}}},
+	{{{206, 158, 23}, 0, {587, 207}, {0x1A, 0x71, 0xCC, 0xFF}}},
+	{{{238, 97, 55}, 0, {432, 240}, {0x67, 0xD7, 0x3E, 0xFF}}},
+	{{{239, 104, -2}, 0, {511, 185}, {0x5F, 0xF2, 0xAD, 0xFF}}},
+	{{{260, 40, 49}, 0, {432, 240}, {0x55, 0x3D, 0x47, 0xFF}}},
+	{{{266, -15, 42}, 0, {368, 240}, {0x58, 0xAD, 0x27, 0xFF}}},
+	{{{128, -5, 61}, 0, {-16, 1008}, {0x19, 0xAF, 0x5E, 0xFF}}},
+	{{{266, -15, 42}, 0, {-16, 1008}, {0x58, 0xAD, 0x27, 0xFF}}},
+	{{{260, 40, 49}, 0, {-16, 1008}, {0x55, 0x3D, 0x47, 0xFF}}},
+	{{{117, 49, 66}, 0, {-16, 1008}, {0x0C, 0xC3, 0x6F, 0xFF}}},
+	{{{67, 72, 90}, 0, {220, 740}, {0xE6, 0xEA, 0x7A, 0xFF}}},
+	{{{87, 27, 55}, 0, {447, 319}, {0xF5, 0xB0, 0x62, 0xFF}}},
+	{{{238, 97, 55}, 0, {-16, 1008}, {0x67, 0xD7, 0x3E, 0xFF}}},
+	{{{204, 151, 72}, 0, {-16, 1008}, {0x21, 0x5A, 0x54, 0xFF}}},
 };
 
 Gfx dedede_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_1_tri_0[] = {
-	gsSPVertex(dedede_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_1_vtx_0 + 0, 62, 0),
-	gsSP2Triangles(0, 1, 2, 0, 3, 1, 0, 0),
-	gsSP2Triangles(3, 0, 4, 0, 3, 4, 5, 0),
-	gsSP2Triangles(5, 4, 6, 0, 6, 7, 5, 0),
-	gsSP2Triangles(8, 7, 6, 0, 8, 6, 9, 0),
-	gsSP2Triangles(10, 7, 8, 0, 10, 11, 7, 0),
-	gsSP2Triangles(12, 11, 10, 0, 12, 13, 11, 0),
-	gsSP2Triangles(14, 11, 13, 0, 15, 14, 13, 0),
-	gsSP2Triangles(14, 15, 16, 0, 17, 16, 15, 0),
-	gsSP2Triangles(17, 15, 18, 0, 18, 19, 17, 0),
-	gsSP2Triangles(19, 18, 20, 0, 16, 17, 21, 0),
-	gsSP2Triangles(17, 22, 21, 0, 22, 1, 21, 0),
-	gsSP2Triangles(1, 22, 23, 0, 23, 24, 1, 0),
-	gsSP2Triangles(21, 1, 3, 0, 14, 21, 3, 0),
-	gsSP2Triangles(14, 3, 5, 0, 11, 14, 5, 0),
-	gsSP2Triangles(7, 11, 5, 0, 16, 21, 14, 0),
-	gsSP2Triangles(25, 26, 27, 0, 25, 27, 28, 0),
-	gsSP2Triangles(28, 27, 29, 0, 28, 29, 30, 0),
-	gsSP2Triangles(31, 32, 33, 0, 31, 33, 34, 0),
-	gsSP2Triangles(34, 35, 31, 0, 36, 37, 38, 0),
-	gsSP2Triangles(36, 38, 39, 0, 40, 41, 42, 0),
-	gsSP2Triangles(40, 43, 41, 0, 44, 45, 46, 0),
-	gsSP2Triangles(46, 47, 44, 0, 48, 44, 47, 0),
-	gsSP2Triangles(49, 48, 47, 0, 48, 49, 50, 0),
-	gsSP2Triangles(50, 51, 48, 0, 48, 51, 52, 0),
-	gsSP2Triangles(53, 48, 52, 0, 53, 54, 48, 0),
-	gsSP2Triangles(54, 44, 48, 0, 54, 55, 44, 0),
-	gsSP2Triangles(56, 44, 55, 0, 44, 56, 57, 0),
-	gsSP2Triangles(58, 59, 60, 0, 59, 61, 60, 0),
-	gsSPVertex(dedede_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_1_vtx_0 + 62, 19, 0),
-	gsSP2Triangles(0, 1, 2, 0, 3, 1, 0, 0),
-	gsSP2Triangles(3, 4, 1, 0, 5, 6, 7, 0),
-	gsSP2Triangles(7, 8, 5, 0, 9, 10, 11, 0),
-	gsSP2Triangles(9, 12, 10, 0, 13, 12, 9, 0),
-	gsSP2Triangles(13, 14, 12, 0, 15, 14, 13, 0),
-	gsSP2Triangles(15, 16, 14, 0, 17, 16, 15, 0),
-	gsSP2Triangles(17, 18, 16, 0, 11, 18, 17, 0),
-	gsSP2Triangles(11, 10, 18, 0, 16, 18, 10, 0),
-	gsSP2Triangles(14, 16, 10, 0, 10, 12, 14, 0),
-	gsSPEndDisplayList(),
-};
-
-Vtx dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_4_vtx_0[11] = {
-	{{{131, 47, -1}, 0, {1088, 212}, {0xE4, 0x5C, 0xAE, 0xFF}}},
-	{{{107, -19, -33}, 0, {458, 16}, {0xCE, 0x0E, 0x8C, 0xFF}}},
-	{{{78, 11, 40}, 0, {756, 802}, {0xD2, 0x40, 0x9D, 0xFF}}},
-	{{{70, -52, 35}, 0, {180, 784}, {0xC6, 0xDB, 0x95, 0xFF}}},
-	{{{114, -92, -11}, 0, {-164, 172}, {0xD0, 0xB9, 0xA2, 0xFF}}},
-	{{{114, -92, -11}, 0, {-16, -16}, {0xD0, 0xB9, 0xA2, 0xFF}}},
-	{{{106, -124, 90}, 0, {-16, -16}, {0x98, 0xBB, 0x17, 0xFF}}},
-	{{{70, -52, 35}, 0, {-16, -16}, {0xC6, 0xDB, 0x95, 0xFF}}},
-	{{{78, 11, 40}, 0, {-16, -16}, {0xD2, 0x40, 0x9D, 0xFF}}},
-	{{{129, 65, 103}, 0, {-16, -16}, {0xA4, 0x4D, 0x29, 0xFF}}},
-	{{{131, 47, -1}, 0, {-16, -16}, {0xE4, 0x5C, 0xAE, 0xFF}}},
-};
-
-Gfx dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_4_tri_0[] = {
-	gsSPVertex(dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_4_vtx_0 + 0, 11, 0),
-	gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0),
-	gsSP2Triangles(1, 4, 3, 0, 5, 6, 7, 0),
-	gsSP1Triangle(8, 9, 10, 0),
-	gsSPEndDisplayList(),
-};
-
-Vtx dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_4_vtx_1[11] = {
-	{{{114, -92, -11}, 0, {-16, -16}, {0x99, 0xCB, 0xCB, 0xFF}}},
-	{{{106, -124, 90}, 0, {-16, -16}, {0x9D, 0xB7, 0xE1, 0xFF}}},
-	{{{70, -52, 35}, 0, {-16, -16}, {0x91, 0xE0, 0xCB, 0xFF}}},
-	{{{78, 11, 40}, 0, {-16, -16}, {0x9C, 0x40, 0xD3, 0xFF}}},
-	{{{129, 65, 103}, 0, {-16, -16}, {0xB0, 0x61, 0xEE, 0xFF}}},
-	{{{131, 47, -1}, 0, {-16, -16}, {0xA8, 0x52, 0xD6, 0xFF}}},
-	{{{131, 47, -1}, 0, {1088, 212}, {0xA8, 0x52, 0xD6, 0xFF}}},
-	{{{107, -19, -33}, 0, {458, 16}, {0x95, 0x12, 0xBE, 0xFF}}},
-	{{{78, 11, 40}, 0, {756, 802}, {0x9C, 0x40, 0xD3, 0xFF}}},
-	{{{70, -52, 35}, 0, {180, 784}, {0x91, 0xE0, 0xCB, 0xFF}}},
-	{{{114, -92, -11}, 0, {-164, 172}, {0x99, 0xCB, 0xCB, 0xFF}}},
-};
-
-Gfx dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_4_tri_1[] = {
-	gsSPVertex(dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_4_vtx_1 + 0, 11, 0),
+	gsSPVertex(dedede_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_1_vtx_0 + 0, 51, 0),
 	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0),
-	gsSP2Triangles(6, 7, 8, 0, 7, 9, 8, 0),
-	gsSP1Triangle(7, 10, 9, 0),
+	gsSP2Triangles(6, 7, 8, 0, 6, 8, 9, 0),
+	gsSP2Triangles(10, 11, 12, 0, 11, 13, 12, 0),
+	gsSP2Triangles(14, 15, 11, 0, 14, 16, 15, 0),
+	gsSP2Triangles(16, 14, 17, 0, 7, 11, 18, 0),
+	gsSP2Triangles(7, 18, 19, 0, 19, 18, 20, 0),
+	gsSP2Triangles(21, 20, 18, 0, 20, 21, 22, 0),
+	gsSP2Triangles(21, 17, 22, 0, 22, 17, 23, 0),
+	gsSP2Triangles(22, 23, 24, 0, 22, 24, 20, 0),
+	gsSP2Triangles(25, 19, 20, 0, 19, 25, 26, 0),
+	gsSP2Triangles(13, 26, 25, 0, 26, 7, 19, 0),
+	gsSP2Triangles(20, 27, 25, 0, 0, 10, 28, 0),
+	gsSP2Triangles(0, 28, 29, 0, 28, 30, 29, 0),
+	gsSP2Triangles(28, 31, 30, 0, 28, 13, 31, 0),
+	gsSP2Triangles(32, 31, 13, 0, 4, 32, 13, 0),
+	gsSP2Triangles(4, 13, 33, 0, 4, 33, 34, 0),
+	gsSP2Triangles(4, 34, 35, 0, 4, 36, 32, 0),
+	gsSP2Triangles(32, 36, 37, 0, 32, 37, 38, 0),
+	gsSP2Triangles(38, 37, 39, 0, 38, 39, 40, 0),
+	gsSP2Triangles(31, 40, 39, 0, 31, 39, 1, 0),
+	gsSP2Triangles(31, 1, 41, 0, 31, 41, 30, 0),
+	gsSP2Triangles(30, 41, 42, 0, 30, 42, 29, 0),
+	gsSP2Triangles(0, 29, 42, 0, 31, 38, 40, 0),
+	gsSP2Triangles(31, 32, 38, 0, 1, 43, 44, 0),
+	gsSP2Triangles(1, 44, 45, 0, 46, 3, 47, 0),
+	gsSP2Triangles(34, 46, 47, 0, 34, 48, 46, 0),
+	gsSP2Triangles(3, 1, 49, 0, 3, 49, 50, 0),
 	gsSPEndDisplayList(),
 };
 
-Vtx dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_vtx_0[28] = {
-	{{{192, 11, -2}, 0, {-16, -16}, {0x53, 0x22, 0xA6, 0xFF}}},
-	{{{107, -19, -33}, 0, {-16, -16}, {0xCE, 0x0E, 0x8C, 0xFF}}},
-	{{{131, 47, -1}, 0, {-16, -16}, {0xE4, 0x5C, 0xAE, 0xFF}}},
-	{{{182, -72, -8}, 0, {-16, -16}, {0x4A, 0xD9, 0xA0, 0xFF}}},
-	{{{246, 29, 128}, 0, {-16, -16}, {0x71, 0x29, 0xD6, 0xFF}}},
-	{{{183, 100, 86}, 0, {-16, -16}, {0x14, 0x7B, 0xE9, 0xFF}}},
-	{{{129, 65, 103}, 0, {-16, -16}, {0xA4, 0x4D, 0x29, 0xFF}}},
-	{{{160, 65, 148}, 0, {-16, -16}, {0xB0, 0x43, 0x48, 0xFF}}},
-	{{{211, 81, 156}, 0, {-16, -16}, {0x26, 0x71, 0x2C, 0xFF}}},
-	{{{192, 42, 190}, 0, {-16, -16}, {0xC4, 0x36, 0x62, 0xFF}}},
-	{{{228, 1, 228}, 0, {-16, -16}, {0xFC, 0x21, 0x7A, 0xFF}}},
-	{{{285, -6, 196}, 0, {-16, -16}, {0x76, 0x1B, 0x26, 0xFF}}},
-	{{{273, -105, 188}, 0, {-16, -16}, {0x6D, 0xC5, 0x1E, 0xFF}}},
-	{{{216, -104, 220}, 0, {-16, -16}, {0xF4, 0xCF, 0x74, 0xFF}}},
-	{{{181, -167, 138}, 0, {-16, -16}, {0x08, 0x84, 0x1B, 0xFF}}},
-	{{{171, -129, 178}, 0, {-16, -16}, {0xB6, 0xCD, 0x5A, 0xFF}}},
-	{{{137, -137, 134}, 0, {-16, -16}, {0xA3, 0xC7, 0x41, 0xFF}}},
-	{{{151, -168, 67}, 0, {-16, -16}, {0xF7, 0x88, 0xD8, 0xFF}}},
-	{{{106, -124, 90}, 0, {-16, -16}, {0x98, 0xBB, 0x17, 0xFF}}},
-	{{{114, -92, -11}, 0, {-16, -16}, {0xD0, 0xB9, 0xA2, 0xFF}}},
-	{{{228, -121, 117}, 0, {-16, -16}, {0x65, 0xC4, 0xCF, 0xFF}}},
-	{{{29, -82, 43}, 0, {-16, -16}, {0x9C, 0xB3, 0xF1, 0xFF}}},
-	{{{70, -52, 35}, 0, {-16, -16}, {0xC6, 0xDB, 0x95, 0xFF}}},
-	{{{18, -13, 33}, 0, {-16, -16}, {0x87, 0x12, 0xDC, 0xFF}}},
-	{{{65, -53, 55}, 0, {-16, -16}, {0xBB, 0x08, 0x6A, 0xFF}}},
-	{{{73, 11, 60}, 0, {-16, -16}, {0xBC, 0xFA, 0x6B, 0xFF}}},
-	{{{45, 49, 53}, 0, {-16, -16}, {0xB1, 0x64, 0xFE, 0xFF}}},
-	{{{78, 11, 40}, 0, {-16, -16}, {0xD2, 0x40, 0x9D, 0xFF}}},
+Vtx dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_vtx_0[25] = {
+	{{{121, -2, -137}, 0, {368, 1008}, {0x27, 0xD4, 0x90, 0xFF}}},
+	{{{17, 29, -93}, 0, {368, 752}, {0xB5, 0xEB, 0x9B, 0xFF}}},
+	{{{-9, 101, -71}, 0, {624, 752}, {0xA4, 0x3D, 0xC2, 0xFF}}},
+	{{{118, 169, -71}, 0, {624, 1008}, {0x24, 0x6C, 0xC8, 0xFF}}},
+	{{{121, -2, -137}, 0, {368, -16}, {0x27, 0xD4, 0x90, 0xFF}}},
+	{{{118, 169, -71}, 0, {624, -16}, {0x24, 0x6C, 0xC8, 0xFF}}},
+	{{{183, 20, -24}, 0, {483, 54}, {0x7B, 0xE2, 0xFC, 0xFF}}},
+	{{{75, -64, -30}, 0, {368, 112}, {0x11, 0x89, 0xD8, 0xFF}}},
+	{{{120, 0, 96}, 0, {368, 240}, {0x4E, 0xDC, 0x5E, 0xFF}}},
+	{{{75, -64, -30}, 0, {240, 240}, {0x11, 0x89, 0xD8, 0xFF}}},
+	{{{-3, -29, -22}, 0, {240, 496}, {0x9E, 0xB6, 0xE0, 0xFF}}},
+	{{{62, -91, 57}, 0, {297, 383}, {0x03, 0x87, 0x27, 0xFF}}},
+	{{{120, 0, 96}, 0, {368, 240}, {0x45, 0xF6, 0x6A, 0xFF}}},
+	{{{-3, -29, -22}, 0, {368, 624}, {0x9E, 0xB6, 0xE0, 0xFF}}},
+	{{{-26, 47, -8}, 0, {516, 550}, {0x81, 0xFF, 0x02, 0xFF}}},
+	{{{-3, 6, 53}, 0, {368, 496}, {0x96, 0xEE, 0x43, 0xFF}}},
+	{{{62, -91, 57}, 0, {368, 454}, {0x03, 0x87, 0x27, 0xFF}}},
+	{{{63, -7, 112}, 0, {368, 359}, {0xEC, 0x01, 0x7D, 0xFF}}},
+	{{{-5, 99, 17}, 0, {624, 496}, {0xA7, 0x49, 0x35, 0xFF}}},
+	{{{-9, 101, -71}, 0, {624, 624}, {0xA4, 0x3D, 0xC2, 0xFF}}},
+	{{{118, 169, -71}, 0, {752, 240}, {0x24, 0x6C, 0xC8, 0xFF}}},
+	{{{-9, 101, -71}, 0, {752, 496}, {0xA4, 0x3D, 0xC2, 0xFF}}},
+	{{{118, 146, 79}, 0, {624, 240}, {0x1E, 0x56, 0x59, 0xFF}}},
+	{{{183, 20, -24}, 0, {483, 112}, {0x7B, 0xE2, 0xFC, 0xFF}}},
+	{{{118, 169, -71}, 0, {624, 112}, {0x24, 0x6C, 0xC8, 0xFF}}},
 };
 
 Gfx dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_tri_0[] = {
-	gsSPVertex(dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_vtx_0 + 0, 28, 0),
-	gsSP2Triangles(0, 1, 2, 0, 3, 1, 0, 0),
-	gsSP2Triangles(3, 0, 4, 0, 0, 5, 4, 0),
-	gsSP2Triangles(2, 5, 0, 0, 5, 2, 6, 0),
-	gsSP2Triangles(5, 6, 7, 0, 7, 8, 5, 0),
-	gsSP2Triangles(9, 8, 7, 0, 10, 8, 9, 0),
-	gsSP2Triangles(10, 11, 8, 0, 12, 11, 10, 0),
-	gsSP2Triangles(13, 12, 10, 0, 14, 12, 13, 0),
-	gsSP2Triangles(15, 14, 13, 0, 16, 14, 15, 0),
-	gsSP2Triangles(17, 14, 16, 0, 18, 17, 16, 0),
-	gsSP2Triangles(18, 19, 17, 0, 3, 17, 19, 0),
-	gsSP2Triangles(19, 1, 3, 0, 20, 17, 3, 0),
-	gsSP2Triangles(17, 20, 14, 0, 20, 12, 14, 0),
-	gsSP2Triangles(11, 12, 20, 0, 20, 4, 11, 0),
-	gsSP2Triangles(20, 3, 4, 0, 8, 11, 4, 0),
-	gsSP2Triangles(8, 4, 5, 0, 21, 22, 18, 0),
-	gsSP2Triangles(21, 23, 22, 0, 24, 23, 21, 0),
-	gsSP2Triangles(24, 21, 18, 0, 24, 25, 23, 0),
-	gsSP2Triangles(26, 23, 25, 0, 6, 26, 25, 0),
-	gsSP2Triangles(27, 26, 6, 0, 27, 23, 26, 0),
-	gsSP1Triangle(22, 23, 27, 0),
+	gsSPVertex(dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_vtx_0 + 0, 25, 0),
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
+	gsSP2Triangles(4, 5, 6, 0, 7, 4, 6, 0),
+	gsSP2Triangles(7, 6, 8, 0, 9, 10, 4, 0),
+	gsSP2Triangles(9, 11, 10, 0, 11, 9, 12, 0),
+	gsSP2Triangles(1, 4, 13, 0, 1, 13, 14, 0),
+	gsSP2Triangles(14, 13, 15, 0, 16, 15, 13, 0),
+	gsSP2Triangles(15, 16, 17, 0, 16, 12, 17, 0),
+	gsSP2Triangles(17, 12, 18, 0, 15, 17, 18, 0),
+	gsSP2Triangles(18, 14, 15, 0, 14, 18, 19, 0),
+	gsSP2Triangles(19, 1, 14, 0, 18, 20, 21, 0),
+	gsSP2Triangles(18, 22, 20, 0, 18, 8, 22, 0),
+	gsSP2Triangles(22, 8, 23, 0, 23, 24, 22, 0),
 	gsSPEndDisplayList(),
 };
 
-Vtx dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_vtx_1[10] = {
-	{{{65, -53, 55}, 0, {-16, -16}, {0xBB, 0x08, 0x6A, 0xFF}}},
-	{{{106, -124, 90}, 0, {-16, -16}, {0x98, 0xBB, 0x17, 0xFF}}},
-	{{{137, -137, 134}, 0, {-16, -16}, {0xA3, 0xC7, 0x41, 0xFF}}},
-	{{{73, 11, 60}, 0, {-16, -16}, {0xBC, 0xFA, 0x6B, 0xFF}}},
-	{{{129, 65, 103}, 0, {-16, -16}, {0xA4, 0x4D, 0x29, 0xFF}}},
-	{{{160, 65, 148}, 0, {-16, -16}, {0xB0, 0x43, 0x48, 0xFF}}},
-	{{{192, 42, 190}, 0, {-16, -16}, {0xC4, 0x36, 0x62, 0xFF}}},
-	{{{171, -129, 178}, 0, {-16, -16}, {0xB6, 0xCD, 0x5A, 0xFF}}},
-	{{{216, -104, 220}, 0, {-16, -16}, {0xF4, 0xCF, 0x74, 0xFF}}},
-	{{{228, 1, 228}, 0, {-16, -16}, {0xFC, 0x21, 0x7A, 0xFF}}},
+Vtx dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_vtx_1[19] = {
+	{{{356, 13, 86}, 0, {157, 661}, {0x69, 0xDC, 0xC2, 0xFF}}},
+	{{{319, 169, 60}, 0, {368, 240}, {0x53, 0x36, 0xB0, 0xFF}}},
+	{{{386, 119, 190}, 0, {-16, 1008}, {0x7D, 0x14, 0x07, 0xFF}}},
+	{{{311, 251, 200}, 0, {157, 661}, {0x4F, 0x63, 0x03, 0xFF}}},
+	{{{260, 206, 359}, 0, {-16, 1008}, {0x30, 0x3D, 0x64, 0xFF}}},
+	{{{175, 277, 280}, 0, {-16, 1008}, {0xF3, 0x74, 0x32, 0xFF}}},
+	{{{325, 37, 338}, 0, {-16, 1008}, {0x54, 0xE4, 0x5B, 0xFF}}},
+	{{{317, -97, 214}, 0, {-16, 1008}, {0x4E, 0x9F, 0x18, 0xFF}}},
+	{{{246, -103, 97}, 0, {-16, 1008}, {0x1D, 0x93, 0xC6, 0xFF}}},
+	{{{356, 13, 86}, 0, {148, 680}, {0x69, 0xDC, 0xC2, 0xFF}}},
+	{{{226, 37, -9}, 0, {-16, 1008}, {0x1E, 0xEB, 0x86, 0xFF}}},
+	{{{146, -31, 13}, 0, {-16, 1008}, {0xDE, 0xBB, 0x9B, 0xFF}}},
+	{{{92, 75, 16}, 0, {-16, 1008}, {0xE5, 0xDD, 0x89, 0xFF}}},
+	{{{201, 172, 8}, 0, {-16, 1008}, {0x08, 0x38, 0x8E, 0xFF}}},
+	{{{120, 150, 22}, 0, {-16, 1008}, {0x1B, 0x3A, 0x92, 0xFF}}},
+	{{{71, 189, 71}, 0, {-16, 1008}, {0xCB, 0x67, 0xCB, 0xFF}}},
+	{{{181, 271, 103}, 0, {-16, 1008}, {0x04, 0x71, 0xC7, 0xFF}}},
+	{{{89, 269, 158}, 0, {-16, 1008}, {0xBD, 0x6B, 0xF0, 0xFF}}},
+	{{{311, 251, 200}, 0, {148, 680}, {0x4F, 0x63, 0x03, 0xFF}}},
 };
 
 Gfx dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_tri_1[] = {
-	gsSPVertex(dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_vtx_1 + 0, 10, 0),
-	gsSP2Triangles(0, 1, 2, 0, 3, 0, 2, 0),
-	gsSP2Triangles(4, 3, 2, 0, 5, 4, 2, 0),
-	gsSP2Triangles(6, 5, 2, 0, 6, 2, 7, 0),
-	gsSP2Triangles(6, 7, 8, 0, 8, 9, 6, 0),
+	gsSPVertex(dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_vtx_1 + 0, 19, 0),
+	gsSP2Triangles(0, 1, 2, 0, 3, 2, 1, 0),
+	gsSP2Triangles(2, 3, 4, 0, 5, 4, 3, 0),
+	gsSP2Triangles(6, 2, 4, 0, 6, 7, 2, 0),
+	gsSP2Triangles(2, 7, 0, 0, 8, 0, 7, 0),
+	gsSP2Triangles(9, 10, 1, 0, 10, 9, 8, 0),
+	gsSP2Triangles(8, 11, 10, 0, 10, 11, 12, 0),
+	gsSP2Triangles(12, 13, 10, 0, 14, 13, 12, 0),
+	gsSP2Triangles(13, 14, 15, 0, 15, 16, 13, 0),
+	gsSP2Triangles(16, 15, 17, 0, 5, 16, 17, 0),
+	gsSP2Triangles(16, 5, 18, 0, 18, 1, 16, 0),
+	gsSP2Triangles(13, 16, 1, 0, 13, 1, 10, 0),
 	gsSPEndDisplayList(),
 };
 
-Vtx dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_vtx_2[25] = {
-	{{{1, 24, 35}, 0, {-16, -16}, {0xF8, 0x3F, 0x6E, 0xFF}}},
-	{{{29, 7, 48}, 0, {-16, -16}, {0xC0, 0xF9, 0x6E, 0xFF}}},
-	{{{29, 62, 34}, 0, {-16, -16}, {0xCE, 0x59, 0x4B, 0xFF}}},
-	{{{23, -25, 35}, 0, {-16, -16}, {0x10, 0xC0, 0x6D, 0xFF}}},
-	{{{-13, 26, 41}, 0, {-16, -16}, {0xC7, 0x35, 0x65, 0xFF}}},
-	{{{-2, 41, 0}, 0, {-16, -16}, {0xDD, 0x73, 0xD7, 0xFF}}},
-	{{{11, 60, -3}, 0, {-16, -16}, {0xB2, 0x59, 0xD2, 0xFF}}},
-	{{{58, 81, 0}, 0, {-16, -16}, {0x18, 0x79, 0xE3, 0xFF}}},
-	{{{54, 54, 44}, 0, {-16, -16}, {0x15, 0x51, 0x60, 0xFF}}},
-	{{{56, 11, 65}, 0, {-16, -16}, {0xF1, 0x13, 0x7D, 0xFF}}},
-	{{{75, -32, 65}, 0, {-16, -16}, {0x19, 0xB2, 0x61, 0xFF}}},
-	{{{55, -43, -3}, 0, {-16, -16}, {0x07, 0x8C, 0xCD, 0xFF}}},
-	{{{31, -39, 0}, 0, {-16, -16}, {0x3D, 0x98, 0xD7, 0xFF}}},
-	{{{13, -37, 41}, 0, {-16, -16}, {0xFB, 0xB1, 0x63, 0xFF}}},
-	{{{-15, -12, 7}, 0, {-16, -16}, {0x8B, 0xCF, 0xF8, 0xFF}}},
-	{{{-19, 47, -4}, 0, {-16, -16}, {0xBD, 0x65, 0xD9, 0xFF}}},
-	{{{4, -3, -32}, 0, {-16, -16}, {0xED, 0xF9, 0x83, 0xFF}}},
-	{{{16, 1, -22}, 0, {-16, -16}, {0x04, 0xFF, 0x81, 0xFF}}},
-	{{{35, 9, -36}, 0, {-16, -16}, {0xE6, 0xF5, 0x84, 0xFF}}},
-	{{{85, 30, -32}, 0, {-16, -16}, {0x45, 0x1C, 0x99, 0xFF}}},
-	{{{96, 39, 24}, 0, {-16, -16}, {0x6C, 0x3D, 0x1C, 0xFF}}},
-	{{{85, 15, 52}, 0, {-16, -16}, {0x44, 0x2D, 0x62, 0xFF}}},
-	{{{95, -8, 52}, 0, {-16, -16}, {0x67, 0xF9, 0x4A, 0xFF}}},
-	{{{103, -25, 1}, 0, {-16, -16}, {0x65, 0xBF, 0xD6, 0xFF}}},
-	{{{24, -55, -4}, 0, {-16, -16}, {0x1B, 0x8B, 0xD8, 0xFF}}},
+Vtx dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_vtx_2[26] = {
+	{{{103, 162, -9}, 0, {-260, 495}, {0x27, 0x3A, 0x96, 0xFF}}},
+	{{{120, 150, 22}, 0, {-260, 495}, {0x1B, 0x3A, 0x92, 0xFF}}},
+	{{{92, 75, 16}, 0, {-260, 495}, {0xE5, 0xDD, 0x89, 0xFF}}},
+	{{{71, 189, 71}, 0, {-260, 495}, {0xCB, 0x67, 0xCB, 0xFF}}},
+	{{{13, 178, 99}, 0, {-260, 495}, {0xB8, 0x5B, 0x35, 0xFF}}},
+	{{{30, 133, 21}, 0, {-260, 495}, {0xAE, 0x1D, 0xA3, 0xFF}}},
+	{{{39, 43, 34}, 0, {-260, 495}, {0xDF, 0x8E, 0xD3, 0xFF}}},
+	{{{54, 58, 64}, 0, {-260, 495}, {0xED, 0x86, 0x1E, 0xFF}}},
+	{{{146, -31, 13}, 0, {-260, 495}, {0xDE, 0xBB, 0x9B, 0xFF}}},
+	{{{116, -37, 55}, 0, {-260, 495}, {0xBB, 0xAF, 0xBA, 0xFF}}},
+	{{{208, -104, 123}, 0, {-260, 495}, {0xF1, 0x86, 0xE2, 0xFF}}},
+	{{{246, -103, 97}, 0, {-260, 495}, {0x1D, 0x93, 0xC6, 0xFF}}},
+	{{{267, -107, 229}, 0, {-260, 495}, {0x1B, 0x8C, 0x2B, 0xFF}}},
+	{{{317, -97, 214}, 0, {-260, 495}, {0x4E, 0x9F, 0x18, 0xFF}}},
+	{{{277, 25, 344}, 0, {-260, 495}, {0x21, 0xD0, 0x71, 0xFF}}},
+	{{{325, 37, 338}, 0, {-260, 495}, {0x54, 0xE4, 0x5B, 0xFF}}},
+	{{{260, 206, 359}, 0, {-260, 495}, {0x30, 0x3D, 0x64, 0xFF}}},
+	{{{212, 185, 370}, 0, {-260, 495}, {0xFD, 0x2B, 0x78, 0xFF}}},
+	{{{175, 277, 280}, 0, {-260, 495}, {0xF3, 0x74, 0x32, 0xFF}}},
+	{{{142, 246, 291}, 0, {-260, 495}, {0xC9, 0x59, 0x47, 0xFF}}},
+	{{{89, 269, 158}, 0, {-260, 495}, {0xBD, 0x6B, 0xF0, 0xFF}}},
+	{{{65, 232, 184}, 0, {-260, 495}, {0x9D, 0x4F, 0x07, 0xFF}}},
+	{{{36, 151, 108}, 0, {-260, 495}, {0xCE, 0x2A, 0x6D, 0xFF}}},
+	{{{21, 94, 100}, 0, {-260, 495}, {0x11, 0xCC, 0x73, 0xFF}}},
+	{{{-14, 90, 94}, 0, {-260, 495}, {0x9C, 0x1B, 0x49, 0xFF}}},
+	{{{-14, 90, 94}, 0, {-260, 495}, {0xB4, 0x9B, 0x0B, 0xFF}}},
 };
 
 Gfx dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_tri_2[] = {
-	gsSPVertex(dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_vtx_2 + 0, 25, 0),
-	gsSP2Triangles(0, 1, 2, 0, 1, 0, 3, 0),
-	gsSP2Triangles(3, 0, 4, 0, 4, 0, 5, 0),
-	gsSP2Triangles(6, 5, 0, 0, 2, 6, 0, 0),
-	gsSP2Triangles(7, 6, 2, 0, 2, 8, 7, 0),
-	gsSP2Triangles(8, 2, 9, 0, 2, 1, 9, 0),
-	gsSP2Triangles(10, 9, 1, 0, 10, 1, 3, 0),
-	gsSP2Triangles(11, 10, 3, 0, 3, 12, 11, 0),
-	gsSP2Triangles(12, 3, 13, 0, 4, 13, 3, 0),
-	gsSP2Triangles(4, 14, 13, 0, 15, 14, 4, 0),
-	gsSP2Triangles(5, 15, 4, 0, 16, 15, 5, 0),
-	gsSP2Triangles(5, 17, 16, 0, 18, 17, 5, 0),
-	gsSP2Triangles(6, 18, 5, 0, 6, 7, 18, 0),
-	gsSP2Triangles(7, 19, 18, 0, 7, 20, 19, 0),
-	gsSP2Triangles(8, 20, 7, 0, 20, 8, 21, 0),
-	gsSP2Triangles(21, 8, 9, 0, 22, 21, 9, 0),
-	gsSP2Triangles(10, 22, 9, 0, 23, 22, 10, 0),
-	gsSP2Triangles(11, 23, 10, 0, 18, 23, 11, 0),
-	gsSP2Triangles(18, 11, 12, 0, 12, 17, 18, 0),
-	gsSP2Triangles(16, 17, 12, 0, 12, 24, 16, 0),
-	gsSP2Triangles(13, 24, 12, 0, 13, 14, 24, 0),
-	gsSP2Triangles(24, 14, 16, 0, 16, 14, 15, 0),
-	gsSP2Triangles(18, 19, 23, 0, 19, 20, 23, 0),
-	gsSP2Triangles(23, 20, 22, 0, 22, 20, 21, 0),
+	gsSPVertex(dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_vtx_2 + 0, 26, 0),
+	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
+	gsSP2Triangles(3, 0, 4, 0, 5, 4, 0, 0),
+	gsSP2Triangles(5, 0, 6, 0, 2, 6, 0, 0),
+	gsSP2Triangles(2, 7, 6, 0, 8, 7, 2, 0),
+	gsSP2Triangles(8, 9, 7, 0, 10, 9, 8, 0),
+	gsSP2Triangles(10, 8, 11, 0, 12, 10, 11, 0),
+	gsSP2Triangles(12, 11, 13, 0, 14, 12, 13, 0),
+	gsSP2Triangles(14, 13, 15, 0, 14, 15, 16, 0),
+	gsSP2Triangles(14, 16, 17, 0, 17, 16, 18, 0),
+	gsSP2Triangles(17, 18, 19, 0, 19, 18, 20, 0),
+	gsSP2Triangles(19, 20, 21, 0, 20, 22, 21, 0),
+	gsSP2Triangles(20, 3, 22, 0, 3, 4, 22, 0),
+	gsSP2Triangles(4, 23, 22, 0, 23, 4, 24, 0),
+	gsSP2Triangles(4, 5, 24, 0, 7, 22, 23, 0),
+	gsSP2Triangles(6, 7, 23, 0, 23, 25, 6, 0),
+	gsSP1Triangle(6, 25, 5, 0),
 	gsSPEndDisplayList(),
 };
 
-Vtx dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_4_vtx_0[11] = {
-	{{{131, 47, -1}, 0, {1088, 212}, {0xE4, 0x5C, 0xAE, 0xFF}}},
-	{{{107, -19, -33}, 0, {458, 16}, {0xCE, 0x0E, 0x8C, 0xFF}}},
-	{{{78, 11, 40}, 0, {756, 802}, {0xD2, 0x40, 0x9D, 0xFF}}},
-	{{{70, -52, 35}, 0, {180, 784}, {0xC6, 0xDB, 0x95, 0xFF}}},
-	{{{114, -92, -11}, 0, {-164, 172}, {0xD0, 0xB9, 0xA2, 0xFF}}},
-	{{{114, -92, -11}, 0, {-16, -16}, {0xD0, 0xB9, 0xA2, 0xFF}}},
-	{{{106, -124, 90}, 0, {-16, -16}, {0x98, 0xBB, 0x17, 0xFF}}},
-	{{{70, -52, 35}, 0, {-16, -16}, {0xC6, 0xDB, 0x95, 0xFF}}},
-	{{{78, 11, 40}, 0, {-16, -16}, {0xD2, 0x40, 0x9D, 0xFF}}},
-	{{{129, 65, 103}, 0, {-16, -16}, {0xA4, 0x4D, 0x29, 0xFF}}},
-	{{{131, 47, -1}, 0, {-16, -16}, {0xE4, 0x5C, 0xAE, 0xFF}}},
+Vtx dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_vtx_3[9] = {
+	{{{267, -107, 229}, 0, {-16, 1008}, {0x96, 0xD7, 0x39, 0xFF}}},
+	{{{277, 25, 344}, 0, {-16, 1008}, {0x9F, 0xCE, 0x41, 0xFF}}},
+	{{{208, -104, 123}, 0, {-16, 1008}, {0xA1, 0xC7, 0x3F, 0xFF}}},
+	{{{116, -37, 55}, 0, {-16, 1008}, {0xA6, 0xC1, 0x40, 0xFF}}},
+	{{{54, 58, 64}, 0, {-16, 1008}, {0xA4, 0xC7, 0x43, 0xFF}}},
+	{{{36, 151, 108}, 0, {-16, 1008}, {0xA2, 0xD3, 0x48, 0xFF}}},
+	{{{65, 232, 184}, 0, {-16, 1008}, {0xA2, 0xD9, 0x4B, 0xFF}}},
+	{{{142, 246, 291}, 0, {-16, 1008}, {0x9F, 0xD5, 0x45, 0xFF}}},
+	{{{212, 185, 370}, 0, {-16, 1008}, {0x98, 0xCD, 0x35, 0xFF}}},
 };
 
-Gfx dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_4_tri_0[] = {
-	gsSPVertex(dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_4_vtx_0 + 0, 11, 0),
-	gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0),
-	gsSP2Triangles(1, 4, 3, 0, 5, 6, 7, 0),
-	gsSP1Triangle(8, 9, 10, 0),
+Gfx dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_tri_3[] = {
+	gsSPVertex(dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_vtx_3 + 0, 9, 0),
+	gsSP2Triangles(0, 1, 2, 0, 2, 1, 3, 0),
+	gsSP2Triangles(3, 1, 4, 0, 4, 1, 5, 0),
+	gsSP2Triangles(5, 1, 6, 0, 7, 6, 1, 0),
+	gsSP1Triangle(8, 7, 1, 0),
 	gsSPEndDisplayList(),
 };
 
-Vtx dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_4_vtx_1[11] = {
-	{{{114, -92, -11}, 0, {-16, -16}, {0x99, 0xCB, 0xCB, 0xFF}}},
-	{{{106, -124, 90}, 0, {-16, -16}, {0x9D, 0xB7, 0xE1, 0xFF}}},
-	{{{70, -52, 35}, 0, {-16, -16}, {0x91, 0xE0, 0xCB, 0xFF}}},
-	{{{78, 11, 40}, 0, {-16, -16}, {0x9C, 0x40, 0xD3, 0xFF}}},
-	{{{129, 65, 103}, 0, {-16, -16}, {0xB0, 0x61, 0xEE, 0xFF}}},
-	{{{131, 47, -1}, 0, {-16, -16}, {0xA8, 0x52, 0xD6, 0xFF}}},
-	{{{131, 47, -1}, 0, {1088, 212}, {0xA8, 0x52, 0xD6, 0xFF}}},
-	{{{107, -19, -33}, 0, {458, 16}, {0x95, 0x12, 0xBE, 0xFF}}},
-	{{{78, 11, 40}, 0, {756, 802}, {0x9C, 0x40, 0xD3, 0xFF}}},
-	{{{70, -52, 35}, 0, {180, 784}, {0x91, 0xE0, 0xCB, 0xFF}}},
-	{{{114, -92, -11}, 0, {-164, 172}, {0x99, 0xCB, 0xCB, 0xFF}}},
+Vtx dedede_Right_Hand_Cap_Switch_Option_Puffball_DL_mesh_layer_4_vtx_0[4] = {
+	{{{18, 0, 0}, 0, {496, 496}, {0x00, 0x00, 0x7F, 0xFF}}},
+	{{{18, 37, 0}, 0, {496, -16}, {0x00, 0x00, 0x7F, 0xFF}}},
+	{{{-18, 37, 0}, 0, {-16, -16}, {0x00, 0x00, 0x7F, 0xFF}}},
+	{{{-18, 0, 0}, 0, {-16, 496}, {0x00, 0x00, 0x7F, 0xFF}}},
 };
 
-Gfx dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_4_tri_1[] = {
-	gsSPVertex(dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_4_vtx_1 + 0, 11, 0),
-	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0),
-	gsSP2Triangles(6, 7, 8, 0, 7, 9, 8, 0),
-	gsSP1Triangle(7, 10, 9, 0),
+Gfx dedede_Right_Hand_Cap_Switch_Option_Puffball_DL_mesh_layer_4_tri_0[] = {
+	gsSPVertex(dedede_Right_Hand_Cap_Switch_Option_Puffball_DL_mesh_layer_4_vtx_0 + 0, 4, 0),
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
 	gsSPEndDisplayList(),
 };
 
-Vtx dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_1_vtx_0[28] = {
-	{{{192, 11, -2}, 0, {-16, -16}, {0x53, 0x22, 0xA6, 0xFF}}},
-	{{{107, -19, -33}, 0, {-16, -16}, {0xCE, 0x0E, 0x8C, 0xFF}}},
-	{{{131, 47, -1}, 0, {-16, -16}, {0xE4, 0x5C, 0xAE, 0xFF}}},
-	{{{182, -72, -8}, 0, {-16, -16}, {0x4A, 0xD9, 0xA0, 0xFF}}},
-	{{{246, 29, 128}, 0, {-16, -16}, {0x71, 0x29, 0xD6, 0xFF}}},
-	{{{183, 100, 86}, 0, {-16, -16}, {0x14, 0x7B, 0xE9, 0xFF}}},
-	{{{129, 65, 103}, 0, {-16, -16}, {0xA4, 0x4D, 0x29, 0xFF}}},
-	{{{160, 65, 148}, 0, {-16, -16}, {0xB0, 0x43, 0x48, 0xFF}}},
-	{{{211, 81, 156}, 0, {-16, -16}, {0x26, 0x71, 0x2C, 0xFF}}},
-	{{{192, 42, 190}, 0, {-16, -16}, {0xC4, 0x36, 0x62, 0xFF}}},
-	{{{228, 1, 228}, 0, {-16, -16}, {0xFC, 0x21, 0x7A, 0xFF}}},
-	{{{285, -6, 196}, 0, {-16, -16}, {0x76, 0x1B, 0x26, 0xFF}}},
-	{{{273, -105, 188}, 0, {-16, -16}, {0x6D, 0xC5, 0x1E, 0xFF}}},
-	{{{216, -104, 220}, 0, {-16, -16}, {0xF4, 0xCF, 0x74, 0xFF}}},
-	{{{181, -167, 138}, 0, {-16, -16}, {0x08, 0x84, 0x1B, 0xFF}}},
-	{{{171, -129, 178}, 0, {-16, -16}, {0xB6, 0xCD, 0x5A, 0xFF}}},
-	{{{137, -137, 134}, 0, {-16, -16}, {0xA3, 0xC7, 0x41, 0xFF}}},
-	{{{151, -168, 67}, 0, {-16, -16}, {0xF7, 0x88, 0xD8, 0xFF}}},
-	{{{106, -124, 90}, 0, {-16, -16}, {0x98, 0xBB, 0x17, 0xFF}}},
-	{{{114, -92, -11}, 0, {-16, -16}, {0xD0, 0xB9, 0xA2, 0xFF}}},
-	{{{228, -121, 117}, 0, {-16, -16}, {0x65, 0xC4, 0xCF, 0xFF}}},
-	{{{29, -82, 43}, 0, {-16, -16}, {0x9C, 0xB3, 0xF1, 0xFF}}},
-	{{{70, -52, 35}, 0, {-16, -16}, {0xC6, 0xDB, 0x95, 0xFF}}},
-	{{{18, -13, 33}, 0, {-16, -16}, {0x87, 0x12, 0xDC, 0xFF}}},
-	{{{65, -53, 55}, 0, {-16, -16}, {0xBB, 0x08, 0x6A, 0xFF}}},
-	{{{73, 11, 60}, 0, {-16, -16}, {0xBC, 0xFA, 0x6B, 0xFF}}},
-	{{{45, 49, 53}, 0, {-16, -16}, {0xB1, 0x64, 0xFE, 0xFF}}},
-	{{{78, 11, 40}, 0, {-16, -16}, {0xD2, 0x40, 0x9D, 0xFF}}},
+Vtx dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_vtx_0[25] = {
+	{{{121, -2, -137}, 0, {368, 1008}, {0x27, 0xD4, 0x90, 0xFF}}},
+	{{{17, 29, -93}, 0, {368, 752}, {0xB5, 0xEB, 0x9B, 0xFF}}},
+	{{{-9, 101, -71}, 0, {624, 752}, {0xA4, 0x3D, 0xC2, 0xFF}}},
+	{{{118, 169, -71}, 0, {624, 1008}, {0x24, 0x6C, 0xC8, 0xFF}}},
+	{{{121, -2, -137}, 0, {368, -16}, {0x27, 0xD4, 0x90, 0xFF}}},
+	{{{118, 169, -71}, 0, {624, -16}, {0x24, 0x6C, 0xC8, 0xFF}}},
+	{{{183, 20, -24}, 0, {483, 54}, {0x7B, 0xE2, 0xFC, 0xFF}}},
+	{{{75, -64, -30}, 0, {368, 112}, {0x11, 0x89, 0xD8, 0xFF}}},
+	{{{120, 0, 96}, 0, {368, 240}, {0x4E, 0xDC, 0x5E, 0xFF}}},
+	{{{75, -64, -30}, 0, {240, 240}, {0x11, 0x89, 0xD8, 0xFF}}},
+	{{{-3, -29, -22}, 0, {240, 496}, {0x9E, 0xB6, 0xE0, 0xFF}}},
+	{{{62, -91, 57}, 0, {297, 383}, {0x03, 0x87, 0x27, 0xFF}}},
+	{{{120, 0, 96}, 0, {368, 240}, {0x45, 0xF6, 0x6A, 0xFF}}},
+	{{{-3, -29, -22}, 0, {368, 624}, {0x9E, 0xB6, 0xE0, 0xFF}}},
+	{{{-26, 47, -8}, 0, {516, 550}, {0x81, 0xFF, 0x02, 0xFF}}},
+	{{{-3, 6, 53}, 0, {368, 496}, {0x96, 0xEE, 0x43, 0xFF}}},
+	{{{62, -91, 57}, 0, {368, 454}, {0x03, 0x87, 0x27, 0xFF}}},
+	{{{63, -7, 112}, 0, {368, 359}, {0xEC, 0x01, 0x7D, 0xFF}}},
+	{{{-5, 99, 17}, 0, {624, 496}, {0xA7, 0x49, 0x35, 0xFF}}},
+	{{{-9, 101, -71}, 0, {624, 624}, {0xA4, 0x3D, 0xC2, 0xFF}}},
+	{{{118, 169, -71}, 0, {752, 240}, {0x24, 0x6C, 0xC8, 0xFF}}},
+	{{{-9, 101, -71}, 0, {752, 496}, {0xA4, 0x3D, 0xC2, 0xFF}}},
+	{{{118, 146, 79}, 0, {624, 240}, {0x1E, 0x56, 0x59, 0xFF}}},
+	{{{183, 20, -24}, 0, {483, 112}, {0x7B, 0xE2, 0xFC, 0xFF}}},
+	{{{118, 169, -71}, 0, {624, 112}, {0x24, 0x6C, 0xC8, 0xFF}}},
 };
 
-Gfx dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_1_tri_0[] = {
-	gsSPVertex(dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_1_vtx_0 + 0, 28, 0),
-	gsSP2Triangles(0, 1, 2, 0, 3, 1, 0, 0),
-	gsSP2Triangles(3, 0, 4, 0, 0, 5, 4, 0),
-	gsSP2Triangles(2, 5, 0, 0, 5, 2, 6, 0),
-	gsSP2Triangles(5, 6, 7, 0, 7, 8, 5, 0),
-	gsSP2Triangles(9, 8, 7, 0, 10, 8, 9, 0),
-	gsSP2Triangles(10, 11, 8, 0, 12, 11, 10, 0),
-	gsSP2Triangles(13, 12, 10, 0, 14, 12, 13, 0),
-	gsSP2Triangles(15, 14, 13, 0, 16, 14, 15, 0),
-	gsSP2Triangles(17, 14, 16, 0, 18, 17, 16, 0),
-	gsSP2Triangles(18, 19, 17, 0, 3, 17, 19, 0),
-	gsSP2Triangles(19, 1, 3, 0, 20, 17, 3, 0),
-	gsSP2Triangles(17, 20, 14, 0, 20, 12, 14, 0),
-	gsSP2Triangles(11, 12, 20, 0, 20, 4, 11, 0),
-	gsSP2Triangles(20, 3, 4, 0, 8, 11, 4, 0),
-	gsSP2Triangles(8, 4, 5, 0, 21, 22, 18, 0),
-	gsSP2Triangles(21, 23, 22, 0, 24, 23, 21, 0),
-	gsSP2Triangles(24, 21, 18, 0, 24, 25, 23, 0),
-	gsSP2Triangles(26, 23, 25, 0, 6, 26, 25, 0),
-	gsSP2Triangles(27, 26, 6, 0, 27, 23, 26, 0),
-	gsSP1Triangle(22, 23, 27, 0),
+Gfx dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_tri_0[] = {
+	gsSPVertex(dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_vtx_0 + 0, 25, 0),
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
+	gsSP2Triangles(4, 5, 6, 0, 7, 4, 6, 0),
+	gsSP2Triangles(7, 6, 8, 0, 9, 10, 4, 0),
+	gsSP2Triangles(9, 11, 10, 0, 11, 9, 12, 0),
+	gsSP2Triangles(1, 4, 13, 0, 1, 13, 14, 0),
+	gsSP2Triangles(14, 13, 15, 0, 16, 15, 13, 0),
+	gsSP2Triangles(15, 16, 17, 0, 16, 12, 17, 0),
+	gsSP2Triangles(17, 12, 18, 0, 15, 17, 18, 0),
+	gsSP2Triangles(18, 14, 15, 0, 14, 18, 19, 0),
+	gsSP2Triangles(19, 1, 14, 0, 18, 20, 21, 0),
+	gsSP2Triangles(18, 22, 20, 0, 18, 8, 22, 0),
+	gsSP2Triangles(22, 8, 23, 0, 23, 24, 22, 0),
 	gsSPEndDisplayList(),
 };
 
-Vtx dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_1_vtx_1[10] = {
-	{{{65, -53, 55}, 0, {-16, -16}, {0xBB, 0x08, 0x6A, 0xFF}}},
-	{{{106, -124, 90}, 0, {-16, -16}, {0x98, 0xBB, 0x17, 0xFF}}},
-	{{{137, -137, 134}, 0, {-16, -16}, {0xA3, 0xC7, 0x41, 0xFF}}},
-	{{{73, 11, 60}, 0, {-16, -16}, {0xBC, 0xFA, 0x6B, 0xFF}}},
-	{{{129, 65, 103}, 0, {-16, -16}, {0xA4, 0x4D, 0x29, 0xFF}}},
-	{{{160, 65, 148}, 0, {-16, -16}, {0xB0, 0x43, 0x48, 0xFF}}},
-	{{{192, 42, 190}, 0, {-16, -16}, {0xC4, 0x36, 0x62, 0xFF}}},
-	{{{171, -129, 178}, 0, {-16, -16}, {0xB6, 0xCD, 0x5A, 0xFF}}},
-	{{{216, -104, 220}, 0, {-16, -16}, {0xF4, 0xCF, 0x74, 0xFF}}},
-	{{{228, 1, 228}, 0, {-16, -16}, {0xFC, 0x21, 0x7A, 0xFF}}},
+Vtx dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_vtx_1[19] = {
+	{{{356, 13, 86}, 0, {157, 661}, {0x69, 0xDC, 0xC2, 0xFF}}},
+	{{{319, 169, 60}, 0, {368, 240}, {0x53, 0x36, 0xB0, 0xFF}}},
+	{{{386, 119, 190}, 0, {-16, 1008}, {0x7D, 0x14, 0x07, 0xFF}}},
+	{{{311, 251, 200}, 0, {157, 661}, {0x4F, 0x63, 0x03, 0xFF}}},
+	{{{260, 206, 359}, 0, {-16, 1008}, {0x30, 0x3D, 0x64, 0xFF}}},
+	{{{175, 277, 280}, 0, {-16, 1008}, {0xF3, 0x74, 0x32, 0xFF}}},
+	{{{325, 37, 338}, 0, {-16, 1008}, {0x54, 0xE4, 0x5B, 0xFF}}},
+	{{{317, -97, 214}, 0, {-16, 1008}, {0x4E, 0x9F, 0x18, 0xFF}}},
+	{{{246, -103, 97}, 0, {-16, 1008}, {0x1D, 0x93, 0xC6, 0xFF}}},
+	{{{356, 13, 86}, 0, {148, 680}, {0x69, 0xDC, 0xC2, 0xFF}}},
+	{{{226, 37, -9}, 0, {-16, 1008}, {0x1E, 0xEB, 0x86, 0xFF}}},
+	{{{146, -31, 13}, 0, {-16, 1008}, {0xDE, 0xBB, 0x9B, 0xFF}}},
+	{{{92, 75, 16}, 0, {-16, 1008}, {0xE5, 0xDD, 0x89, 0xFF}}},
+	{{{201, 172, 8}, 0, {-16, 1008}, {0x08, 0x38, 0x8E, 0xFF}}},
+	{{{120, 150, 22}, 0, {-16, 1008}, {0x1B, 0x3A, 0x92, 0xFF}}},
+	{{{71, 189, 71}, 0, {-16, 1008}, {0xCB, 0x67, 0xCB, 0xFF}}},
+	{{{181, 271, 103}, 0, {-16, 1008}, {0x04, 0x71, 0xC7, 0xFF}}},
+	{{{89, 269, 158}, 0, {-16, 1008}, {0xBD, 0x6B, 0xF0, 0xFF}}},
+	{{{311, 251, 200}, 0, {148, 680}, {0x4F, 0x63, 0x03, 0xFF}}},
 };
 
-Gfx dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_1_tri_1[] = {
-	gsSPVertex(dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_1_vtx_1 + 0, 10, 0),
-	gsSP2Triangles(0, 1, 2, 0, 3, 0, 2, 0),
-	gsSP2Triangles(4, 3, 2, 0, 5, 4, 2, 0),
-	gsSP2Triangles(6, 5, 2, 0, 6, 2, 7, 0),
-	gsSP2Triangles(6, 7, 8, 0, 8, 9, 6, 0),
+Gfx dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_tri_1[] = {
+	gsSPVertex(dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_vtx_1 + 0, 19, 0),
+	gsSP2Triangles(0, 1, 2, 0, 3, 2, 1, 0),
+	gsSP2Triangles(2, 3, 4, 0, 5, 4, 3, 0),
+	gsSP2Triangles(6, 2, 4, 0, 6, 7, 2, 0),
+	gsSP2Triangles(2, 7, 0, 0, 8, 0, 7, 0),
+	gsSP2Triangles(9, 10, 1, 0, 10, 9, 8, 0),
+	gsSP2Triangles(8, 11, 10, 0, 10, 11, 12, 0),
+	gsSP2Triangles(12, 13, 10, 0, 14, 13, 12, 0),
+	gsSP2Triangles(13, 14, 15, 0, 15, 16, 13, 0),
+	gsSP2Triangles(16, 15, 17, 0, 5, 16, 17, 0),
+	gsSP2Triangles(16, 5, 18, 0, 18, 1, 16, 0),
+	gsSP2Triangles(13, 16, 1, 0, 13, 1, 10, 0),
 	gsSPEndDisplayList(),
 };
 
-Vtx dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_1_vtx_2[25] = {
-	{{{1, 24, 35}, 0, {-16, -16}, {0xF8, 0x3F, 0x6E, 0xFF}}},
-	{{{29, 7, 48}, 0, {-16, -16}, {0xC0, 0xF9, 0x6E, 0xFF}}},
-	{{{29, 62, 34}, 0, {-16, -16}, {0xCE, 0x59, 0x4B, 0xFF}}},
-	{{{23, -25, 35}, 0, {-16, -16}, {0x10, 0xC0, 0x6D, 0xFF}}},
-	{{{-13, 26, 41}, 0, {-16, -16}, {0xC7, 0x35, 0x65, 0xFF}}},
-	{{{-2, 41, 0}, 0, {-16, -16}, {0xDD, 0x73, 0xD7, 0xFF}}},
-	{{{11, 60, -3}, 0, {-16, -16}, {0xB2, 0x59, 0xD2, 0xFF}}},
-	{{{58, 81, 0}, 0, {-16, -16}, {0x18, 0x79, 0xE3, 0xFF}}},
-	{{{54, 54, 44}, 0, {-16, -16}, {0x15, 0x51, 0x60, 0xFF}}},
-	{{{56, 11, 65}, 0, {-16, -16}, {0xF1, 0x13, 0x7D, 0xFF}}},
-	{{{75, -32, 65}, 0, {-16, -16}, {0x19, 0xB2, 0x61, 0xFF}}},
-	{{{55, -43, -3}, 0, {-16, -16}, {0x07, 0x8C, 0xCD, 0xFF}}},
-	{{{31, -39, 0}, 0, {-16, -16}, {0x3D, 0x98, 0xD7, 0xFF}}},
-	{{{13, -37, 41}, 0, {-16, -16}, {0xFB, 0xB1, 0x63, 0xFF}}},
-	{{{-15, -12, 7}, 0, {-16, -16}, {0x8B, 0xCF, 0xF8, 0xFF}}},
-	{{{-19, 47, -4}, 0, {-16, -16}, {0xBD, 0x65, 0xD9, 0xFF}}},
-	{{{4, -3, -32}, 0, {-16, -16}, {0xED, 0xF9, 0x83, 0xFF}}},
-	{{{16, 1, -22}, 0, {-16, -16}, {0x04, 0xFF, 0x81, 0xFF}}},
-	{{{35, 9, -36}, 0, {-16, -16}, {0xE6, 0xF5, 0x84, 0xFF}}},
-	{{{85, 30, -32}, 0, {-16, -16}, {0x45, 0x1C, 0x99, 0xFF}}},
-	{{{96, 39, 24}, 0, {-16, -16}, {0x6C, 0x3D, 0x1C, 0xFF}}},
-	{{{85, 15, 52}, 0, {-16, -16}, {0x44, 0x2D, 0x62, 0xFF}}},
-	{{{95, -8, 52}, 0, {-16, -16}, {0x67, 0xF9, 0x4A, 0xFF}}},
-	{{{103, -25, 1}, 0, {-16, -16}, {0x65, 0xBF, 0xD6, 0xFF}}},
-	{{{24, -55, -4}, 0, {-16, -16}, {0x1B, 0x8B, 0xD8, 0xFF}}},
+Vtx dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_vtx_2[26] = {
+	{{{103, 162, -9}, 0, {-260, 495}, {0x27, 0x3A, 0x96, 0xFF}}},
+	{{{120, 150, 22}, 0, {-260, 495}, {0x1B, 0x3A, 0x92, 0xFF}}},
+	{{{92, 75, 16}, 0, {-260, 495}, {0xE5, 0xDD, 0x89, 0xFF}}},
+	{{{71, 189, 71}, 0, {-260, 495}, {0xCB, 0x67, 0xCB, 0xFF}}},
+	{{{13, 178, 99}, 0, {-260, 495}, {0xB8, 0x5B, 0x35, 0xFF}}},
+	{{{30, 133, 21}, 0, {-260, 495}, {0xAE, 0x1D, 0xA3, 0xFF}}},
+	{{{39, 43, 34}, 0, {-260, 495}, {0xDF, 0x8E, 0xD3, 0xFF}}},
+	{{{54, 58, 64}, 0, {-260, 495}, {0xED, 0x86, 0x1E, 0xFF}}},
+	{{{146, -31, 13}, 0, {-260, 495}, {0xDE, 0xBB, 0x9B, 0xFF}}},
+	{{{116, -37, 55}, 0, {-260, 495}, {0xBB, 0xAF, 0xBA, 0xFF}}},
+	{{{208, -104, 123}, 0, {-260, 495}, {0xF1, 0x86, 0xE2, 0xFF}}},
+	{{{246, -103, 97}, 0, {-260, 495}, {0x1D, 0x93, 0xC6, 0xFF}}},
+	{{{267, -107, 229}, 0, {-260, 495}, {0x1B, 0x8C, 0x2B, 0xFF}}},
+	{{{317, -97, 214}, 0, {-260, 495}, {0x4E, 0x9F, 0x18, 0xFF}}},
+	{{{277, 25, 344}, 0, {-260, 495}, {0x21, 0xD0, 0x71, 0xFF}}},
+	{{{325, 37, 338}, 0, {-260, 495}, {0x54, 0xE4, 0x5B, 0xFF}}},
+	{{{260, 206, 359}, 0, {-260, 495}, {0x30, 0x3D, 0x64, 0xFF}}},
+	{{{212, 185, 370}, 0, {-260, 495}, {0xFD, 0x2B, 0x78, 0xFF}}},
+	{{{175, 277, 280}, 0, {-260, 495}, {0xF3, 0x74, 0x32, 0xFF}}},
+	{{{142, 246, 291}, 0, {-260, 495}, {0xC9, 0x59, 0x47, 0xFF}}},
+	{{{89, 269, 158}, 0, {-260, 495}, {0xBD, 0x6B, 0xF0, 0xFF}}},
+	{{{65, 232, 184}, 0, {-260, 495}, {0x9D, 0x4F, 0x07, 0xFF}}},
+	{{{36, 151, 108}, 0, {-260, 495}, {0xCE, 0x2A, 0x6D, 0xFF}}},
+	{{{21, 94, 100}, 0, {-260, 495}, {0x11, 0xCC, 0x73, 0xFF}}},
+	{{{-14, 90, 94}, 0, {-260, 495}, {0x9C, 0x1B, 0x49, 0xFF}}},
+	{{{-14, 90, 94}, 0, {-260, 495}, {0xB4, 0x9B, 0x0B, 0xFF}}},
 };
 
-Gfx dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_1_tri_2[] = {
-	gsSPVertex(dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_1_vtx_2 + 0, 25, 0),
-	gsSP2Triangles(0, 1, 2, 0, 1, 0, 3, 0),
-	gsSP2Triangles(3, 0, 4, 0, 4, 0, 5, 0),
-	gsSP2Triangles(6, 5, 0, 0, 2, 6, 0, 0),
-	gsSP2Triangles(7, 6, 2, 0, 2, 8, 7, 0),
-	gsSP2Triangles(8, 2, 9, 0, 2, 1, 9, 0),
-	gsSP2Triangles(10, 9, 1, 0, 10, 1, 3, 0),
-	gsSP2Triangles(11, 10, 3, 0, 3, 12, 11, 0),
-	gsSP2Triangles(12, 3, 13, 0, 4, 13, 3, 0),
-	gsSP2Triangles(4, 14, 13, 0, 15, 14, 4, 0),
-	gsSP2Triangles(5, 15, 4, 0, 16, 15, 5, 0),
-	gsSP2Triangles(5, 17, 16, 0, 18, 17, 5, 0),
-	gsSP2Triangles(6, 18, 5, 0, 6, 7, 18, 0),
-	gsSP2Triangles(7, 19, 18, 0, 7, 20, 19, 0),
-	gsSP2Triangles(8, 20, 7, 0, 20, 8, 21, 0),
-	gsSP2Triangles(21, 8, 9, 0, 22, 21, 9, 0),
-	gsSP2Triangles(10, 22, 9, 0, 23, 22, 10, 0),
-	gsSP2Triangles(11, 23, 10, 0, 18, 23, 11, 0),
-	gsSP2Triangles(18, 11, 12, 0, 12, 17, 18, 0),
-	gsSP2Triangles(16, 17, 12, 0, 12, 24, 16, 0),
-	gsSP2Triangles(13, 24, 12, 0, 13, 14, 24, 0),
-	gsSP2Triangles(24, 14, 16, 0, 16, 14, 15, 0),
-	gsSP2Triangles(18, 19, 23, 0, 19, 20, 23, 0),
-	gsSP2Triangles(23, 20, 22, 0, 22, 20, 21, 0),
+Gfx dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_tri_2[] = {
+	gsSPVertex(dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_vtx_2 + 0, 26, 0),
+	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
+	gsSP2Triangles(3, 0, 4, 0, 5, 4, 0, 0),
+	gsSP2Triangles(5, 0, 6, 0, 2, 6, 0, 0),
+	gsSP2Triangles(2, 7, 6, 0, 8, 7, 2, 0),
+	gsSP2Triangles(8, 9, 7, 0, 10, 9, 8, 0),
+	gsSP2Triangles(10, 8, 11, 0, 12, 10, 11, 0),
+	gsSP2Triangles(12, 11, 13, 0, 14, 12, 13, 0),
+	gsSP2Triangles(14, 13, 15, 0, 14, 15, 16, 0),
+	gsSP2Triangles(14, 16, 17, 0, 17, 16, 18, 0),
+	gsSP2Triangles(17, 18, 19, 0, 19, 18, 20, 0),
+	gsSP2Triangles(19, 20, 21, 0, 20, 22, 21, 0),
+	gsSP2Triangles(20, 3, 22, 0, 3, 4, 22, 0),
+	gsSP2Triangles(4, 23, 22, 0, 23, 4, 24, 0),
+	gsSP2Triangles(4, 5, 24, 0, 7, 22, 23, 0),
+	gsSP2Triangles(6, 7, 23, 0, 23, 25, 6, 0),
+	gsSP1Triangle(6, 25, 5, 0),
 	gsSPEndDisplayList(),
 };
 
-Vtx dedede_Right_Hand_Wing_Cap_Swtich_Option_Wings_mesh_layer_4_vtx_0[8] = {
-	{{{178, -177, 128}, 0, {-16, 2032}, {0xA8, 0xB3, 0xCF, 0xFF}}},
-	{{{319, -248, -14}, 0, {-16, -16}, {0xA8, 0xB3, 0xCF, 0xFF}}},
-	{{{349, -325, 53}, 0, {974, -16}, {0xA8, 0xB3, 0xCF, 0xFF}}},
-	{{{207, -253, 195}, 0, {974, 2032}, {0xA8, 0xB3, 0xCF, 0xFF}}},
-	{{{414, 206, 82}, 0, {974, -16}, {0xBD, 0x65, 0xD8, 0xFF}}},
-	{{{368, 146, 7}, 0, {-16, -16}, {0xBD, 0x65, 0xD9, 0xFF}}},
-	{{{212, 96, 143}, 0, {-16, 2032}, {0xBD, 0x65, 0xD9, 0xFF}}},
-	{{{258, 156, 218}, 0, {974, 2032}, {0xBD, 0x65, 0xD8, 0xFF}}},
+Vtx dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_vtx_3[9] = {
+	{{{267, -107, 229}, 0, {-16, 1008}, {0x96, 0xD7, 0x39, 0xFF}}},
+	{{{277, 25, 344}, 0, {-16, 1008}, {0x9F, 0xCE, 0x41, 0xFF}}},
+	{{{208, -104, 123}, 0, {-16, 1008}, {0xA1, 0xC7, 0x3F, 0xFF}}},
+	{{{116, -37, 55}, 0, {-16, 1008}, {0xA6, 0xC1, 0x40, 0xFF}}},
+	{{{54, 58, 64}, 0, {-16, 1008}, {0xA4, 0xC7, 0x43, 0xFF}}},
+	{{{36, 151, 108}, 0, {-16, 1008}, {0xA2, 0xD3, 0x48, 0xFF}}},
+	{{{65, 232, 184}, 0, {-16, 1008}, {0xA2, 0xD9, 0x4B, 0xFF}}},
+	{{{142, 246, 291}, 0, {-16, 1008}, {0x9F, 0xD5, 0x45, 0xFF}}},
+	{{{212, 185, 370}, 0, {-16, 1008}, {0x98, 0xCD, 0x35, 0xFF}}},
 };
 
-Gfx dedede_Right_Hand_Wing_Cap_Swtich_Option_Wings_mesh_layer_4_tri_0[] = {
-	gsSPVertex(dedede_Right_Hand_Wing_Cap_Swtich_Option_Wings_mesh_layer_4_vtx_0 + 0, 8, 0),
+Gfx dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_tri_3[] = {
+	gsSPVertex(dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_vtx_3 + 0, 9, 0),
+	gsSP2Triangles(0, 1, 2, 0, 2, 1, 3, 0),
+	gsSP2Triangles(3, 1, 4, 0, 4, 1, 5, 0),
+	gsSP2Triangles(5, 1, 6, 0, 7, 6, 1, 0),
+	gsSP1Triangle(8, 7, 1, 0),
+	gsSPEndDisplayList(),
+};
+
+Vtx dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_4_vtx_0[8] = {
+	{{{379, -113, 236}, 0, {-16, 2032}, {0xD1, 0xA3, 0xB7, 0xFF}}},
+	{{{500, -48, 74}, 0, {-16, -16}, {0xD1, 0xA3, 0xB7, 0xFF}}},
+	{{{579, -113, 106}, 0, {974, -16}, {0xD1, 0xA3, 0xB7, 0xFF}}},
+	{{{456, -177, 268}, 0, {974, 2032}, {0xD1, 0xA3, 0xB7, 0xFF}}},
+	{{{464, 387, 362}, 0, {974, -16}, {0xA4, 0x58, 0x00, 0xFF}}},
+	{{{423, 344, 274}, 0, {-16, -16}, {0xA4, 0x58, 0x00, 0xFF}}},
+	{{{301, 217, 393}, 0, {-16, 2032}, {0xA4, 0x58, 0x00, 0xFF}}},
+	{{{342, 260, 481}, 0, {974, 2032}, {0xA4, 0x58, 0x00, 0xFF}}},
+};
+
+Gfx dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_4_tri_0[] = {
+	gsSPVertex(dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_4_vtx_0 + 0, 8, 0),
 	gsSP2Triangles(0, 1, 2, 0, 3, 0, 2, 0),
 	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0),
 	gsSPEndDisplayList(),
 };
 
-Vtx dedede_Right_Hand_Wing_Cap_Swtich_Option_Wings_mesh_layer_4_vtx_1[8] = {
-	{{{368, 146, 7}, 0, {974, -16}, {0xBD, 0x65, 0xD9, 0xFF}}},
-	{{{166, 37, 68}, 0, {-16, 2032}, {0xBE, 0x65, 0xD9, 0xFF}}},
-	{{{212, 96, 143}, 0, {974, 2032}, {0xBD, 0x65, 0xD9, 0xFF}}},
-	{{{322, 87, -67}, 0, {-16, -16}, {0xBE, 0x65, 0xD9, 0xFF}}},
-	{{{178, -177, 128}, 0, {974, 2032}, {0xA8, 0xB3, 0xCF, 0xFF}}},
-	{{{149, -100, 60}, 0, {-16, 2032}, {0xA8, 0xB3, 0xCF, 0xFF}}},
-	{{{319, -248, -14}, 0, {974, -16}, {0xA8, 0xB3, 0xCF, 0xFF}}},
-	{{{290, -171, -81}, 0, {-16, -16}, {0xA8, 0xB3, 0xCE, 0xFF}}},
+Vtx dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_4_vtx_1[8] = {
+	{{{423, 344, 274}, 0, {974, -16}, {0xA4, 0x58, 0x00, 0xFF}}},
+	{{{259, 175, 305}, 0, {-16, 2032}, {0xA5, 0x58, 0x01, 0xFF}}},
+	{{{301, 217, 393}, 0, {974, 2032}, {0xA4, 0x58, 0x00, 0xFF}}},
+	{{{382, 302, 187}, 0, {-16, -16}, {0xA5, 0x58, 0x00, 0xFF}}},
+	{{{379, -113, 236}, 0, {974, 2032}, {0xD1, 0xA3, 0xB7, 0xFF}}},
+	{{{301, -48, 203}, 0, {-16, 2032}, {0xD1, 0xA3, 0xB7, 0xFF}}},
+	{{{500, -48, 74}, 0, {974, -16}, {0xD1, 0xA3, 0xB7, 0xFF}}},
+	{{{423, 17, 42}, 0, {-16, -16}, {0xD0, 0xA4, 0xB7, 0xFF}}},
 };
 
-Gfx dedede_Right_Hand_Wing_Cap_Swtich_Option_Wings_mesh_layer_4_tri_1[] = {
-	gsSPVertex(dedede_Right_Hand_Wing_Cap_Swtich_Option_Wings_mesh_layer_4_vtx_1 + 0, 8, 0),
+Gfx dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_4_tri_1[] = {
+	gsSPVertex(dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_4_vtx_1 + 0, 8, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
 	gsSP2Triangles(4, 5, 6, 0, 5, 7, 6, 0),
+	gsSPEndDisplayList(),
+};
+
+Vtx dedede_Right_Hand_Wing_Cap_Switch_Option_Puffball_DL_mesh_layer_4_vtx_0[4] = {
+	{{{18, 0, 0}, 0, {496, 496}, {0x00, 0x00, 0x7F, 0xFF}}},
+	{{{18, 37, 0}, 0, {496, -16}, {0x00, 0x00, 0x7F, 0xFF}}},
+	{{{-18, 37, 0}, 0, {-16, -16}, {0x00, 0x00, 0x7F, 0xFF}}},
+	{{{-18, 0, 0}, 0, {-16, 496}, {0x00, 0x00, 0x7F, 0xFF}}},
+};
+
+Gfx dedede_Right_Hand_Wing_Cap_Switch_Option_Puffball_DL_mesh_layer_4_tri_0[] = {
+	gsSPVertex(dedede_Right_Hand_Wing_Cap_Switch_Option_Puffball_DL_mesh_layer_4_vtx_0 + 0, 4, 0),
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
 	gsSPEndDisplayList(),
 };
 
@@ -4844,173 +4793,253 @@ Gfx mat_revert_dedede_Eyes__Normal_[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_dedede_Half_Closed_Eyes__SKIN_[] = {
-	gsSPSetLights1(dedede_Half_Closed_Eyes__SKIN__lights),
+Gfx mat_dedede_Eyes__Half_[] = {
+	gsSPCopyLightsPlayerPart(SKIN),
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT, TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT),
 	gsDPSetAlphaDither(G_AD_NOISE),
 	gsDPSetTextureLUT(G_TT_RGBA16),
 	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dedede_mario_eyes_half_closed_rgba16_pal_rgba16),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dedede_Dedede_Eyes__Half__pal_rgba16),
 	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadTLUTCmd(5, 101),
-	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_mario_eyes_half_closed_rgba16_ci8),
+	gsDPLoadTLUTCmd(5, 110),
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_Dedede_Eyes__Half__ci8),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadBlock(7, 0, 0, 511, 512),
-	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
-	gsDPSetTileSize(0, 0, 0, 124, 124),
+	gsDPLoadBlock(7, 0, 0, 1023, 256),
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0),
+	gsDPSetTileSize(0, 0, 0, 252, 124),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_dedede_Half_Closed_Eyes__SKIN_[] = {
+Gfx mat_revert_dedede_Eyes__Half_[] = {
 	gsDPPipeSync(),
 	gsDPSetAlphaDither(G_AD_DISABLE),
 	gsDPSetTextureLUT(G_TT_NONE),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_dedede_Closed_Eyes__SKIN_[] = {
-	gsSPSetLights1(dedede_Closed_Eyes__SKIN__lights),
+Gfx mat_dedede_Eyes__Closed_[] = {
+	gsSPCopyLightsPlayerPart(SKIN),
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT, TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT),
 	gsDPSetAlphaDither(G_AD_NOISE),
 	gsDPSetTextureLUT(G_TT_RGBA16),
 	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dedede_mario_eyes_closed_rgba16_pal_rgba16),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dedede_Dedede_Eyes__Closed__pal_rgba16),
 	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadTLUTCmd(5, 18),
-	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_mario_eyes_closed_rgba16_ci8),
+	gsDPLoadTLUTCmd(5, 41),
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_Dedede_Eyes__Closed__ci8),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadBlock(7, 0, 0, 511, 512),
-	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
-	gsDPSetTileSize(0, 0, 0, 124, 124),
+	gsDPLoadBlock(7, 0, 0, 1023, 256),
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0),
+	gsDPSetTileSize(0, 0, 0, 252, 124),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_dedede_Closed_Eyes__SKIN_[] = {
+Gfx mat_revert_dedede_Eyes__Closed_[] = {
 	gsDPPipeSync(),
 	gsDPSetAlphaDither(G_AD_DISABLE),
 	gsDPSetTextureLUT(G_TT_NONE),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_dedede_Left_Eyes__SKIN_[] = {
-	gsSPSetLights1(dedede_Left_Eyes__SKIN__lights),
+Gfx mat_dedede_Eyes__Left_[] = {
+	gsSPCopyLightsPlayerPart(SKIN),
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT, TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT),
 	gsDPSetAlphaDither(G_AD_NOISE),
 	gsDPSetTextureLUT(G_TT_RGBA16),
 	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dedede_mario_eyes_left_unused_rgba16_pal_rgba16),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dedede_Dedede_Eyes__Left__pal_rgba16),
 	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadTLUTCmd(5, 123),
-	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_mario_eyes_left_unused_rgba16_ci8),
+	gsDPLoadTLUTCmd(5, 129),
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_Dedede_Eyes__Left__ci8),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadBlock(7, 0, 0, 511, 512),
-	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
-	gsDPSetTileSize(0, 0, 0, 124, 124),
+	gsDPLoadBlock(7, 0, 0, 1023, 256),
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0),
+	gsDPSetTileSize(0, 0, 0, 252, 124),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_dedede_Left_Eyes__SKIN_[] = {
+Gfx mat_revert_dedede_Eyes__Left_[] = {
 	gsDPPipeSync(),
 	gsDPSetAlphaDither(G_AD_DISABLE),
 	gsDPSetTextureLUT(G_TT_NONE),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_dedede_Right_Eyes__SKIN_[] = {
-	gsSPSetLights1(dedede_Right_Eyes__SKIN__lights),
+Gfx mat_dedede_Eyes__Right_[] = {
+	gsSPCopyLightsPlayerPart(SKIN),
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT, TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT),
 	gsDPSetAlphaDither(G_AD_NOISE),
 	gsDPSetTextureLUT(G_TT_RGBA16),
 	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dedede_mario_eyes_right_unused_rgba16_pal_rgba16),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dedede_Dedede_Eyes__Right__pal_rgba16),
 	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadTLUTCmd(5, 124),
-	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_mario_eyes_right_unused_rgba16_ci8),
+	gsDPLoadTLUTCmd(5, 129),
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_Dedede_Eyes__Right__ci8),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadBlock(7, 0, 0, 511, 512),
-	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
-	gsDPSetTileSize(0, 0, 0, 124, 124),
+	gsDPLoadBlock(7, 0, 0, 1023, 256),
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0),
+	gsDPSetTileSize(0, 0, 0, 252, 124),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_dedede_Right_Eyes__SKIN_[] = {
+Gfx mat_revert_dedede_Eyes__Right_[] = {
 	gsDPPipeSync(),
 	gsDPSetAlphaDither(G_AD_DISABLE),
 	gsDPSetTextureLUT(G_TT_NONE),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_dedede_Up_Eyes__SKIN_[] = {
-	gsSPSetLights1(dedede_Up_Eyes__SKIN__lights),
+Gfx mat_dedede_Eyes__Up_[] = {
+	gsSPCopyLightsPlayerPart(SKIN),
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT, TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT),
 	gsDPSetAlphaDither(G_AD_NOISE),
 	gsDPSetTextureLUT(G_TT_RGBA16),
 	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dedede_mario_eyes_up_unused_rgba16_pal_rgba16),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dedede_Dedede_Eyes__Up__pal_rgba16),
 	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadTLUTCmd(5, 124),
-	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_mario_eyes_up_unused_rgba16_ci8),
+	gsDPLoadTLUTCmd(5, 107),
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_Dedede_Eyes__Up__ci8),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadBlock(7, 0, 0, 511, 512),
-	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
-	gsDPSetTileSize(0, 0, 0, 124, 124),
+	gsDPLoadBlock(7, 0, 0, 1023, 256),
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0),
+	gsDPSetTileSize(0, 0, 0, 252, 124),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_dedede_Up_Eyes__SKIN_[] = {
+Gfx mat_revert_dedede_Eyes__Up_[] = {
 	gsDPPipeSync(),
 	gsDPSetAlphaDither(G_AD_DISABLE),
 	gsDPSetTextureLUT(G_TT_NONE),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_dedede_Down_Eyes__SKIN_[] = {
-	gsSPSetLights1(dedede_Down_Eyes__SKIN__lights),
+Gfx mat_dedede_Eyes__Down_[] = {
+	gsSPCopyLightsPlayerPart(SKIN),
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT, TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT),
 	gsDPSetAlphaDither(G_AD_NOISE),
 	gsDPSetTextureLUT(G_TT_RGBA16),
 	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dedede_mario_eyes_down_unused_rgba16_pal_rgba16),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dedede_Dedede_Eyes__Down__pal_rgba16),
 	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
 	gsDPLoadTLUTCmd(5, 109),
-	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_mario_eyes_down_unused_rgba16_ci8),
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_Dedede_Eyes__Down__ci8),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadBlock(7, 0, 0, 511, 512),
-	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
-	gsDPSetTileSize(0, 0, 0, 124, 124),
+	gsDPLoadBlock(7, 0, 0, 1023, 256),
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0),
+	gsDPSetTileSize(0, 0, 0, 252, 124),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_dedede_Down_Eyes__SKIN_[] = {
+Gfx mat_revert_dedede_Eyes__Down_[] = {
 	gsDPPipeSync(),
 	gsDPSetAlphaDither(G_AD_DISABLE),
 	gsDPSetTextureLUT(G_TT_NONE),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_dedede_Dead_Eyes__SKIN_[] = {
-	gsSPSetLights1(dedede_Dead_Eyes__SKIN__lights),
+Gfx mat_dedede_Eyes__Dead_[] = {
+	gsSPCopyLightsPlayerPart(SKIN),
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT, TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT),
 	gsDPSetAlphaDither(G_AD_NOISE),
+	gsDPSetTextureLUT(G_TT_RGBA16),
 	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_mario_eyes_dead_rgba16_ia8),
-	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadBlock(7, 0, 0, 511, 512),
-	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
-	gsDPSetTileSize(0, 0, 0, 124, 124),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dedede_Dedede_Eyes__Dead__pal_rgba16),
+	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadTLUTCmd(5, 76),
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_Dedede_Eyes__Dead__ci8),
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadBlock(7, 0, 0, 1023, 256),
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0),
+	gsDPSetTileSize(0, 0, 0, 252, 124),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_dedede_Dead_Eyes__SKIN_[] = {
+Gfx mat_revert_dedede_Eyes__Dead_[] = {
 	gsDPPipeSync(),
 	gsDPSetAlphaDither(G_AD_DISABLE),
+	gsDPSetTextureLUT(G_TT_NONE),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_dedede_Eyes__Shocked_[] = {
+	gsSPCopyLightsPlayerPart(SKIN),
+	gsDPPipeSync(),
+	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT, TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT),
+	gsDPSetAlphaDither(G_AD_NOISE),
+	gsDPSetTextureLUT(G_TT_RGBA16),
+	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dedede_Dedede_Eyes__Shocked__pal_rgba16),
+	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadTLUTCmd(5, 66),
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_Dedede_Eyes__Shocked__ci8),
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadBlock(7, 0, 0, 1023, 256),
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0),
+	gsDPSetTileSize(0, 0, 0, 252, 124),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_revert_dedede_Eyes__Shocked_[] = {
+	gsDPPipeSync(),
+	gsDPSetAlphaDither(G_AD_DISABLE),
+	gsDPSetTextureLUT(G_TT_NONE),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_dedede_Eyes__Closed_Intense_[] = {
+	gsSPCopyLightsPlayerPart(SKIN),
+	gsDPPipeSync(),
+	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT, TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT),
+	gsDPSetAlphaDither(G_AD_NOISE),
+	gsDPSetTextureLUT(G_TT_RGBA16),
+	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dedede_Dedede_Eyes__Closed_Intense__pal_rgba16),
+	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadTLUTCmd(5, 55),
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_Dedede_Eyes__Closed_Intense__ci8),
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadBlock(7, 0, 0, 1023, 256),
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0),
+	gsDPSetTileSize(0, 0, 0, 252, 124),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_revert_dedede_Eyes__Closed_Intense_[] = {
+	gsDPPipeSync(),
+	gsDPSetAlphaDither(G_AD_DISABLE),
+	gsDPSetTextureLUT(G_TT_NONE),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_dedede_Eyes__Angry_[] = {
+	gsSPCopyLightsPlayerPart(SKIN),
+	gsDPPipeSync(),
+	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT, TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT),
+	gsDPSetAlphaDither(G_AD_NOISE),
+	gsDPSetTextureLUT(G_TT_RGBA16),
+	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dedede_Dedede_Eyes__Angry__pal_rgba16),
+	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadTLUTCmd(5, 111),
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_Dedede_Eyes__Angry__ci8),
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadBlock(7, 0, 0, 1023, 256),
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0),
+	gsDPSetTileSize(0, 0, 0, 252, 124),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_revert_dedede_Eyes__Angry_[] = {
+	gsDPPipeSync(),
+	gsDPSetAlphaDither(G_AD_DISABLE),
+	gsDPSetTextureLUT(G_TT_NONE),
 	gsSPEndDisplayList(),
 };
 
@@ -5171,84 +5200,6 @@ Gfx mat_dedede_Hammer_Base[] = {
 };
 
 Gfx mat_revert_dedede_Hammer_Base[] = {
-	gsDPPipeSync(),
-	gsDPSetAlphaDither(G_AD_DISABLE),
-	gsSPEndDisplayList(),
-};
-
-Gfx mat_dedede_Gloves__GLOVES_[] = {
-	gsSPSetLights1(dedede_Gloves__GLOVES__lights),
-	gsDPPipeSync(),
-	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT),
-	gsDPSetAlphaDither(G_AD_NOISE),
-	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsSPEndDisplayList(),
-};
-
-Gfx mat_revert_dedede_Gloves__GLOVES_[] = {
-	gsDPPipeSync(),
-	gsDPSetAlphaDither(G_AD_DISABLE),
-	gsSPEndDisplayList(),
-};
-
-Gfx mat_dedede_Cut_Out_Cap__Needed_for_recoloring___CAP_[] = {
-	gsSPSetLights1(dedede_Cut_Out_Cap__Needed_for_recoloring___CAP__lights),
-	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0),
-	gsDPSetAlphaDither(G_AD_NOISE),
-	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_custom_mario_cap_ia8),
-	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadBlock(7, 0, 0, 511, 512),
-	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
-	gsDPSetTileSize(0, 0, 0, 124, 124),
-	gsSPEndDisplayList(),
-};
-
-Gfx mat_revert_dedede_Cut_Out_Cap__Needed_for_recoloring___CAP_[] = {
-	gsDPPipeSync(),
-	gsDPSetAlphaDither(G_AD_DISABLE),
-	gsSPEndDisplayList(),
-};
-
-Gfx mat_dedede_Logo[] = {
-	gsSPSetLights1(dedede_Logo_lights),
-	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL1, SHADE, TEXEL0, 0, ENVIRONMENT, 0, COMBINED, TEXEL0, PRIMITIVE, COMBINED, 0, 0, 0, COMBINED),
-	gsDPSetAlphaDither(G_AD_NOISE),
-	gsDPSetCycleType(G_CYC_2CYCLE),
-	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsDPSetPrimColor(0, 0, 127, 127, 127, 255),
-	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_innn_ia8),
-	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadBlock(7, 0, 0, 511, 512),
-	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
-	gsDPSetTileSize(0, 0, 0, 124, 124),
-	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_custom_mario_logo_blend_i8),
-	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_8b_LOAD_BLOCK, 0, 128, 6, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadBlock(6, 0, 0, 511, 512),
-	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_8b, 4, 128, 1, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
-	gsDPSetTileSize(1, 0, 0, 124, 124),
-	gsSPEndDisplayList(),
-};
-
-Gfx mat_revert_dedede_Logo[] = {
-	gsDPPipeSync(),
-	gsDPSetAlphaDither(G_AD_DISABLE),
-	gsDPSetCycleType(G_CYC_1CYCLE),
-	gsSPEndDisplayList(),
-};
-
-Gfx mat_dedede_Cap__CAP_[] = {
-	gsSPSetLights1(dedede_Cap__CAP__lights),
-	gsDPPipeSync(),
-	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT),
-	gsDPSetAlphaDither(G_AD_NOISE),
-	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsSPEndDisplayList(),
-};
-
-Gfx mat_revert_dedede_Cap__CAP_[] = {
 	gsDPPipeSync(),
 	gsDPSetAlphaDither(G_AD_DISABLE),
 	gsSPEndDisplayList(),
@@ -5496,7 +5447,7 @@ Gfx dedede_Head_DL_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx dedede_Head_DL_mesh_layer_1_mat_override_Half_Closed_Eyes__SKIN__0[] = {
+Gfx dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Half__0[] = {
 	gsSPDisplayList(mat_dedede_Skin),
 	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_dedede_Skin),
@@ -5506,13 +5457,13 @@ Gfx dedede_Head_DL_mesh_layer_1_mat_override_Half_Closed_Eyes__SKIN__0[] = {
 	gsSPDisplayList(mat_dedede_Crown),
 	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_2),
 	gsSPDisplayList(mat_revert_dedede_Crown),
-	gsSPDisplayList(mat_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_dedede_Eyes__Half_),
 	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_3),
-	gsSPDisplayList(mat_revert_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_revert_dedede_Eyes__Half_),
 	gsSPEndDisplayList(),
 };
 
-Gfx dedede_Head_DL_mesh_layer_1_mat_override_Closed_Eyes__SKIN__1[] = {
+Gfx dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Closed__1[] = {
 	gsSPDisplayList(mat_dedede_Skin),
 	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_dedede_Skin),
@@ -5522,13 +5473,13 @@ Gfx dedede_Head_DL_mesh_layer_1_mat_override_Closed_Eyes__SKIN__1[] = {
 	gsSPDisplayList(mat_dedede_Crown),
 	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_2),
 	gsSPDisplayList(mat_revert_dedede_Crown),
-	gsSPDisplayList(mat_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_dedede_Eyes__Closed_),
 	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_3),
-	gsSPDisplayList(mat_revert_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_revert_dedede_Eyes__Closed_),
 	gsSPEndDisplayList(),
 };
 
-Gfx dedede_Head_DL_mesh_layer_1_mat_override_Left_Eyes__SKIN__2[] = {
+Gfx dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Left__2[] = {
 	gsSPDisplayList(mat_dedede_Skin),
 	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_dedede_Skin),
@@ -5538,13 +5489,13 @@ Gfx dedede_Head_DL_mesh_layer_1_mat_override_Left_Eyes__SKIN__2[] = {
 	gsSPDisplayList(mat_dedede_Crown),
 	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_2),
 	gsSPDisplayList(mat_revert_dedede_Crown),
-	gsSPDisplayList(mat_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_dedede_Eyes__Left_),
 	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_3),
-	gsSPDisplayList(mat_revert_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_revert_dedede_Eyes__Left_),
 	gsSPEndDisplayList(),
 };
 
-Gfx dedede_Head_DL_mesh_layer_1_mat_override_Right_Eyes__SKIN__3[] = {
+Gfx dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Right__3[] = {
 	gsSPDisplayList(mat_dedede_Skin),
 	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_dedede_Skin),
@@ -5554,13 +5505,13 @@ Gfx dedede_Head_DL_mesh_layer_1_mat_override_Right_Eyes__SKIN__3[] = {
 	gsSPDisplayList(mat_dedede_Crown),
 	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_2),
 	gsSPDisplayList(mat_revert_dedede_Crown),
-	gsSPDisplayList(mat_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_dedede_Eyes__Right_),
 	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_3),
-	gsSPDisplayList(mat_revert_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_revert_dedede_Eyes__Right_),
 	gsSPEndDisplayList(),
 };
 
-Gfx dedede_Head_DL_mesh_layer_1_mat_override_Up_Eyes__SKIN__4[] = {
+Gfx dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Up__4[] = {
 	gsSPDisplayList(mat_dedede_Skin),
 	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_dedede_Skin),
@@ -5570,13 +5521,13 @@ Gfx dedede_Head_DL_mesh_layer_1_mat_override_Up_Eyes__SKIN__4[] = {
 	gsSPDisplayList(mat_dedede_Crown),
 	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_2),
 	gsSPDisplayList(mat_revert_dedede_Crown),
-	gsSPDisplayList(mat_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_dedede_Eyes__Up_),
 	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_3),
-	gsSPDisplayList(mat_revert_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_revert_dedede_Eyes__Up_),
 	gsSPEndDisplayList(),
 };
 
-Gfx dedede_Head_DL_mesh_layer_1_mat_override_Down_Eyes__SKIN__5[] = {
+Gfx dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Down__5[] = {
 	gsSPDisplayList(mat_dedede_Skin),
 	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_dedede_Skin),
@@ -5586,13 +5537,13 @@ Gfx dedede_Head_DL_mesh_layer_1_mat_override_Down_Eyes__SKIN__5[] = {
 	gsSPDisplayList(mat_dedede_Crown),
 	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_2),
 	gsSPDisplayList(mat_revert_dedede_Crown),
-	gsSPDisplayList(mat_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_dedede_Eyes__Down_),
 	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_3),
-	gsSPDisplayList(mat_revert_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_revert_dedede_Eyes__Down_),
 	gsSPEndDisplayList(),
 };
 
-Gfx dedede_Head_DL_mesh_layer_1_mat_override_Dead_Eyes__SKIN__6[] = {
+Gfx dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Dead__6[] = {
 	gsSPDisplayList(mat_dedede_Skin),
 	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_dedede_Skin),
@@ -5602,9 +5553,57 @@ Gfx dedede_Head_DL_mesh_layer_1_mat_override_Dead_Eyes__SKIN__6[] = {
 	gsSPDisplayList(mat_dedede_Crown),
 	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_2),
 	gsSPDisplayList(mat_revert_dedede_Crown),
-	gsSPDisplayList(mat_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_dedede_Eyes__Dead_),
 	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_3),
-	gsSPDisplayList(mat_revert_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_revert_dedede_Eyes__Dead_),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Shocked__7[] = {
+	gsSPDisplayList(mat_dedede_Skin),
+	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Skin),
+	gsSPDisplayList(mat_dedede_Cap),
+	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_1),
+	gsSPDisplayList(mat_revert_dedede_Cap),
+	gsSPDisplayList(mat_dedede_Crown),
+	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_2),
+	gsSPDisplayList(mat_revert_dedede_Crown),
+	gsSPDisplayList(mat_dedede_Eyes__Shocked_),
+	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_3),
+	gsSPDisplayList(mat_revert_dedede_Eyes__Shocked_),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Closed_Intense__8[] = {
+	gsSPDisplayList(mat_dedede_Skin),
+	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Skin),
+	gsSPDisplayList(mat_dedede_Cap),
+	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_1),
+	gsSPDisplayList(mat_revert_dedede_Cap),
+	gsSPDisplayList(mat_dedede_Crown),
+	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_2),
+	gsSPDisplayList(mat_revert_dedede_Crown),
+	gsSPDisplayList(mat_dedede_Eyes__Closed_Intense_),
+	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_3),
+	gsSPDisplayList(mat_revert_dedede_Eyes__Closed_Intense_),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Head_DL_mesh_layer_1_mat_override_Eyes__Angry__9[] = {
+	gsSPDisplayList(mat_dedede_Skin),
+	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Skin),
+	gsSPDisplayList(mat_dedede_Cap),
+	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_1),
+	gsSPDisplayList(mat_revert_dedede_Cap),
+	gsSPDisplayList(mat_dedede_Crown),
+	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_2),
+	gsSPDisplayList(mat_revert_dedede_Crown),
+	gsSPDisplayList(mat_dedede_Eyes__Angry_),
+	gsSPDisplayList(dedede_Head_DL_mesh_layer_1_tri_3),
+	gsSPDisplayList(mat_revert_dedede_Eyes__Angry_),
 	gsSPEndDisplayList(),
 };
 
@@ -5625,73 +5624,103 @@ Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Half_Closed_Eyes__SKIN__0[] = {
+Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Half__0[] = {
 	gsSPDisplayList(mat_dedede_Skin),
 	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_dedede_Skin),
-	gsSPDisplayList(mat_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_dedede_Eyes__Half_),
 	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_revert_dedede_Eyes__Half_),
 	gsSPEndDisplayList(),
 };
 
-Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Closed_Eyes__SKIN__1[] = {
+Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Closed__1[] = {
 	gsSPDisplayList(mat_dedede_Skin),
 	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_dedede_Skin),
-	gsSPDisplayList(mat_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_dedede_Eyes__Closed_),
 	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_revert_dedede_Eyes__Closed_),
 	gsSPEndDisplayList(),
 };
 
-Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Left_Eyes__SKIN__2[] = {
+Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Left__2[] = {
 	gsSPDisplayList(mat_dedede_Skin),
 	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_dedede_Skin),
-	gsSPDisplayList(mat_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_dedede_Eyes__Left_),
 	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_revert_dedede_Eyes__Left_),
 	gsSPEndDisplayList(),
 };
 
-Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Right_Eyes__SKIN__3[] = {
+Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Right__3[] = {
 	gsSPDisplayList(mat_dedede_Skin),
 	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_dedede_Skin),
-	gsSPDisplayList(mat_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_dedede_Eyes__Right_),
 	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_revert_dedede_Eyes__Right_),
 	gsSPEndDisplayList(),
 };
 
-Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Up_Eyes__SKIN__4[] = {
+Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Up__4[] = {
 	gsSPDisplayList(mat_dedede_Skin),
 	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_dedede_Skin),
-	gsSPDisplayList(mat_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_dedede_Eyes__Up_),
 	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_revert_dedede_Eyes__Up_),
 	gsSPEndDisplayList(),
 };
 
-Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Down_Eyes__SKIN__5[] = {
+Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Down__5[] = {
 	gsSPDisplayList(mat_dedede_Skin),
 	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_dedede_Skin),
-	gsSPDisplayList(mat_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_dedede_Eyes__Down_),
 	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_revert_dedede_Eyes__Down_),
 	gsSPEndDisplayList(),
 };
 
-Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Dead_Eyes__SKIN__6[] = {
+Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Dead__6[] = {
 	gsSPDisplayList(mat_dedede_Skin),
 	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_dedede_Skin),
-	gsSPDisplayList(mat_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_dedede_Eyes__Dead_),
 	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_dedede_Eyes__Normal_),
+	gsSPDisplayList(mat_revert_dedede_Eyes__Dead_),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Shocked__7[] = {
+	gsSPDisplayList(mat_dedede_Skin),
+	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Skin),
+	gsSPDisplayList(mat_dedede_Eyes__Shocked_),
+	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_1),
+	gsSPDisplayList(mat_revert_dedede_Eyes__Shocked_),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Closed_Intense__8[] = {
+	gsSPDisplayList(mat_dedede_Skin),
+	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Skin),
+	gsSPDisplayList(mat_dedede_Eyes__Closed_Intense_),
+	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_1),
+	gsSPDisplayList(mat_revert_dedede_Eyes__Closed_Intense_),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eyes__Angry__9[] = {
+	gsSPDisplayList(mat_dedede_Skin),
+	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Skin),
+	gsSPDisplayList(mat_dedede_Eyes__Angry_),
+	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_1),
+	gsSPDisplayList(mat_revert_dedede_Eyes__Angry_),
 	gsSPEndDisplayList(),
 };
 
@@ -5824,65 +5853,65 @@ Gfx dedede_Right_Hand_Open_Switch_Option_Right_Hand_Open_mesh_layer_1[] = {
 };
 
 Gfx dedede_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_1[] = {
-	gsSPDisplayList(mat_dedede_Gloves__GLOVES_),
+	gsSPDisplayList(mat_dedede_Gloves),
 	gsSPDisplayList(dedede_Right_Hand_Peace_Switch_Option_Right_Hand_Peace_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_dedede_Gloves__GLOVES_),
-	gsSPEndDisplayList(),
-};
-
-Gfx dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_4[] = {
-	gsSPDisplayList(mat_dedede_Cut_Out_Cap__Needed_for_recoloring___CAP_),
-	gsSPDisplayList(dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_4_tri_0),
-	gsSPDisplayList(mat_revert_dedede_Cut_Out_Cap__Needed_for_recoloring___CAP_),
-	gsSPDisplayList(mat_dedede_Logo),
-	gsSPDisplayList(dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_4_tri_1),
-	gsSPDisplayList(mat_revert_dedede_Logo),
+	gsSPDisplayList(mat_revert_dedede_Gloves),
 	gsSPEndDisplayList(),
 };
 
 Gfx dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1[] = {
-	gsSPDisplayList(mat_dedede_Cap__CAP_),
+	gsSPDisplayList(mat_dedede_Gloves),
 	gsSPDisplayList(dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_dedede_Cap__CAP_),
-	gsSPDisplayList(mat_dedede_Cap_Inside__CAP_),
+	gsSPDisplayList(mat_revert_dedede_Gloves),
+	gsSPDisplayList(mat_dedede_Cap),
 	gsSPDisplayList(dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_dedede_Cap_Inside__CAP_),
-	gsSPDisplayList(mat_dedede_Gloves__GLOVES_),
+	gsSPDisplayList(mat_revert_dedede_Cap),
+	gsSPDisplayList(mat_dedede_Crown),
 	gsSPDisplayList(dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_tri_2),
-	gsSPDisplayList(mat_revert_dedede_Gloves__GLOVES_),
-	gsSPEndDisplayList(),
-};
-
-Gfx dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_4[] = {
-	gsSPDisplayList(mat_dedede_Cut_Out_Cap__Needed_for_recoloring___CAP_),
-	gsSPDisplayList(dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_4_tri_0),
-	gsSPDisplayList(mat_revert_dedede_Cut_Out_Cap__Needed_for_recoloring___CAP_),
-	gsSPDisplayList(mat_dedede_Logo),
-	gsSPDisplayList(dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_4_tri_1),
-	gsSPDisplayList(mat_revert_dedede_Logo),
-	gsSPEndDisplayList(),
-};
-
-Gfx dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_1[] = {
-	gsSPDisplayList(mat_dedede_Cap__CAP_),
-	gsSPDisplayList(dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_dedede_Cap__CAP_),
+	gsSPDisplayList(mat_revert_dedede_Crown),
 	gsSPDisplayList(mat_dedede_Cap_Inside__CAP_),
-	gsSPDisplayList(dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_1_tri_1),
+	gsSPDisplayList(dedede_Right_Hand_Cap_Switch_Option_Right_Hand_Cap_mesh_layer_1_tri_3),
 	gsSPDisplayList(mat_revert_dedede_Cap_Inside__CAP_),
-	gsSPDisplayList(mat_dedede_Gloves__GLOVES_),
-	gsSPDisplayList(dedede_Right_Hand_Wing_Cap_Swtich_Option_Right_Hand_Wing_Cap_mesh_layer_1_tri_2),
-	gsSPDisplayList(mat_revert_dedede_Gloves__GLOVES_),
 	gsSPEndDisplayList(),
 };
 
-Gfx dedede_Right_Hand_Wing_Cap_Swtich_Option_Wings_mesh_layer_4[] = {
+Gfx dedede_Right_Hand_Cap_Switch_Option_Puffball_DL_mesh_layer_4[] = {
+	gsSPDisplayList(mat_dedede_Puffball),
+	gsSPDisplayList(dedede_Right_Hand_Cap_Switch_Option_Puffball_DL_mesh_layer_4_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Puffball),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1[] = {
+	gsSPDisplayList(mat_dedede_Gloves),
+	gsSPDisplayList(dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Gloves),
+	gsSPDisplayList(mat_dedede_Cap),
+	gsSPDisplayList(dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_tri_1),
+	gsSPDisplayList(mat_revert_dedede_Cap),
+	gsSPDisplayList(mat_dedede_Crown),
+	gsSPDisplayList(dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_tri_2),
+	gsSPDisplayList(mat_revert_dedede_Crown),
+	gsSPDisplayList(mat_dedede_Cap_Inside__CAP_),
+	gsSPDisplayList(dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_tri_3),
+	gsSPDisplayList(mat_revert_dedede_Cap_Inside__CAP_),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_4[] = {
 	gsSPDisplayList(mat_dedede_Wing_Tip),
-	gsSPDisplayList(dedede_Right_Hand_Wing_Cap_Swtich_Option_Wings_mesh_layer_4_tri_0),
+	gsSPDisplayList(dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_4_tri_0),
 	gsSPDisplayList(mat_revert_dedede_Wing_Tip),
 	gsSPDisplayList(mat_dedede_Wing_Base),
-	gsSPDisplayList(dedede_Right_Hand_Wing_Cap_Swtich_Option_Wings_mesh_layer_4_tri_1),
+	gsSPDisplayList(dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_4_tri_1),
 	gsSPDisplayList(mat_revert_dedede_Wing_Base),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Right_Hand_Wing_Cap_Switch_Option_Puffball_DL_mesh_layer_4[] = {
+	gsSPDisplayList(mat_dedede_Puffball),
+	gsSPDisplayList(dedede_Right_Hand_Wing_Cap_Switch_Option_Puffball_DL_mesh_layer_4_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Puffball),
 	gsSPEndDisplayList(),
 };
 
