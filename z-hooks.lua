@@ -146,9 +146,6 @@ if charSelect then
 		if currChar == dededeCharID then
 			if m.action == ACT_KIRBY_INHALE and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ ~= 0 and m.action ~= ACT_DEDEDE_FULL_AIM then
 				return ACT_DEDEDE_FULL_AIM
-			elseif incomingAction == ACT_DIVE_SLIDE then
-				m.vel.y = 24
-				return ACT_DEDEDE_DIVE_SLIDE
 			end
 		end
 		
@@ -188,7 +185,7 @@ if charSelect then
 			if currChar == dededeCharID and (incomingAction == ACT_BACKFLIP or incomingAction == ACT_LONG_JUMP) then
 				return ACT_DEDEDE_JUMP
 			else
-				return m.action == ACT_DIVE_SLIDE and 1 or ACT_JUMP -- TODO: jittering occurs when trying to go into forward rolllout action, could something be done about this?
+				return m.action == ACT_DIVE_SLIDE and 1 or ACT_JUMP
 			end
 		end
 
@@ -200,6 +197,11 @@ if charSelect then
 			end
 			gPlayerSyncTable[idx].kirbyFallTimer_JJJ = 0
 			return ACT_FORWARD_ROLLOUT
+		end
+
+		if currChar == dededeCharID and incomingAction == ACT_DIVE_SLIDE then
+			m.vel.y = 24
+			return ACT_DEDEDE_DIVE_SLIDE
 		end
 	end
 

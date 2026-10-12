@@ -105,7 +105,7 @@ const GeoLayout dedede_Capless_Head[] = {
 const GeoLayout dedede_Left_Hand_Open[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_ANIMATED_PART(LAYER_OPAQUE, 60, 0, 0, dedede_Left_Hand_Open_Switch_Option_Left_Hand_Open_mesh_layer_1),
+		GEO_ANIMATED_PART(LAYER_OPAQUE, 180, 0, 0, dedede_Left_Hand_Open_Switch_Option_Left_Hand_Open_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -119,7 +119,7 @@ const GeoLayout dedede_Hammer_For_Hand[] = {
 const GeoLayout dedede_Right_Hand_Open[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_ANIMATED_PART(LAYER_OPAQUE, 60, 0, 0, dedede_Right_Hand_Open_Switch_Option_Right_Hand_Open_mesh_layer_1),
+		GEO_ANIMATED_PART(LAYER_OPAQUE, 180, 0, 0, dedede_Right_Hand_Open_Switch_Option_Right_Hand_Open_mesh_layer_1),
 		GEO_OPEN_NODE(),
 			GEO_HELD_OBJECT(0, 0, 0, 0, geo_switch_mario_hand_grab_pos),
 		GEO_CLOSE_NODE(),
@@ -639,7 +639,7 @@ const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_ded
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_dedede_Left_Hand_Open[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_ANIMATED_PART(LAYER_TRANSPARENT, 60, 0, 0, dedede_Left_Hand_Open_Switch_Option_Left_Hand_Open_mesh_layer_1),
+		GEO_ANIMATED_PART(LAYER_TRANSPARENT, 180, 0, 0, dedede_Left_Hand_Open_Switch_Option_Left_Hand_Open_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -653,7 +653,7 @@ const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_ded
 const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Open[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_ANIMATED_PART(LAYER_TRANSPARENT, 60, 0, 0, dedede_Right_Hand_Open_Switch_Option_Right_Hand_Open_mesh_layer_1),
+		GEO_ANIMATED_PART(LAYER_TRANSPARENT, 180, 0, 0, dedede_Right_Hand_Open_Switch_Option_Right_Hand_Open_mesh_layer_1),
 		GEO_OPEN_NODE(),
 			GEO_HELD_OBJECT(0, 0, 0, 0, geo_switch_mario_hand_grab_pos),
 		GEO_CLOSE_NODE(),

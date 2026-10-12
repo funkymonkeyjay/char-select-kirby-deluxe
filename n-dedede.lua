@@ -55,12 +55,13 @@ function act_dedede_jump(m)
             return
         end
 
-        m.actionState = m.actionState + 1
+        set_mario_action(m, ACT_DEDEDE_JUMP_LAND, 0)
+        --m.actionState = m.actionState + 1
         
-        set_mario_animation(m, CHAR_ANIM_GENERAL_LAND) -- TODO: set anim (grounded)
-        play_mario_heavy_landing_sound(m, SOUND_ACTION_TERRAIN_HEAVY_LANDING)
-        set_mario_particle_flags(m, PARTICLE_MIST_CIRCLE, 0)
-        if (idx == 0) then set_camera_shake_from_hit(SHAKE_ENV_BOWSER_JUMP) end
+        --set_mario_animation(m, CHAR_ANIM_GENERAL_LAND) -- TODO: set anim (grounded)
+        --play_mario_heavy_landing_sound(m, SOUND_ACTION_TERRAIN_HEAVY_LANDING)
+        --set_mario_particle_flags(m, PARTICLE_MIST_CIRCLE, 0)
+        --if (idx == 0) then set_camera_shake_from_hit(SHAKE_ENV_BOWSER_JUMP) end
         --play_sound(SOUND_OBJ_BOWSER_WALK, m.marioObj.header.gfx.cameraToObject)
     end
 end
@@ -70,7 +71,31 @@ hook_mario_action(ACT_DEDEDE_JUMP, {every_frame = act_dedede_jump, gravity = fun
 	if m.vel.y < -120 then
 		m.vel.y = -120
 	end
-end}, INT_GROUND_POUND) -- TODO: doesn't even hit King Whomp nor the steaks, why?
+end})
+
+ACT_DEDEDE_JUMP_LAND = allocate_mario_action(ACT_FLAG_ATTACKING)
+
+function act_dedede_jump_land(m)
+    local idx = m.playerIndex
+    --if check_common_landing_cancels(m, ACT_JUMP) ~= 0 then return end
+
+    set_mario_animation(m, CHAR_ANIM_GENERAL_LAND)
+
+    if m.actionTimer == 0 then
+        gPlayerSyncTable[idx].kirbyScaleY = 250; m.marioObj.header.gfx.scale.y = 0.25
+        
+        play_mario_heavy_landing_sound(m, SOUND_ACTION_TERRAIN_HEAVY_LANDING)
+        set_mario_particle_flags(m, PARTICLE_MIST_CIRCLE, 0)
+        if (idx == 0) then set_camera_shake_from_hit(SHAKE_ENV_BOWSER_JUMP) end
+        m.actionTimer = 1
+    end
+
+    m.vel.x, m.vel.z = 0, 0
+    m.forwardVel = 0
+    if is_anim_at_end(m) == 1 then set_mario_action(m, ACT_IDLE, 0) end
+end
+
+hook_mario_action(ACT_DEDEDE_JUMP_LAND, act_dedede_jump_land, INT_GROUND_POUND)
 
 ACT_DEDEDE_FULL_AIM = allocate_mario_action(ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION | ACT_FLAG_CONTROL_JUMP_HEIGHT)
 
@@ -87,7 +112,7 @@ function act_dedede_full_aim(m)
     m.vel.x, m.vel.z = 0, 0
 	m.forwardVel = 0
 
-    djui_chat_message_create(tostring(m.intendedMag))
+    --djui_chat_message_create(tostring(m.intendedMag))
 	if (m.faceAngle.y > m.intendedYaw - 1500 and m.faceAngle.y < m.intendedYaw + 1500) or m.pos.y ~= m.floorHeight then
 		set_mario_animation(m, CHAR_ANIM_STAND_AGAINST_WALL)
 	else
@@ -111,14 +136,14 @@ end})
 
 ACT_DEDEDE_DIVE_SLIDE = allocate_mario_action(ACT_FLAG_MOVING | ACT_FLAG_DIVING | ACT_FLAG_ATTACKING)
 
-local function act_dedede_dive_slide(m) -- Pretty much the same as ACT_DIVE_SLIDE but without the rollout.
+local function act_dedede_dive_slide(m) -- Pretty much the same as ACT_DIVE_SLIDE but without the rollout + some minor tweaks.
     local idx = m.playerIndex
     if not m then return 0 end
 
     if m.actionTimer == 0 then
         -- TODO: play sound effects and possibly spawn Dropped Stars
-        play_mario_landing_sound_once(m, SOUND_ACTION_TERRAIN_HEAVY_LANDING)
-        if idx == 0 then set_camera_shake_from_hit(SHAKE_HIT_FROM_BELOW) end
+        play_mario_landing_sound_once(m, SOUND_ACTION_TERRAIN_STUCK_IN_GROUND)
+        if idx == 0 then set_camera_shake_from_hit(SHAKE_SMALL_DAMAGE) end
         m.actionTimer = 1
     end
 
