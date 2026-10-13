@@ -221,25 +221,24 @@ ACT_DEDEDE_HAMMER_SPIN = allocate_mario_action(ACT_FLAG_MOVING | ACT_FLAG_ATTACK
 local intendedYaw = 0
 function act_dedede_hammer_spin(m)
     if m.actionTimer == 0 then
-        m.actionArg = m.marioObj.header.gfx.angle.y
+        m.twirlYaw = m.marioObj.header.gfx.angle.y
     end
 
-    if (m.input & INPUT_ZERO_MOVEMENT) == 0 then
+    if m.intendedMag > 0 then
     --if not (m.controller.stickX == 0 and m.controller.stickY == 0) then
-        intendedYaw = atan2s(-m.controller.stickY, m.controller.stickX) + m.area.camera.yaw
+        --intendedYaw = atan2s(-m.controller.stickY, m.controller.stickX) + m.area.camera.yaw
+        intendedYaw = m.intendedYaw
     end
 
     m.actionTimer = m.actionTimer + 1
     if m.actionTimer > 110 then
         m.faceAngle.y = intendedYaw
-        return set_mario_action(m, ACT_FORWARD_GROUND_KB, 0) -- TODO: maybe a new dizzy action is needed?
+        return set_mario_action(m, ACT_DEDEDE_DIZZY, 0)
     end
 
-    local actualSpeed = math.sqrt(m.vel.x^2 + m.vel.z^2)
-    if actualSpeed > 48 then
+    if math.sqrt(m.vel.x^2 + m.vel.z^2) > 48 then
         set_mario_particle_flags(m, PARTICLE_DUST, 0)
     end
-    djui_chat_message_create(tostring(actualSpeed))
 
     if (m.input & INPUT_A_PRESSED) ~= 0 then
         m.faceAngle.y = intendedYaw
@@ -277,8 +276,8 @@ function act_dedede_hammer_spin(m)
         m.vel.z = -m.vel.z
     end
 
-    m.actionArg = m.actionArg + (8000 * (m.forwardVel / 64))
-    m.marioObj.header.gfx.angle.y = m.actionArg
+    m.twirlYaw = m.twirlYaw + (8000 * (m.forwardVel / 64))
+    m.marioObj.header.gfx.angle.y = m.twirlYaw
 
     local twirlTimer = math.floor(m.marioObj.header.gfx.angle.y / 32768) % 2
 	if twirlTimer == 0 then
@@ -294,3 +293,13 @@ function act_dedede_hammer_spin(m)
 end
 
 hook_mario_action(ACT_DEDEDE_HAMMER_SPIN, act_dedede_hammer_spin, INT_FAST_ATTACK_OR_SHELL)
+
+ACT_DEDEDE_DIZZY = allocate_mario_action(ACT_FLAG_MOVING | ACT_FLAG_INVULNERABLE)
+
+function act_dedede_dizzy(m)
+    if not m then return 0 end
+    common_ground_knockback_action(m, CHAR_ANIM_FORWARD_KB, 20, 1, m.actionArg) -- TODO: custom anim
+    return 0
+end
+
+hook_mario_action(ACT_DEDEDE_DIZZY, act_dedede_dizzy)

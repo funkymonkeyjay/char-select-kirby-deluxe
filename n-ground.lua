@@ -26,6 +26,7 @@ end
 
 hook_mario_action(ACT_KIRBY_HELLO, act_kirby_hello)
 
+local intendedYaw = 0
 function act_kirby_dodge(m)
 	local idx = m.playerIndex
 
@@ -37,20 +38,33 @@ function act_kirby_dodge(m)
 	end
 
 	if m.actionTimer == 0 then
-		set_mario_animation(m, MARIO_ANIM_FORWARD_SPINNING)
+		local toAnim
+		local stickY = coss(m.intendedYaw - m.faceAngle.y)
+		local stickX = sins(m.intendedYaw - m.faceAngle.y)
+		--djui_chat_message_create("X = " .. tostring(stickX) .. " Y = " .. tostring(stickY))
+		if stickY > 0 then
+			toAnim = MARIO_ANIM_FORWARD_SPINNING
+		else
+			toAnim = MARIO_ANIM_BACKWARD_SPINNING
+		end
+		if stickX > 0.625 then
+			toAnim = MARIO_ANIM_SIDESTEP_LEFT
+		elseif stickX < -0.625 then
+			toAnim = MARIO_ANIM_SIDESTEP_RIGHT
+		end
+		set_mario_animation(m, toAnim)
 	elseif m.marioObj.header.gfx.animInfo.animFrame == 0 then
 		play_sound(SOUND_ACTION_SPIN, m.marioObj.header.gfx.cameraToObject)
 	end
 
 	m.actionTimer = m.actionTimer + 1
 	if m.actionState < 1 and m.actionTimer < 20 then
-		local intendedYaw
-		if not (m.controller.stickX == 0 and m.controller.stickY == 0) then
-			gPlayerSyncTable[idx].kirbyDodgeX = m.controller.stickX
-			gPlayerSyncTable[idx].kirbyDodgeY = m.controller.stickY
-			intendedYaw = atan2s(-m.controller.stickY, m.controller.stickX) + m.area.camera.yaw
+		if m.intendedMag > 0 then
+			--gPlayerSyncTable[idx].kirbyDodgeX = m.controller.stickX
+			--gPlayerSyncTable[idx].kirbyDodgeY = m.controller.stickY
+			intendedYaw = m.intendedYaw
 		else
-			intendedYaw = atan2s(-gPlayerSyncTable[idx].kirbyDodgeY, gPlayerSyncTable[idx].kirbyDodgeX) + m.area.camera.yaw
+			--intendedYaw = atan2s(-gPlayerSyncTable[idx].kirbyDodgeY, gPlayerSyncTable[idx].kirbyDodgeX) + m.area.camera.yaw
 		end
 
 		m.vel.x = approach_s32(m.vel.x, m.forwardVel * sins(intendedYaw), 0x10, 0x10)

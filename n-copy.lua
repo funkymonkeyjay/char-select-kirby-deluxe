@@ -6,7 +6,6 @@ ACT_KIRBY_GHOST_DASH = allocate_mario_action(ACT_FLAG_INVULNERABLE | ACT_FLAG_SW
 hook_event(HOOK_ALLOW_FORCE_WATER_ACTION, function(m, isWater) if m.action == ACT_KIRBY_GHOST or m.action == ACT_KIRBY_GHOST_DASH then return false end end)
 
 local toApplyVel = 0
-local intendedYaw = 0
 function act_kirby_ghost(m)
 	local p = gPlayerSyncTable[m.playerIndex]
     if p.kirbyCopyAbility_JJJ ~= KIRBY_COPY_GHOST then
@@ -20,7 +19,7 @@ function act_kirby_ghost(m)
     --gLakituState.mode = CAMERA_MODE_BEHIND_MARIO
 
     if m.actionTimer == 0 then   
-        intendedYaw = m.faceAngle.y 
+        --intendedYaw = m.faceAngle.y 
         toApplyVel = m.vel.y
         m.actionTimer = 1
     end
@@ -40,11 +39,9 @@ function act_kirby_ghost(m)
         perform_air_step(m, 0)
     end
 
-    if m.controller.stickX == 0 and m.controller.stickY == 0 then
-        intendedYaw = m.faceAngle.y
-    else
-        intendedYaw = m.intendedYaw
-    end
+    --if m.intendedMag > 0 then
+        --intendedYaw = m.intendedYaw
+    --end
 
     local toSpeed = m.intendedMag/32 * 32
 
@@ -81,10 +78,10 @@ function act_kirby_ghost(m)
 
     m.forwardVel = math.lerp(m.forwardVel, toSpeed, 0.05)
 
-    m.vel.x = math.lerp(m.vel.x, m.forwardVel * sins(intendedYaw), 0.1)
-    m.vel.z = math.lerp(m.vel.z, m.forwardVel * coss(intendedYaw), 0.1)
+    m.vel.x = math.lerp(m.vel.x, m.forwardVel * sins(m.intendedYaw), 0.1)
+    m.vel.z = math.lerp(m.vel.z, m.forwardVel * coss(m.intendedYaw), 0.1)
 
-    local dirAngle = atan2s(m.vel.z, m.vel.x)
+    local dirAngle = (m.vel.z == 0 and m.vel.x == 0) and m.faceAngle.y or atan2s(m.vel.z, m.vel.x)
     m.faceAngle.y = approach_s16_symmetric(m.faceAngle.y, dirAngle, 1000)
     m.marioObj.header.gfx.angle.x = math.lerp(m.marioObj.header.gfx.angle.x, m.vel.y * 2400, 0.1)
     m.faceAngle.x = m.marioObj.header.gfx.angle.x

@@ -381,10 +381,8 @@ if charSelect then
 		end
 		
 		if m.action == ACT_JUMP or (m.action == ACT_JUMP_KICK and m.marioObj.header.gfx.animInfo.animFrame >= 8) or m.action == ACT_FREEFALL then -- Air turning!
-			m.faceAngle.y = approach_s16_symmetric(m.faceAngle.y, m.intendedYaw, gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ ~= 0 and 1000 or 1750)
-		
-			m.vel.x = m.forwardVel * sins(m.faceAngle.y)
-			m.vel.z = m.forwardVel * coss(m.faceAngle.y)
+			local dededeMult = currChar == dededeCharID and 0.4375 or 1
+			m.faceAngle.y = approach_s16_symmetric(m.faceAngle.y, m.intendedYaw, (gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ ~= 0 and 1000 or 1750) * dededeMult)
 		end
 	end
 
