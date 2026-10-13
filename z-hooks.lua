@@ -103,6 +103,10 @@ if charSelect then
 				return ACT_KIRBY_POWERUP
 			end
 		end
+
+		if (incomingAction == ACT_SLIDE_KICK or (incomingAction == ACT_PUNCHING and m.action == ACT_CROUCHING)) and currChar == dededeCharID then
+			return 1 -- TODO: set to Dedede Gordo throw action.
+		end
 		
 		if incomingAction == ACT_BACKWARD_GROUND_KB and m.action == ACT_SLIDE_KICK_SLIDE then
 			return ACT_FORWARD_ROLLOUT
@@ -336,15 +340,15 @@ if charSelect then
 				gPlayerSyncTable[idx].kirbyHasPuffed_JJJ = false
 			end
 			if (m.input & INPUT_A_PRESSED) ~= 0 and gPlayerSyncTable[idx].kirbyFallTimer_JJJ >= 2 then
-				--if gPlayerSyncTable[idx].kirbyCopyAbility_JJJ == KIRBY_COPY_ANGEL then -- hard code because i'm lazy
-					--if m.action ~= ACT_GROUND_POUND then
-						--spawn_mist_particles_variable(20, -20, 10)
-						--play_sound(SOUND_ACTION_TWIRL, m.marioObj.header.gfx.cameraToObject)
-						--set_mario_action(m, ACT_FLYING_TRIPLE_JUMP, 0)
-						--m.angleVel.x = 0
-						--m.vel.y = 64
-					--end
-				if not gPlayerSyncTable[idx].kirbyHasPuffed_JJJ then
+				if currChar == dededeCharID and (m.flags & MARIO_WING_CAP) ~= 0 then 
+					if m.action ~= ACT_GROUND_POUND then
+						spawn_mist_particles_variable(20, -20, 10)
+						play_sound(SOUND_ACTION_TWIRL, m.marioObj.header.gfx.cameraToObject)
+						set_mario_action(m, ACT_FLYING_TRIPLE_JUMP, 0)
+						m.angleVel.x = 0
+						m.vel.y = 64
+					end
+				elseif not gPlayerSyncTable[idx].kirbyHasPuffed_JJJ then
 					play_character_sound(m, CHAR_SOUND_HOOHOO)
 					gPlayerSyncTable[idx].kirbyHasMovedStick_JJJ = false
 					m.vel.y = 16
@@ -505,8 +509,9 @@ if charSelect then
 					m.marioObj.header.gfx.scale.x = 0.75
 					m.marioObj.header.gfx.scale.z = 0.75
 				elseif m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE then
-					m.marioObj.header.gfx.scale.x = math.lerp(m.marioObj.header.gfx.scale.x, 1.5, 0.85)
-					m.marioObj.header.gfx.scale.z = math.lerp(m.marioObj.header.gfx.scale.z, 1.5, 0.85)
+					local toScale = currChar == dededeCharID and 1.125 or 1.5
+					m.marioObj.header.gfx.scale.x = math.lerp(m.marioObj.header.gfx.scale.x, toScale, 0.85)
+					m.marioObj.header.gfx.scale.z = math.lerp(m.marioObj.header.gfx.scale.z, toScale, 0.85)
 				end
 			else
 				gPlayerSyncTable[idx].kirbyScaleY = 1000

@@ -221,6 +221,17 @@ smlua_audio_utils_replace_sequence(SEQ_KIRBY_TRIUMPH, 0x1A, 100, "triumph_return
 charSelect.character_add_sequence_replacement(kirbyCharID, SEQ_EVENT_CUTSCENE_VICTORY, SEQ_KIRBY_TRIUMPH)
 charSelect.character_add_sequence_replacement(dededeCharID, SEQ_EVENT_CUTSCENE_VICTORY, SEQ_KIRBY_TRIUMPH)
 
+-- CONFIG
+gGlobalSyncTable.kirbyUnusualObjects = false
+
+OPTION_UNUSUAL_OBJS = charSelect.add_option("Inhale Unusuals", nil, nil, nil, {"Allows Kirby/Dedede", "To Inhale Unusual Objects", "(Host Only)"}, false)
+charSelect.get_option(OPTION_UNUSUAL_OBJS).lock = function () if not network_is_server() then return "Host Only" end end
+
+if network_is_server() then
+    hook_event(HOOK_UPDATE, function() gGlobalSyncTable.kirbyUnusualObjects = charSelect.get_options_status(OPTION_UNUSUAL_OBJS) ~= 0 end)
+end
+
+-- SO RETRO! COMPATIBILITY
 if retroCharAPI then
 	local NES_OUTLINE = {r = 0, g = 0, b = 0}
 	local NES_SHADE = {r = 252, g = 110, b = 202}

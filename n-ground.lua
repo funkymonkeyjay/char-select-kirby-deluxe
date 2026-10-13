@@ -229,13 +229,13 @@ _G.kirbyInhaleHookBehavior = _G.kirbyDeluxe.hook_inhale_behavior
 _G.kirbyInhaleEditBehavior = _G.kirbyDeluxe.edit_inhale_behavior
 
 if not _G.betterCoins then -- Prevents coins messing up with Squishy's "Better Coins".
-	_G.kirbyInhaleHookBehavior(id_bhvBlueCoinJumping,     false, false, true,                                   false, nil, true)
-	_G.kirbyInhaleHookBehavior(id_bhvYellowCoin,          false, false, true,                                   false, nil, true)
-	_G.kirbyInhaleHookBehavior(id_bhvMovingYellowCoin,    false, false, true,                                   false, nil, true)
-	_G.kirbyInhaleHookBehavior(id_bhvTemporaryYellowCoin, false, false, true,                                   false, nil, true)
-	_G.kirbyInhaleHookBehavior(id_bhvRedCoin,             false, false, true,                                   false, nil, true)
-	_G.kirbyInhaleHookBehavior(id_bhvBlueCoinSliding,     false, false, true,                                   false, nil, true)
-	_G.kirbyInhaleHookBehavior(id_bhvHiddenBlueCoin,      false, false, function (o) return o.oAction == 2 end, false, nil, true)
+	_G.kirbyInhaleHookBehavior(id_bhvBlueCoinJumping,     false, false, true,                                   false, nil, nil, true)
+	_G.kirbyInhaleHookBehavior(id_bhvYellowCoin,          false, false, true,                                   false, nil, nil, true)
+	_G.kirbyInhaleHookBehavior(id_bhvMovingYellowCoin,    false, false, true,                                   false, nil, nil, true)
+	_G.kirbyInhaleHookBehavior(id_bhvTemporaryYellowCoin, false, false, true,                                   false, nil, nil, true)
+	_G.kirbyInhaleHookBehavior(id_bhvRedCoin,             false, false, true,                                   false, nil, nil, true)
+	_G.kirbyInhaleHookBehavior(id_bhvBlueCoinSliding,     false, false, true,                                   false, nil, nil, true)
+	_G.kirbyInhaleHookBehavior(id_bhvHiddenBlueCoin,      false, false, function (o) return o.oAction == 2 end, false, nil, nil, true)
 end
 
 local function run_func_or_get_var(x, ...) if type(x) == "function" then return x(...) else return x end end
@@ -360,7 +360,7 @@ hook_event(HOOK_MARIO_UPDATE, function (m)
 			local distToKirby = calc_abs_dist({x = o.oPosX, y = o.oPosY, z = o.oPosZ}, {x = m.pos.x, y = m.pos.y, z = m.pos.z})
 			local distCheck = distToKirby < ACCEPTABLE_DIST and (angleDiff <= PLAYER_ANGLE_LIMIT and angleDiff >= -PLAYER_ANGLE_LIMIT) and isInhaling
 			
-			if (o.oKirbySuckPlayer == 0 or idx + 1 == o.oKirbySuckPlayer) and run_func_or_get_var(currentBehavior.allowSuckFunc, o, m) then
+			if (o.oKirbySuckPlayer == 0 or idx + 1 == o.oKirbySuckPlayer) and run_func_or_get_var(currentBehavior.allowSuckFunc, o, m) and (not currentBehavior.isNPC or gGlobalSyncTable.kirbyUnusualObjects) then
 				if distCheck then
 					if o.oHasKirbySucked == 0 then
 						network_init_object(o, false, nil)

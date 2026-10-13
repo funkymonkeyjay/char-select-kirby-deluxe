@@ -2,15 +2,6 @@ if incompatibilityCond then return 0 end
 
 -- CONFIG HOVER MOVE, THANKS TO SQUISHY FOR THE HELP WITH MAKING THIS A GLOBAL CONFIG!
 
-gGlobalSyncTable.kirbyInfinitePuff = false
-
-local function kirbyInfinitePuffToggle(index, value)
-	gGlobalSyncTable.kirbyInfinitePuff = value
-end
-
-if network_is_server() then
-	hook_mod_menu_checkbox("Infinite Hover (Recommended For ROM hacks)", gGlobalSyncTable.kirbyInfinitePuff, kirbyInfinitePuffToggle)
-end
 -- AIRBORNE ACTS
 
 ACT_KIRBY_SLIDE = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
@@ -74,13 +65,19 @@ function act_kirby_puff(m)
 	local VELOCITY_AMPLITUDE = 20
 
 	gPlayerSyncTable[idx].kirbyHasPuffed_JJJ = true
-	if not gGlobalSyncTable.kirbyInfinitePuff and idx == 0 then
-		gPlayerSyncTable[idx].kirbyPuffTimer_JJJ = gPlayerSyncTable[idx].kirbyPuffTimer_JJJ + 1
+	--if idx == 0 then
+		--gPlayerSyncTable[idx].kirbyPuffTimer_JJJ = gPlayerSyncTable[idx].kirbyPuffTimer_JJJ + 1
+	--end
+	if m.actionTimer == 0 then
+		m.actionTimer = gPlayerSyncTable[idx].kirbyPuffTimer_JJJ
 	end
-	local kirbyIsTired = gPlayerSyncTable[idx].kirbyPuffTimer_JJJ > PUFF_TIMER_LIMIT
+	m.actionTimer = m.actionTimer + 1
+	--local kirbyIsTired = gPlayerSyncTable[idx].kirbyPuffTimer_JJJ > PUFF_TIMER_LIMIT
+	local kirbyIsTired = m.actionTimer > PUFF_TIMER_LIMIT
 	
 	if kirbyIsTired then
-		if gPlayerSyncTable[idx].kirbyPuffTimer_JJJ % 13 == 0 then -- Spawns Particles.
+		--if gPlayerSyncTable[idx].kirbyPuffTimer_JJJ % 13 == 0 then -- Spawns Particles.
+		if m.actionTimer % 13 == 0 then -- Spawns Particles.
 			for i = 0, 2 do
 				spawn_non_sync_object(id_bhvWhitePuff1, E_MODEL_WHITE_PARTICLE_SMALL, m.pos.x, m.pos.y + 48, m.pos.z, function(o)
 					o.oVelY = 12 + 12 * random_float()
@@ -91,10 +88,13 @@ function act_kirby_puff(m)
 		end
 	end
 	
-	if (m.input & INPUT_B_PRESSED) ~= 0 or (kirbyIsTired and (m.pos.y < m.floorHeight + 25 or gPlayerSyncTable[idx].kirbyPuffTimer_JJJ > 450)) then
-		if not gGlobalSyncTable.kirbyInfinitePuff and idx == 0 then
-			gPlayerSyncTable[idx].kirbyPuffTimer_JJJ = gPlayerSyncTable[idx].kirbyPuffTimer_JJJ + 25
-		end
+	--if (m.input & INPUT_B_PRESSED) ~= 0 or (kirbyIsTired and (m.pos.y < m.floorHeight + 25 or gPlayerSyncTable[idx].kirbyPuffTimer_JJJ > 450)) then
+	if (m.input & INPUT_B_PRESSED) ~= 0 or (kirbyIsTired and (m.pos.y < m.floorHeight + 25 or m.actionTimer > 450)) then
+		--if not gGlobalSyncTable.kirbyInfinitePuff and idx == 0 then
+			--gPlayerSyncTable[idx].kirbyPuffTimer_JJJ = gPlayerSyncTable[idx].kirbyPuffTimer_JJJ + 25
+			m.actionTimer = m.actionTimer + 50
+		--end
+		gPlayerSyncTable[idx].kirbyPuffTimer_JJJ = m.actionTimer
 		set_mario_action(m, ACT_JUMP_KICK, 0)
 		m.vel.y = 24
 		return
@@ -107,7 +107,7 @@ function act_kirby_puff(m)
 	end
 	
 	if (m.input & INPUT_Z_PRESSED) ~= 0 then
-		gPlayerSyncTable[idx].kirbyPuffTimer_JJJ = 0
+		PlayerSyncTable[idx].kirbyPuffTimer_JJJ = 0
 		return set_mario_action(m, ACT_GROUND_POUND, 0)
     end
 
@@ -122,9 +122,9 @@ function act_kirby_puff(m)
 			set_mario_animation(m, CHAR_ANIM_KIRBY_PUFF_RISE)
 			if not kirbyIsTired then
 				local truePuffPower
-				if gGlobalSyncTable.kirbyInfinitePuff and idx == 0 then
-					truePuffPower = 1
-				else
+				--if gGlobalSyncTable.kirbyInfinitePuff and idx == 0 then
+					--truePuffPower = 1
+				--else
 					local ceilingValue = gPlayerSyncTable[idx].kirbyPuffCeiling_JJJ
 					local puffPosition = ceilingValue - m.pos.y
 					local puffPosMax = math.max(puffPosition, 0)
@@ -133,7 +133,7 @@ function act_kirby_puff(m)
 					
 					local maxClamp = math.max(puffPower, 0)
 					truePuffPower = math.min(maxClamp, 1)
-				end
+				--end
 				
 				m.vel.y = VELOCITY_AMPLITUDE * truePuffPower
 			end
@@ -160,7 +160,8 @@ function act_kirby_puff(m)
 	
 	local waterCond = m.waterLevel and m.pos.y < (m.waterLevel - 30)
 	if waterCond or (m.pos.y == m.floorHeight and not kirbyIsTired) then
-		gPlayerSyncTable[idx].kirbyPuffTimer_JJJ = 0
+		--gPlayerSyncTable[idx].kirbyPuffTimer_JJJ = 0
+		m.actionTimer = 0
 		if waterCond then
 			m.vel.y = 5
 		end
