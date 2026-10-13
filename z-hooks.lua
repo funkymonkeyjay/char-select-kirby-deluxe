@@ -22,6 +22,8 @@ for i = 0, (MAX_PLAYERS - 1) do
 	gPlayerSyncTable[i].kirbyScaleY = 1000
 	gPlayerSyncTable[i].kirbyMouthState = 0
 	gPlayerSyncTable[i].kirbySplineFrame = 0
+	gPlayerSyncTable[i].kirbySlideTimer = 0
+	gPlayerSyncTable[i].kirbySlideCount = 0
 
 	gPlayerSyncTable[i].dededeIsHammer_JJJ = false
 end
@@ -104,9 +106,9 @@ if charSelect then
 			end
 		end
 
-		if (incomingAction == ACT_SLIDE_KICK or (incomingAction == ACT_PUNCHING and m.action == ACT_CROUCHING)) and currChar == dededeCharID then
-			return 1 -- TODO: set to Dedede Gordo throw action.
-		end
+		--if (incomingAction == ACT_SLIDE_KICK or (incomingAction == ACT_PUNCHING and m.action == ACT_CROUCHING)) and currChar == dededeCharID then
+			--return 1 -- TODO: set to Dedede Gordo throw action.
+		--end
 		
 		if incomingAction == ACT_BACKWARD_GROUND_KB and m.action == ACT_SLIDE_KICK_SLIDE then
 			return ACT_FORWARD_ROLLOUT
@@ -156,9 +158,7 @@ if charSelect then
 		if incomingAction ~= ACT_PICKING_UP and (incomingAction == ACT_DIVE
 		or (incomingAction == ACT_PUNCHING and m.action ~= ACT_CROUCHING) or incomingAction == ACT_MOVE_PUNCHING
 		or (incomingAction == ACT_JUMP_KICK and m.action ~= ACT_KIRBY_PUFF)) or incomingAction == ACT_WATER_PUNCH then
-			if currChar == dededeCharID and incomingAction == ACT_DIVE and m.pos.y == m.floorHeight then
-				return -- TODO: recreate ACT_DIVE but without rollout nor rotating based on slope, possibly?
-			end
+			if currChar == dededeCharID and incomingAction == ACT_DIVE and m.pos.y == m.floorHeight then return end
 			if gPlayerSyncTable[idx].kirbyMouthCounter_JJJ ~= 0	then
 				m.forwardVel = 0
 				if m.playerIndex == 0 and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ > 0 then
@@ -203,8 +203,9 @@ if charSelect then
 			return ACT_FORWARD_ROLLOUT
 		end
 
-		if currChar == dededeCharID and incomingAction == ACT_DIVE_SLIDE then
+		if currChar == dededeCharID and incomingAction == ACT_DIVE_SLIDE and m.action == ACT_DIVE then
 			m.vel.y = 24
+			djui_chat_message_create("hi!")
 			return ACT_DEDEDE_DIVE_SLIDE
 		end
 	end
@@ -213,6 +214,7 @@ if charSelect then
 	charSelect.character_hook_moveset(dededeCharID, HOOK_BEFORE_SET_MARIO_ACTION, kirbyBeforeActions)
 	
 	local function kirbyActions(m)
+		local idx = m.playerIndex
 		if m.action == ACT_PUNCHING and m.prevAction == ACT_CROUCHING then
 			set_mario_action(m, ACT_SLIDE_KICK, 0)
 			return
@@ -222,6 +224,11 @@ if charSelect then
 			set_mario_action(m, ACT_KIRBY_SLIDE, 0)
 			m.vel.y = 0
 			if m.forwardVel < 64 then m.forwardVel = 64 end
+			if gPlayerSyncTable[idx].kirbySlideTimer > 0 then
+				gPlayerSyncTable[idx].kirbySlideCount = gPlayerSyncTable[idx].kirbySlideCount + 1
+				m.forwardVel = math.min(m.forwardVel + (12 * gPlayerSyncTable[idx].kirbySlideCount), 100)
+			end
+			gPlayerSyncTable[idx].kirbySlideTimer = 40
 			return
 		end
 	end
@@ -254,6 +261,12 @@ if charSelect then
 		
 		if m.playerIndex ~= 0 then return end
 
+		gPlayerSyncTable[idx].kirbySlideTimer = gPlayerSyncTable[idx].kirbySlideTimer - 1
+		if gPlayerSyncTable[idx].kirbySlideTimer < 0 then
+			gPlayerSyncTable[idx].kirbySlideTimer = 0
+			gPlayerSyncTable[idx].kirbySlideCount = 0
+		end
+
 		local currChar = charSelect.character_get_current_number(idx)
 		if currChar ~= dededeCharID then
 			-- Debug Api
@@ -285,12 +298,15 @@ if charSelect then
 			end
 		else
 			if (m.controller.buttonDown & X_BUTTON) ~= 0 then
-				if not gPlayerSyncTable[0].dededeIsHammer_JJJ then -- or m.action ~= ACT_DEDEDE_SPIN
+				if not gPlayerSyncTable[0].dededeIsHammer_JJJ and m.action ~= ACT_DEDEDE_HAMMER_SPIN then
 					if m.forwardVel == 0 then
 						set_mario_action(m, ACT_JUMP_LAND, 0)
 						gPlayerSyncTable[0].dededeIsHammer_JJJ = true
-					else
-						djui_chat_message_create("spin!")
+					elseif not (m.action == ACT_STOMACH_SLIDE or m.action == ACT_STOMACH_SLIDE_STOP or m.forwardVel < 0)
+						   and m.pos.y == m.floorHeight and mario_floor_is_steep(m) == 0 and m.action == ACT_WALKING then
+						set_mario_action(m, ACT_DEDEDE_HAMMER_SPIN, 0)
+						m.forwardVel = 64
+						--djui_chat_message_create("spin!")
 					end
 				end
 			elseif gPlayerSyncTable[0].dededeIsHammer_JJJ then
@@ -379,6 +395,12 @@ if charSelect then
 		local idx = m.playerIndex
 		
 		if idx ~= 0 then return end
+
+		-- TODO: Attempt to make the ground pound more kirby-like, need to tweak later.
+		if m.action == ACT_GROUND_POUND and m.actionState == 0 then
+			m.vel.y = 20
+			m.actionState = 1
+		end
 		
 		if m.action == ACT_CROUCH_SLIDE and (m.input & INPUT_NONZERO_ANALOG) ~= 0 then
 			if m.prevAction == ACT_WALKING and m.actionArg == 0 then
@@ -629,6 +651,8 @@ if charSelect then
 		gPlayerSyncTable[0].kirbyMouthCounter_JJJ = 0
 		gPlayerSyncTable[0].kirbyScaleY = 1000
 		gPlayerSyncTable[0].kirbyMouthState = 0
+		gPlayerSyncTable[0].kirbySlideTimer = 0
+		gPlayerSyncTable[0].kirbySlideCount = 0
 		gPlayerSyncTable[0].dededeIsHammer_JJJ = false
 		audio_sample_stop(KIRBY_INHALE_SOUND) -- Added to prevent the inhale sound from playing outside a level forever.
 	end)

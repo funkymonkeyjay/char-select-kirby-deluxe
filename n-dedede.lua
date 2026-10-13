@@ -1,3 +1,5 @@
+if incompatibilityCond then return 0 end
+
 -- King Dedede specific actions, made for organization purposes.
 
 ACT_DEDEDE_JUMP = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
@@ -213,3 +215,82 @@ hook_mario_action(ACT_DEDEDE_DIVE_SLIDE, {every_frame = act_dedede_dive_slide, g
 		m.vel.y = -75
 	end
 end}, INT_FAST_ATTACK_OR_SHELL)
+
+ACT_DEDEDE_HAMMER_SPIN = allocate_mario_action(ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
+
+local intendedYaw = 0
+function act_dedede_hammer_spin(m)
+    if m.actionTimer == 0 then
+        m.actionArg = m.marioObj.header.gfx.angle.y
+    end
+
+    if (m.input & INPUT_ZERO_MOVEMENT) == 0 then
+    --if not (m.controller.stickX == 0 and m.controller.stickY == 0) then
+        intendedYaw = atan2s(-m.controller.stickY, m.controller.stickX) + m.area.camera.yaw
+    end
+
+    m.actionTimer = m.actionTimer + 1
+    if m.actionTimer > 110 then
+        m.faceAngle.y = intendedYaw
+        return set_mario_action(m, ACT_FORWARD_GROUND_KB, 0) -- TODO: maybe a new dizzy action is needed?
+    end
+
+    local actualSpeed = math.sqrt(m.vel.x^2 + m.vel.z^2)
+    if actualSpeed > 48 then
+        set_mario_particle_flags(m, PARTICLE_DUST, 0)
+    end
+    djui_chat_message_create(tostring(actualSpeed))
+
+    if (m.input & INPUT_A_PRESSED) ~= 0 then
+        m.faceAngle.y = intendedYaw
+		return set_mario_action(m, ACT_JUMP, 0)
+	end
+	if (m.controller.buttonPressed & X_BUTTON) ~= 0 then
+		m.forwardVel = math.min(m.forwardVel + 12, 100)
+	end
+
+    if mario_floor_is_steep(m) ~= 0 or should_begin_sliding(m) ~= 0 then
+        m.faceAngle.y = intendedYaw
+        m.slideVelX = m.vel.x
+        m.slideVelZ = m.vel.z
+        return set_mario_action(m, ACT_STOMACH_SLIDE, 0)
+    end
+
+    set_mario_animation(m, CHAR_ANIM_TWIRL)
+
+    m.vel.x = math.lerp(m.vel.x, sins(intendedYaw) * m.forwardVel, 0.05)
+    m.vel.z = math.lerp(m.vel.z, coss(intendedYaw) * m.forwardVel, 0.05)
+    m.forwardVel = m.forwardVel - 1
+    if m.forwardVel <= 0 then
+        m.faceAngle.y = m.marioObj.header.gfx.angle.y
+        return set_mario_action(m, ACT_IDLE, 0)
+    end
+
+    local stepCase = perform_ground_step(m)
+    if stepCase == GROUND_STEP_LEFT_GROUND then
+        m.faceAngle.y = intendedYaw
+        set_mario_action(m, ACT_FREEFALL, 0)
+        set_character_animation(m, CHAR_ANIM_GENERAL_FALL) -- TODO: could set to custom anim
+        return
+    elseif stepCase == GROUND_STEP_HIT_WALL then
+        m.vel.x = -m.vel.x
+        m.vel.z = -m.vel.z
+    end
+
+    m.actionArg = m.actionArg + (8000 * (m.forwardVel / 64))
+    m.marioObj.header.gfx.angle.y = m.actionArg
+
+    local twirlTimer = math.floor(m.marioObj.header.gfx.angle.y / 32768) % 2
+	if twirlTimer == 0 then
+        if m.actionState == 0 then 
+			play_sound(SOUND_ACTION_TWIRL, m.marioObj.header.gfx.cameraToObject)
+			m.actionState = 1
+		end
+    else
+		m.actionState = 0
+    end
+
+	return false
+end
+
+hook_mario_action(ACT_DEDEDE_HAMMER_SPIN, act_dedede_hammer_spin, INT_FAST_ATTACK_OR_SHELL)

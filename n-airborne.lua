@@ -1,13 +1,14 @@
 if incompatibilityCond then return 0 end
 
--- CONFIG HOVER MOVE, THANKS TO SQUISHY FOR THE HELP WITH MAKING THIS A GLOBAL CONFIG!
-
 -- AIRBORNE ACTS
 
 ACT_KIRBY_SLIDE = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
 ACT_KIRBY_PUFF = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION | ACT_FLAG_CONTROL_JUMP_HEIGHT)
 
 function act_kirby_slide(m)
+	local idx = m.playerIndex
+	local currChar = charSelect.character_get_current_number(idx)
+
 	if m.actionState == 0 and m.actionTimer == 0 then
 		set_mario_animation(m, MARIO_ANIM_SLIDE_KICK)
 	end
@@ -17,7 +18,8 @@ function act_kirby_slide(m)
 		return set_mario_action(m, ACT_FREEFALL, 2)
 	end
 
-	update_air_without_turn(m)
+	update_air_with_turn(m)
+	--update_air_without_turn(m)
 	
 	local stepCase = perform_air_step(m, 0)
 	if stepCase == AIR_STEP_NONE then
@@ -107,7 +109,7 @@ function act_kirby_puff(m)
 	end
 	
 	if (m.input & INPUT_Z_PRESSED) ~= 0 then
-		PlayerSyncTable[idx].kirbyPuffTimer_JJJ = 0
+		gPlayerSyncTable[idx].kirbyPuffTimer_JJJ = 0
 		return set_mario_action(m, ACT_GROUND_POUND, 0)
     end
 
