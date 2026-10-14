@@ -262,13 +262,15 @@ local PLAYER_LAUNCH_RADIUS = 100
 local ACCEPTABLE_DIST = 700
 local EAT_DIST = 215
 
-local OBJ_ACTION_INHALE = -1992
-
+local prevStickInput = false -- I worry that this might not work exactly in actual multiplayer, should I put this in a gPlayerSyncTable entry?
 function act_being_inhaled(m)
-	if m.actionTimer == 0 then
+	local BUTTON_PRESS_LIMIT = 8
+	local BUTTON_PRESS_TIME = 30
+
+	if m.actionState == 0 then
 		play_character_sound(m, CHAR_SOUND_WHOA)
 	end
-	m.actionTimer = 1
+	m.actionState = 1
 
 	local mOther = gMarioStates[network_local_index_from_global(m.marioObj.oKirbySuckPlayer)] -- Original player that started the inhale.
 	local o = m.marioObj
@@ -276,9 +278,10 @@ function act_being_inhaled(m)
 	local waterCond = (mOther.waterLevel and mOther.pos.y < (mOther.waterLevel - 30)) or (mOther.action == ACT_CROUCHING or mOther.action == ACT_CROUCH_SLIDE)
 	or ((mOther.action & ACT_GROUP_MASK) == ACT_GROUP_CUTSCENE and not (mOther.action == ACT_PULLING_DOOR or mOther.action == ACT_PUSHING_DOOR)) or (mOther.action & ACT_GROUP_MASK) == ACT_FLAG_INTANGIBLE or (mOther.action & ACT_GROUP_MASK) == ACT_FLAG_INVULNERABLE
 	or (mOther.marioObj.header.gfx.node.flags & GRAPH_RENDER_ACTIVE) == 0
+	local escapeCond = m.actionArg >= BUTTON_PRESS_LIMIT
 	
 	--local waterCond = mOther.waterLevel and mOther.pos.y < (mOther.waterLevel - 30)
-	if mOther.action == ACT_JUMP_KICK or waterCond then
+	if mOther.action == ACT_JUMP_KICK or waterCond or escapeCond then
 		o.oPosX = mOther.pos.x + sins(mOther.faceAngle.y) * PLAYER_LAUNCH_RADIUS
 		o.oPosY = mOther.pos.y + 25
 		o.oPosZ = mOther.pos.z + coss(mOther.faceAngle.y) * PLAYER_LAUNCH_RADIUS
@@ -296,7 +299,8 @@ function act_being_inhaled(m)
 		m.forwardVel = mOther.forwardVel + floorObjectVel + 64
         m.vel.y = 10
 		
-		if waterCond then
+		if waterCond or escapeCond then
+			if escapeCond and not waterCond then m.vel.y = 24; set_mario_action(mOther, ACT_JUMP_KICK, 0) end
 			gPlayerSyncTable[mOther.playerIndex].kirbyMouthCounter_JJJ = 0
 			play_character_sound(mOther, CHAR_SOUND_PUNCH_HOO)
 			play_character_sound(m, CHAR_SOUND_OOOF)
@@ -333,6 +337,17 @@ function act_being_inhaled(m)
 		end
 	else
 		o.oPosX, o.oPosY, o.oPosZ = mOther.pos.x, mOther.pos.y, mOther.pos.z
+
+		m.actionTimer = math.max(m.actionTimer - 1, 0)
+		if m.actionTimer <= 0 then m.actionArg = 0 end
+
+		local stickFlippedCond = prevStickInput ~= (m.input & INPUT_ZERO_MOVEMENT)
+		local buttonPressCond = (m.input & (INPUT_A_PRESSED | INPUT_B_PRESSED | INPUT_Z_PRESSED)) ~= 0 or stickFlippedCond
+		if buttonPressCond then
+			if m.actionTimer <= 0 then play_character_sound(m, CHAR_SOUND_UH); m.actionTimer = BUTTON_PRESS_TIME end
+			m.actionArg = m.actionArg + 1
+		end
+		prevStickInput = m.input & INPUT_ZERO_MOVEMENT
 	end
 	obj_update_gfx_pos_and_angle(o)
 	m.pos.x, m.pos.y, m.pos.z = o.oPosX, o.oPosY, o.oPosZ
