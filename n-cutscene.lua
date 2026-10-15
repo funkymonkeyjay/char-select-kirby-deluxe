@@ -372,7 +372,7 @@ function act_kirby_death(m)
 				disable_time_stop()
 				camera_unfreeze()
 				gPlayerSyncTable[0].hasKirbyDied = false
-				if m.action == ACT_BUBBLED then play_music(SEQ_PLAYER_LEVEL, m.twirlYaw, 30) end
+				if not mario_can_bubble(m) then play_music(SEQ_PLAYER_LEVEL, m.twirlYaw, 30) end
 			end
 		end
 	else
