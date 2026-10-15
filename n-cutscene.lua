@@ -325,9 +325,10 @@ function act_kirby_death(m)
 		end
 		camera_freeze()
 		enable_time_stop_if_alone()
-		if not mario_can_bubble(m) then
+		if not mario_can_bubble(m) then 
+			m.twirlYaw = get_current_background_music()
 			play_music(SEQ_PLAYER_LEVEL, 0, 0)
-        end
+		end
 	end
 	m.actionTimer = m.actionTimer + 1
 
@@ -366,8 +367,13 @@ function act_kirby_death(m)
 			end
 		end
 		if m.actionState == 2 then
-			common_death_handler(m, CHAR_ANIM_FALL_OVER_BACKWARDS, 40) -- TODO: custom anim!
-			-- TODO: how can i reset the camera freeze if a HOOK_ON_DEATH prevents a death? 
+			local animFrame = common_death_handler(m, CHAR_ANIM_FALL_OVER_BACKWARDS, 40) -- TODO: custom anim!
+			if animFrame >= 40 and m.invincTimer >= 0 and m.action ~= ACT_BUBBLED and m.playerIndex == 0 then -- Simple check for when a HOOK_ON_DEATH call prevents a death.
+				disable_time_stop()
+				camera_unfreeze()
+				gPlayerSyncTable[0].hasKirbyDied = false
+				if m.action == ACT_BUBBLED then play_music(SEQ_PLAYER_LEVEL, m.twirlYaw, 30) end
+			end
 		end
 	else
 		if m.playerIndex == 0 then
