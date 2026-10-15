@@ -13,6 +13,7 @@ KIRBY_STEP_SOUND = audio_sample_load("SOUND_STEP.ogg")
 KIRBY_HIT_SOUND = audio_sample_load("SOUND_HITENEMY.ogg")
 KIRBY_INHALE_SOUND = audio_sample_load("SOUND_INHALE.ogg")
 KIRBY_SLIDE_SOUND = audio_sample_load("SOUND_SLIDE_KICK.ogg")
+KIRBY_HURT_SOUND = audio_sample_load("SOUND_HURT.ogg")
 
 -- KIRBY --
 E_MODEL_KIRBY = smlua_model_util_get_id("kirby_geo")
@@ -216,8 +217,10 @@ charSelect.character_add_animations(E_MODEL_DEDEDE, nil, kirbyAnims.eyes)
 charSelect.character_add_menu_instrumental(dededeCharID, KIRBY_MENU_THEME)
 charSelect.character_set_category(dededeCharID, "Kirby", true)
 
-local SEQ_KIRBY_TRIUMPH = smlua_audio_utils_allocate_sequence()
-smlua_audio_utils_replace_sequence(SEQ_KIRBY_TRIUMPH, 0x1A, 100, "triumph_return")
+SEQ_KIRBY_TRIUMPH = smlua_audio_utils_allocate_sequence()
+SEQ_KIRBY_DEATH = smlua_audio_utils_allocate_sequence()
+smlua_audio_utils_replace_sequence(SEQ_KIRBY_TRIUMPH, 0x1A, 100, "mus_triumph_return")
+smlua_audio_utils_replace_sequence(SEQ_KIRBY_DEATH, 0x14, 75, "mus_death")
 charSelect.character_add_sequence_replacement(kirbyCharID, SEQ_EVENT_CUTSCENE_VICTORY, SEQ_KIRBY_TRIUMPH)
 charSelect.character_add_sequence_replacement(dededeCharID, SEQ_EVENT_CUTSCENE_VICTORY, SEQ_KIRBY_TRIUMPH)
 

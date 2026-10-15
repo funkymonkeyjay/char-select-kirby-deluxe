@@ -56,8 +56,18 @@ PUFF_TIMER_LIMIT = 250 -- Global constant for allowed puff time.
 
 local function puffHazardSurface(m, type) -- Hacky bugfix for quicksand death on puffing.
 	if m.playerIndex ~= 0 then return end
+	local currChar = charSelect.character_get_current_number()
 	if (type == HAZARD_TYPE_QUICKSAND or type == SURFACE_INSTANT_QUICKSAND or type == SURFACE_DEEP_QUICKSAND) and m.action == ACT_KIRBY_PUFF and m.pos.y ~= m.floorHeight then
 		return false
+	end
+	if type == HAZARD_TYPE_LAVA_FLOOR then
+		if (m.action == ACT_KIRBY_HURT_BACKWARD or m.action == ACT_KIRBY_HURT_FORWARD or m.action == ACT_KIRBY_HURT_LAVA) or ((currChar == kirbyCharID or currChar == dededeCharID) and not isMovesetOff() and m.invincTimer > 0) then
+			return false
+		elseif m.invincTimer <= 0 then
+			m.hurtCounter = m.hurtCounter + 12
+			set_mario_action(m, ACT_KIRBY_HURT_LAVA, 0)
+			return false
+		end
 	end
 end
 hook_event(HOOK_ALLOW_HAZARD_SURFACE, puffHazardSurface)
@@ -104,7 +114,7 @@ function act_kirby_puff(m)
 	
 	if m.pos.y == m.floorHeight and m.floor.type == HAZARD_TYPE_LAVA_FLOOR then
 		if (m.flags & MARIO_METAL_CAP) == 0 then m.hurtCounter = m.hurtCounter + 12 end
-		drop_and_set_mario_action(m, ACT_LAVA_BOOST, 0)
+		drop_and_set_mario_action(m, ACT_KIRBY_HURT_LAVA, 0)
 		return
 	end
 	

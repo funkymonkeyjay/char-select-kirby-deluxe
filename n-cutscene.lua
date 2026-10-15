@@ -243,6 +243,156 @@ end
 
 hook_mario_action(ACT_KIRBY_JUMBO_STAR, act_kirby_jumbo_star)
 
+ACT_KIRBY_HURT_FORWARD = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_MOVING | ACT_FLAG_INTANGIBLE | ACT_FLAG_INVULNERABLE | ACT_FLAG_CUSTOM_ACTION | ACT_FLAG_PAUSE_EXIT)
+ACT_KIRBY_HURT_BACKWARD = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_MOVING | ACT_FLAG_INTANGIBLE | ACT_FLAG_INVULNERABLE | ACT_FLAG_CUSTOM_ACTION | ACT_FLAG_PAUSE_EXIT)
+ACT_KIRBY_HURT_LAVA = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_MOVING | ACT_FLAG_INTANGIBLE | ACT_FLAG_INVULNERABLE | ACT_FLAG_CUSTOM_ACTION | ACT_FLAG_PAUSE_EXIT)
+local function act_kirby_hurt(m, arg)
+	set_mario_animation(m, arg == 1 and MARIO_ANIM_FORWARD_SPINNING or MARIO_ANIM_BACKWARD_SPINNING)
+
+	if arg == 2 then
+		set_mario_particle_flags(m, PARTICLE_FIRE, 0)
+	end
+
+	if m.actionTimer == 0 then
+		if (m.health >> 8) <= 4 then
+			kirbyRemoveAbility(m)
+		end
+		queue_rumble_data_mario(m, 3, 40)
+		play_kirby_sound(KIRBY_HURT_SOUND, m.pos, 1)
+		play_character_sound(m, arg == 2 and CHAR_SOUND_ON_FIRE or CHAR_SOUND_ATTACKED)
+		m.vel.y = 24
+		m.vel.x, m.vel.z = 0, 0
+		m.actionTimer = 1
+	end
+
+	m.forwardVel = -32 * (arg == 1 and -1 or 1)
+	m.vel.x = sins(m.faceAngle.y) * m.forwardVel
+	m.vel.z = coss(m.faceAngle.y) * m.forwardVel
+
+	local stepCase = perform_air_step(m, 0)
+	if stepCase == AIR_STEP_LANDED then
+		m.invincTimer = 60
+		return set_mario_action(m, m.intendedMag > 0 and ACT_WALKING or ACT_STOMACH_SLIDE_STOP, 0)
+	end
+
+	m.actionTimer = m.actionTimer + 1
+	if m.actionTimer > 45 then
+		return set_mario_action(m, ACT_FREEFALL, 0)
+	end
+end
+
+-- Getting m.actionArg to change is a hassle, so I decided to just. do this. I guess!
+function act_kirby_hurt_forward(m)
+	return act_kirby_hurt(m, 1)
+end
+
+function act_kirby_hurt_backward(m)
+	return act_kirby_hurt(m, 0)
+end
+
+function act_kirby_hurt_lava(m)
+	return act_kirby_hurt(m, 2)
+end
+
+hook_mario_action(ACT_KIRBY_HURT_FORWARD, {every_frame = act_kirby_hurt_forward, gravity = function (m) m.vel.y = m.vel.y - 4 if m.vel.y < -75 then m.vel.y = -75 end end})
+hook_mario_action(ACT_KIRBY_HURT_BACKWARD, {every_frame = act_kirby_hurt_backward, gravity = function (m) m.vel.y = m.vel.y - 4 if m.vel.y < -75 then m.vel.y = -75 end end})
+hook_mario_action(ACT_KIRBY_HURT_LAVA, {every_frame = act_kirby_hurt_lava, gravity = function (m) m.vel.y = m.vel.y - 4 if m.vel.y < -75 then m.vel.y = -75 end end})
+
+ACT_KIRBY_DEATH = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_AIR | ACT_FLAG_STATIONARY | ACT_FLAG_INTANGIBLE | ACT_FLAG_INVULNERABLE | ACT_FLAG_CUSTOM_ACTION | ACT_FLAG_PAUSE_EXIT)
+function act_kirby_death(m)
+	if m.playerIndex == 0 then gPlayerSyncTable[0].hasKirbyDied = true end
+
+	m.faceAngle.y = m.area.camera.yaw
+    m.marioObj.header.gfx.angle.y = m.faceAngle.y
+	
+	if m.actionTimer == 0 then
+		m.forwardVel = 0
+		queue_rumble_data_mario(m, 5, 80)
+		play_kirby_sound(KIRBY_HURT_SOUND, m.pos, 1)
+		if m.playerIndex == 0 then set_camera_shake_from_hit(SHAKE_ENV_BOWSER_JUMP) end
+		for i = 1, 10 do
+			spawn_non_sync_object(id_bhvBreakBoxTriangle, E_MODEL_CARTOON_STAR, m.pos.x, m.pos.y, m.pos.z, function (o) 
+				o.oAnimState = 3
+				o.oPosY = o.oPosY + 50
+				o.oMoveAngleYaw = random_u16()
+				o.oFaceAngleYaw = o.oMoveAngleYaw
+				o.oFaceAnglePitch = random_u16()
+				o.oVelY = random_f32_around_zero(20)
+				o.oAngleVelPitch = 0x80 * (random_float() + 50)
+				o.oForwardVel = 15
+				obj_scale(o, 0.1)
+			end)
+		end
+		camera_freeze()
+		enable_time_stop_if_alone()
+		if not mario_can_bubble(m) then
+			play_music(SEQ_PLAYER_LEVEL, 0, 0)
+        end
+	end
+	m.actionTimer = m.actionTimer + 1
+
+	m.vel.x, m.vel.z = 0, 0
+
+	if m.actionTimer >= 23 then
+		m.marioBodyState.eyeState = MARIO_EYES_DEAD
+
+		if m.playerIndex == 0 then
+			local toY = m.twirlYaw < 0 and m.pos.y or m.floorHeight
+
+			gLakituState.pos.x = math.lerp(gLakituState.pos.x, m.pos.x + sins(m.faceAngle.y) * 400, 0.0625)
+			gLakituState.pos.y = math.lerp(gLakituState.pos.y, toY + 300, 0.0625)
+			gLakituState.pos.z = math.lerp(gLakituState.pos.z, m.pos.z + coss(m.faceAngle.y) * 400, 0.0625)
+
+			gLakituState.focus.x = math.lerp(gLakituState.focus.x, m.pos.x - sins(m.faceAngle.y) * 200, 0.03125)
+			gLakituState.focus.y = math.lerp(gLakituState.focus.y, toY, 0.03125)
+			gLakituState.focus.z = math.lerp(gLakituState.focus.z, m.pos.z - coss(m.faceAngle.y) * 200, 0.03125)
+		end
+
+		if m.actionTimer == 23 then
+			-- TODO: play death theme!
+			play_cutscene_music(SEQUENCE_ARGS(15, SEQ_KIRBY_DEATH))
+			set_mario_animation(m, CHAR_ANIM_SINGLE_JUMP) -- TODO: custom anim!
+			m.vel.y = 30
+		end
+		local stepCase = perform_air_step(m, 0)
+		if stepCase == AIR_STEP_LANDED then
+			if m.actionState == 0 then
+				--m.faceAngle.x = 0
+				m.vel.y = 10
+				m.actionState = m.actionState + 1
+			else
+				--set_mario_animation(m, CHAR_ANIM_FALL_OVER_BACKWARDS)
+				m.actionState = 2
+			end
+		end
+		if m.actionState == 2 then
+			common_death_handler(m, CHAR_ANIM_FALL_OVER_BACKWARDS, 40) -- TODO: custom anim!
+			-- TODO: how can i reset the camera freeze if a HOOK_ON_DEATH prevents a death? 
+		end
+	else
+		if m.playerIndex == 0 then
+			local timeDiff = math.max(13 - m.actionTimer, 0) / 13
+			gLakituState.pos.x = gLakituState.pos.x + coss(random_u16()) * timeDiff * 75
+			gLakituState.pos.y = gLakituState.pos.y + sins(random_u16()) * timeDiff * 75
+			gLakituState.pos.z = gLakituState.pos.z + coss(random_u16()) * timeDiff * 75
+		end
+
+		set_mario_animation(m, CHAR_ANIM_BACKWARD_AIR_KB)
+		local dist = vec3f_dist(m.pos, {x = m.pos.x, y = m.floorHeight, z = m.pos.z})
+		if dist > 500 then
+			m.twirlYaw = -1
+		else
+			m.twirlYaw = 0
+		end
+	end
+end
+hook_mario_action(ACT_KIRBY_DEATH, {every_frame = act_kirby_death, gravity = function (m) 
+	m.vel.y = m.vel.y - 3
+	if m.vel.y < -56.25 then
+		m.vel.y = -56.25
+	end
+end})
+
 -- CUSTOM ENDING "WARP STAR" OBJECT
 local function setStarPosAngle(o, m)
 	if is_player_active(m) == 0 or (m.marioObj.header.gfx.animInfo.animID ~= CHAR_ANIM_GENERAL_FALL and m.marioObj.header.gfx.animInfo.animID ~= CHAR_ANIM_KIRBY_ENDING) then

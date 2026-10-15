@@ -26,6 +26,7 @@ for i = 0, (MAX_PLAYERS - 1) do
 	gPlayerSyncTable[i].kirbySlideCount = 0
 
 	gPlayerSyncTable[i].dededeIsHammer_JJJ = false
+	gPlayerSyncTable[i].hasKirbyDied = false
 end
 
 if charSelect then
@@ -49,7 +50,7 @@ if charSelect then
 		end
 	end)
 	
-	local function kirbyBeforeActions(m, incomingAction)
+	local function kirbyBeforeActions(m, incomingAction, actionArg)
 		local idx = m.playerIndex
 		local floorObjectVel = (m.floor and m.floor.object and m.floor.object.oForwardVel) or 0
 
@@ -64,6 +65,32 @@ if charSelect then
 		if incomingAction == ACT_JUMBO_STAR_CUTSCENE then return ACT_KIRBY_JUMBO_STAR end
 		if (incomingAction == ACT_CROUCHING or incomingAction == ACT_CROUCH_SLIDE or incomingAction == ACT_PULLING_DOOR or incomingAction == ACT_PUSHING_DOOR) and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ < 0 then
 			return 1
+		end
+
+		--[[
+		m.marioObj.oMarioBurnTimer = m.marioObj.oMarioBurnTimer + 2;
+    	if m.marioObj.oMarioBurnTimer > 160 then
+			return set_mario_action(m, ACT_WALKING, 0)
+		end
+		]]
+
+		if incomingAction == ACT_BURNING_FALL or incomingAction == ACT_BURNING_JUMP or incomingAction == ACT_BURNING_GROUND then
+			m.hurtCounter = m.hurtCounter + 8
+			return ACT_KIRBY_HURT_LAVA
+		end
+
+		if incomingAction == ACT_DEATH_ON_BACK or incomingAction == ACT_STANDING_DEATH
+		 or incomingAction == ACT_DEATH_ON_STOMACH or incomingAction == ACT_ELECTROCUTION or incomingAction == ACT_SUFFOCATION then
+			return ACT_KIRBY_DEATH
+		end
+
+		if m.hurtCounter > 0 and not (incomingAction == ACT_BACKWARD_WATER_KB or incomingAction == ACT_FORWARD_WATER_KB or incomingAction == ACT_KIRBY_HURT_LAVA) then
+			if incomingAction == ACT_HARD_FORWARD_GROUND_KB or incomingAction == ACT_FORWARD_GROUND_KB or incomingAction == ACT_SOFT_FORWARD_GROUND_KB
+			or incomingAction == ACT_FORWARD_AIR_KB or incomingAction == ACT_HARD_FORWARD_AIR_KB then
+				return ACT_KIRBY_HURT_FORWARD
+			else
+				return ACT_KIRBY_HURT_BACKWARD
+			end
 		end
 		
 		--local dededeMult = currChar == dededeCharID and 0.75 or 1
@@ -205,7 +232,6 @@ if charSelect then
 
 		if currChar == dededeCharID and incomingAction == ACT_DIVE_SLIDE and m.action == ACT_DIVE then
 			m.vel.y = 24
-			djui_chat_message_create("hi!")
 			return ACT_DEDEDE_DIVE_SLIDE
 		end
 	end
@@ -255,6 +281,11 @@ if charSelect then
 		return true
 	end
 	
+	function kirbyRemoveAbility(m)
+		-- TODO: Spawn Copy Ability Essence
+		gPlayerSyncTable[m.playerIndex].kirbyCopyAbility_JJJ = 0
+	end
+
 	local prevPowerup = 0
 	local function kirbyPostUpdate(m)
 		local idx = m.playerIndex
@@ -293,14 +324,13 @@ if charSelect then
 			end
 
 			if (m.controller.buttonPressed & X_BUTTON) ~= 0 and gPlayerSyncTable[0].kirbyCopyAbility_JJJ ~= 0 then -- Alternative/Traditional way of getting rid of a copy ability.
-				-- TODO: Spawn Copy Ability Essence
-				gPlayerSyncTable[m.playerIndex].kirbyCopyAbility_JJJ = 0
+				kirbyRemoveAbility(m)
 			end
 		else
 			if (m.controller.buttonDown & X_BUTTON) ~= 0 then
 				if not gPlayerSyncTable[0].dededeIsHammer_JJJ and m.action ~= ACT_DEDEDE_HAMMER_SPIN then
 					if m.forwardVel == 0 then
-						set_mario_action(m, ACT_JUMP_LAND, 0)
+						set_mario_action(m, ACT_JUMP_LAND, 0) -- TODO: custom action
 						gPlayerSyncTable[0].dededeIsHammer_JJJ = true
 					elseif not (m.action == ACT_STOMACH_SLIDE or m.action == ACT_STOMACH_SLIDE_STOP or m.forwardVel < 0)
 						   and m.pos.y == m.floorHeight and mario_floor_is_steep(m) == 0 and m.action == ACT_WALKING then
@@ -310,7 +340,7 @@ if charSelect then
 					end
 				end
 			elseif gPlayerSyncTable[0].dededeIsHammer_JJJ then
-				set_mario_action(m, ACT_GROUND_POUND_LAND, 0)
+				set_mario_action(m, ACT_GROUND_POUND_LAND, 0) -- TODO: custom action
 				gPlayerSyncTable[0].dededeIsHammer_JJJ = false
 			end
 		end
@@ -339,6 +369,10 @@ if charSelect then
 		
 		if m.action ~= ACT_KIRBY_PUFF and ((m.action & ACT_FLAG_SWIMMING) ~= 0 or m.action == ACT_TWIRLING or m.pos.y == m.floorHeight) then
 			gPlayerSyncTable[idx].kirbyPuffCeiling_JJJ = m.marioObj.header.gfx.pos.y + 1100
+		end
+
+		if currChar == dededeCharID and m.action == ACT_GROUND_POUND and (m.input & INPUT_A_PRESSED) ~= 0 then
+			return set_mario_action(m, ACT_DEDEDE_JUMP, 0)
 		end
 		
 		if m.pos.y ~= m.floorHeight and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ == 0 and (m.action & ACT_FLAG_SWIMMING) == 0 and (m.action & ACT_FLAG_METAL_WATER) == 0 
@@ -384,6 +418,7 @@ if charSelect then
 			local dededeMult = currChar == dededeCharID and 0.4375 or 1
 			m.faceAngle.y = approach_s16_symmetric(m.faceAngle.y, m.intendedYaw, (gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ ~= 0 and 1000 or 1750) * dededeMult)
 		end
+		
 	end
 
 	charSelect.character_hook_moveset(kirbyCharID, HOOK_MARIO_UPDATE, kirbyPostUpdate)
@@ -501,6 +536,9 @@ if charSelect then
 
 		local modelId = charSelect.character_get_current_number(idx)
 		if modelId == kirbyCharID or modelId == dededeCharID then -- TODO: Is it possible to know whether or not a player has movesets disabled based on their m.playerIndex?
+			if m.health < 0x100 and m.action ~= ACT_KIRBY_DEATH then
+				return set_mario_action(m, ACT_KIRBY_DEATH, 0)
+			end
 		
 			if m.action ~= ACT_SQUISHED and m.action ~= ACT_BBH_ENTER_SPIN and m.squishTimer == 0 and ((m.marioObj.header.gfx.scale.x == 1 and m.marioObj.header.gfx.scale.z == 1) or (m.action == ACT_CROUCHING or m.action == ACT_START_CROUCHING or m.action == ACT_CROUCH_SLIDE)) then
 				local currChar = charSelect.character_get_current_number(idx)
@@ -652,6 +690,12 @@ if charSelect then
 		gPlayerSyncTable[0].kirbySlideTimer = 0
 		gPlayerSyncTable[0].kirbySlideCount = 0
 		gPlayerSyncTable[0].dededeIsHammer_JJJ = false
+		if gPlayerSyncTable[0].hasKirbyDied then
+			disable_time_stop()
+			camera_unfreeze()
+			--sound_reset_background_music_default_volume(get_current_background_music())
+			gPlayerSyncTable[0].hasKirbyDied = false
+		end
 		audio_sample_stop(KIRBY_INHALE_SOUND) -- Added to prevent the inhale sound from playing outside a level forever.
 	end)
 end
