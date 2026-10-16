@@ -133,9 +133,9 @@ if charSelect then
 			end
 		end
 
-		--if (incomingAction == ACT_SLIDE_KICK or (incomingAction == ACT_PUNCHING and m.action == ACT_CROUCHING)) and currChar == dededeCharID then
-			--return 1 -- TODO: set to Dedede Gordo throw action.
-		--end
+		if (incomingAction == ACT_SLIDE_KICK or (incomingAction == ACT_PUNCHING and m.action == ACT_CROUCHING)) and currChar == dededeCharID then
+			return ACT_DEDEDE_GORDO
+		end
 		
 		if incomingAction == ACT_BACKWARD_GROUND_KB and m.action == ACT_SLIDE_KICK_SLIDE then
 			return ACT_FORWARD_ROLLOUT
@@ -182,7 +182,7 @@ if charSelect then
 			end
 		end
 		
-		if incomingAction ~= ACT_PICKING_UP and (incomingAction == ACT_DIVE
+		if not gPlayerSyncTable[m.playerIndex].dededeIsHammer_JJJ and incomingAction ~= ACT_PICKING_UP and (incomingAction == ACT_DIVE
 		or (incomingAction == ACT_PUNCHING and m.action ~= ACT_CROUCHING) or incomingAction == ACT_MOVE_PUNCHING
 		or (incomingAction == ACT_JUMP_KICK and m.action ~= ACT_KIRBY_PUFF)) or incomingAction == ACT_WATER_PUNCH then
 			if currChar == dededeCharID and incomingAction == ACT_DIVE and m.pos.y == m.floorHeight then return end
@@ -320,27 +320,31 @@ if charSelect then
 			end
 			
 			if checkFlags(m) and (m.controller.buttonPressed & L_TRIG) ~= 0 and m.action ~= ACT_KIRBY_HELLO and m.pos.y == m.floorHeight and m.forwardVel == 0 then
-				set_mario_action(m, ACT_KIRBY_HELLO, 0)
+				set_mario_action(m, ACT_KIRBY_HELLO, currChar == dededeCharID and 1 or 0)
 			end
 
 			if (m.controller.buttonPressed & X_BUTTON) ~= 0 and gPlayerSyncTable[0].kirbyCopyAbility_JJJ ~= 0 then -- Alternative/Traditional way of getting rid of a copy ability.
 				kirbyRemoveAbility(m)
 			end
-		else
+		elseif not (m.heldObj or m.action == ACT_DEDEDE_GORDO or m.action == ACT_DEDEDE_HAMMER_FLIP or m.action == ACT_DEDEDE_HAMMER_UP or m.action == ACT_DEDEDE_HAMMER_DOWN) then
 			if (m.controller.buttonDown & X_BUTTON) ~= 0 then
-				if not gPlayerSyncTable[0].dededeIsHammer_JJJ and m.action ~= ACT_DEDEDE_HAMMER_SPIN then
-					if m.forwardVel == 0 then
-						set_mario_action(m, ACT_JUMP_LAND, 0) -- TODO: custom action
-						gPlayerSyncTable[0].dededeIsHammer_JJJ = true
-					elseif not (m.action == ACT_STOMACH_SLIDE or m.action == ACT_STOMACH_SLIDE_STOP or m.forwardVel < 0)
-						   and m.pos.y == m.floorHeight and mario_floor_is_steep(m) == 0 and m.action == ACT_WALKING then
-						set_mario_action(m, ACT_DEDEDE_HAMMER_SPIN, 0)
-						m.forwardVel = 64
-						--djui_chat_message_create("spin!")
+				if m.pos.y ~= m.floorHeight then
+					-- TODO: set vertical spin action
+				else
+					if not gPlayerSyncTable[0].dededeIsHammer_JJJ and m.action ~= ACT_DEDEDE_HAMMER_SPIN then
+						if m.forwardVel == 0 then
+							drop_and_set_mario_action(m, ACT_DEDEDE_HAMMER_UP, 0)
+							gPlayerSyncTable[0].dededeIsHammer_JJJ = true
+						elseif not (m.action == ACT_STOMACH_SLIDE or m.action == ACT_STOMACH_SLIDE_STOP or m.forwardVel < 0)
+							and m.pos.y == m.floorHeight and mario_floor_is_steep(m) == 0 and m.action == ACT_WALKING then
+							set_mario_action(m, ACT_DEDEDE_HAMMER_SPIN, 0)
+							m.forwardVel = 64
+							--djui_chat_message_create("spin!")
+						end
 					end
 				end
-			elseif gPlayerSyncTable[0].dededeIsHammer_JJJ then
-				set_mario_action(m, ACT_GROUND_POUND_LAND, 0) -- TODO: custom action
+			elseif gPlayerSyncTable[0].dededeIsHammer_JJJ and m.action ~= ACT_DEDEDE_HAMMER_DOWN then
+				drop_and_set_mario_action(m, ACT_DEDEDE_HAMMER_DOWN, 0)
 				gPlayerSyncTable[0].dededeIsHammer_JJJ = false
 			end
 		end
@@ -381,7 +385,7 @@ if charSelect then
 			gPlayerSyncTable[idx].kirbyFallTimer_JJJ = gPlayerSyncTable[idx].kirbyFallTimer_JJJ + 1
 			if gPlayerSyncTable[idx].kirbyFallTimer_JJJ > 40 and (m.action == ACT_JUMP or m.action == ACT_FREEFALL or m.action == ACT_JUMP_KICK or m.action == ACT_TOP_OF_POLE_JUMP) and m.vel.y < 0 then
 				m.marioObj.header.gfx.animInfo.animID = -1
-				set_mario_action(m, ACT_VERTICAL_WIND, 0)
+				drop_and_set_mario_action(m, ACT_VERTICAL_WIND, 0)
 				set_mario_animation(m, MARIO_ANIM_AIRBORNE_ON_STOMACH)
 				m.flags = (m.flags | MARIO_MARIO_SOUND_PLAYED) & ~MARIO_KICKING
 				m.actionState = 1
@@ -394,7 +398,7 @@ if charSelect then
 					if m.action ~= ACT_GROUND_POUND then
 						spawn_mist_particles_variable(20, -20, 10)
 						play_sound(SOUND_ACTION_TWIRL, m.marioObj.header.gfx.cameraToObject)
-						set_mario_action(m, ACT_FLYING_TRIPLE_JUMP, 0)
+						drop_and_set_mario_action(m, ACT_FLYING_TRIPLE_JUMP, 0)
 						m.angleVel.x = 0
 						m.vel.y = 64
 					end
@@ -402,7 +406,7 @@ if charSelect then
 					play_character_sound(m, CHAR_SOUND_HOOHOO)
 					gPlayerSyncTable[idx].kirbyHasMovedStick_JJJ = false
 					m.vel.y = 16
-					set_mario_action(m, ACT_KIRBY_PUFF, 0)
+					drop_and_set_mario_action(m, ACT_KIRBY_PUFF, 0)
 					set_mario_animation(m, CHAR_ANIM_KIRBY_PUFF_RISE)
 				end
 			end

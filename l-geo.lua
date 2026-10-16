@@ -32,7 +32,8 @@ function dededeHammer_JJJ(node, matStackIndex)
 	local asSwitchNode = cast_graph_node(node)
 	local m = geo_get_mario_state()
 
-	local isHoldingHammer = gPlayerSyncTable[m.playerIndex].dededeIsHammer_JJJ
+	local isHoldingHammer = gPlayerSyncTable[m.playerIndex].dededeIsHammer_JJJ 
+							or (m.action == ACT_DEDEDE_HAMMER_DOWN and m.marioObj.header.gfx.animInfo.animFrame < 4) -- TODO: set to frame where hammer is discarded
 
 	if asSwitchNode.parameter == 1 then -- Hand
 		asSwitchNode.selectedCase = isHoldingHammer and 1 or 0

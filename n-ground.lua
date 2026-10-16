@@ -7,12 +7,16 @@ ACT_BEING_INHALED = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_INTANGIBLE)
 
 function act_kirby_hello(m)
     if m.actionTimer == 0 then
-		if gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ == 0 then
-			play_character_sound(m, CHAR_SOUND_HELLO)
-		else
-			play_character_sound(m, CHAR_SOUND_HOOHOO)
-		end
-        set_mario_animation(m, CHAR_ANIM_KIRBY_HELLO)
+		--if m.actionArg == 0 then
+			if gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ == 0 then
+				play_character_sound(m, CHAR_SOUND_HELLO)
+			else
+				play_character_sound(m, CHAR_SOUND_HOOHOO)
+			end
+			set_mario_animation(m, CHAR_ANIM_KIRBY_HELLO)
+		--else
+			-- TODO: DEDEDE STUFF
+		--end
         mario_set_forward_vel(m, 0.0)
 		--gPlayerSyncTable[m.playerIndex].kirbyCopyAbility_JJJ = 0
 		kirbyRemoveAbility(m) -- Function that removes all abilities and spawns an ability essence object
@@ -375,6 +379,21 @@ hook_event(HOOK_MARIO_UPDATE, function (m)
 					if distCheck then
 						m.marioObj.oKirbySuckPlayer = network_global_index_from_local(mOther.playerIndex)
 						set_mario_action(m, ACT_BEING_INHALED, 0)
+					end
+				end
+			end
+		end
+	end
+
+	-- Stuff for Dedede's super jump.
+	if gServerSettings.playerInteractions == PLAYER_INTERACTIONS_PVP or gServerSettings.playerInteractions == PLAYER_INTERACTIONS_SOLID then
+		for i = 0, (MAX_PLAYERS - 1) do
+			if i ~= m.playerIndex and (m.action & ACT_FLAG_INVULNERABLE) == 0 then
+				local mOther = gMarioStates[i]
+				if is_player_active(mOther) ~= 0 and dist_between_objects(m.marioObj, mOther.marioObj) < 375 then
+					if mOther.action == ACT_DEDEDE_JUMP_LAND and mOther.actionTimer <= 1 then
+						set_camera_shake_from_hit(SHAKE_ENV_BOWSER_JUMP)
+						set_mario_action(m, ACT_SHOCKWAVE_BOUNCE, 0)
 					end
 				end
 			end
