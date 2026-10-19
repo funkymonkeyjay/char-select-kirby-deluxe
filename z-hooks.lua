@@ -327,7 +327,8 @@ if charSelect then
 				kirbyRemoveAbility(m)
 			end
 		elseif not (m.heldObj or m.action == ACT_DEDEDE_GORDO or m.action == ACT_DEDEDE_HAMMER_FLIP or m.action == ACT_DEDEDE_HAMMER_UP or m.action == ACT_DEDEDE_HAMMER_DOWN) then
-			if (m.controller.buttonDown & X_BUTTON) ~= 0 then
+			--if (m.controller.buttonDown & X_BUTTON) ~= 0 then
+			if (m.controller.buttonDown & L_TRIG) ~= 0 then
 				if m.pos.y ~= m.floorHeight then
 					-- TODO: set vertical spin action
 				else

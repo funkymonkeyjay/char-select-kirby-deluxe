@@ -208,7 +208,7 @@ charSelect.character_add_palette_preset(E_MODEL_DEDEDE, {
 	[EMBLEM] = "FFBC00"
 })
 
-dededeCharID = charSelect.character_add("King Dedede", "Lorem Ipsum", "@funkymonkeyjay", "FF0000", E_MODEL_DEDEDE, CT_MARIO, TEX_CUSTOM_LIFE_ICON)
+dededeCharID = charSelect.character_add("King Dedede", "Lorem Ipsum", "@funkymonkeyjay", "0089FF", E_MODEL_DEDEDE, CT_MARIO, TEX_CUSTOM_LIFE_ICON, 1.6)
 charSelect.character_set_nickname(dededeCharID, "Dedede")
 
 charSelect.character_add_caps(E_MODEL_DEDEDE, kirbyCaps)
@@ -219,10 +219,17 @@ charSelect.character_set_category(dededeCharID, "Kirby", true)
 
 SEQ_KIRBY_TRIUMPH = smlua_audio_utils_allocate_sequence()
 SEQ_KIRBY_DEATH = smlua_audio_utils_allocate_sequence()
+SEQ_KIRBY_POWER = smlua_audio_utils_allocate_sequence()
 smlua_audio_utils_replace_sequence(SEQ_KIRBY_TRIUMPH, 0x1A, 100, "mus_triumph_return")
 smlua_audio_utils_replace_sequence(SEQ_KIRBY_DEATH, 0x14, 75, "mus_death")
+--smlua_audio_utils_replace_sequence(SEQ_KIRBY_POWER, 0x0B, 100, "mus_power")
 charSelect.character_add_sequence_replacement(kirbyCharID, SEQ_EVENT_CUTSCENE_VICTORY, SEQ_KIRBY_TRIUMPH)
 charSelect.character_add_sequence_replacement(dededeCharID, SEQ_EVENT_CUTSCENE_VICTORY, SEQ_KIRBY_TRIUMPH)
+
+--charSelect.character_add_sequence_replacement(kirbyCharID, SEQ_EVENT_POWERUP, SEQ_KIRBY_POWER)
+--charSelect.character_add_sequence_replacement(kirbyCharID, SEQ_EVENT_METAL_CAP, SEQ_KIRBY_POWER)
+
+--charSelect.character_add_sequence_replacement(dededeCharID, SEQ_EVENT_POWERUP, SEQ_KIRBY_POWER)
 
 -- CONFIG
 gGlobalSyncTable.kirbyUnusualObjects = false

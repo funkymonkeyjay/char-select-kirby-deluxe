@@ -248,7 +248,7 @@ function act_dedede_hammer_spin(m)
         m.faceAngle.y = intendedYaw
 		return set_mario_action(m, ACT_JUMP, 0)
 	end
-	if (m.controller.buttonPressed & X_BUTTON) ~= 0 then
+	if (m.controller.buttonPressed & L_TRIG) ~= 0 then
 		m.forwardVel = math.min(m.forwardVel + 12, 100)
 	end
 
@@ -384,7 +384,7 @@ local function act_dedede_hammer(m, arg)
     if arg == 1 and m.marioObj.header.gfx.animInfo.animFrame == 4 and m.playerIndex == 0 then -- TODO: assign actual frame where the hammer slams onto the ground.
         spawn_sync_object(id_bhvDededeHammer_JJJ, E_MODEL_NONE, m.pos.x + sins(m.faceAngle.y) * 200, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 200, nil)
     elseif arg == 0 then
-        if m.marioObj.header.gfx.animInfo.animFrame > 4 and (m.controller.buttonDown & X_BUTTON) == 0 then -- TODO: assign frame that allows player to skip the 
+        if m.marioObj.header.gfx.animInfo.animFrame > 4 and (m.controller.buttonDown & L_TRIG) == 0 then -- TODO: assign frame that allows player to skip the 
             set_mario_action(m, ACT_DEDEDE_HAMMER_DOWN, 0)
             gPlayerSyncTable[m.playerIndex].dededeIsHammer_JJJ = false
         end
