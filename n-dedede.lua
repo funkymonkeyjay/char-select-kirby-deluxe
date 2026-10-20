@@ -6,6 +6,8 @@ ACT_DEDEDE_JUMP = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_
 
 function act_dedede_jump(m)
     local idx = m.playerIndex
+    gPlayerSyncTable[idx].dededeHasSuperJump_JJJ = true
+
     if m.vel.y > 0 then
         gPlayerSyncTable[idx].kirbyPuffCeiling_JJJ = m.marioObj.header.gfx.pos.y
     end
@@ -79,6 +81,7 @@ ACT_DEDEDE_JUMP_LAND = allocate_mario_action(ACT_FLAG_ATTACKING)
 
 function act_dedede_jump_land(m)
     local idx = m.playerIndex
+    gPlayerSyncTable[idx].dededeHasSuperJump_JJJ = false
     --if check_common_landing_cancels(m, ACT_JUMP) ~= 0 then return end
 
     set_mario_animation(m, CHAR_ANIM_GENERAL_LAND)

@@ -26,6 +26,7 @@ for i = 0, (MAX_PLAYERS - 1) do
 	gPlayerSyncTable[i].kirbySlideCount = 0
 
 	gPlayerSyncTable[i].dededeIsHammer_JJJ = false
+	gPlayerSyncTable[i].dededeHasSuperJump_JJJ = false
 	gPlayerSyncTable[i].hasKirbyDied = false
 end
 
@@ -213,7 +214,7 @@ if charSelect then
 			incomingAction == ACT_LONG_JUMP or (incomingAction == ACT_FORWARD_ROLLOUT and m.action ~= ACT_KIRBY_DODGE) or incomingAction == ACT_BACKWARD_ROLLOUT or incomingAction == ACT_DOUBLE_JUMP or incomingAction == ACT_TRIPLE_JUMP or incomingAction == ACT_SIDE_FLIP then
 			--(incomingAction == ACT_FORWARD_ROLLOUT and m.action ~= ACT_KIRBY_DODGE) or incomingAction == ACT_BACKWARD_ROLLOUT or incomingAction == ACT_DOUBLE_JUMP or incomingAction == ACT_TRIPLE_JUMP or incomingAction == ACT_SIDE_FLIP then
 			gPlayerSyncTable[idx].kirbyScaleY = 1000; m.marioObj.header.gfx.scale.y = 1
-			if currChar == dededeCharID and (incomingAction == ACT_BACKFLIP or incomingAction == ACT_LONG_JUMP) then
+			if currChar == dededeCharID and (incomingAction == ACT_BACKFLIP or incomingAction == ACT_LONG_JUMP) and not gPlayerSyncTable[idx].dededeHasSuperJump_JJJ then
 				return ACT_DEDEDE_JUMP
 			else
 				--djui_chat_message_create("moved!")
@@ -330,7 +331,7 @@ if charSelect then
 			end
 		elseif not (m.heldObj or m.action == ACT_DEDEDE_GORDO or m.action == ACT_DEDEDE_HAMMER_FLIP or m.action == ACT_DEDEDE_HAMMER_UP or m.action == ACT_DEDEDE_HAMMER_DOWN) then
 			--if (m.controller.buttonDown & X_BUTTON) ~= 0 then
-			if (m.controller.buttonDown & L_TRIG) ~= 0 then
+			if (m.controller.buttonDown & L_TRIG) ~= 0 and checkFlags(m) then
 				if m.pos.y ~= m.floorHeight then
 					-- TODO: set vertical spin action
 				else
@@ -367,7 +368,12 @@ if charSelect then
 		if (m.action & ACT_FLAG_INTANGIBLE) ~= 0 or (m.action & ACT_FLAG_INVULNERABLE) ~= 0 then
 			gPlayerSyncTable[idx].kirbyHasPuffed_JJJ = false -- Added just in case Kirby's puffing gets interrupted, be it by attack.
 			gPlayerSyncTable[idx].kirbyPuffTimer_JJJ = 0
+			gPlayerSyncTable[idx].dededeHasSuperJump_JJJ = false
 			return
+		end
+
+		if m.pos.y == m.floorHeight and m.action ~= ACT_DEDEDE_JUMP then
+			gPlayerSyncTable[idx].dededeHasSuperJump_JJJ = false
 		end
 		
 		if m.action == ACT_SLIDE_KICK and m.vel.y < 0 then
@@ -378,7 +384,7 @@ if charSelect then
 			gPlayerSyncTable[idx].kirbyPuffCeiling_JJJ = m.marioObj.header.gfx.pos.y + 1100
 		end
 
-		if currChar == dededeCharID and m.action == ACT_GROUND_POUND and (m.input & INPUT_A_PRESSED) ~= 0 then
+		if currChar == dededeCharID and m.action == ACT_GROUND_POUND and (m.input & INPUT_A_PRESSED) ~= 0 and not gPlayerSyncTable[idx].dededeHasSuperJump_JJJ then
 			return set_mario_action(m, ACT_DEDEDE_JUMP, 0)
 		end
 		
