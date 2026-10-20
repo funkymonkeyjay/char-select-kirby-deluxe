@@ -216,7 +216,9 @@ if charSelect then
 			if currChar == dededeCharID and (incomingAction == ACT_BACKFLIP or incomingAction == ACT_LONG_JUMP) then
 				return ACT_DEDEDE_JUMP
 			else
-				return m.action == ACT_DIVE_SLIDE and 1 or ACT_JUMP
+				--djui_chat_message_create("moved!")
+				--return m.action == ACT_DIVE_SLIDE and 1 or ACT_JUMP
+				return ACT_JUMP
 			end
 		end
 
@@ -477,15 +479,24 @@ if charSelect then
 			local currChar = charSelect.character_get_current_number(m.playerIndex)
 			local checkPos = pos.x == m.marioObj.header.gfx.cameraToObject.x and pos.y == m.marioObj.header.gfx.cameraToObject.y and pos.z == m.marioObj.header.gfx.cameraToObject.z -- Shoutouts to "EmilyEmmi" for giving me advice on how to accomplish step sounds!
 			if checkPos and (currChar == kirbyCharID or currChar == dededeCharID) then
-				if soundBits == SOUND_ACTION_BONK and m.action ~= ACT_SLIDE_KICK_SLIDE then -- Avoid sounds during bonk cancellation.
+
+				if (soundBits == SOUND_ACTION_BONK or soundBits == SOUND_ACTION_METAL_BONK) and m.action ~= ACT_SLIDE_KICK_SLIDE then -- Avoid sounds during bonk cancellation.
 					return NO_SOUND
-				elseif soundBits == SOUND_ACTION_TERRAIN_STEP or soundBits == SOUND_ACTION_TERRAIN_STEP + m.terrainSoundAddend or soundBits == SOUND_ACTION_TERRAIN_STEP_TIPTOE or soundBits == SOUND_ACTION_TERRAIN_STEP_TIPTOE + m.terrainSoundAddend then
+				elseif soundBits == SOUND_ACTION_TERRAIN_STEP or soundBits == SOUND_ACTION_TERRAIN_STEP + m.terrainSoundAddend
+					   or soundBits == SOUND_ACTION_TERRAIN_STEP_TIPTOE or soundBits == SOUND_ACTION_TERRAIN_STEP_TIPTOE + m.terrainSoundAddend
+					   or (currChar == dededeCharID and (soundBits == SOUND_ACTION_METAL_STEP or soundBits == SOUND_ACTION_METAL_STEP_TIPTOE or soundBits == SOUND_ACTION_METAL_STEP_WATER)) then
 					play_kirby_sound(KIRBY_STEP_SOUND, m.pos, 1)
 					return NO_SOUND
-				elseif soundBits == SOUND_ACTION_TERRAIN_LANDING or soundBits == SOUND_ACTION_TERRAIN_LANDING + m.terrainSoundAddend or soundBits == SOUND_ACTION_TERRAIN_BODY_HIT_GROUND or soundBits == SOUND_ACTION_TERRAIN_BODY_HIT_GROUND + m.terrainSoundAddend then
+				elseif currChar == dededeCharID and soundBits == SOUND_ACTION_METAL_HEAVY_LANDING then
+					return SOUND_ACTION_TERRAIN_HEAVY_LANDING + m.terrainSoundAddend
+				elseif soundBits == SOUND_ACTION_TERRAIN_LANDING or soundBits == SOUND_ACTION_TERRAIN_LANDING + m.terrainSoundAddend
+					   or soundBits == SOUND_ACTION_TERRAIN_BODY_HIT_GROUND or soundBits == SOUND_ACTION_TERRAIN_BODY_HIT_GROUND + m.terrainSoundAddend
+					   or (currChar == dededeCharID and (soundBits == SOUND_ACTION_METAL_LANDING or soundBits == SOUND_ACTION_METAL_LAND_WATER)) then
 					play_kirby_sound(KIRBY_LAND_SOUND, m.pos, 1)
+					
 					return NO_SOUND
-				elseif soundBits == SOUND_ACTION_TERRAIN_JUMP or soundBits == SOUND_ACTION_TERRAIN_JUMP + m.terrainSoundAddend or soundBits == SOUND_ACTION_METAL_JUMP then
+				elseif soundBits == SOUND_ACTION_TERRAIN_JUMP or soundBits == SOUND_ACTION_TERRAIN_JUMP + m.terrainSoundAddend
+					   or soundBits == SOUND_ACTION_METAL_JUMP or soundBits == SOUND_ACTION_METAL_JUMP_WATER then
 					return NO_SOUND
 				end
 			end

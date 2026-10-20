@@ -34,15 +34,17 @@ function dededeHammer_JJJ(node, matStackIndex)
 
 	local isHoldingHammer = gPlayerSyncTable[m.playerIndex].dededeIsHammer_JJJ 
 							or (m.action == ACT_DEDEDE_HAMMER_DOWN and m.marioObj.header.gfx.animInfo.animFrame < 4) -- TODO: set to frame where hammer is discarded
+							or (m.action == ACT_DEDEDE_HAMMER_SPIN or m.action == ACT_DEDEDE_DIZZY)
+	local isStoringHammer = m.action == ACT_KIRBY_JUMBO_STAR or (m.action & ACT_FLAG_METAL_WATER) ~= 0
 
 	if asSwitchNode.parameter == 1 then -- Hand
 		asSwitchNode.selectedCase = isHoldingHammer and 1 or 0
 	else -- Back
 		local hammer = node.next
-		if m.action ~= ACT_KIRBY_JUMBO_STAR then
-			hammer.flags = hammer.flags & ~GRAPH_RENDER_ACTIVE
-		else
+		if isStoringHammer then
 			hammer.flags = hammer.flags | GRAPH_RENDER_ACTIVE
+		else
+			hammer.flags = hammer.flags & ~GRAPH_RENDER_ACTIVE
 		end
 	end
 end
@@ -53,7 +55,7 @@ function dededePartner_JJJ(node, matStackIndex)
 
 	if bodyState.capState & 2 ~= 0 then -- Bronto Burt
 		asSwitchNode.selectedCase = 0
-	elseif bodyState.modelState >> 8 == 1 then -- Kabu
+	elseif bodyState.modelState >> 8 == 1 or bodyState.modelState >> 8 == 3 then -- Kabu
 		asSwitchNode.selectedCase = 1
 	else
 		asSwitchNode.selectedCase = 2
