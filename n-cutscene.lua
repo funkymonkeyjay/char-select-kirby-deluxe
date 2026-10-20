@@ -350,7 +350,6 @@ function act_kirby_death(m)
 		end
 
 		if m.actionTimer == 23 then
-			-- TODO: play death theme!
 			play_cutscene_music(SEQUENCE_ARGS(15, SEQ_KIRBY_DEATH))
 			set_mario_animation(m, CHAR_ANIM_SINGLE_JUMP) -- TODO: custom anim!
 			m.vel.y = 30

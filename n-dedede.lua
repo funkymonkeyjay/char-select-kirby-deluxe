@@ -279,8 +279,9 @@ function act_dedede_hammer_spin(m)
         set_character_animation(m, CHAR_ANIM_GENERAL_FALL) -- TODO: could set to custom anim
         return
     elseif stepCase == GROUND_STEP_HIT_WALL then
-        m.vel.x = -m.vel.x
-        m.vel.z = -m.vel.z
+        play_sound(SOUND_ACTION_HIT, m.marioObj.header.gfx.cameraToObject)
+        m.vel.x = -m.vel.x * 1.25
+        m.vel.z = -m.vel.z * 1.25
     end
 
     m.twirlYaw = m.twirlYaw + (8000 * (m.forwardVel / 64))
@@ -405,3 +406,45 @@ function act_dedede_hammer_down(m) return act_dedede_hammer(m, 1) end
 hook_mario_action(ACT_DEDEDE_HAMMER_UP, act_dedede_hammer_up)
 hook_mario_action(ACT_DEDEDE_HAMMER_DOWN, act_dedede_hammer_down)
 
+ACT_DEDEDE_HAMMER_AIR = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
+
+function act_dedede_hammer_air(m)
+    if not m then return 0 end
+    local idx = m.playerIndex
+
+    if m.actionState == 0 then
+        --play_character_sound_if_no_flag(m, CHAR_SOUND_PUNCH_WAH, MARIO_ACTION_SOUND_PLAYED);
+        m.flags = m.flags | MARIO_KICKING
+        gPlayerSyncTable[idx].dededeHasAirSpin_JJJ = true
+        play_sound(SOUND_ACTION_TWIRL, m.marioObj.header.gfx.cameraToObject)
+        m.marioObj.header.gfx.animInfo.animID = -1
+        set_character_animation(m, CHAR_ANIM_FORWARD_SPINNING)
+        m.vel.y = 16
+        m.actionState = 1
+    elseif is_anim_at_end(m) ~= 0 then
+        return set_mario_action(m, ACT_FREEFALL, 0)
+    end
+
+    --
+
+    update_air_without_turn(m)
+    local switchCase = perform_air_step(m, 0)
+    if switchCase == AIR_STEP_LANDED then
+        if check_fall_damage_or_get_stuck(m, ACT_HARD_BACKWARD_GROUND_KB) then
+            set_mario_action(m, ACT_FREEFALL_LAND, 0)
+        end
+    --elseif switchCase == AIR_STEP_HIT_WALL then
+        --if not m.wall then return end
+        --djui_chat_message_create("asdaas")
+        --mario_set_forward_vel(m, 0)
+    end
+
+    return 0
+end
+
+hook_mario_action(ACT_DEDEDE_HAMMER_AIR, {every_frame = act_dedede_hammer_air, gravity = function (m)
+	m.vel.y = m.vel.y - 4
+	if m.vel.y < -75 then
+		m.vel.y = -75
+	end
+end}, INT_FAST_ATTACK_OR_SHELL)

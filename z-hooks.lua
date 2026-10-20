@@ -332,9 +332,9 @@ if charSelect then
 		elseif not (m.heldObj or m.action == ACT_DEDEDE_GORDO or m.action == ACT_DEDEDE_HAMMER_FLIP or m.action == ACT_DEDEDE_HAMMER_UP or m.action == ACT_DEDEDE_HAMMER_DOWN) then
 			--if (m.controller.buttonDown & X_BUTTON) ~= 0 then
 			if (m.controller.buttonDown & L_TRIG) ~= 0 and checkFlags(m) then
-				if m.pos.y ~= m.floorHeight then
-					-- TODO: set vertical spin action
-				else
+				if m.pos.y ~= m.floorHeight and m.action ~= ACT_DEDEDE_HAMMER_AIR and not (gPlayerSyncTable[idx].dededeHasAirSpin_JJJ or gPlayerSyncTable[0].dededeIsHammer_JJJ) then
+					drop_and_set_mario_action(m, ACT_DEDEDE_HAMMER_AIR, 0)
+				elseif m.pos.y == m.floorHeight then
 					if not gPlayerSyncTable[0].dededeIsHammer_JJJ and m.action ~= ACT_DEDEDE_HAMMER_SPIN then
 						if m.forwardVel == 0 then
 							drop_and_set_mario_action(m, ACT_DEDEDE_HAMMER_UP, 0)
@@ -343,7 +343,6 @@ if charSelect then
 							and m.pos.y == m.floorHeight and mario_floor_is_steep(m) == 0 and m.action == ACT_WALKING then
 							set_mario_action(m, ACT_DEDEDE_HAMMER_SPIN, 0)
 							m.forwardVel = 64
-							--djui_chat_message_create("spin!")
 						end
 					end
 				end
@@ -373,6 +372,7 @@ if charSelect then
 		end
 
 		if m.pos.y == m.floorHeight and m.action ~= ACT_DEDEDE_JUMP then
+			gPlayerSyncTable[idx].dededeHasAirSpin_JJJ = false
 			gPlayerSyncTable[idx].dededeHasSuperJump_JJJ = false
 		end
 		

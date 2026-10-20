@@ -34,7 +34,7 @@ function dededeHammer_JJJ(node, matStackIndex)
 
 	local isHoldingHammer = gPlayerSyncTable[m.playerIndex].dededeIsHammer_JJJ 
 							or (m.action == ACT_DEDEDE_HAMMER_DOWN and m.marioObj.header.gfx.animInfo.animFrame < 4) -- TODO: set to frame where hammer is discarded
-							or (m.action == ACT_DEDEDE_HAMMER_SPIN or m.action == ACT_DEDEDE_DIZZY)
+							or m.action == ACT_DEDEDE_HAMMER_SPIN or m.action == ACT_DEDEDE_DIZZY or m.action == ACT_DEDEDE_HAMMER_AIR
 	local isStoringHammer = m.action == ACT_KIRBY_JUMBO_STAR or (m.action & ACT_FLAG_METAL_WATER) ~= 0
 
 	if asSwitchNode.parameter == 1 then -- Hand
