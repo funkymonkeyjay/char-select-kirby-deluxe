@@ -47,6 +47,19 @@ function dededeHammer_JJJ(node, matStackIndex)
 	end
 end
 
+function dededePartner_JJJ(node, matStackIndex)
+	local asSwitchNode = cast_graph_node(node)
+	local bodyState = geo_get_body_state()
+
+	if bodyState.capState & 2 ~= 0 then -- Bronto Burt
+		asSwitchNode.selectedCase = 0
+	elseif bodyState.modelState >> 8 == 1 then -- Kabu
+		asSwitchNode.selectedCase = 1
+	else
+		asSwitchNode.selectedCase = 2
+	end
+end
+
 hook_event(HOOK_MARIO_UPDATE, function(m) if m.playerIndex ~= 0 then return end gPlayerSyncTable[m.playerIndex].kirbyAltCostume = charSelect.character_get_current_costume(m.playerIndex) end)
 
 function kirbyClassic_JJJ(node, matStackIndex)

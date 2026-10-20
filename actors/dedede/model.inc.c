@@ -138,6 +138,22 @@ Lights1 dedede_Cap_Inside__CAP__lights = gdSPDefLights1(
 	0x7F, 0x0, 0x0,
 	0xFF, 0x0, 0x0, 0x28, 0x28, 0x28);
 
+Lights1 dedede_Bronto_Burt_Skin_lights = gdSPDefLights1(
+	0x7F, 0x32, 0x48,
+	0xFF, 0x6C, 0x95, 0x28, 0x28, 0x28);
+
+Lights1 dedede_Bronto_Burt_Face_lights = gdSPDefLights1(
+	0x7F, 0x32, 0x48,
+	0xFF, 0x6C, 0x95, 0x28, 0x28, 0x28);
+
+Lights1 dedede_Bronto_Burt_Shoe_lights = gdSPDefLights1(
+	0x7F, 0x66, 0x0,
+	0xFF, 0xCF, 0x0, 0x28, 0x28, 0x28);
+
+Lights1 dedede_Kabu_Body_lights = gdSPDefLights1(
+	0x44, 0x38, 0x1C,
+	0x8F, 0x78, 0x42, 0x28, 0x28, 0x28);
+
 Lights1 dedede_Feet_lights = gdSPDefLights1(
 	0x7F, 0x66, 0x0,
 	0xFF, 0xCF, 0x0, 0x28, 0x28, 0x28);
@@ -322,14 +338,6 @@ Texture dedede_Dedede_Puffball_pal_rgba16[] = {
 	#include "actors/dedede/Dedede_Puffball.rgba16.pal"
 };
 
-Texture dedede_wing_2_ia8[] = {
-	#include "actors/dedede/wing_2.ia8.inc.c"
-};
-
-Texture dedede_wing1_ia8[] = {
-	#include "actors/dedede/wing1.ia8.inc.c"
-};
-
 Texture dedede_Dedede_Hammer_Emblem_ci8[] = {
 	#include "actors/dedede/Dedede_Hammer_Emblem.ci8.inc.c"
 };
@@ -344,6 +352,30 @@ Texture dedede_Dedede_Hammer_Base_i8[] = {
 
 Texture dedede_Dedede_Hammer_Rim_ia8[] = {
 	#include "actors/dedede/Dedede_Hammer_Rim.ia8.inc.c"
+};
+
+Texture dedede_wing_2_ia8[] = {
+	#include "actors/dedede/wing_2.ia8.inc.c"
+};
+
+Texture dedede_wing1_ia8[] = {
+	#include "actors/dedede/wing1.ia8.inc.c"
+};
+
+Texture dedede_Bronto_Burt_Face_1_ci8[] = {
+	#include "actors/dedede/Bronto_Burt_Face_1.ci8.inc.c"
+};
+
+Texture dedede_Bronto_Burt_Face_1_pal_rgba16[] = {
+	#include "actors/dedede/Bronto_Burt_Face_1.rgba16.pal"
+};
+
+Texture dedede_Bronto_Burt_Wing_ci8[] = {
+	#include "actors/dedede/Bronto_Burt_Wing.ci8.inc.c"
+};
+
+Texture dedede_Bronto_Burt_Wing_pal_rgba16[] = {
+	#include "actors/dedede/Bronto_Burt_Wing.rgba16.pal"
 };
 
 Texture dedede_Metal_Shade_rgba16_rgba16[] = {
@@ -836,24 +868,24 @@ Gfx dedede_Beak_Full_Switch_Option_Beak_Full_mesh_layer_1_tri_1[] = {
 };
 
 Vtx dedede_Head_DL_mesh_layer_1_vtx_0[18] = {
-	{{{110, 209, 5}, 0, {749, 240}, {0xF8, 0x7F, 0x00, 0xFF}}},
-	{{{99, 155, -144}, 0, {814, 368}, {0xEF, 0x61, 0xB0, 0xFF}}},
-	{{{-11, 159, 5}, 0, {624, 1008}, {0x9B, 0x4D, 0x00, 0xFF}}},
-	{{{21, 97, -142}, 0, {624, 752}, {0xA3, 0x32, 0xBA, 0xFF}}},
-	{{{73, 14, -209}, 0, {368, 752}, {0xDE, 0x04, 0x86, 0xFF}}},
-	{{{228, 97, -170}, 0, {-83, 176}, {0x04, 0x54, 0xA0, 0xFF}}},
-	{{{162, -5, -202}, 0, {-16, 1008}, {0xEF, 0x0D, 0x83, 0xFF}}},
-	{{{83, -106, -159}, 0, {-16, 1008}, {0xAD, 0xCD, 0xAF, 0xFF}}},
-	{{{7, -34, -159}, 0, {368, 752}, {0x9C, 0xDE, 0xB9, 0xFF}}},
-	{{{73, -161, 5}, 0, {-16, 1008}, {0x93, 0xBF, 0x00, 0xFF}}},
-	{{{-28, -68, 5}, 0, {368, 1008}, {0x8B, 0xCF, 0x00, 0xFF}}},
-	{{{7, -34, 169}, 0, {368, 752}, {0x9C, 0xDE, 0x47, 0xFF}}},
-	{{{83, -106, 169}, 0, {-16, 1008}, {0xAD, 0xCD, 0x51, 0xFF}}},
-	{{{73, 14, 220}, 0, {368, 752}, {0xDE, 0x04, 0x7A, 0xFF}}},
-	{{{162, -5, 212}, 0, {-16, 1008}, {0xEF, 0x0D, 0x7D, 0xFF}}},
-	{{{228, 97, 181}, 0, {1075, 176}, {0x04, 0x54, 0x60, 0xFF}}},
-	{{{99, 155, 155}, 0, {814, 368}, {0xEF, 0x61, 0x50, 0xFF}}},
-	{{{21, 97, 153}, 0, {624, 752}, {0xA3, 0x32, 0x46, 0xFF}}},
+	{{{-79, 200, 0}, 0, {749, 240}, {0xF8, 0x7F, 0x00, 0xFF}}},
+	{{{-89, 147, -149}, 0, {814, 368}, {0xEF, 0x61, 0xB0, 0xFF}}},
+	{{{-199, 150, 0}, 0, {624, 1008}, {0x9B, 0x4D, 0x00, 0xFF}}},
+	{{{-168, 88, -147}, 0, {624, 752}, {0xA3, 0x32, 0xBA, 0xFF}}},
+	{{{-115, 5, -215}, 0, {368, 752}, {0xDE, 0x04, 0x86, 0xFF}}},
+	{{{40, 88, -176}, 0, {-83, 176}, {0x04, 0x54, 0xA0, 0xFF}}},
+	{{{-26, -14, -207}, 0, {-16, 1008}, {0xEF, 0x0D, 0x83, 0xFF}}},
+	{{{-105, -114, -164}, 0, {-16, 1008}, {0xAD, 0xCD, 0xAF, 0xFF}}},
+	{{{-181, -43, -164}, 0, {368, 752}, {0x9C, 0xDE, 0xB9, 0xFF}}},
+	{{{-115, -169, 0}, 0, {-16, 1008}, {0x93, 0xBF, 0x00, 0xFF}}},
+	{{{-216, -77, 0}, 0, {368, 1008}, {0x8B, 0xCF, 0x00, 0xFF}}},
+	{{{-181, -43, 164}, 0, {368, 752}, {0x9C, 0xDE, 0x47, 0xFF}}},
+	{{{-105, -114, 164}, 0, {-16, 1008}, {0xAD, 0xCD, 0x51, 0xFF}}},
+	{{{-115, 5, 215}, 0, {368, 752}, {0xDE, 0x04, 0x7A, 0xFF}}},
+	{{{-26, -14, 207}, 0, {-16, 1008}, {0xEF, 0x0D, 0x7D, 0xFF}}},
+	{{{40, 88, 176}, 0, {1075, 176}, {0x04, 0x54, 0x60, 0xFF}}},
+	{{{-89, 147, 149}, 0, {814, 368}, {0xEF, 0x61, 0x50, 0xFF}}},
+	{{{-168, 88, 147}, 0, {624, 752}, {0xA3, 0x32, 0x46, 0xFF}}},
 };
 
 Gfx dedede_Head_DL_mesh_layer_1_tri_0[] = {
@@ -874,25 +906,25 @@ Gfx dedede_Head_DL_mesh_layer_1_tri_0[] = {
 };
 
 Vtx dedede_Head_DL_mesh_layer_1_vtx_1[19] = {
-	{{{304, -144, -142}, 0, {157, 661}, {0x42, 0xB5, 0xB2, 0xFF}}},
-	{{{394, -98, 5}, 0, {368, 240}, {0x74, 0xCD, 0x00, 0xFF}}},
-	{{{272, -216, 5}, 0, {-16, 1008}, {0x29, 0x88, 0x00, 0xFF}}},
-	{{{304, -144, 152}, 0, {157, 661}, {0x42, 0xB5, 0x4E, 0xFF}}},
-	{{{119, -151, 192}, 0, {-16, 1008}, {0xCF, 0xB9, 0x5D, 0xFF}}},
-	{{{199, -34, 228}, 0, {-16, 1008}, {0x02, 0xFB, 0x7F, 0xFF}}},
-	{{{74, -208, 5}, 0, {-16, 1008}, {0xB5, 0x99, 0x00, 0xFF}}},
-	{{{119, -151, -182}, 0, {-16, 1008}, {0xCF, 0xB9, 0xA3, 0xFF}}},
-	{{{199, -34, -218}, 0, {-16, 1008}, {0x02, 0xFB, 0x81, 0xFF}}},
-	{{{304, -144, -142}, 0, {148, 680}, {0x42, 0xB5, 0xB2, 0xFF}}},
-	{{{360, 25, -139}, 0, {-16, 1008}, {0x65, 0x0E, 0xB4, 0xFF}}},
-	{{{279, 81, -189}, 0, {-16, 1008}, {0x26, 0x3B, 0x96, 0xFF}}},
-	{{{313, 152, -65}, 0, {-16, 1008}, {0x46, 0x41, 0xAC, 0xFF}}},
-	{{{404, 43, 5}, 0, {-16, 1008}, {0x7B, 0x1F, 0x00, 0xFF}}},
-	{{{354, 120, 5}, 0, {-16, 1008}, {0x7E, 0x0B, 0x00, 0xFF}}},
-	{{{313, 152, 76}, 0, {-16, 1008}, {0x46, 0x41, 0x54, 0xFF}}},
-	{{{360, 25, 150}, 0, {-16, 1008}, {0x65, 0x0E, 0x4C, 0xFF}}},
-	{{{279, 81, 199}, 0, {-16, 1008}, {0x26, 0x3B, 0x6A, 0xFF}}},
-	{{{304, -144, 152}, 0, {148, 680}, {0x42, 0xB5, 0x4E, 0xFF}}},
+	{{{116, -153, -147}, 0, {157, 661}, {0x42, 0xB5, 0xB2, 0xFF}}},
+	{{{206, -107, 0}, 0, {368, 240}, {0x74, 0xCD, 0x00, 0xFF}}},
+	{{{84, -224, 0}, 0, {-16, 1008}, {0x29, 0x88, 0x00, 0xFF}}},
+	{{{116, -153, 147}, 0, {157, 661}, {0x42, 0xB5, 0x4E, 0xFF}}},
+	{{{-70, -159, 187}, 0, {-16, 1008}, {0xCF, 0xB9, 0x5D, 0xFF}}},
+	{{{11, -43, 223}, 0, {-16, 1008}, {0x02, 0xFB, 0x7F, 0xFF}}},
+	{{{-114, -217, 0}, 0, {-16, 1008}, {0xB5, 0x99, 0x00, 0xFF}}},
+	{{{-70, -159, -187}, 0, {-16, 1008}, {0xCF, 0xB9, 0xA3, 0xFF}}},
+	{{{11, -43, -223}, 0, {-16, 1008}, {0x02, 0xFB, 0x81, 0xFF}}},
+	{{{116, -153, -147}, 0, {148, 680}, {0x42, 0xB5, 0xB2, 0xFF}}},
+	{{{172, 17, -144}, 0, {-16, 1008}, {0x65, 0x0E, 0xB4, 0xFF}}},
+	{{{91, 73, -194}, 0, {-16, 1008}, {0x26, 0x3B, 0x96, 0xFF}}},
+	{{{124, 144, -70}, 0, {-16, 1008}, {0x46, 0x41, 0xAC, 0xFF}}},
+	{{{216, 34, 0}, 0, {-16, 1008}, {0x7B, 0x1F, 0x00, 0xFF}}},
+	{{{166, 112, 0}, 0, {-16, 1008}, {0x7E, 0x0B, 0x00, 0xFF}}},
+	{{{124, 144, 70}, 0, {-16, 1008}, {0x46, 0x41, 0x54, 0xFF}}},
+	{{{172, 17, 144}, 0, {-16, 1008}, {0x65, 0x0E, 0x4C, 0xFF}}},
+	{{{91, 73, 194}, 0, {-16, 1008}, {0x26, 0x3B, 0x6A, 0xFF}}},
+	{{{116, -153, 147}, 0, {148, 680}, {0x42, 0xB5, 0x4E, 0xFF}}},
 };
 
 Gfx dedede_Head_DL_mesh_layer_1_tri_1[] = {
@@ -912,32 +944,32 @@ Gfx dedede_Head_DL_mesh_layer_1_tri_1[] = {
 };
 
 Vtx dedede_Head_DL_mesh_layer_1_vtx_2[26] = {
-	{{{382, 150, 5}, 0, {-260, 495}, {0x7F, 0x00, 0x00, 0xFF}}},
-	{{{354, 120, 5}, 0, {-260, 495}, {0x7E, 0x0B, 0x00, 0xFF}}},
-	{{{313, 152, -65}, 0, {-260, 495}, {0x46, 0x41, 0xAC, 0xFF}}},
-	{{{313, 152, 76}, 0, {-260, 495}, {0x46, 0x41, 0x54, 0xFF}}},
-	{{{263, 202, 89}, 0, {-260, 495}, {0xE9, 0x36, 0x71, 0xFF}}},
-	{{{317, 214, 5}, 0, {-260, 495}, {0x42, 0x6C, 0x00, 0xFF}}},
-	{{{263, 202, -78}, 0, {-260, 495}, {0xE9, 0x36, 0x8F, 0xFF}}},
-	{{{248, 156, -52}, 0, {-260, 495}, {0xE0, 0x53, 0xA6, 0xFF}}},
-	{{{279, 81, -189}, 0, {-260, 495}, {0x26, 0x3B, 0x96, 0xFF}}},
-	{{{228, 97, -170}, 0, {-260, 495}, {0x04, 0x54, 0xA0, 0xFF}}},
-	{{{162, -5, -202}, 0, {-260, 495}, {0xEF, 0x0D, 0x83, 0xFF}}},
-	{{{199, -34, -218}, 0, {-260, 495}, {0x02, 0xFB, 0x81, 0xFF}}},
-	{{{83, -106, -159}, 0, {-260, 495}, {0xAD, 0xCD, 0xAF, 0xFF}}},
-	{{{119, -151, -182}, 0, {-260, 495}, {0xCF, 0xB9, 0xA3, 0xFF}}},
-	{{{73, -161, 5}, 0, {-260, 495}, {0x93, 0xBF, 0x00, 0xFF}}},
-	{{{74, -208, 5}, 0, {-260, 495}, {0xB5, 0x99, 0x00, 0xFF}}},
-	{{{119, -151, 192}, 0, {-260, 495}, {0xCF, 0xB9, 0x5D, 0xFF}}},
-	{{{83, -106, 169}, 0, {-260, 495}, {0xAD, 0xCD, 0x51, 0xFF}}},
-	{{{199, -34, 228}, 0, {-260, 495}, {0x02, 0xFB, 0x7F, 0xFF}}},
-	{{{162, -5, 212}, 0, {-260, 495}, {0xEF, 0x0D, 0x7D, 0xFF}}},
-	{{{279, 81, 199}, 0, {-260, 495}, {0x26, 0x3B, 0x6A, 0xFF}}},
-	{{{228, 97, 181}, 0, {-260, 495}, {0x04, 0x54, 0x60, 0xFF}}},
-	{{{248, 156, 62}, 0, {-260, 495}, {0xE0, 0x53, 0x5A, 0xFF}}},
-	{{{222, 175, 5}, 0, {-260, 495}, {0xBC, 0x6B, 0x00, 0xFF}}},
-	{{{213, 233, 5}, 0, {-260, 495}, {0xB3, 0x47, 0x48, 0xFF}}},
-	{{{213, 233, 5}, 0, {-260, 495}, {0xB3, 0x47, 0xB8, 0xFF}}},
+	{{{194, 142, 0}, 0, {-260, 495}, {0x7F, 0x00, 0x00, 0xFF}}},
+	{{{166, 112, 0}, 0, {-260, 495}, {0x7E, 0x0B, 0x00, 0xFF}}},
+	{{{124, 144, -70}, 0, {-260, 495}, {0x46, 0x41, 0xAC, 0xFF}}},
+	{{{124, 144, 70}, 0, {-260, 495}, {0x46, 0x41, 0x54, 0xFF}}},
+	{{{74, 193, 83}, 0, {-260, 495}, {0xE9, 0x36, 0x71, 0xFF}}},
+	{{{128, 206, 0}, 0, {-260, 495}, {0x42, 0x6C, 0x00, 0xFF}}},
+	{{{74, 193, -83}, 0, {-260, 495}, {0xE9, 0x36, 0x8F, 0xFF}}},
+	{{{59, 147, -57}, 0, {-260, 495}, {0xE0, 0x53, 0xA6, 0xFF}}},
+	{{{91, 73, -194}, 0, {-260, 495}, {0x26, 0x3B, 0x96, 0xFF}}},
+	{{{40, 88, -176}, 0, {-260, 495}, {0x04, 0x54, 0xA0, 0xFF}}},
+	{{{-26, -14, -207}, 0, {-260, 495}, {0xEF, 0x0D, 0x83, 0xFF}}},
+	{{{11, -43, -223}, 0, {-260, 495}, {0x02, 0xFB, 0x81, 0xFF}}},
+	{{{-105, -114, -164}, 0, {-260, 495}, {0xAD, 0xCD, 0xAF, 0xFF}}},
+	{{{-70, -159, -187}, 0, {-260, 495}, {0xCF, 0xB9, 0xA3, 0xFF}}},
+	{{{-115, -169, 0}, 0, {-260, 495}, {0x93, 0xBF, 0x00, 0xFF}}},
+	{{{-114, -217, 0}, 0, {-260, 495}, {0xB5, 0x99, 0x00, 0xFF}}},
+	{{{-70, -159, 187}, 0, {-260, 495}, {0xCF, 0xB9, 0x5D, 0xFF}}},
+	{{{-105, -114, 164}, 0, {-260, 495}, {0xAD, 0xCD, 0x51, 0xFF}}},
+	{{{11, -43, 223}, 0, {-260, 495}, {0x02, 0xFB, 0x7F, 0xFF}}},
+	{{{-26, -14, 207}, 0, {-260, 495}, {0xEF, 0x0D, 0x7D, 0xFF}}},
+	{{{91, 73, 194}, 0, {-260, 495}, {0x26, 0x3B, 0x6A, 0xFF}}},
+	{{{40, 88, 176}, 0, {-260, 495}, {0x04, 0x54, 0x60, 0xFF}}},
+	{{{59, 147, 57}, 0, {-260, 495}, {0xE0, 0x53, 0x5A, 0xFF}}},
+	{{{33, 167, 0}, 0, {-260, 495}, {0xBC, 0x6B, 0x00, 0xFF}}},
+	{{{25, 224, 0}, 0, {-260, 495}, {0xB3, 0x47, 0x48, 0xFF}}},
+	{{{25, 224, 0}, 0, {-260, 495}, {0xB3, 0x47, 0xB8, 0xFF}}},
 };
 
 Gfx dedede_Head_DL_mesh_layer_1_tri_2[] = {
@@ -961,14 +993,14 @@ Gfx dedede_Head_DL_mesh_layer_1_tri_2[] = {
 };
 
 Vtx dedede_Head_DL_mesh_layer_1_vtx_3[8] = {
-	{{{248, 156, -52}, 0, {609, 51}, {0xE0, 0x53, 0xA6, 0xFF}}},
-	{{{228, 97, -170}, 0, {-150, 176}, {0x04, 0x54, 0xA0, 0xFF}}},
-	{{{99, 155, -144}, 0, {23, 997}, {0xEF, 0x61, 0xB0, 0xFF}}},
-	{{{110, 209, 5}, 0, {1008, 931}, {0xF8, 0x7F, 0x00, 0xFF}}},
-	{{{222, 175, 5}, 0, {1008, 216}, {0xBC, 0x6B, 0x00, 0xFF}}},
-	{{{248, 156, 62}, 0, {1407, 51}, {0xE0, 0x53, 0x5A, 0xFF}}},
-	{{{99, 155, 155}, 0, {1993, 997}, {0xEF, 0x61, 0x50, 0xFF}}},
-	{{{228, 97, 181}, 0, {2166, 176}, {0x04, 0x54, 0x60, 0xFF}}},
+	{{{59, 147, -57}, 0, {609, 51}, {0xE0, 0x53, 0xA6, 0xFF}}},
+	{{{40, 88, -176}, 0, {-150, 176}, {0x04, 0x54, 0xA0, 0xFF}}},
+	{{{-89, 147, -149}, 0, {23, 997}, {0xEF, 0x61, 0xB0, 0xFF}}},
+	{{{-79, 200, 0}, 0, {1008, 931}, {0xF8, 0x7F, 0x00, 0xFF}}},
+	{{{33, 167, 0}, 0, {1008, 216}, {0xBC, 0x6B, 0x00, 0xFF}}},
+	{{{59, 147, 57}, 0, {1407, 51}, {0xE0, 0x53, 0x5A, 0xFF}}},
+	{{{-89, 147, 149}, 0, {1993, 997}, {0xEF, 0x61, 0x50, 0xFF}}},
+	{{{40, 88, 176}, 0, {2166, 176}, {0x04, 0x54, 0x60, 0xFF}}},
 };
 
 Gfx dedede_Head_DL_mesh_layer_1_tri_3[] = {
@@ -1076,58 +1108,6 @@ Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_1[] = {
 	gsSP2Triangles(7, 9, 1, 0, 9, 10, 1, 0),
 	gsSP2Triangles(1, 6, 7, 0, 3, 6, 1, 0),
 	gsSP2Triangles(11, 12, 13, 0, 11, 13, 14, 0),
-	gsSPEndDisplayList(),
-};
-
-Vtx dedede_Left_Wing_DL_mesh_layer_4_vtx_0[4] = {
-	{{{0, 0, 0}, 0, {-16, 1978}, {0xE9, 0x00, 0x7D, 0xFF}}},
-	{{{114, 0, 21}, 0, {974, 1978}, {0xE9, 0x00, 0x7D, 0xFF}}},
-	{{{114, 232, 21}, 0, {974, -34}, {0xE9, 0x00, 0x7D, 0xFF}}},
-	{{{0, 232, 0}, 0, {-16, -34}, {0xE9, 0x00, 0x7D, 0xFF}}},
-};
-
-Gfx dedede_Left_Wing_DL_mesh_layer_4_tri_0[] = {
-	gsSPVertex(dedede_Left_Wing_DL_mesh_layer_4_vtx_0 + 0, 4, 0),
-	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
-	gsSPEndDisplayList(),
-};
-
-Vtx dedede_Left_Wing_DL_mesh_layer_4_vtx_1[4] = {
-	{{{-113, 232, -20}, 0, {-16, -34}, {0xE9, 0x00, 0x7D, 0xFF}}},
-	{{{0, 0, 0}, 0, {974, 1978}, {0xE9, 0x00, 0x7D, 0xFF}}},
-	{{{0, 232, 0}, 0, {974, -34}, {0xE9, 0x00, 0x7D, 0xFF}}},
-	{{{-113, 0, -20}, 0, {-16, 1978}, {0xE9, 0x00, 0x7D, 0xFF}}},
-};
-
-Gfx dedede_Left_Wing_DL_mesh_layer_4_tri_1[] = {
-	gsSPVertex(dedede_Left_Wing_DL_mesh_layer_4_vtx_1 + 0, 4, 0),
-	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
-	gsSPEndDisplayList(),
-};
-
-Vtx dedede_Right_Wing_DL_mesh_layer_4_vtx_0[4] = {
-	{{{0, 0, 0}, 0, {-16, 1978}, {0x17, 0x00, 0x7D, 0xFF}}},
-	{{{114, 0, -21}, 0, {974, 1978}, {0x17, 0x00, 0x7D, 0xFF}}},
-	{{{114, 232, -21}, 0, {974, -34}, {0x17, 0x00, 0x7D, 0xFF}}},
-	{{{0, 232, 0}, 0, {-16, -34}, {0x17, 0x00, 0x7D, 0xFF}}},
-};
-
-Gfx dedede_Right_Wing_DL_mesh_layer_4_tri_0[] = {
-	gsSPVertex(dedede_Right_Wing_DL_mesh_layer_4_vtx_0 + 0, 4, 0),
-	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
-	gsSPEndDisplayList(),
-};
-
-Vtx dedede_Right_Wing_DL_mesh_layer_4_vtx_1[4] = {
-	{{{-113, 232, 20}, 0, {-16, -34}, {0x17, 0x00, 0x7D, 0xFF}}},
-	{{{0, 0, 0}, 0, {974, 1978}, {0x17, 0x00, 0x7D, 0xFF}}},
-	{{{0, 232, 0}, 0, {974, -34}, {0x17, 0x00, 0x7D, 0xFF}}},
-	{{{-113, 0, 20}, 0, {-16, 1978}, {0x17, 0x00, 0x7D, 0xFF}}},
-};
-
-Gfx dedede_Right_Wing_DL_mesh_layer_4_tri_1[] = {
-	gsSPVertex(dedede_Right_Wing_DL_mesh_layer_4_vtx_1 + 0, 4, 0),
-	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
 	gsSPEndDisplayList(),
 };
 
@@ -2194,6 +2174,412 @@ Gfx dedede_4_Hammer_DL_mesh_layer_1_tri_2[] = {
 	gsSP2Triangles(7, 14, 15, 0, 7, 15, 5, 0),
 	gsSP2Triangles(5, 15, 16, 0, 5, 16, 3, 0),
 	gsSP2Triangles(3, 16, 17, 0, 3, 17, 1, 0),
+	gsSPEndDisplayList(),
+};
+
+Vtx dedede_0_Partner_DL_mesh_layer_1_vtx_0[27] = {
+	{{{-108, 108, -86}, 0, {752, 837}, {0xAE, 0x52, 0xCB, 0xFF}}},
+	{{{-75, 75, -150}, 0, {752, 667}, {0xCF, 0x31, 0x95, 0xFF}}},
+	{{{-150, 1, -106}, 0, {624, 667}, {0x99, 0xFF, 0xB6, 0xFF}}},
+	{{{-107, -66, -122}, 0, {624, 496}, {0xBD, 0xC4, 0xA7, 0xFF}}},
+	{{{-21, 21, -173}, 0, {752, 496}, {0xFB, 0x05, 0x81, 0xFF}}},
+	{{{53, -53, -155}, 0, {752, 325}, {0x25, 0xDA, 0x8D, 0xFF}}},
+	{{{-22, -128, -106}, 0, {624, 325}, {0xEF, 0x9E, 0xB2, 0xFF}}},
+	{{{106, -106, -86}, 0, {624, 155}, {0x4C, 0xB4, 0xBD, 0xFF}}},
+	{{{45, -167, 0}, 0, {496, 155}, {0x1B, 0x84, 0x00, 0xFF}}},
+	{{{122, -122, 0}, 0, {560, -16}, {0x5A, 0xA6, 0x00, 0xFF}}},
+	{{{106, -106, 86}, 0, {624, 155}, {0x4C, 0xB4, 0x43, 0xFF}}},
+	{{{-22, -128, 106}, 0, {624, 325}, {0xEF, 0x9E, 0x4E, 0xFF}}},
+	{{{53, -53, 155}, 0, {752, 325}, {0x25, 0xDA, 0x73, 0xFF}}},
+	{{{-107, -66, 122}, 0, {624, 496}, {0xBD, 0xC4, 0x59, 0xFF}}},
+	{{{-21, 21, 173}, 0, {752, 496}, {0xFB, 0x05, 0x7F, 0xFF}}},
+	{{{-75, 75, 150}, 0, {752, 667}, {0xCF, 0x31, 0x6B, 0xFF}}},
+	{{{-150, 1, 106}, 0, {624, 667}, {0x99, 0xFF, 0x4A, 0xFF}}},
+	{{{-108, 108, 86}, 0, {752, 837}, {0xAE, 0x52, 0x35, 0xFF}}},
+	{{{-181, -30, 0}, 0, {-16, 1008}, {0x84, 0xE5, 0x00, 0xFF}}},
+	{{{-143, -102, 0}, 0, {496, 496}, {0xA3, 0xA9, 0x00, 0xFF}}},
+	{{{-53, -159, 0}, 0, {496, 325}, {0xD5, 0x89, 0x00, 0xFF}}},
+	{{{45, -167, 0}, 0, {-16, 1008}, {0x1B, 0x84, 0x00, 0xFF}}},
+	{{{-108, 108, -86}, 0, {624, 837}, {0xAE, 0x52, 0xCB, 0xFF}}},
+	{{{-169, 47, 0}, 0, {496, 837}, {0x89, 0x2C, 0x00, 0xFF}}},
+	{{{-181, -30, 0}, 0, {496, 667}, {0x84, 0xE5, 0x00, 0xFF}}},
+	{{{-108, 108, 86}, 0, {624, 837}, {0xAE, 0x52, 0x35, 0xFF}}},
+	{{{-122, 122, 0}, 0, {560, 1008}, {0xA6, 0x5A, 0x00, 0xFF}}},
+};
+
+Gfx dedede_0_Partner_DL_mesh_layer_1_tri_0[] = {
+	gsSPVertex(dedede_0_Partner_DL_mesh_layer_1_vtx_0 + 0, 27, 0),
+	gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0),
+	gsSP2Triangles(1, 4, 3, 0, 5, 3, 4, 0),
+	gsSP2Triangles(3, 5, 6, 0, 5, 7, 6, 0),
+	gsSP2Triangles(7, 8, 6, 0, 7, 9, 8, 0),
+	gsSP2Triangles(10, 8, 9, 0, 10, 11, 8, 0),
+	gsSP2Triangles(12, 11, 10, 0, 13, 11, 12, 0),
+	gsSP2Triangles(12, 14, 13, 0, 15, 13, 14, 0),
+	gsSP2Triangles(15, 16, 13, 0, 17, 16, 15, 0),
+	gsSP2Triangles(13, 16, 18, 0, 18, 19, 13, 0),
+	gsSP2Triangles(18, 3, 19, 0, 3, 18, 2, 0),
+	gsSP2Triangles(19, 3, 20, 0, 3, 6, 20, 0),
+	gsSP2Triangles(20, 6, 21, 0, 20, 21, 11, 0),
+	gsSP2Triangles(13, 20, 11, 0, 19, 20, 13, 0),
+	gsSP2Triangles(22, 2, 23, 0, 24, 23, 2, 0),
+	gsSP2Triangles(24, 16, 23, 0, 25, 23, 16, 0),
+	gsSP2Triangles(26, 23, 25, 0, 26, 22, 23, 0),
+	gsSPEndDisplayList(),
+};
+
+Vtx dedede_0_Partner_DL_mesh_layer_1_vtx_1[23] = {
+	{{{167, -45, 0}, 0, {1006, -186}, {0x7C, 0xE4, 0x00, 0xFF}}},
+	{{{122, -122, 0}, 0, {1006, -371}, {0x5A, 0xA6, 0x00, 0xFF}}},
+	{{{106, -106, -86}, 0, {432, -186}, {0x4C, 0xB4, 0xBD, 0xFF}}},
+	{{{106, -106, 86}, 0, {432, -186}, {0x4C, 0xB4, 0x43, 0xFF}}},
+	{{{125, 18, 110}, 0, {272, 408}, {0x60, 0x10, 0x52, 0xFF}}},
+	{{{162, 56, 0}, 0, {1006, 408}, {0x77, 0x2D, 0x00, 0xFF}}},
+	{{{125, 18, -110}, 0, {272, 408}, {0x60, 0x10, 0xAE, 0xFF}}},
+	{{{53, -53, -155}, 0, {-445, 204}, {0x25, 0xDA, 0x8D, 0xFF}}},
+	{{{66, 107, -122}, 0, {194, 1239}, {0x3D, 0x43, 0xA7, 0xFF}}},
+	{{{-21, 21, -173}, 0, {-560, 1036}, {0xFB, 0x05, 0x81, 0xFF}}},
+	{{{-1, 150, -106}, 0, {303, 1858}, {0x01, 0x67, 0xB6, 0xFF}}},
+	{{{-75, 75, -150}, 0, {-406, 1839}, {0xCF, 0x31, 0x95, 0xFF}}},
+	{{{-108, 108, -86}, 0, {432, 2224}, {0xAE, 0x52, 0xCB, 0xFF}}},
+	{{{-47, 169, 0}, 0, {1006, 2224}, {0xD4, 0x77, 0x00, 0xFF}}},
+	{{{-122, 122, 0}, 0, {1006, 2387}, {0xA6, 0x5A, 0x00, 0xFF}}},
+	{{{-108, 108, 86}, 0, {432, 2224}, {0xAE, 0x52, 0x35, 0xFF}}},
+	{{{-1, 150, 106}, 0, {303, 1858}, {0x01, 0x67, 0x4A, 0xFF}}},
+	{{{-75, 75, 150}, 0, {-406, 1839}, {0xCF, 0x31, 0x6B, 0xFF}}},
+	{{{-21, 21, 173}, 0, {-560, 1036}, {0xFB, 0x05, 0x7F, 0xFF}}},
+	{{{66, 107, 122}, 0, {194, 1239}, {0x3D, 0x43, 0x59, 0xFF}}},
+	{{{53, -53, 155}, 0, {-445, 204}, {0x25, 0xDA, 0x73, 0xFF}}},
+	{{{102, 143, 0}, 0, {1006, 1239}, {0x56, 0x5D, 0x00, 0xFF}}},
+	{{{30, 181, 0}, 0, {1006, 1858}, {0x1B, 0x7C, 0x00, 0xFF}}},
+};
+
+Gfx dedede_0_Partner_DL_mesh_layer_1_tri_1[] = {
+	gsSPVertex(dedede_0_Partner_DL_mesh_layer_1_vtx_1 + 0, 23, 0),
+	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
+	gsSP2Triangles(4, 3, 0, 0, 5, 4, 0, 0),
+	gsSP2Triangles(5, 0, 6, 0, 6, 0, 2, 0),
+	gsSP2Triangles(6, 2, 7, 0, 6, 7, 8, 0),
+	gsSP2Triangles(7, 9, 8, 0, 10, 8, 9, 0),
+	gsSP2Triangles(10, 9, 11, 0, 12, 10, 11, 0),
+	gsSP2Triangles(12, 13, 10, 0, 14, 13, 12, 0),
+	gsSP2Triangles(14, 15, 13, 0, 15, 16, 13, 0),
+	gsSP2Triangles(15, 17, 16, 0, 16, 17, 18, 0),
+	gsSP2Triangles(16, 18, 19, 0, 20, 19, 18, 0),
+	gsSP2Triangles(4, 19, 20, 0, 4, 20, 3, 0),
+	gsSP2Triangles(4, 21, 19, 0, 5, 21, 4, 0),
+	gsSP2Triangles(5, 6, 21, 0, 6, 8, 21, 0),
+	gsSP2Triangles(22, 21, 8, 0, 22, 8, 10, 0),
+	gsSP2Triangles(22, 10, 13, 0, 22, 13, 16, 0),
+	gsSP2Triangles(22, 16, 19, 0, 22, 19, 21, 0),
+	gsSPEndDisplayList(),
+};
+
+Vtx dedede_0_Partner_DL_mesh_layer_1_vtx_2[54] = {
+	{{{-31, 223, -73}, 0, {-16, -16}, {0x1B, 0x75, 0xD6, 0xFF}}},
+	{{{91, 179, -117}, 0, {-16, -16}, {0x1B, 0x75, 0xD6, 0xFF}}},
+	{{{98, 152, -187}, 0, {-16, -16}, {0x1B, 0x75, 0xD6, 0xFF}}},
+	{{{-61, 198, -163}, 0, {-16, -16}, {0x1B, 0x75, 0xD6, 0xFF}}},
+	{{{38, 155, -218}, 0, {-16, 1008}, {0x1B, 0x75, 0xD6, 0xFF}}},
+	{{{-67, 219, -106}, 0, {-16, -16}, {0x1B, 0x75, 0xD6, 0xFF}}},
+	{{{38, 155, -218}, 0, {-16, 1008}, {0x10, 0x38, 0x8F, 0xFF}}},
+	{{{-85, 176, -173}, 0, {-16, -16}, {0x9F, 0x18, 0xB1, 0xFF}}},
+	{{{-61, 198, -163}, 0, {-16, -16}, {0xCB, 0x58, 0xB5, 0xFF}}},
+	{{{27, 135, -229}, 0, {-16, -16}, {0xF7, 0xDD, 0x86, 0xFF}}},
+	{{{118, 128, -193}, 0, {-16, -16}, {0x6D, 0xDF, 0xC7, 0xFF}}},
+	{{{98, 152, -187}, 0, {-16, -16}, {0x4F, 0x4E, 0xC2, 0xFF}}},
+	{{{91, 179, -117}, 0, {-16, -16}, {0x5B, 0x56, 0x16, 0xFF}}},
+	{{{99, 165, -97}, 0, {-16, -16}, {0x66, 0x0C, 0x4B, 0xFF}}},
+	{{{-35, 211, -41}, 0, {-16, -16}, {0xFB, 0x47, 0x69, 0xFF}}},
+	{{{-31, 223, -73}, 0, {-16, -16}, {0x04, 0x77, 0x2D, 0xFF}}},
+	{{{-93, 205, -91}, 0, {-16, 1008}, {0x98, 0x46, 0x14, 0xFF}}},
+	{{{-67, 219, -106}, 0, {-16, -16}, {0xC2, 0x6F, 0xFC, 0xFF}}},
+	{{{-95, 149, -62}, 0, {-16, -16}, {0x9E, 0xDA, 0x48, 0xFF}}},
+	{{{-8, 148, -47}, 0, {-16, -16}, {0x19, 0xD4, 0x74, 0xFF}}},
+	{{{-26, 89, -98}, 0, {-16, -16}, {0xF2, 0x87, 0x25, 0xFF}}},
+	{{{-69, 118, -155}, 0, {-16, -16}, {0xB1, 0xA9, 0xD0, 0xFF}}},
+	{{{-85, 176, -173}, 0, {-16, 1008}, {0x9F, 0x18, 0xB1, 0xFF}}},
+	{{{-93, 205, -91}, 0, {-16, -16}, {0x98, 0x46, 0x14, 0xFF}}},
+	{{{-67, 219, -106}, 0, {-16, -16}, {0xC2, 0x6F, 0xFC, 0xFF}}},
+	{{{64, 96, -148}, 0, {-16, -16}, {0x28, 0x88, 0x0A, 0xFF}}},
+	{{{64, 96, -148}, 0, {-16, 1008}, {0x28, 0x88, 0x0A, 0xFF}}},
+	{{{98, 152, 187}, 0, {-16, -16}, {0x1B, 0x75, 0x2A, 0xFF}}},
+	{{{91, 179, 117}, 0, {-16, -16}, {0x1B, 0x75, 0x2A, 0xFF}}},
+	{{{-31, 223, 73}, 0, {-16, -16}, {0x1B, 0x75, 0x2A, 0xFF}}},
+	{{{-61, 198, 163}, 0, {-16, -16}, {0x1B, 0x75, 0x2A, 0xFF}}},
+	{{{-67, 219, 106}, 0, {-16, -16}, {0x1B, 0x75, 0x2A, 0xFF}}},
+	{{{38, 155, 218}, 0, {-16, 1008}, {0x1B, 0x75, 0x2A, 0xFF}}},
+	{{{38, 155, 218}, 0, {-16, 1008}, {0x10, 0x38, 0x71, 0xFF}}},
+	{{{-61, 198, 163}, 0, {-16, -16}, {0xCB, 0x58, 0x4B, 0xFF}}},
+	{{{-85, 176, 173}, 0, {-16, -16}, {0x9F, 0x18, 0x4F, 0xFF}}},
+	{{{27, 135, 229}, 0, {-16, -16}, {0xF7, 0xDD, 0x7A, 0xFF}}},
+	{{{-69, 118, 155}, 0, {-16, -16}, {0xB1, 0xA9, 0x30, 0xFF}}},
+	{{{64, 96, 148}, 0, {-16, -16}, {0x28, 0x88, 0xF6, 0xFF}}},
+	{{{-26, 89, 98}, 0, {-16, -16}, {0xF2, 0x87, 0xDB, 0xFF}}},
+	{{{-95, 149, 62}, 0, {-16, -16}, {0x9E, 0xDA, 0xB8, 0xFF}}},
+	{{{-85, 176, 173}, 0, {-16, 1008}, {0x9F, 0x18, 0x4F, 0xFF}}},
+	{{{-93, 205, 91}, 0, {-16, -16}, {0x98, 0x46, 0xEC, 0xFF}}},
+	{{{-67, 219, 106}, 0, {-16, -16}, {0xC2, 0x6F, 0x04, 0xFF}}},
+	{{{-8, 148, 47}, 0, {-16, -16}, {0x19, 0xD4, 0x8C, 0xFF}}},
+	{{{-35, 211, 41}, 0, {-16, -16}, {0xFB, 0x47, 0x97, 0xFF}}},
+	{{{-93, 205, 91}, 0, {-16, 1008}, {0x98, 0x46, 0xEC, 0xFF}}},
+	{{{-31, 223, 73}, 0, {-16, -16}, {0x04, 0x77, 0xD3, 0xFF}}},
+	{{{-67, 219, 106}, 0, {-16, -16}, {0xC2, 0x6F, 0x04, 0xFF}}},
+	{{{91, 179, 117}, 0, {-16, -16}, {0x5B, 0x56, 0xEA, 0xFF}}},
+	{{{99, 165, 97}, 0, {-16, -16}, {0x66, 0x0C, 0xB5, 0xFF}}},
+	{{{118, 128, 193}, 0, {-16, -16}, {0x6D, 0xDF, 0x39, 0xFF}}},
+	{{{98, 152, 187}, 0, {-16, -16}, {0x4F, 0x4E, 0x3E, 0xFF}}},
+	{{{64, 96, 148}, 0, {-16, 1008}, {0x28, 0x88, 0xF6, 0xFF}}},
+};
+
+Gfx dedede_0_Partner_DL_mesh_layer_1_tri_2[] = {
+	gsSPVertex(dedede_0_Partner_DL_mesh_layer_1_vtx_2 + 0, 54, 0),
+	gsSP2Triangles(0, 1, 2, 0, 3, 0, 2, 0),
+	gsSP2Triangles(2, 4, 3, 0, 3, 5, 0, 0),
+	gsSP2Triangles(6, 7, 8, 0, 7, 6, 9, 0),
+	gsSP2Triangles(9, 6, 10, 0, 6, 11, 10, 0),
+	gsSP2Triangles(11, 12, 10, 0, 10, 12, 13, 0),
+	gsSP2Triangles(13, 12, 14, 0, 12, 15, 14, 0),
+	gsSP2Triangles(16, 14, 15, 0, 17, 16, 15, 0),
+	gsSP2Triangles(16, 18, 14, 0, 19, 14, 18, 0),
+	gsSP2Triangles(20, 19, 18, 0, 18, 21, 20, 0),
+	gsSP2Triangles(22, 21, 18, 0, 18, 23, 22, 0),
+	gsSP2Triangles(22, 23, 24, 0, 8, 22, 24, 0),
+	gsSP2Triangles(20, 21, 25, 0, 21, 9, 25, 0),
+	gsSP2Triangles(7, 9, 21, 0, 25, 9, 10, 0),
+	gsSP2Triangles(25, 19, 20, 0, 13, 14, 19, 0),
+	gsSP2Triangles(26, 13, 19, 0, 10, 13, 26, 0),
+	gsSP2Triangles(27, 28, 29, 0, 27, 29, 30, 0),
+	gsSP2Triangles(29, 31, 30, 0, 30, 32, 27, 0),
+	gsSP2Triangles(33, 34, 35, 0, 35, 36, 33, 0),
+	gsSP2Triangles(35, 37, 36, 0, 37, 38, 36, 0),
+	gsSP2Triangles(39, 38, 37, 0, 40, 39, 37, 0),
+	gsSP2Triangles(41, 40, 37, 0, 40, 41, 42, 0),
+	gsSP2Triangles(41, 43, 42, 0, 34, 43, 41, 0),
+	gsSP2Triangles(39, 40, 44, 0, 44, 40, 45, 0),
+	gsSP2Triangles(46, 45, 40, 0, 46, 47, 45, 0),
+	gsSP2Triangles(48, 47, 46, 0, 49, 45, 47, 0),
+	gsSP2Triangles(50, 45, 49, 0, 51, 50, 49, 0),
+	gsSP2Triangles(52, 51, 49, 0, 33, 51, 52, 0),
+	gsSP2Triangles(36, 51, 33, 0, 38, 51, 36, 0),
+	gsSP2Triangles(51, 53, 50, 0, 53, 44, 50, 0),
+	gsSP2Triangles(50, 44, 45, 0, 38, 39, 44, 0),
+	gsSPEndDisplayList(),
+};
+
+Vtx dedede_Left_Wing_DL_mesh_layer_5_vtx_0[4] = {
+	{{{-40, -141, -7}, 0, {1008, 1008}, {0xE8, 0x00, 0x7D, 0xFF}}},
+	{{{157, -199, 30}, 0, {-16, 1008}, {0xE8, 0x00, 0x7D, 0xFF}}},
+	{{{237, 83, 45}, 0, {-16, -16}, {0xE8, 0x00, 0x7D, 0xFF}}},
+	{{{40, 141, 7}, 0, {1008, -16}, {0xE8, 0x00, 0x7D, 0xFF}}},
+};
+
+Gfx dedede_Left_Wing_DL_mesh_layer_5_tri_0[] = {
+	gsSPVertex(dedede_Left_Wing_DL_mesh_layer_5_vtx_0 + 0, 4, 0),
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
+	gsSPEndDisplayList(),
+};
+
+Vtx dedede_Right_Wing_DL_mesh_layer_5_vtx_0[4] = {
+	{{{-40, -141, 7}, 0, {1008, 1008}, {0xE8, 0x00, 0x83, 0xFF}}},
+	{{{40, 141, -7}, 0, {1008, -16}, {0xE8, 0x00, 0x83, 0xFF}}},
+	{{{237, 83, -45}, 0, {-16, -16}, {0xE8, 0x00, 0x83, 0xFF}}},
+	{{{157, -199, -30}, 0, {-16, 1008}, {0xE8, 0x00, 0x83, 0xFF}}},
+};
+
+Gfx dedede_Right_Wing_DL_mesh_layer_5_tri_0[] = {
+	gsSPVertex(dedede_Right_Wing_DL_mesh_layer_5_vtx_0 + 0, 4, 0),
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
+	gsSPEndDisplayList(),
+};
+
+Vtx dedede_Kabu_Partner_Switch_Option_Kabu_Partner_DL_mesh_layer_1_vtx_0[114] = {
+	{{{202, -23, 0}, 0, {9, 752}, {0x7F, 0x09, 0x00, 0xFF}}},
+	{{{167, 74, 0}, 0, {-6, 752}, {0x77, 0x2B, 0x00, 0xFF}}},
+	{{{153, 66, 42}, 0, {12, 795}, {0x6E, 0x29, 0x2F, 0xFF}}},
+	{{{157, -157, 0}, 0, {240, 752}, {0x5A, 0xA6, 0x00, 0xFF}}},
+	{{{176, -49, -89}, 0, {43, 670}, {0x6B, 0xF6, 0xBC, 0xFF}}},
+	{{{119, 53, -121}, 0, {112, -16}, {0x49, 0x1D, 0x9C, 0xFF}}},
+	{{{46, -46, -172}, 0, {1008, -16}, {0x16, 0xED, 0x84, 0xFF}}},
+	{{{56, 96, -125}, 0, {47, 588}, {0x38, 0x2C, 0x97, 0xFF}}},
+	{{{119, 53, 121}, 0, {30, 839}, {0xA8, 0x58, 0xE9, 0xFF}}},
+	{{{153, 66, 42}, 0, {-16, 1008}, {0xA8, 0x58, 0xE9, 0xFF}}},
+	{{{132, 45, 42}, 0, {78, 690}, {0xA8, 0x58, 0xE9, 0xFF}}},
+	{{{167, 74, 0}, 0, {-6, 752}, {0xC5, 0x71, 0x00, 0xFF}}},
+	{{{153, 66, -42}, 0, {12, 752}, {0xC5, 0x71, 0x00, 0xFF}}},
+	{{{153, 66, 42}, 0, {12, 795}, {0xC5, 0x71, 0x00, 0xFF}}},
+	{{{119, 53, -121}, 0, {112, -16}, {0xA8, 0x58, 0x17, 0xFF}}},
+	{{{132, 45, -42}, 0, {-16, 1008}, {0xA8, 0x58, 0x17, 0xFF}}},
+	{{{153, 66, -42}, 0, {101, 219}, {0xA8, 0x58, 0x17, 0xFF}}},
+	{{{69, 108, 43}, 0, {352, 152}, {0x7E, 0xFD, 0x12, 0xFF}}},
+	{{{69, 147, 43}, 0, {168, 588}, {0x7E, 0xFD, 0x12, 0xFF}}},
+	{{{56, 96, 125}, 0, {368, 152}, {0x7E, 0xFD, 0x12, 0xFF}}},
+	{{{-17, 241, 66}, 0, {336, 428}, {0x59, 0x4A, 0x34, 0xFF}}},
+	{{{56, 96, 125}, 0, {368, 246}, {0x38, 0x2C, 0x69, 0xFF}}},
+	{{{38, 179, 64}, 0, {336, 246}, {0x59, 0x42, 0x3E, 0xFF}}},
+	{{{56, 96, 125}, 0, {368, 152}, {0x38, 0x2C, 0x69, 0xFF}}},
+	{{{69, 147, 43}, 0, {168, 588}, {0x4C, 0x5D, 0x29, 0xFF}}},
+	{{{56, 96, -125}, 0, {47, 588}, {0x7E, 0xFD, 0xEE, 0xFF}}},
+	{{{69, 147, -43}, 0, {80, 588}, {0x7E, 0xFD, 0xEE, 0xFF}}},
+	{{{69, 108, -43}, 0, {224, 152}, {0x7E, 0xFD, 0xEE, 0xFF}}},
+	{{{145, 185, 43}, 0, {304, 152}, {0x01, 0xFF, 0x7F, 0xFF}}},
+	{{{69, 147, 43}, 0, {168, 588}, {0x00, 0x00, 0x7F, 0xFF}}},
+	{{{69, 108, 43}, 0, {352, 152}, {0x2C, 0x33, 0x6C, 0xFF}}},
+	{{{56, 96, -125}, 0, {-16, 1008}, {0x38, 0x2C, 0x97, 0xFF}}},
+	{{{-156, 156, -187}, 0, {1008, 496}, {0x07, 0xFB, 0x81, 0xFF}}},
+	{{{-40, -132, -121}, 0, {880, -16}, {0xD8, 0xAD, 0xA9, 0xFF}}},
+	{{{-249, 62, -133}, 0, {880, 496}, {0xC6, 0xBC, 0xA6, 0xFF}}},
+	{{{-75, -168, 0}, 0, {752, -16}, {0xBE, 0x93, 0x00, 0xFF}}},
+	{{{-288, 23, 0}, 0, {752, 496}, {0xAB, 0xA1, 0x00, 0xFF}}},
+	{{{-40, -132, 121}, 0, {624, -16}, {0xD8, 0xAD, 0x57, 0xFF}}},
+	{{{-249, 62, 133}, 0, {624, 496}, {0xC6, 0xBC, 0x5A, 0xFF}}},
+	{{{46, -46, 172}, 0, {496, 152}, {0x16, 0xED, 0x7C, 0xFF}}},
+	{{{-156, 156, 187}, 0, {496, 496}, {0x07, 0xFB, 0x7F, 0xFF}}},
+	{{{-62, 249, -133}, 0, {112, 496}, {0xA6, 0x5A, 0x00, 0xFF}}},
+	{{{-156, 156, -187}, 0, {-16, 496}, {0xA6, 0x5A, 0x00, 0xFF}}},
+	{{{-249, 62, -133}, 0, {880, 496}, {0xA6, 0x5A, 0x00, 0xFF}}},
+	{{{-249, 62, 133}, 0, {624, 496}, {0xA6, 0x5A, 0x00, 0xFF}}},
+	{{{-288, 23, 0}, 0, {752, 496}, {0xA6, 0x5A, 0x00, 0xFF}}},
+	{{{-62, 249, 133}, 0, {304, 496}, {0xA6, 0x5A, 0x00, 0xFF}}},
+	{{{-156, 156, 187}, 0, {496, 496}, {0xA6, 0x5A, 0x00, 0xFF}}},
+	{{{-23, 288, 0}, 0, {240, 496}, {0xA6, 0x5A, 0x00, 0xFF}}},
+	{{{-62, 249, -133}, 0, {176, 496}, {0x48, 0x36, 0xA7, 0xFF}}},
+	{{{56, 96, -125}, 0, {112, 428}, {0x38, 0x2C, 0x97, 0xFF}}},
+	{{{-17, 241, -66}, 0, {176, 428}, {0x59, 0x4A, 0xCC, 0xFF}}},
+	{{{-23, 288, 0}, 0, {240, 496}, {0x5F, 0x55, 0x00, 0xFF}}},
+	{{{2, 260, 0}, 0, {240, 428}, {0x5F, 0x55, 0x00, 0xFF}}},
+	{{{-62, 249, 133}, 0, {304, 496}, {0x48, 0x36, 0x59, 0xFF}}},
+	{{{-17, 241, 66}, 0, {304, 428}, {0x59, 0x4A, 0x34, 0xFF}}},
+	{{{38, 179, -64}, 0, {176, 246}, {0x59, 0x42, 0xC2, 0xFF}}},
+	{{{46, -46, 172}, 0, {240, 998}, {0x16, 0xED, 0x7C, 0xFF}}},
+	{{{119, 53, 121}, 0, {30, 839}, {0x49, 0x1D, 0x64, 0xFF}}},
+	{{{-62, 249, 133}, 0, {368, 496}, {0x48, 0x36, 0x59, 0xFF}}},
+	{{{56, 96, 125}, 0, {368, 428}, {0x38, 0x2C, 0x69, 0xFF}}},
+	{{{176, -49, 89}, 0, {77, 915}, {0x6B, 0xF6, 0x44, 0xFF}}},
+	{{{202, -23, 0}, 0, {43, 834}, {0x7F, 0x09, 0x00, 0xFF}}},
+	{{{113, -113, 127}, 0, {240, 983}, {0x3C, 0xC6, 0x5F, 0xFF}}},
+	{{{113, -113, 127}, 0, {240, 983}, {0x3C, 0xC6, 0x5F, 0xFF}}},
+	{{{176, -49, 89}, 0, {77, 915}, {0x6B, 0xF6, 0x44, 0xFF}}},
+	{{{119, 53, 121}, 0, {66, 926}, {0x49, 0x1D, 0x64, 0xFF}}},
+	{{{46, -46, 172}, 0, {240, 998}, {0x16, 0xED, 0x7C, 0xFF}}},
+	{{{49, -176, 89}, 0, {403, 915}, {0x0C, 0x95, 0x43, 0xFF}}},
+	{{{-40, -132, 121}, 0, {414, 926}, {0xD8, 0xAD, 0x57, 0xFF}}},
+	{{{23, -202, 0}, 0, {471, 752}, {0xF9, 0x81, 0x00, 0xFF}}},
+	{{{-75, -168, 0}, 0, {486, 752}, {0xBE, 0x93, 0x00, 0xFF}}},
+	{{{49, -176, -89}, 0, {403, 589}, {0x0C, 0x95, 0xBD, 0xFF}}},
+	{{{-40, -132, -121}, 0, {414, 578}, {0xD8, 0xAD, 0xA9, 0xFF}}},
+	{{{113, -113, -127}, 0, {240, 521}, {0x3C, 0xC6, 0xA1, 0xFF}}},
+	{{{46, -46, -172}, 0, {240, 506}, {0x16, 0xED, 0x84, 0xFF}}},
+	{{{176, -49, -89}, 0, {77, 589}, {0x6B, 0xF6, 0xBC, 0xFF}}},
+	{{{119, 53, -121}, 0, {66, 578}, {0x49, 0x1D, 0x9C, 0xFF}}},
+	{{{157, -157, 0}, 0, {240, 752}, {0x5A, 0xA6, 0x00, 0xFF}}},
+	{{{119, 53, 121}, 0, {30, 839}, {0x49, 0x1D, 0x64, 0xFF}}},
+	{{{202, -23, 0}, 0, {26, 793}, {0x7F, 0x09, 0x00, 0xFF}}},
+	{{{153, 66, 42}, 0, {-16, 1008}, {0x6E, 0x29, 0x2F, 0xFF}}},
+	{{{202, -23, 0}, 0, {26, 711}, {0x7F, 0x09, 0x00, 0xFF}}},
+	{{{176, -49, -89}, 0, {43, 670}, {0x6B, 0xF6, 0xBC, 0xFF}}},
+	{{{119, 53, -121}, 0, {30, 665}, {0x49, 0x1D, 0x9C, 0xFF}}},
+	{{{153, 66, -42}, 0, {12, 709}, {0x6E, 0x29, 0xD1, 0xFF}}},
+	{{{167, 74, 0}, 0, {-6, 752}, {0x77, 0x2B, 0x00, 0xFF}}},
+	{{{69, 108, -43}, 0, {176, 152}, {0x01, 0xFF, 0x81, 0xFF}}},
+	{{{69, 147, -43}, 0, {80, 588}, {0x00, 0x00, 0x81, 0xFF}}},
+	{{{145, 185, -43}, 0, {176, 152}, {0x01, 0xFF, 0x81, 0xFF}}},
+	{{{153, 66, -42}, 0, {101, 219}, {0x01, 0xFF, 0x81, 0xFF}}},
+	{{{169, 103, -42}, 0, {101, 219}, {0x02, 0xFF, 0x81, 0xFF}}},
+	{{{132, 45, -42}, 0, {-16, 1008}, {0x01, 0xFF, 0x81, 0xFF}}},
+	{{{56, 96, -125}, 0, {47, 588}, {0x38, 0x2C, 0x97, 0xFF}}},
+	{{{38, 179, -64}, 0, {176, 246}, {0x59, 0x42, 0xC2, 0xFF}}},
+	{{{69, 147, -43}, 0, {80, 588}, {0x4C, 0x5D, 0xD7, 0xFF}}},
+	{{{70, 184, 0}, 0, {-16, 1008}, {0x7C, 0x1E, 0x00, 0xFF}}},
+	{{{69, 147, 43}, 0, {-16, 1008}, {0x4C, 0x5D, 0x29, 0xFF}}},
+	{{{38, 179, 64}, 0, {336, 246}, {0x59, 0x42, 0x3E, 0xFF}}},
+	{{{153, 66, -42}, 0, {48, 752}, {0x75, 0xCF, 0x00, 0xFF}}},
+	{{{169, 103, -42}, 0, {66, 752}, {0x7F, 0xF9, 0x00, 0xFF}}},
+	{{{169, 103, 42}, 0, {66, 839}, {0x7F, 0xF9, 0x00, 0xFF}}},
+	{{{153, 66, 42}, 0, {12, 795}, {0x75, 0xCF, 0x00, 0xFF}}},
+	{{{145, 185, 43}, 0, {304, 152}, {0x32, 0x75, 0x00, 0xFF}}},
+	{{{169, 103, 42}, 0, {78, 690}, {0x7F, 0xF9, 0x00, 0xFF}}},
+	{{{169, 103, -42}, 0, {89, 455}, {0x7F, 0xF9, 0x00, 0xFF}}},
+	{{{145, 185, -43}, 0, {240, 152}, {0x32, 0x75, 0x00, 0xFF}}},
+	{{{69, 147, 43}, 0, {168, 588}, {0x4C, 0x5D, 0x29, 0xFF}}},
+	{{{69, 108, 43}, 0, {304, 152}, {0x2C, 0x33, 0x6C, 0xFF}}},
+	{{{153, 66, 42}, 0, {78, 690}, {0x01, 0xFF, 0x7F, 0xFF}}},
+	{{{169, 103, 42}, 0, {78, 690}, {0x02, 0xFF, 0x7F, 0xFF}}},
+	{{{145, 185, 43}, 0, {304, 152}, {0x01, 0xFF, 0x7F, 0xFF}}},
+	{{{132, 45, 42}, 0, {78, 690}, {0x3A, 0x39, 0x61, 0xFF}}},
+	{{{153, 66, 42}, 0, {-16, 1008}, {0x01, 0xFF, 0x7F, 0xFF}}},
+};
+
+Gfx dedede_Kabu_Partner_Switch_Option_Kabu_Partner_DL_mesh_layer_1_tri_0[] = {
+	gsSPVertex(dedede_Kabu_Partner_Switch_Option_Kabu_Partner_DL_mesh_layer_1_vtx_0 + 0, 64, 0),
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 0, 0),
+	gsSP2Triangles(5, 6, 7, 0, 8, 9, 10, 0),
+	gsSP2Triangles(11, 12, 13, 0, 14, 15, 16, 0),
+	gsSP2Triangles(17, 18, 19, 0, 20, 21, 22, 0),
+	gsSP2Triangles(23, 24, 22, 0, 25, 26, 27, 0),
+	gsSP2Triangles(28, 29, 30, 0, 31, 6, 32, 0),
+	gsSP2Triangles(32, 6, 33, 0, 32, 33, 34, 0),
+	gsSP2Triangles(34, 33, 35, 0, 34, 35, 36, 0),
+	gsSP2Triangles(36, 35, 37, 0, 36, 37, 38, 0),
+	gsSP2Triangles(38, 37, 39, 0, 38, 39, 40, 0),
+	gsSP2Triangles(41, 42, 43, 0, 41, 43, 44, 0),
+	gsSP2Triangles(43, 45, 44, 0, 44, 46, 41, 0),
+	gsSP2Triangles(44, 47, 46, 0, 46, 48, 41, 0),
+	gsSP2Triangles(49, 50, 32, 0, 49, 51, 50, 0),
+	gsSP2Triangles(52, 51, 49, 0, 52, 53, 51, 0),
+	gsSP2Triangles(54, 53, 52, 0, 54, 55, 53, 0),
+	gsSP2Triangles(50, 51, 56, 0, 40, 57, 23, 0),
+	gsSP2Triangles(57, 58, 23, 0, 59, 40, 60, 0),
+	gsSP2Triangles(59, 60, 20, 0, 61, 3, 62, 0),
+	gsSP1Triangle(63, 3, 61, 0),
+	gsSPVertex(dedede_Kabu_Partner_Switch_Option_Kabu_Partner_DL_mesh_layer_1_vtx_0 + 64, 50, 0),
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
+	gsSP2Triangles(4, 0, 3, 0, 4, 3, 5, 0),
+	gsSP2Triangles(6, 4, 5, 0, 6, 5, 7, 0),
+	gsSP2Triangles(8, 6, 7, 0, 8, 7, 9, 0),
+	gsSP2Triangles(10, 8, 9, 0, 10, 9, 11, 0),
+	gsSP2Triangles(12, 10, 11, 0, 12, 11, 13, 0),
+	gsSP2Triangles(12, 14, 10, 0, 14, 8, 10, 0),
+	gsSP2Triangles(8, 14, 6, 0, 6, 14, 4, 0),
+	gsSP2Triangles(4, 14, 0, 0, 15, 1, 16, 0),
+	gsSP2Triangles(15, 16, 17, 0, 18, 19, 20, 0),
+	gsSP2Triangles(18, 20, 21, 0, 18, 21, 22, 0),
+	gsSP2Triangles(23, 24, 25, 0, 26, 23, 25, 0),
+	gsSP2Triangles(26, 25, 27, 0, 23, 26, 28, 0),
+	gsSP2Triangles(29, 30, 31, 0, 32, 31, 30, 0),
+	gsSP2Triangles(32, 33, 31, 0, 32, 34, 33, 0),
+	gsSP2Triangles(35, 36, 37, 0, 37, 38, 35, 0),
+	gsSP2Triangles(39, 40, 41, 0, 39, 41, 42, 0),
+	gsSP2Triangles(39, 42, 31, 0, 39, 31, 43, 0),
+	gsSP2Triangles(44, 45, 46, 0, 44, 46, 47, 0),
+	gsSP1Triangle(48, 49, 44, 0),
+	gsSPEndDisplayList(),
+};
+
+Vtx dedede_Kabu_Partner_Switch_Option_Kabu_Partner_DL_mesh_layer_1_vtx_1[15] = {
+	{{{56, 96, 125}, 0, {368, 152}, {0x48, 0x65, 0x19, 0xFF}}},
+	{{{119, 53, 121}, 0, {30, 839}, {0x52, 0x60, 0x0F, 0xFF}}},
+	{{{69, 108, 43}, 0, {352, 152}, {0x2C, 0x33, 0x6C, 0xFF}}},
+	{{{132, 45, 42}, 0, {78, 690}, {0x3A, 0x39, 0x61, 0xFF}}},
+	{{{69, 108, 43}, 0, {304, 152}, {0x2C, 0x33, 0x6C, 0xFF}}},
+	{{{119, 53, -121}, 0, {112, -16}, {0x52, 0x60, 0xF1, 0xFF}}},
+	{{{69, 108, -43}, 0, {176, 152}, {0x52, 0x60, 0xF1, 0xFF}}},
+	{{{132, 45, -42}, 0, {-16, 1008}, {0x5A, 0x5A, 0xFA, 0xFF}}},
+	{{{56, 96, -125}, 0, {47, 588}, {0x48, 0x65, 0xE7, 0xFF}}},
+	{{{70, 184, 0}, 0, {-16, 1008}, {0x5F, 0x54, 0x00, 0xFF}}},
+	{{{-17, 241, 66}, 0, {304, 428}, {0x58, 0x4E, 0x31, 0xFF}}},
+	{{{38, 179, 64}, 0, {336, 246}, {0x58, 0x4E, 0x31, 0xFF}}},
+	{{{2, 260, 0}, 0, {240, 428}, {0x5F, 0x54, 0x00, 0xFF}}},
+	{{{38, 179, -64}, 0, {176, 246}, {0x58, 0x4E, 0xCF, 0xFF}}},
+	{{{-17, 241, -66}, 0, {176, 428}, {0x58, 0x4E, 0xCF, 0xFF}}},
+};
+
+Gfx dedede_Kabu_Partner_Switch_Option_Kabu_Partner_DL_mesh_layer_1_tri_1[] = {
+	gsSPVertex(dedede_Kabu_Partner_Switch_Option_Kabu_Partner_DL_mesh_layer_1_vtx_1 + 0, 15, 0),
+	gsSP2Triangles(0, 1, 2, 0, 1, 3, 4, 0),
+	gsSP2Triangles(5, 6, 7, 0, 5, 8, 6, 0),
+	gsSP2Triangles(9, 10, 11, 0, 9, 12, 10, 0),
+	gsSP2Triangles(13, 12, 9, 0, 13, 14, 12, 0),
 	gsSPEndDisplayList(),
 };
 
@@ -4904,48 +5290,6 @@ Gfx mat_revert_dedede_Puffball[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_dedede_Wing_Tip[] = {
-	gsSPClearGeometryMode(G_CULL_BACK),
-	gsDPPipeSync(),
-	gsDPSetCombineLERP(0, 0, 0, TEXEL0, TEXEL0, 0, ENVIRONMENT, 0, 0, 0, 0, TEXEL0, TEXEL0, 0, ENVIRONMENT, 0),
-	gsDPSetAlphaDither(G_AD_NOISE),
-	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_wing_2_ia8),
-	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadBlock(7, 0, 0, 1023, 512),
-	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
-	gsDPSetTileSize(0, 0, 0, 124, 252),
-	gsSPEndDisplayList(),
-};
-
-Gfx mat_revert_dedede_Wing_Tip[] = {
-	gsSPSetGeometryMode(G_CULL_BACK),
-	gsDPPipeSync(),
-	gsDPSetAlphaDither(G_AD_DISABLE),
-	gsSPEndDisplayList(),
-};
-
-Gfx mat_dedede_Wing_Base[] = {
-	gsSPClearGeometryMode(G_CULL_BACK),
-	gsDPPipeSync(),
-	gsDPSetCombineLERP(0, 0, 0, TEXEL0, TEXEL0, 0, ENVIRONMENT, 0, 0, 0, 0, TEXEL0, TEXEL0, 0, ENVIRONMENT, 0),
-	gsDPSetAlphaDither(G_AD_NOISE),
-	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_wing1_ia8),
-	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadBlock(7, 0, 0, 1023, 512),
-	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
-	gsDPSetTileSize(0, 0, 0, 124, 252),
-	gsSPEndDisplayList(),
-};
-
-Gfx mat_revert_dedede_Wing_Base[] = {
-	gsSPSetGeometryMode(G_CULL_BACK),
-	gsDPPipeSync(),
-	gsDPSetAlphaDither(G_AD_DISABLE),
-	gsSPEndDisplayList(),
-};
-
 Gfx mat_dedede_Coat_Inside[] = {
 	gsSPSetLights1(dedede_Coat_Inside_lights),
 	gsDPPipeSync(),
@@ -5051,6 +5395,144 @@ Gfx mat_dedede_Cap_Inside__CAP_[] = {
 };
 
 Gfx mat_revert_dedede_Cap_Inside__CAP_[] = {
+	gsDPPipeSync(),
+	gsDPSetAlphaDither(G_AD_DISABLE),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_dedede_Wing_Tip[] = {
+	gsSPClearGeometryMode(G_CULL_BACK),
+	gsDPPipeSync(),
+	gsDPSetCombineLERP(0, 0, 0, TEXEL0, TEXEL0, 0, ENVIRONMENT, 0, 0, 0, 0, TEXEL0, TEXEL0, 0, ENVIRONMENT, 0),
+	gsDPSetAlphaDither(G_AD_NOISE),
+	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_wing_2_ia8),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadBlock(7, 0, 0, 1023, 512),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
+	gsDPSetTileSize(0, 0, 0, 124, 252),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_revert_dedede_Wing_Tip[] = {
+	gsSPSetGeometryMode(G_CULL_BACK),
+	gsDPPipeSync(),
+	gsDPSetAlphaDither(G_AD_DISABLE),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_dedede_Wing_Base[] = {
+	gsSPClearGeometryMode(G_CULL_BACK),
+	gsDPPipeSync(),
+	gsDPSetCombineLERP(0, 0, 0, TEXEL0, TEXEL0, 0, ENVIRONMENT, 0, 0, 0, 0, TEXEL0, TEXEL0, 0, ENVIRONMENT, 0),
+	gsDPSetAlphaDither(G_AD_NOISE),
+	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_wing1_ia8),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadBlock(7, 0, 0, 1023, 512),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
+	gsDPSetTileSize(0, 0, 0, 124, 252),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_revert_dedede_Wing_Base[] = {
+	gsSPSetGeometryMode(G_CULL_BACK),
+	gsDPPipeSync(),
+	gsDPSetAlphaDither(G_AD_DISABLE),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_dedede_Bronto_Burt_Skin[] = {
+	gsSPSetLights1(dedede_Bronto_Burt_Skin_lights),
+	gsDPPipeSync(),
+	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT),
+	gsDPSetAlphaDither(G_AD_NOISE),
+	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_revert_dedede_Bronto_Burt_Skin[] = {
+	gsDPPipeSync(),
+	gsDPSetAlphaDither(G_AD_DISABLE),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_dedede_Bronto_Burt_Face[] = {
+	gsSPSetLights1(dedede_Bronto_Burt_Face_lights),
+	gsDPPipeSync(),
+	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT, TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT),
+	gsDPSetAlphaDither(G_AD_NOISE),
+	gsDPSetTextureLUT(G_TT_RGBA16),
+	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dedede_Bronto_Burt_Face_1_pal_rgba16),
+	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadTLUTCmd(5, 78),
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_Bronto_Burt_Face_1_ci8),
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadBlock(7, 0, 0, 1023, 512),
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
+	gsDPSetTileSize(0, 0, 0, 124, 252),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_revert_dedede_Bronto_Burt_Face[] = {
+	gsDPPipeSync(),
+	gsDPSetAlphaDither(G_AD_DISABLE),
+	gsDPSetTextureLUT(G_TT_NONE),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_dedede_Bronto_Burt_Shoe[] = {
+	gsSPSetLights1(dedede_Bronto_Burt_Shoe_lights),
+	gsDPPipeSync(),
+	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT),
+	gsDPSetAlphaDither(G_AD_NOISE),
+	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_revert_dedede_Bronto_Burt_Shoe[] = {
+	gsDPPipeSync(),
+	gsDPSetAlphaDither(G_AD_DISABLE),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_dedede_Bronto_Burt_Wing[] = {
+	gsSPClearGeometryMode(G_CULL_BACK),
+	gsDPPipeSync(),
+	gsDPSetCombineLERP(0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0),
+	gsDPSetAlphaDither(G_AD_NOISE),
+	gsDPSetTextureLUT(G_TT_RGBA16),
+	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dedede_Bronto_Burt_Wing_pal_rgba16),
+	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadTLUTCmd(5, 62),
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_Bronto_Burt_Wing_ci8),
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadBlock(7, 0, 0, 511, 512),
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
+	gsDPSetTileSize(0, 0, 0, 124, 124),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_revert_dedede_Bronto_Burt_Wing[] = {
+	gsSPSetGeometryMode(G_CULL_BACK),
+	gsDPPipeSync(),
+	gsDPSetAlphaDither(G_AD_DISABLE),
+	gsDPSetTextureLUT(G_TT_NONE),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_dedede_Kabu_Body[] = {
+	gsSPSetLights1(dedede_Kabu_Body_lights),
+	gsDPPipeSync(),
+	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT),
+	gsDPSetAlphaDither(G_AD_NOISE),
+	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_revert_dedede_Kabu_Body[] = {
 	gsDPPipeSync(),
 	gsDPSetAlphaDither(G_AD_DISABLE),
 	gsSPEndDisplayList(),
@@ -5610,26 +6092,6 @@ Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eye
 	gsSPEndDisplayList(),
 };
 
-Gfx dedede_Left_Wing_DL_mesh_layer_4[] = {
-	gsSPDisplayList(mat_dedede_Wing_Tip),
-	gsSPDisplayList(dedede_Left_Wing_DL_mesh_layer_4_tri_0),
-	gsSPDisplayList(mat_revert_dedede_Wing_Tip),
-	gsSPDisplayList(mat_dedede_Wing_Base),
-	gsSPDisplayList(dedede_Left_Wing_DL_mesh_layer_4_tri_1),
-	gsSPDisplayList(mat_revert_dedede_Wing_Base),
-	gsSPEndDisplayList(),
-};
-
-Gfx dedede_Right_Wing_DL_mesh_layer_4[] = {
-	gsSPDisplayList(mat_dedede_Wing_Tip),
-	gsSPDisplayList(dedede_Right_Wing_DL_mesh_layer_4_tri_0),
-	gsSPDisplayList(mat_revert_dedede_Wing_Tip),
-	gsSPDisplayList(mat_dedede_Wing_Base),
-	gsSPDisplayList(dedede_Right_Wing_DL_mesh_layer_4_tri_1),
-	gsSPDisplayList(mat_revert_dedede_Wing_Base),
-	gsSPEndDisplayList(),
-};
-
 Gfx dedede_Left_Arm_Color_mesh_layer_1[] = {
 	gsSPDisplayList(mat_dedede_Coat),
 	gsSPDisplayList(dedede_Left_Arm_Color_mesh_layer_1_tri_0),
@@ -5811,6 +6273,43 @@ Gfx dedede_4_Hammer_DL_mesh_layer_1[] = {
 	gsSPDisplayList(mat_dedede_Hammer_Base),
 	gsSPDisplayList(dedede_4_Hammer_DL_mesh_layer_1_tri_2),
 	gsSPDisplayList(mat_revert_dedede_Hammer_Base),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_0_Partner_DL_mesh_layer_1[] = {
+	gsSPDisplayList(mat_dedede_Bronto_Burt_Skin),
+	gsSPDisplayList(dedede_0_Partner_DL_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Bronto_Burt_Skin),
+	gsSPDisplayList(mat_dedede_Bronto_Burt_Face),
+	gsSPDisplayList(dedede_0_Partner_DL_mesh_layer_1_tri_1),
+	gsSPDisplayList(mat_revert_dedede_Bronto_Burt_Face),
+	gsSPDisplayList(mat_dedede_Bronto_Burt_Shoe),
+	gsSPDisplayList(dedede_0_Partner_DL_mesh_layer_1_tri_2),
+	gsSPDisplayList(mat_revert_dedede_Bronto_Burt_Shoe),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Left_Wing_DL_mesh_layer_5[] = {
+	gsSPDisplayList(mat_dedede_Bronto_Burt_Wing),
+	gsSPDisplayList(dedede_Left_Wing_DL_mesh_layer_5_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Bronto_Burt_Wing),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Right_Wing_DL_mesh_layer_5[] = {
+	gsSPDisplayList(mat_dedede_Bronto_Burt_Wing),
+	gsSPDisplayList(dedede_Right_Wing_DL_mesh_layer_5_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Bronto_Burt_Wing),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Kabu_Partner_Switch_Option_Kabu_Partner_DL_mesh_layer_1[] = {
+	gsSPDisplayList(mat_dedede_Kabu_Body),
+	gsSPDisplayList(dedede_Kabu_Partner_Switch_Option_Kabu_Partner_DL_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Kabu_Body),
+	gsSPDisplayList(mat_dedede_Coat_Inside),
+	gsSPDisplayList(dedede_Kabu_Partner_Switch_Option_Kabu_Partner_DL_mesh_layer_1_tri_1),
+	gsSPDisplayList(mat_revert_dedede_Coat_Inside),
 	gsSPEndDisplayList(),
 };
 
