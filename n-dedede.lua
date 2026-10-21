@@ -387,6 +387,8 @@ local function act_dedede_hammer(m, arg)
 
     if arg == 1 and m.marioObj.header.gfx.animInfo.animFrame == 4 and m.playerIndex == 0 then -- TODO: assign actual frame where the hammer slams onto the ground.
         spawn_sync_object(id_bhvDededeHammer_JJJ, E_MODEL_NONE, m.pos.x + sins(m.faceAngle.y) * 200, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 200, nil)
+        play_sound(SOUND_ACTION_BOUNCE_OFF_OBJECT, m.marioObj.header.gfx.cameraToObject)
+        spawn_sync_object(id_bhvHorStarParticleSpawner, E_MODEL_NONE, m.pos.x + sins(m.faceAngle.y) * 200, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 200, nil)
     elseif arg == 0 then
         if m.marioObj.header.gfx.animInfo.animFrame > 4 and (m.controller.buttonDown & L_TRIG) == 0 then -- TODO: assign frame that allows player to skip the 
             set_mario_action(m, ACT_DEDEDE_HAMMER_DOWN, 0)
@@ -421,6 +423,9 @@ function act_dedede_hammer_air(m)
         set_character_animation(m, CHAR_ANIM_FORWARD_SPINNING)
         m.vel.y = 16
         m.actionState = 1
+        spawn_sync_object(id_bhvDededeHammer_JJJ, E_MODEL_NONE, m.pos.x + sins(m.faceAngle.y) * 200, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 200, function (o)
+            o.parentObj = m.marioObj
+        end)
     elseif is_anim_at_end(m) ~= 0 then
         return set_mario_action(m, ACT_FREEFALL, 0)
     end

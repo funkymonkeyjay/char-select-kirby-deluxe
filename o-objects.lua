@@ -350,7 +350,7 @@ end
 local function bhv_dedede_hammer_loop(o)
     local m = get_mario_state_from_object(o.parentObj)
     if m then
-        if m.action ~= ACT_DEDEDE_HAMMER_SPIN then
+        if m.action ~= ACT_DEDEDE_HAMMER_SPIN and (m.action ~= ACT_DEDEDE_HAMMER_AIR or o.oTimer > 5) then
             obj_mark_for_deletion(o)
             return
         end
