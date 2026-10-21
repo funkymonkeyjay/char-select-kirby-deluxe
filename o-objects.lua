@@ -139,15 +139,17 @@ local function determine_knockback_action_jjj(m, o, hurtMult)
     
     m.faceAngle.y = angleToObject
     
+    local hurtMult = hurtMult or 1
+    local hurtVel = hurtMult == 1 and 1 or (hurtMult * 2/3)
     if (m.action & (ACT_FLAG_SWIMMING | ACT_FLAG_METAL_WATER)) ~= 0 then
-        if m.forwardVel < 28 then mario_set_forward_vel(m, 28) end
+        if m.forwardVel < 28 * hurtVel then mario_set_forward_vel(m, 28 * hurtVel) end
         if m.pos.y >= o.oPosY then
-            if m.vel.y < 20 then m.vel.y = 20 end
+            if m.vel.y < 20 * hurtVel then m.vel.y = 20 * hurtVel end
         else
             if m.vel.y > 0 then m.vel.y = 0 end
         end
     else
-        if m.forwardVel < 16 then mario_set_forward_vel(m, 16) end
+        if m.forwardVel < 16 * hurtVel then mario_set_forward_vel(m, 16 * hurtVel) end
     end
     
     local actionToSet = ACT_BACKWARD_GROUND_KB
@@ -156,19 +158,19 @@ local function determine_knockback_action_jjj(m, o, hurtMult)
         if (m.action & ACT_FLAG_SWIMMING) ~= 0 then
             actionToSet = ACT_BACKWARD_WATER_KB
         elseif (m.action & ACT_FLAG_AIR) ~= 0 then
-            actionToSet = ACT_BACKWARD_AIR_KB
+            actionToSet = hurtMult > 1 and ACT_HARD_BACKWARD_AIR_KB or ACT_BACKWARD_AIR_KB
         end
     else
         m.faceAngle.y = m.faceAngle.y + 0x8000
-        actionToSet = ACT_FORWARD_GROUND_KB
+        actionToSet = hurtMult > 1 and ACT_HARD_FORWARD_GROUND_KB or ACT_FORWARD_GROUND_KB
         if (m.action & ACT_FLAG_SWIMMING) ~= 0 then
-            actionToSet = ACT_FORWARD_AIR_KB
+            actionToSet = hurtMult > 1 and ACT_HARD_FORWARD_AIR_KB or ACT_FORWARD_AIR_KB
         elseif (m.action & ACT_FLAG_AIR) ~= 0 then
             actionToSet = ACT_FORWARD_WATER_KB
         end
     end
 
-    hurt_and_set_mario_action(m, actionToSet, 0, 4 * (hurtMult or 1))
+    hurt_and_set_mario_action(m, actionToSet, 0, 4 * hurtMult)
 end
 
 local function bhv_kirby_star_loop(o)
@@ -346,10 +348,11 @@ local function bhv_dedede_hammer_init(o)
     network_init_object(o, true, nil)
 end
 
--- TODO: ground poundable objects need to be checked and processed ONLY if m exists.
 local function bhv_dedede_hammer_loop(o)
     local m = get_mario_state_from_object(o.parentObj)
-    if m then
+    if not m then return end
+
+    if o.oDededeHitEnemy == 1 then
         if m.action ~= ACT_DEDEDE_HAMMER_SPIN and (m.action ~= ACT_DEDEDE_HAMMER_AIR or o.oTimer > 5) then
             obj_mark_for_deletion(o)
             return
@@ -369,40 +372,60 @@ local function bhv_dedede_hammer_loop(o)
         local oHit = obj_get_first(list)
         while oHit do
             if o ~= oHit then
-                if oHit.oHeldState == HELD_FREE and obj_check_hitbox_overlap(o, oHit) and (oHit.header.gfx.node.flags & GRAPH_RENDER_INVISIBLE) == 0 then
-                    if list == OBJ_LIST_PLAYER and gServerSettings.playerInteractions == PLAYER_INTERACTIONS_PVP then
-                        local mOther = get_mario_state_from_object(oHit)
-                        if mOther and mOther.playerIndex == 0 then
-                            local p = gPlayerSyncTable[mOther.playerIndex]
-                            if (mOther.action & ACT_FLAG_INTANGIBLE) == 0 and (mOther.action & ACT_FLAG_INVULNERABLE) == 0 and mOther.invincTimer == 0 and p.kirbyCopyAbility_JJJ ~= KIRBY_COPY_GHOST and p.kirbyCopyAbility_JJJ ~= KIRBY_COPY_STEEL and (o.oInteractionSubtype & INT_SUBTYPE_DELAY_INVINCIBILITY) == 0 then
-                                determine_knockback_action_jjj(mOther, o, 3)
-                                play_kirby_sound(KIRBY_HIT_SOUND, o.header.gfx.pos, 0.5)
+                local isNotSwingingOnSurface = list == OBJ_LIST_SURFACE and o.oDededeHitEnemy == 0
+                if isNotSwingingOnSurface and obj_has_behavior_id(oHit, id_bhvSmallWhomp) ~= 0 and oHit.oAction == 6 and oHit.oSubAction ~= 10 then -- Made separate to account for collision model.
+                    local _, surface = find_floor(o.oPosX, o.oPosY + 250, o.oPosZ)
+                    if m.marioObj.platform == oHit or (oHit.oPosY >= o.oPosY and surface.object == oHit) then
+                        oHit.oNumLootCoins = 5
+                        obj_spawn_loot_yellow_coins(oHit, 5, 20)
+                        oHit.oAction = 8
+                        obj_mark_for_deletion(o)
+                        return
+                    end
+                else
+                    if oHit.oHeldState == HELD_FREE and obj_check_hitbox_overlap(o, oHit) and (oHit.header.gfx.node.flags & GRAPH_RENDER_INVISIBLE) == 0 then
+                        if isNotSwingingOnSurface then
+                            if obj_has_behavior_id(oHit, id_bhvWoodenPost) ~= 0 and oHit.oWoodenPostSpeedY == 0 then
+                                play_sound(SOUND_GENERAL_POUND_WOOD_POST, oHit.header.gfx.cameraToObject)
+                                oHit.oWoodenPostSpeedY = -190
+                                oHit.oWoodenPostMarioPounding = 1
                             end
-                        end
-                    elseif obj_has_behavior_id(oHit, id_bhvMrI) == 1 then
-                        if oHit.oDededeHitEnemy == 0 then
-                            play_kirby_sound(KIRBY_HIT_SOUND, o.header.gfx.pos, 0.5)
-                            oHit.oAction = 3
-                            oHit.oDededeHitEnemy = 1
-                            break
-                        end
-                    else
-                        if (oHit.oInteractType == INTERACT_BREAKABLE or obj_is_attackable(oHit)) and obj_has_behavior_id(oHit, id_bhvBowser) == 0 then
-                            oHit.oInteractStatus = oHit.oInteractStatus | INT_STATUS_WAS_ATTACKED | INT_STATUS_INTERACTED | INT_STATUS_TOUCHED_BOB_OMB | ATTACK_PUNCH
-                        end
-                        if oHit.oHeldState == HELD_FREE and oHit.oIntangibleTimer >= 0 then
-                            if (oHit.oInteractType == INTERACT_BREAKABLE or oHit.oInteractType == INTERACT_BULLY or oHit.oInteractType == INTERACT_SPINY_WALKING or obj_is_attackable(oHit))
-                                and obj_has_behavior_id(oHit, id_bhvBowser) == 0 then
-                                if oHit.oInteractType == INTERACT_BULLY then
-                                    oHit.oFaceAngleYaw = o.oMoveAngleYaw
-                                    oHit.oMoveAngleYaw = oHit.oFaceAngleYaw
-                                    oHit.oForwardVel = o.oForwardVel * 1.5
+                        else
+                            if list == OBJ_LIST_PLAYER and gServerSettings.playerInteractions == PLAYER_INTERACTIONS_PVP then
+                                local mOther = get_mario_state_from_object(oHit)
+                                if mOther and mOther.playerIndex == 0 then
+                                    local p = gPlayerSyncTable[mOther.playerIndex]
+                                    if (mOther.action & ACT_FLAG_INTANGIBLE) == 0 and (mOther.action & ACT_FLAG_INVULNERABLE) == 0 and mOther.invincTimer == 0 and p.kirbyCopyAbility_JJJ ~= KIRBY_COPY_GHOST and p.kirbyCopyAbility_JJJ ~= KIRBY_COPY_STEEL and (o.oInteractionSubtype & INT_SUBTYPE_DELAY_INVINCIBILITY) == 0 then
+                                        determine_knockback_action_jjj(mOther, o, 3)
+                                        play_kirby_sound(KIRBY_HIT_SOUND, o.header.gfx.pos, 0.5)
+                                    end
                                 end
+                            elseif obj_has_behavior_id(oHit, id_bhvMrI) == 1 then
                                 if oHit.oDededeHitEnemy == 0 then
                                     play_kirby_sound(KIRBY_HIT_SOUND, o.header.gfx.pos, 0.5)
+                                    oHit.oAction = 3
                                     oHit.oDededeHitEnemy = 1
+                                    break
                                 end
-                                oHit.oInteractStatus = oHit.oInteractStatus | INT_STATUS_WAS_ATTACKED | INT_STATUS_INTERACTED | INT_STATUS_TOUCHED_BOB_OMB | ATTACK_PUNCH
+                            else
+                                if (oHit.oInteractType == INTERACT_BREAKABLE or obj_is_attackable(oHit)) and obj_has_behavior_id(oHit, id_bhvBowser) == 0 then
+                                    oHit.oInteractStatus = oHit.oInteractStatus | INT_STATUS_WAS_ATTACKED | INT_STATUS_INTERACTED | INT_STATUS_TOUCHED_BOB_OMB | ATTACK_PUNCH
+                                end
+                                if oHit.oHeldState == HELD_FREE and oHit.oIntangibleTimer >= 0 then
+                                    if (oHit.oInteractType == INTERACT_BREAKABLE or oHit.oInteractType == INTERACT_BULLY or oHit.oInteractType == INTERACT_SPINY_WALKING or obj_is_attackable(oHit))
+                                        and obj_has_behavior_id(oHit, id_bhvBowser) == 0 then
+                                        if oHit.oInteractType == INTERACT_BULLY then
+                                            oHit.oFaceAngleYaw = o.oMoveAngleYaw
+                                            oHit.oMoveAngleYaw = oHit.oFaceAngleYaw
+                                            oHit.oForwardVel = o.oForwardVel * 1.5
+                                        end
+                                        if oHit.oDededeHitEnemy == 0 then
+                                            play_kirby_sound(KIRBY_HIT_SOUND, o.header.gfx.pos, 0.5)
+                                            oHit.oDededeHitEnemy = 1
+                                        end
+                                        oHit.oInteractStatus = oHit.oInteractStatus | INT_STATUS_WAS_ATTACKED | INT_STATUS_INTERACTED | INT_STATUS_TOUCHED_BOB_OMB | ATTACK_PUNCH
+                                    end
+                                end
                             end
                         end
                     end

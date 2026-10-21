@@ -197,6 +197,13 @@ charSelect.character_set_category(kirbyCharID, "Kirby", true)
 -- KING DEDEDE --
 E_MODEL_DEDEDE = smlua_model_util_get_id("dedede_geo")
 
+local dededeCaps = {
+	normal = smlua_model_util_get_id("dedede_cap_geo"),
+	wing = smlua_model_util_get_id("dedede_cap_wing_geo"),
+	metal = smlua_model_util_get_id("dedede_cap_metal_geo"),
+	metalWing = smlua_model_util_get_id("dedede_cap_metal_geo")
+}
+
 charSelect.character_add_palette_preset(E_MODEL_DEDEDE, {
 	[PANTS] = "FFDA89", 
 	[SHIRT] = "FF0000", 
@@ -211,7 +218,7 @@ charSelect.character_add_palette_preset(E_MODEL_DEDEDE, {
 dededeCharID = charSelect.character_add("King Dedede", "Lorem Ipsum", "@funkymonkeyjay", "0089FF", E_MODEL_DEDEDE, CT_MARIO, TEX_CUSTOM_LIFE_ICON, 1.6)
 charSelect.character_set_nickname(dededeCharID, "Dedede")
 
-charSelect.character_add_caps(E_MODEL_DEDEDE, kirbyCaps)
+charSelect.character_add_caps(E_MODEL_DEDEDE, dededeCaps)
 charSelect.character_add_animations(E_MODEL_DEDEDE, nil, kirbyAnims.eyes)
 
 charSelect.character_add_menu_instrumental(dededeCharID, KIRBY_MENU_THEME)

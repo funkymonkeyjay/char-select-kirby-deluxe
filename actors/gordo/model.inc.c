@@ -26,12 +26,12 @@ Texture gordo_bomb_left_side_rgba16_pal_rgba16[] = {
 	#include "actors/gordo/bomb_left_side.rgba16.pal"
 };
 
-Texture gordo_Gordo_Spike_ci8[] = {
-	#include "actors/gordo/Gordo_Spike.ci8.inc.c"
+Texture gordo_bomb_spike_rgba16_ci8[] = {
+	#include "actors/gordo/bomb_spike.rgba16.ci8.inc.c"
 };
 
-Texture gordo_Gordo_Spike_pal_rgba16[] = {
-	#include "actors/gordo/Gordo_Spike.rgba16.pal"
+Texture gordo_bomb_spike_rgba16_pal_rgba16[] = {
+	#include "actors/gordo/bomb_spike.rgba16.pal"
 };
 
 Texture gordo_Gordo_Eye_ci8[] = {
@@ -494,10 +494,10 @@ Gfx mat_gordo_Gordo_Spikes[] = {
 	gsDPSetAlphaDither(G_AD_NOISE),
 	gsDPSetTextureLUT(G_TT_RGBA16),
 	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, gordo_Gordo_Spike_pal_rgba16),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, gordo_bomb_spike_rgba16_pal_rgba16),
 	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadTLUTCmd(5, 34),
-	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, gordo_Gordo_Spike_ci8),
+	gsDPLoadTLUTCmd(5, 36),
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, gordo_bomb_spike_rgba16_ci8),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
 	gsDPLoadBlock(7, 0, 0, 511, 512),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0),

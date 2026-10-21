@@ -228,6 +228,7 @@ function act_dedede_hammer_spin(m)
         m.twirlYaw = m.marioObj.header.gfx.angle.y
         spawn_sync_object(id_bhvDededeHammer_JJJ, E_MODEL_NONE, m.pos.x + sins(m.faceAngle.y) * 200, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 200, function (o)
             o.parentObj = m.marioObj
+            o.oDededeHitEnemy = 1
         end)
     end
 
@@ -319,7 +320,7 @@ function act_dedede_gordo(m)
     if m.actionTimer > 5 * 30 then
         if m.playerIndex == 0 then
             set_camera_shake_from_point(SHAKE_POS_LARGE, m.pos.x, m.pos.y, m.pos.z);
-            local explosion = spawn_sync_object(id_bhvExplosion, E_MODEL_EXPLOSION, m.pos.x, m.pos.y + 75, m.pos.z, function (o) end)    
+            local explosion = spawn_sync_object(id_bhvExplosion, E_MODEL_EXPLOSION, m.pos.x, m.pos.y + 75, m.pos.z, nil)
             if explosion then
                 explosion.oGraphYOffset = explosion.oGraphYOffset + 100
             end
@@ -331,7 +332,11 @@ function act_dedede_gordo(m)
     end
     if (m.controller.buttonDown & Z_TRIG) == 0 or (m.controller.buttonDown & B_BUTTON) == 0 then
         if m.actionTimer >= 30 then
-            --TODO: spawn gordo or searches
+            if m.actionTimer < 4.5 * 30 then
+                -- TODO: spawn Gordo
+            else
+                -- TODO: spawn Searches
+            end
         end
         return set_mario_action(m, ACT_DEDEDE_HAMMER_FLIP, m.actionTimer)
     end
@@ -378,7 +383,7 @@ end
 hook_mario_action(ACT_DEDEDE_HAMMER_FLIP, act_dedede_hammer_flip)
 
 ACT_DEDEDE_HAMMER_UP = allocate_mario_action(ACT_FLAG_STATIONARY)
-ACT_DEDEDE_HAMMER_DOWN = allocate_mario_action(ACT_FLAG_ATTACKING | ACT_FLAG_STATIONARY)
+ACT_DEDEDE_HAMMER_DOWN = allocate_mario_action(ACT_FLAG_ATTACKING | ACT_FLAG_STATIONARY) -- the ACT_FLAG_ATTACKING flag is the reason why they're two actions instead of one.
 
 local function act_dedede_hammer(m, arg)
     if not m then return 0 end
@@ -386,11 +391,14 @@ local function act_dedede_hammer(m, arg)
     if (m.input & INPUT_OFF_FLOOR) ~= 0 then return drop_and_set_mario_action(m, ACT_FREEFALL, 0) end
 
     if arg == 1 and m.marioObj.header.gfx.animInfo.animFrame == 4 and m.playerIndex == 0 then -- TODO: assign actual frame where the hammer slams onto the ground.
-        spawn_sync_object(id_bhvDededeHammer_JJJ, E_MODEL_NONE, m.pos.x + sins(m.faceAngle.y) * 200, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 200, nil)
+        spawn_sync_object(id_bhvDededeHammer_JJJ, E_MODEL_NONE, m.pos.x + sins(m.faceAngle.y) * 200, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 200, function (o)
+            o.parentObj = m.marioObj
+            o.oDededeHitEnemy = 0
+        end)
         play_sound(SOUND_ACTION_BOUNCE_OFF_OBJECT, m.marioObj.header.gfx.cameraToObject)
         spawn_sync_object(id_bhvHorStarParticleSpawner, E_MODEL_NONE, m.pos.x + sins(m.faceAngle.y) * 200, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 200, nil)
     elseif arg == 0 then
-        if m.marioObj.header.gfx.animInfo.animFrame > 4 and (m.controller.buttonDown & L_TRIG) == 0 then -- TODO: assign frame that allows player to skip the 
+        if m.marioObj.header.gfx.animInfo.animFrame > 4 and (m.controller.buttonDown & L_TRIG) == 0 then -- TODO: assign frame that allows player to skip the action.
             set_mario_action(m, ACT_DEDEDE_HAMMER_DOWN, 0)
             gPlayerSyncTable[m.playerIndex].dededeIsHammer_JJJ = false
         end
@@ -406,7 +414,7 @@ function act_dedede_hammer_up(m) return act_dedede_hammer(m, 0) end
 function act_dedede_hammer_down(m) return act_dedede_hammer(m, 1) end
 
 hook_mario_action(ACT_DEDEDE_HAMMER_UP, act_dedede_hammer_up)
-hook_mario_action(ACT_DEDEDE_HAMMER_DOWN, act_dedede_hammer_down)
+hook_mario_action(ACT_DEDEDE_HAMMER_DOWN, act_dedede_hammer_down, INT_GROUND_POUND) -- ... also this!
 
 ACT_DEDEDE_HAMMER_AIR = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
 
@@ -415,7 +423,6 @@ function act_dedede_hammer_air(m)
     local idx = m.playerIndex
 
     if m.actionState == 0 then
-        --play_character_sound_if_no_flag(m, CHAR_SOUND_PUNCH_WAH, MARIO_ACTION_SOUND_PLAYED);
         m.flags = m.flags | MARIO_KICKING
         gPlayerSyncTable[idx].dededeHasAirSpin_JJJ = true
         play_sound(SOUND_ACTION_TWIRL, m.marioObj.header.gfx.cameraToObject)
@@ -425,12 +432,11 @@ function act_dedede_hammer_air(m)
         m.actionState = 1
         spawn_sync_object(id_bhvDededeHammer_JJJ, E_MODEL_NONE, m.pos.x + sins(m.faceAngle.y) * 200, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 200, function (o)
             o.parentObj = m.marioObj
+            o.oDededeHitEnemy = 1
         end)
     elseif is_anim_at_end(m) ~= 0 then
         return set_mario_action(m, ACT_FREEFALL, 0)
     end
-
-    --
 
     update_air_without_turn(m)
     local switchCase = perform_air_step(m, 0)
@@ -438,10 +444,6 @@ function act_dedede_hammer_air(m)
         if check_fall_damage_or_get_stuck(m, ACT_HARD_BACKWARD_GROUND_KB) then
             set_mario_action(m, ACT_FREEFALL_LAND, 0)
         end
-    --elseif switchCase == AIR_STEP_HIT_WALL then
-        --if not m.wall then return end
-        --djui_chat_message_create("asdaas")
-        --mario_set_forward_vel(m, 0)
     end
 
     return 0

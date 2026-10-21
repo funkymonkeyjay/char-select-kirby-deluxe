@@ -8,6 +8,18 @@ function isMovesetOff() -- Global function to check if movesets are off or restr
 	return false
 end
 
+function dededeCap_JJJ(node, matStackIndex)
+	local switchCase = cast_graph_node(node)
+	local o = geo_get_current_object()
+
+	local behValue = get_id_from_behavior(o.behavior)
+	if behValue == id_bhvNormalCap then
+		switchCase.selectedCase = 1
+	else
+		switchCase.selectedCase = 0
+	end
+end
+
 function kirbyWing_JJJ(node, matStackIndex)
 	local leftWing = node.next
 	local rightWing = node.next.next
@@ -35,6 +47,7 @@ function dededeHammer_JJJ(node, matStackIndex)
 	local isHoldingHammer = gPlayerSyncTable[m.playerIndex].dededeIsHammer_JJJ 
 							or (m.action == ACT_DEDEDE_HAMMER_DOWN and m.marioObj.header.gfx.animInfo.animFrame < 4) -- TODO: set to frame where hammer is discarded
 							or m.action == ACT_DEDEDE_HAMMER_SPIN or m.action == ACT_DEDEDE_DIZZY or m.action == ACT_DEDEDE_HAMMER_AIR
+							or m.action == ACT_GROUND_POUND or m.action == ACT_GROUND_POUND_LAND
 	local isStoringHammer = m.action == ACT_KIRBY_JUMBO_STAR or (m.action & ACT_FLAG_METAL_WATER) ~= 0
 
 	if asSwitchNode.parameter == 1 then -- Hand

@@ -150,7 +150,7 @@ const GeoLayout dedede_Right_Hand_Cap[] = {
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
-const GeoLayout dedede_Right_Hand_Wing_Cap_001[] = {
+const GeoLayout dedede_Right_Hand_Wing_Cap[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
 		GEO_ANIMATED_PART(LAYER_OPAQUE, 180, 0, 0, dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1),
@@ -175,6 +175,13 @@ const GeoLayout dedede_Kabu_Partner[] = {
 const GeoLayout dedede_Nothing[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout dedede_Masked_Dedede_Switch_Option_Masked_Beak_Open[] = {
+	GEO_TRANSLATE_ROTATE(LAYER_OPAQUE, -139, 134, 5, 0, 0, 0),
+	GEO_OPEN_NODE(),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Masked_Dedede_Switch_Option_Masked_Beak_Open_Switch_Option_Masked_Beak_Open_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -275,7 +282,7 @@ const GeoLayout dedede_Masked_Dedede_Switch_Option_Maskless_Head[] = {
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
-const GeoLayout dedede_Masked_Dedede_Switch_Option_Hammer_For_Hand_001[] = {
+const GeoLayout dedede_Masked_Dedede_Switch_Option_Masked_Hammer_For_Hand[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Masked_Dedede_Switch_Option_Hammer_Switch_Option_Hammer_mesh_layer_1),
@@ -284,12 +291,12 @@ const GeoLayout dedede_Masked_Dedede_Switch_Option_Hammer_For_Hand_001[] = {
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
-const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_State_Switch_opt1_jump_dedede_Beak_Open[] = {
+const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_State_Switch_opt1_jump_dedede_Masked_Dedede_Switch_Option_Masked_Beak_Open[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
 		GEO_TRANSLATE_ROTATE(LAYER_OPAQUE, -139, 134, 5, 0, 0, 0),
 		GEO_OPEN_NODE(),
-			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Beak_Open_Switch_Option_Beak_Open_mesh_layer_1),
+			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Masked_Dedede_Switch_Option_Masked_Beak_Open_Switch_Option_Masked_Beak_Open_mesh_layer_1),
 		GEO_CLOSE_NODE(),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
@@ -408,7 +415,7 @@ const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_Stat
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
-const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_State_Switch_opt1_jump_dedede_Masked_Dedede_Switch_Option_Hammer_For_Hand_001[] = {
+const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_State_Switch_opt1_jump_dedede_Masked_Dedede_Switch_Option_Masked_Hammer_For_Hand[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Masked_Dedede_Switch_Option_Hammer_Switch_Option_Hammer_mesh_layer_1),
@@ -448,7 +455,7 @@ const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_Stat
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
-const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Wing_Cap_001[] = {
+const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Wing_Cap[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
 		GEO_ANIMATED_PART(LAYER_TRANSPARENT, 180, 0, 0, dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1),
@@ -610,7 +617,7 @@ const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_Stat
 										GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_State_Switch_opt1_0_Beak_Switch_opt1),
 										GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_State_Switch_opt1_0_Beak_Switch_opt2),
 										GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_State_Switch_opt1_0_Beak_Switch_opt3),
-										GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_State_Switch_opt1_jump_dedede_Beak_Open),
+										GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_State_Switch_opt1_jump_dedede_Masked_Dedede_Switch_Option_Masked_Beak_Open),
 										GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_State_Switch_opt1_jump_dedede_Beak_Full),
 									GEO_CLOSE_NODE(),
 									GEO_SWITCH_CASE(0, geo_switch_mario_cap_on_off),
@@ -693,14 +700,14 @@ const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_Stat
 														GEO_OPEN_NODE(),
 															GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dedede_Masked_Dedede_Switch_Option_Hammer_Hand_DL_mesh_layer_1),
 														GEO_CLOSE_NODE(),
-														GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_State_Switch_opt1_jump_dedede_Masked_Dedede_Switch_Option_Hammer_For_Hand_001),
+														GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_State_Switch_opt1_jump_dedede_Masked_Dedede_Switch_Option_Masked_Hammer_For_Hand),
 													GEO_CLOSE_NODE(),
 												GEO_CLOSE_NODE(),
 											GEO_CLOSE_NODE(),
 											GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Open),
 											GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Peace),
 											GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Cap),
-											GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Wing_Cap_001),
+											GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Wing_Cap),
 										GEO_CLOSE_NODE(),
 									GEO_CLOSE_NODE(),
 								GEO_CLOSE_NODE(),
@@ -911,7 +918,7 @@ const GeoLayout dedede_Masked_Dedede[] = {
 												GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_State_Switch_opt0_0_Beak_Switch_opt1),
 												GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_State_Switch_opt0_0_Beak_Switch_opt2),
 												GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt2_Cap_State_Switch_opt0_0_Beak_Switch_opt3),
-												GEO_BRANCH(1, dedede_Beak_Open),
+												GEO_BRANCH(1, dedede_Masked_Dedede_Switch_Option_Masked_Beak_Open),
 												GEO_BRANCH(1, dedede_Beak_Full),
 											GEO_CLOSE_NODE(),
 											GEO_SWITCH_CASE(0, geo_switch_mario_cap_on_off),
@@ -994,14 +1001,14 @@ const GeoLayout dedede_Masked_Dedede[] = {
 																GEO_OPEN_NODE(),
 																	GEO_DISPLAY_LIST(LAYER_OPAQUE, dedede_Masked_Dedede_Switch_Option_Hammer_Hand_DL_mesh_layer_1),
 																GEO_CLOSE_NODE(),
-																GEO_BRANCH(1, dedede_Masked_Dedede_Switch_Option_Hammer_For_Hand_001),
+																GEO_BRANCH(1, dedede_Masked_Dedede_Switch_Option_Masked_Hammer_For_Hand),
 															GEO_CLOSE_NODE(),
 														GEO_CLOSE_NODE(),
 													GEO_CLOSE_NODE(),
 													GEO_BRANCH(1, dedede_Right_Hand_Open),
 													GEO_BRANCH(1, dedede_Right_Hand_Peace),
 													GEO_BRANCH(1, dedede_Right_Hand_Cap),
-													GEO_BRANCH(1, dedede_Right_Hand_Wing_Cap_001),
+													GEO_BRANCH(1, dedede_Right_Hand_Wing_Cap),
 												GEO_CLOSE_NODE(),
 											GEO_CLOSE_NODE(),
 										GEO_CLOSE_NODE(),
@@ -1235,7 +1242,7 @@ const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_ded
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
-const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Wing_Cap_001[] = {
+const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Wing_Cap[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
 		GEO_ANIMATED_PART(LAYER_TRANSPARENT, 180, 0, 0, dedede_Right_Hand_Wing_Cap_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1),
@@ -1487,7 +1494,7 @@ const GeoLayout dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1[] = {
 											GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Open),
 											GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Peace),
 											GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Cap),
-											GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Wing_Cap_001),
+											GEO_BRANCH(1, dedede_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt1_jump_dedede_Right_Hand_Wing_Cap),
 										GEO_CLOSE_NODE(),
 									GEO_CLOSE_NODE(),
 								GEO_CLOSE_NODE(),
@@ -1799,7 +1806,7 @@ const GeoLayout dedede_geo[] = {
 																	GEO_BRANCH(1, dedede_Right_Hand_Open),
 																	GEO_BRANCH(1, dedede_Right_Hand_Peace),
 																	GEO_BRANCH(1, dedede_Right_Hand_Cap),
-																	GEO_BRANCH(1, dedede_Right_Hand_Wing_Cap_001),
+																	GEO_BRANCH(1, dedede_Right_Hand_Wing_Cap),
 																GEO_CLOSE_NODE(),
 															GEO_CLOSE_NODE(),
 														GEO_CLOSE_NODE(),

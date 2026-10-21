@@ -74,6 +74,9 @@ if charSelect then
 			return set_mario_action(m, ACT_WALKING, 0)
 		end
 		]]
+		if currChar == dededeCharID and incomingAction == ACT_GROUND_POUND_LAND then
+			spawn_sync_object(id_bhvDededeHammer_JJJ, E_MODEL_NONE, m.pos.x + sins(m.faceAngle.y) * 200, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 200, nil)
+		end
 
 		if incomingAction == ACT_BURNING_FALL or incomingAction == ACT_BURNING_JUMP or incomingAction == ACT_BURNING_GROUND then
 			m.hurtCounter = m.hurtCounter + 8
@@ -439,12 +442,12 @@ if charSelect then
 	
 	local function kirbyPreUpdate(m)
 		local idx = m.playerIndex
+		local currChar = charSelect.character_get_current_number(idx)
 		
 		if idx ~= 0 then return end
 
-		-- TODO: Attempt to make the ground pound more kirby-like, need to tweak later.
-		if m.action == ACT_GROUND_POUND and m.actionState == 0 then
-			m.vel.y = 20
+		if m.action == ACT_GROUND_POUND and m.actionState == 0 and currChar == dededeCharID then
+			m.vel.y = 30
 			m.actionState = 1
 		end
 		
@@ -632,9 +635,10 @@ if charSelect then
 
 	end)
 	
-	hook_event(HOOK_ALLOW_INTERACT, function (m, o, intType) -- Piece of code I found on "Coop Central" by "@.kristy.", originally from Sonic Rebooted which, before that, was from Pasta Castle.
+	hook_event(HOOK_ALLOW_INTERACT, function (m, o, intType)
 		local p = gPlayerSyncTable[m.playerIndex]
 
+		-- Piece of code I found on "Coop Central" by "@.kristy.", originally from Sonic Rebooted which, before that, was from Pasta Castle.
 		if m.action == ACT_KIRBY_INHALE or m.action == ACT_DEDEDE_DIVE_SLIDE then
 			if (intType & (INTERACT_GRABBABLE) ~= 0) and o.oInteractionSubtype & (INT_SUBTYPE_NOT_GRABBABLE) == 0 and not (obj_has_behavior_id(o, id_bhvBobomb) ~= 0 or (obj_has_behavior_id(o, id_bhvUkiki) ~= 0 and o.oBehParams2ndByte == UKIKI_CAP)) then
 				m.interactObj = o
@@ -669,8 +673,6 @@ if charSelect then
 				end
 				obj_mark_for_deletion(o)
 				return false
-			--else
-				--m.flags = (m.flags | MARIO_CAP_ON_HEAD) & ~MARIO_CAP_IN_HAND
 			end
 		
 			if (obj_has_behavior_id(o,id_bhvKlepto) ~= 0) and (m.cap == SAVE_FLAG_CAP_ON_KLEPTO) then
@@ -678,6 +680,27 @@ if charSelect then
 				o.oAnimState = KLEPTO_ANIM_STATE_HOLDING_NOTHING
 				o.oAction = KLEPTO_ACT_WAIT_FOR_MARIO
 				oUpdated = true
+			end
+		elseif currChar == dededeCharID then
+			local capFlag = get_mario_cap_flag(o)
+			if not isMovesetOff() and capFlag ~= 0 and m.action ~= ACT_GETTING_BLOWN then
+				local capMusic, capTime = 0, 0
+				m.flags = m.flags | capFlag
+				if capFlag == MARIO_VANISH_CAP then
+					capTime = gLevelValues.vanishCapDuration
+					capMusic = (4 << 8) | gLevelValues.vanishCapSequence
+				elseif capFlag == MARIO_METAL_CAP then
+					capTime = gLevelValues.vanishCapDuration
+					capMusic = (4 << 8) | gLevelValues.metalCapSequence
+				elseif capFlag == MARIO_WING_CAP then
+					capTime = gLevelValues.wingCapDuration
+					capMusic = (4 << 8) | gLevelValues.wingCapSequence
+				end
+				if capTime > m.capTimer then m.capTimer = capTime end
+				if capMusic ~= 0 then play_cap_music(capMusic) end
+				set_mario_action(m, ACT_PUTTING_ON_CAP, 0)
+				obj_mark_for_deletion(o)
+				return false
 			end
 		end
 		
