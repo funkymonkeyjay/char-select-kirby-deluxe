@@ -66,6 +66,9 @@ function dededePartner_JJJ(node, matStackIndex)
 	local asSwitchNode = cast_graph_node(node)
 	local bodyState = geo_get_body_state()
 
+	local m = geo_get_mario_state()
+	if not isMovesetOff() and m.action == ACT_END_PEACH_CUTSCENE then return end
+
 	if bodyState.capState & 2 ~= 0 then -- Bronto Burt
 		asSwitchNode.selectedCase = 0
 	elseif bodyState.modelState >> 8 == 1 or bodyState.modelState >> 8 == 3 then -- Kabu

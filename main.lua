@@ -225,18 +225,22 @@ charSelect.character_add_menu_instrumental(dededeCharID, KIRBY_MENU_THEME)
 charSelect.character_set_category(dededeCharID, "Kirby", true)
 
 SEQ_KIRBY_TRIUMPH = smlua_audio_utils_allocate_sequence()
-SEQ_KIRBY_DEATH = smlua_audio_utils_allocate_sequence()
-SEQ_KIRBY_POWER = smlua_audio_utils_allocate_sequence()
 smlua_audio_utils_replace_sequence(SEQ_KIRBY_TRIUMPH, 0x1A, 100, "mus_triumph_return")
-smlua_audio_utils_replace_sequence(SEQ_KIRBY_DEATH, 0x14, 75, "mus_death")
---smlua_audio_utils_replace_sequence(SEQ_KIRBY_POWER, 0x0B, 100, "mus_power")
 charSelect.character_add_sequence_replacement(kirbyCharID, SEQ_EVENT_CUTSCENE_VICTORY, SEQ_KIRBY_TRIUMPH)
 charSelect.character_add_sequence_replacement(dededeCharID, SEQ_EVENT_CUTSCENE_VICTORY, SEQ_KIRBY_TRIUMPH)
 
---charSelect.character_add_sequence_replacement(kirbyCharID, SEQ_EVENT_POWERUP, SEQ_KIRBY_POWER)
---charSelect.character_add_sequence_replacement(kirbyCharID, SEQ_EVENT_METAL_CAP, SEQ_KIRBY_POWER)
+SEQ_KIRBY_DEATH = smlua_audio_utils_allocate_sequence()
+smlua_audio_utils_replace_sequence(SEQ_KIRBY_DEATH, 0x14, 75, "mus_death")
 
---charSelect.character_add_sequence_replacement(dededeCharID, SEQ_EVENT_POWERUP, SEQ_KIRBY_POWER)
+SEQ_KIRBY_POWER = smlua_audio_utils_allocate_sequence()
+smlua_audio_utils_replace_sequence(SEQ_KIRBY_POWER, 0x11, 100, "mus_power")
+charSelect.character_add_sequence_replacement(kirbyCharID, SEQ_EVENT_POWERUP, SEQ_KIRBY_POWER)
+charSelect.character_add_sequence_replacement(kirbyCharID, SEQ_EVENT_METAL_CAP, SEQ_KIRBY_POWER)
+charSelect.character_add_sequence_replacement(dededeCharID, SEQ_EVENT_POWERUP, SEQ_KIRBY_POWER)
+
+SEQ_KIRBY_MASKED = smlua_audio_utils_allocate_sequence()
+smlua_audio_utils_replace_sequence(SEQ_KIRBY_MASKED, 0x12, 70, "mus_masked")
+charSelect.character_add_sequence_replacement(dededeCharID, SEQ_EVENT_METAL_CAP, SEQ_KIRBY_MASKED)
 
 -- CONFIG
 gGlobalSyncTable.kirbyUnusualObjects = false

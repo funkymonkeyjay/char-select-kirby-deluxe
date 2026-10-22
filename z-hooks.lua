@@ -75,7 +75,10 @@ if charSelect then
 		end
 		]]
 		if currChar == dededeCharID and incomingAction == ACT_GROUND_POUND_LAND then
-			spawn_sync_object(id_bhvDededeHammer_JJJ, E_MODEL_NONE, m.pos.x + sins(m.faceAngle.y) * 200, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 200, nil)
+			spawn_sync_object(id_bhvDededeHammer_JJJ, E_MODEL_NONE, m.pos.x + sins(m.faceAngle.y) * 200, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 200, function (o)
+				o.parentObj = m.marioObj
+				--o.oDededeHitEnemy = 0
+			end)
 		end
 
 		if incomingAction == ACT_BURNING_FALL or incomingAction == ACT_BURNING_JUMP or incomingAction == ACT_BURNING_GROUND then
@@ -335,7 +338,7 @@ if charSelect then
 		elseif not (m.heldObj or m.action == ACT_DEDEDE_GORDO or m.action == ACT_DEDEDE_HAMMER_FLIP or m.action == ACT_DEDEDE_HAMMER_UP or m.action == ACT_DEDEDE_HAMMER_DOWN) then
 			--if (m.controller.buttonDown & X_BUTTON) ~= 0 then
 			if (m.controller.buttonDown & L_TRIG) ~= 0 and checkFlags(m) then
-				if m.pos.y ~= m.floorHeight and m.action ~= ACT_DEDEDE_HAMMER_AIR and not (gPlayerSyncTable[idx].dededeHasAirSpin_JJJ or gPlayerSyncTable[0].dededeIsHammer_JJJ) then
+				if m.pos.y ~= m.floorHeight and m.action ~= ACT_DEDEDE_HAMMER_AIR and m.action ~= ACT_KIRBY_PUFF and not (gPlayerSyncTable[idx].dededeHasAirSpin_JJJ or gPlayerSyncTable[0].dededeIsHammer_JJJ) then
 					drop_and_set_mario_action(m, ACT_DEDEDE_HAMMER_AIR, 0)
 				elseif m.pos.y == m.floorHeight then
 					if not gPlayerSyncTable[0].dededeIsHammer_JJJ and m.action ~= ACT_DEDEDE_HAMMER_SPIN then
