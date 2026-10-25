@@ -10,6 +10,8 @@ CHAR_ANIM_KIRBY_PUFF_RISE =   CHAR_ANIM_MAX + 19923
 CHAR_ANIM_KIRBY_PUFF_FALL =   CHAR_ANIM_MAX + 19924
 CHAR_ANIM_KIRBY_ENDING =      CHAR_ANIM_MAX + 19925
 
+CHAR_ANIM_DEDEDE_SPIN =      CHAR_ANIM_MAX + 19925
+
 kirbyAnims = {
 	mouth = {
 		[CHAR_ANIM_IDLE_ON_POLE] = MARIO_MOUTH_SMILE, 
@@ -171,4 +173,38 @@ kirbyAnims = {
 		[CHAR_ANIM_KIRBY_HELLO] = "KIRBY_HELLO", 
 		[CHAR_ANIM_KIRBY_ENDING] = "KIRBY_WARP_STAR_ENDING", 
 	}, 
+}
+
+dededeAnims = {
+	mouth = {
+		[charSelect.CS_ANIM_MENU] = function (m, frame) if frame > 116 and frame < 148 then return MARIO_MOUTH_FROWN end return MARIO_MOUTH_NORMAL end, 
+		[CHAR_ANIM_DEDEDE_SPIN] = MARIO_MOUTH_HAPPY, 
+	},
+	eyes = {
+		[charSelect.CS_ANIM_MENU] = function (m, frame)
+			if frame > 116 and frame < 119 then
+				return MARIO_EYES_HALF_CLOSED
+			elseif frame >= 119 and frame < 122 then
+				return MARIO_EYES_CLOSED
+			elseif frame >= 122 and frame < 132 then
+				return MARIO_EYES_ANGRY
+			elseif frame > 138 and frame <= 148 then
+				return MARIO_EYES_OPEN
+			end
+			return MARIO_EYES_LOOK_LEFT
+		end, 
+		[CHAR_ANIM_DEDEDE_SPIN] = MARIO_EYES_ANGRY, 
+	}, 
+	hands = {
+		[charSelect.CS_ANIM_MENU] = MARIO_HAND_PEACE_SIGN, 
+	}, 
+	anims = {
+		[charSelect.CS_ANIM_MENU] = "DEDEDE_MENU", 
+		[CHAR_ANIM_IDLE_HEAD_LEFT] = "DEDEDE_IDLE", 
+		[CHAR_ANIM_IDLE_HEAD_RIGHT] = "DEDEDE_IDLE", 
+		[CHAR_ANIM_IDLE_HEAD_CENTER] = "DEDEDE_IDLE", 
+		[CHAR_ANIM_FIRST_PERSON] = "DEDEDE_IDLE", 
+		[CHAR_ANIM_RETURN_FROM_STAR_DANCE] = "DEDEDE_IDLE", 
+		[CHAR_ANIM_DEDEDE_SPIN] = "DEDEDE_SPIN", 
+	},
 }

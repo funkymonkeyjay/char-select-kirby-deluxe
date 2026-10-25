@@ -2177,7 +2177,7 @@ const GeoLayout kirby_7_LoD_Switch__Unused__opt0_Cap_State_Switch_opt0_0_Capless
 const GeoLayout kirby_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_SHADOW(1, 180, 100),
+		GEO_SHADOW(1, 180, 130),
 		GEO_OPEN_NODE(),
 			GEO_SCALE(LAYER_FORCE, 22910),
 			GEO_OPEN_NODE(),

@@ -219,7 +219,7 @@ dededeCharID = charSelect.character_add("King Dedede", "Lorem Ipsum", "@funkymon
 charSelect.character_set_nickname(dededeCharID, "Dedede")
 
 charSelect.character_add_caps(E_MODEL_DEDEDE, dededeCaps)
-charSelect.character_add_animations(E_MODEL_DEDEDE, nil, kirbyAnims.eyes)
+charSelect.character_add_animations(E_MODEL_DEDEDE, dededeAnims.anims, dededeAnims.eyes, dededeAnims.hands)
 
 charSelect.character_add_menu_instrumental(dededeCharID, KIRBY_MENU_THEME)
 charSelect.character_set_category(dededeCharID, "Kirby", true)
@@ -239,7 +239,7 @@ charSelect.character_add_sequence_replacement(kirbyCharID, SEQ_EVENT_METAL_CAP, 
 charSelect.character_add_sequence_replacement(dededeCharID, SEQ_EVENT_POWERUP, SEQ_KIRBY_POWER)
 
 SEQ_KIRBY_MASKED = smlua_audio_utils_allocate_sequence()
-smlua_audio_utils_replace_sequence(SEQ_KIRBY_MASKED, 0x12, 70, "mus_masked")
+smlua_audio_utils_replace_sequence(SEQ_KIRBY_MASKED, 0x2A, 100, "mus_masked")
 charSelect.character_add_sequence_replacement(dededeCharID, SEQ_EVENT_METAL_CAP, SEQ_KIRBY_MASKED)
 
 -- CONFIG

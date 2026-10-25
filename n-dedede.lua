@@ -263,7 +263,8 @@ function act_dedede_hammer_spin(m)
         return set_mario_action(m, ACT_STOMACH_SLIDE, 0)
     end
 
-    set_mario_animation(m, CHAR_ANIM_TWIRL)
+    --set_mario_animation(m, CHAR_ANIM_TWIRL)
+    set_mario_animation(m, CHAR_ANIM_DEDEDE_SPIN)
 
     m.vel.x = math.lerp(m.vel.x, sins(intendedYaw) * m.forwardVel, 0.05)
     m.vel.z = math.lerp(m.vel.z, coss(intendedYaw) * m.forwardVel, 0.05)

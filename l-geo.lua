@@ -109,17 +109,18 @@ function kirbyMouth_JJJ(node, matStackIndex)
 	local m = geo_get_mario_state()
 	local idx = m.playerIndex
 	local modelId = charSelect.character_get_current_number(idx)
-	
+
+	local charTable = modelId == kirbyCharID and kirbyAnims or dededeAnims
 	local animInfo = m.marioObj.header.gfx.animInfo
 	local setMouthState = 0
-	local mouthState = kirbyAnims.mouth and run_func_or_get_var(kirbyAnims.mouth[animInfo.animID], m, animInfo.animFrame)
+	local mouthState = charTable.mouth and run_func_or_get_var(charTable.mouth[animInfo.animID], m, animInfo.animFrame)
 	
 	if mouthState then
 		setMouthState = mouthState
 	end
 
 	-- Classic Kirby Check
-	if (setMouthState == 2 or setMouthState == 3) and gPlayerSyncTable[m.playerIndex].kirbyAltCostume == 2 then
+	if modelId == kirbyCharID and (setMouthState == 2 or setMouthState == 3) and gPlayerSyncTable[m.playerIndex].kirbyAltCostume == 2 then
 		setMouthState = setMouthState + 4
 	end
 
