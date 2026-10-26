@@ -120,9 +120,11 @@ function act_dedede_full_aim(m)
 
     --djui_chat_message_create(tostring(m.intendedMag))
 	if (m.faceAngle.y > m.intendedYaw - 1500 and m.faceAngle.y < m.intendedYaw + 1500) or m.pos.y ~= m.floorHeight then
-		set_mario_animation(m, CHAR_ANIM_STAND_AGAINST_WALL)
+		set_mario_animation(m, CHAR_ANIM_DEDEDE_FULL_IDLE)
 	else
-		set_mario_anim_with_accel(m, CHAR_ANIM_PUSHING, m.intendedMag * 2000)
+        local angleDiff = (sm64_to_degrees(m.faceAngle.y) - sm64_to_degrees(m.intendedYaw) + 180 + 360) % 360 - 180
+        local toAnim = angleDiff < 0 and CHAR_ANIM_DEDEDE_FULL_MOVE_LEFT or CHAR_ANIM_DEDEDE_FULL_MOVE_RIGHT
+		set_mario_anim_with_accel(m, toAnim, m.intendedMag * 2000)
 		play_step_sound(m, 13, 26)
 	end
 
@@ -428,7 +430,7 @@ function act_dedede_hammer_air(m)
         gPlayerSyncTable[idx].dededeHasAirSpin_JJJ = true
         play_sound(SOUND_ACTION_TWIRL, m.marioObj.header.gfx.cameraToObject)
         m.marioObj.header.gfx.animInfo.animID = -1
-        set_character_animation(m, CHAR_ANIM_FORWARD_SPINNING)
+        set_character_animation(m, CHAR_ANIM_DEDEDE_HAMMER_AIR)
         m.vel.y = 16
         m.actionState = 1
         spawn_sync_object(id_bhvDededeHammer_JJJ, E_MODEL_NONE, m.pos.x + sins(m.faceAngle.y) * 200, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 200, function (o)

@@ -103,7 +103,7 @@ if charSelect then
 		--local dededeMult = currChar == dededeCharID and 0.75 or 1
 		--if incomingAction == ACT_JUMP or incomingAction == ACT_KIRBY_PUFF or incomingAction == ACT_KIRBY_DODGE then gPlayerSyncTable[idx].kirbyScaleY = 1000; m.marioObj.header.gfx.scale.y = 1 end
 		--if incomingAction == ACT_START_CROUCHING or incomingAction == ACT_CROUCH_SLIDE then gPlayerSyncTable[idx].kirbyScaleY = 2500 * dededeMult; m.marioObj.header.gfx.scale.y = 2.5 * dededeMult end
-		
+
 		if incomingAction == ACT_AIR_HIT_WALL or incomingAction == ACT_SOFT_BONK then
 			mario_set_forward_vel(m, 0.0)
 			if m.action == ACT_LONG_JUMP then
@@ -123,7 +123,8 @@ if charSelect then
 		
 		if incomingAction == ACT_JUMP_KICK and m.action == ACT_KIRBY_PUFF then
 			if m.playerIndex == 0 then
-				spawn_sync_object(id_bhvKirbyAir_JJJ, E_MODEL_KIRBY_AIR, m.pos.x, m.pos.y + 50, m.pos.z, function(o)
+				local airDist = currChar == kirbyCharID and 50 or 100
+				spawn_sync_object(id_bhvKirbyAir_JJJ, E_MODEL_KIRBY_AIR, m.pos.x, m.pos.y + airDist, m.pos.z, function(o)
 					o.oMoveAngleYaw = m.faceAngle.y
 					o.oForwardVel = m.forwardVel + floorObjectVel + 64
 				end)
@@ -197,7 +198,8 @@ if charSelect then
 				m.forwardVel = 0
 				if m.playerIndex == 0 and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ > 0 then
 					local pitch = (m.action & ACT_FLAG_SWIMMING) ~= 0 and m.faceAngle.x or 0
-					spawn_sync_object(id_bhvKirbyStar_JJJ, E_MODEL_KIRBY_STAR, m.pos.x, m.pos.y, m.pos.z, function(o)
+					local airDist = currChar == kirbyCharID and 0 or 25
+					spawn_sync_object(id_bhvKirbyStar_JJJ, E_MODEL_KIRBY_STAR, m.pos.x, m.pos.y + airDist, m.pos.z, function(o)
 						o.oMoveAnglePitch = pitch
 						o.oMoveAngleYaw = m.faceAngle.y
 						o.oBehParams = math.min(gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ, 4)
@@ -214,6 +216,10 @@ if charSelect then
 				if m.pos.y == m.floorHeight then m.vel.y = 0 end
 				return ACT_KIRBY_INHALE
 			end
+		end
+
+		if gPlayerSyncTable[m.playerIndex].dededeIsHammer_JJJ and incomingAction == ACT_PUNCHING and (m.action == ACT_IDLE or m.action == ACT_WALKING) then
+			return 1
 		end
 
 		if ((m.action == ACT_START_CROUCHING or m.action == ACT_CROUCHING or m.action == ACT_STOP_CROUCHING) and incomingAction == ACT_BACKFLIP) or
@@ -338,7 +344,9 @@ if charSelect then
 		elseif not (m.heldObj or m.action == ACT_DEDEDE_GORDO or m.action == ACT_DEDEDE_HAMMER_FLIP or m.action == ACT_DEDEDE_HAMMER_UP or m.action == ACT_DEDEDE_HAMMER_DOWN) then
 			--if (m.controller.buttonDown & X_BUTTON) ~= 0 then
 			if (m.controller.buttonDown & L_TRIG) ~= 0 and checkFlags(m) then
-				if m.pos.y ~= m.floorHeight and m.action ~= ACT_DEDEDE_HAMMER_AIR and m.action ~= ACT_KIRBY_PUFF and not (gPlayerSyncTable[idx].dededeHasAirSpin_JJJ or gPlayerSyncTable[0].dededeIsHammer_JJJ) then
+				if m.pos.y ~= m.floorHeight
+				 and m.action ~= ACT_DEDEDE_HAMMER_AIR and m.action ~= ACT_KIRBY_PUFF
+				 and not (gPlayerSyncTable[idx].dededeHasAirSpin_JJJ or gPlayerSyncTable[idx].dededeIsHammer_JJJ) then
 					drop_and_set_mario_action(m, ACT_DEDEDE_HAMMER_AIR, 0)
 				elseif m.pos.y == m.floorHeight then
 					if not gPlayerSyncTable[0].dededeIsHammer_JJJ and m.action ~= ACT_DEDEDE_HAMMER_SPIN then
@@ -352,8 +360,8 @@ if charSelect then
 						end
 					end
 				end
-			elseif gPlayerSyncTable[0].dededeIsHammer_JJJ and m.action ~= ACT_DEDEDE_HAMMER_DOWN then
-				drop_and_set_mario_action(m, ACT_DEDEDE_HAMMER_DOWN, 0)
+			elseif gPlayerSyncTable[0].dededeIsHammer_JJJ then
+				drop_and_set_mario_action(m, m.pos.y == m.floorHeight and ACT_DEDEDE_HAMMER_DOWN or ACT_DEDEDE_HAMMER_AIR, 0)
 				gPlayerSyncTable[0].dededeIsHammer_JJJ = false
 			end
 		end
@@ -570,18 +578,19 @@ if charSelect then
 		
 			if m.action ~= ACT_SQUISHED and m.action ~= ACT_BBH_ENTER_SPIN and m.squishTimer == 0 and ((m.marioObj.header.gfx.scale.x == 1 and m.marioObj.header.gfx.scale.z == 1) or (m.action == ACT_CROUCHING or m.action == ACT_START_CROUCHING or m.action == ACT_CROUCH_SLIDE)) then
 				local currChar = charSelect.character_get_current_number(idx)
+				local isKirbyStretching = m.action == ACT_EXIT_LAND_SAVE_DIALOG and currChar == kirbyCharID
 				local toScale = 1000
 
 				if m.action == ACT_JUMP_LAND or m.action == ACT_FREEFALL_LAND then
 					toScale = 500
 				elseif m.action == ACT_START_CROUCHING or m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE or m.action == ACT_KIRBY_SLIDE or m.action == ACT_SLIDE_KICK_SLIDE or m.action == ACT_CROUCH_SLIDE or m.action == ACT_JUMP_LAND
-					 or (m.action == ACT_EXIT_LAND_SAVE_DIALOG and (m.marioObj.header.gfx.animInfo.animFrame >= 28 and m.marioObj.header.gfx.animInfo.animFrame < 34)) or m.action == ACT_LONG_JUMP_LAND then
+					 or (isKirbyStretching and (m.marioObj.header.gfx.animInfo.animFrame >= 28 and m.marioObj.header.gfx.animInfo.animFrame < 34)) or m.action == ACT_LONG_JUMP_LAND then
 					toScale = 625
 				elseif m.action == ACT_FORWARD_ROLLOUT then
 					toScale = 900
 				elseif (m.action == ACT_JUMP and m.vel.y > 0) or (m.action == ACT_KIRBY_PUFF and m.vel.y > 0) or m.action == ACT_KIRBY_DODGE then
 					toScale = 1100 - (currChar == dededeCharID and 50 or 0)
-				elseif m.action == ACT_KIRBY_INHALE or (m.action == ACT_EXIT_LAND_SAVE_DIALOG and m.marioObj.header.gfx.animInfo.animID ~= CHAR_ANIM_THROW_CATCH_KEY and (m.marioObj.header.gfx.animInfo.animFrame > 10 and m.marioObj.header.gfx.animInfo.animFrame < 28)) then
+				elseif m.action == ACT_KIRBY_INHALE or (isKirbyStretching and m.marioObj.header.gfx.animInfo.animID ~= CHAR_ANIM_THROW_CATCH_KEY and (m.marioObj.header.gfx.animInfo.animFrame > 10 and m.marioObj.header.gfx.animInfo.animFrame < 28)) then
 					toScale = 1200 - (currChar == dededeCharID and 100 or 0)
 				elseif m.action == ACT_JUMP_KICK and m.marioObj.header.gfx.animInfo.animFrame < 2 then
 					toScale = 1300 - (currChar == dededeCharID and 100 or 0)

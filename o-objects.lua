@@ -58,7 +58,8 @@ local function bhv_kirby_effect_loop(o)
     local m = get_mario_state_from_object(o.parentObj)
     if not m then return end
 
-    o.oPosX, o.oPosY, o.oPosZ = m.pos.x + sins(m.faceAngle.y) * 37.5, m.pos.y + 75, m.pos.z + coss(m.faceAngle.y) * 37.5
+    local radius = charSelect.character_get_current_number(m.playerIndex) == dededeCharID and 92 or 37.5
+    o.oPosX, o.oPosY, o.oPosZ = m.pos.x + sins(m.faceAngle.y) * radius, m.pos.y + 75, m.pos.z + coss(m.faceAngle.y) * radius
     
     local pitch, yaw, roll = o.oTimer * 7500, m.faceAngle.y + degrees_to_sm64(90), degrees_to_sm64(90)
     obj_set_gfx_angle(o, pitch, yaw, roll)

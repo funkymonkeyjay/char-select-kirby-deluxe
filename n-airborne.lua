@@ -89,9 +89,10 @@ function act_kirby_puff(m)
 	
 	if kirbyIsTired then
 		--if gPlayerSyncTable[idx].kirbyPuffTimer_JJJ % 13 == 0 then -- Spawns Particles.
+		local charDist = charSelect.character_get_current_number(idx) == kirbyCharID and 48 or 150
 		if m.actionTimer % 13 == 0 then -- Spawns Particles.
 			for i = 0, 2 do
-				spawn_non_sync_object(id_bhvWhitePuff1, E_MODEL_WHITE_PARTICLE_SMALL, m.pos.x, m.pos.y + 48, m.pos.z, function(o)
+				spawn_non_sync_object(id_bhvWhitePuff1, E_MODEL_WHITE_PARTICLE_SMALL, m.pos.x, m.pos.y + charDist, m.pos.z, function(o)
 					o.oVelY = 12 + 12 * random_float()
 					o.oForwardVel = 12 + 12 * random_float()
 					o.oMoveAngleYaw = random_u16()
