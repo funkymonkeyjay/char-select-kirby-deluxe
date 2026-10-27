@@ -195,6 +195,12 @@ dededeAnims = {
 		[CHAR_ANIM_DEDEDE_FULL_MOVE_LEFT] = MARIO_MOUTH_EVIL, 
 		[CHAR_ANIM_DEDEDE_FULL_MOVE_RIGHT] = MARIO_MOUTH_EVIL, 
 		[CHAR_ANIM_DEDEDE_HAMMER_AIR] = MARIO_MOUTH_FROWN, 
+		[CHAR_ANIM_TIPTOE] = MARIO_MOUTH_FROWN, 
+		[CHAR_ANIM_AIRBORNE_ON_STOMACH] = MARIO_MOUTH_FROWN, 
+		[CHAR_ANIM_PUT_CAP_ON] = function (m, frame)
+			if (m.flags & MARIO_METAL_CAP) ~= 0 and not isMovesetOff() then return ((frame > 23 and frame < 32) and MARIO_MOUTH_OPEN) or MARIO_MOUTH_FROWN end
+			return ((frame > 19 and frame < 32) and MARIO_MOUTH_SMILE) or MARIO_MOUTH_HAPPY
+		end, 
 		--ACT_KIRBY_INHALE or (m.action == ACT_JUMP_KICK and m.marioObj.header.gfx.animInfo.animFrame < 10) or (m.action == ACT_WATER_PUNCH and m.marioObj.header.gfx.animInfo.animFrame < 5) then
 	},
 	eyes = {
@@ -218,6 +224,17 @@ dededeAnims = {
 		[CHAR_ANIM_DEDEDE_FULL_MOVE_RIGHT] = MARIO_EYES_CLOSED_INTENSE, 
 		[CHAR_ANIM_DEDEDE_HAMMER_AIR] = MARIO_EYES_ANGRY, 
 		[CHAR_ANIM_KIRBY_PUFF_FALL] = function (m, frame) if m.actionTimer > 240 then return MARIO_EYES_CLOSED_INTENSE end return MARIO_EYES_BLINK end, 
+		[CHAR_ANIM_TIPTOE] = MARIO_EYES_LOOK_UP, 
+		[CHAR_ANIM_CROUCH_FROM_FAST_LONGJUMP] = MARIO_EYES_CLOSED_INTENSE, 
+		[CHAR_ANIM_CROUCH_FROM_SLOW_LONGJUMP] = MARIO_EYES_CLOSED_INTENSE, 
+		[CHAR_ANIM_START_CROUCHING] = MARIO_EYES_CLOSED_INTENSE, 
+		[CHAR_ANIM_CROUCHING] = MARIO_EYES_CLOSED_INTENSE, 
+		[CHAR_ANIM_STOP_CROUCHING] = MARIO_EYES_CLOSED_INTENSE, 
+		[CHAR_ANIM_PUT_CAP_ON] = function (m, frame)
+			if (m.flags & MARIO_METAL_CAP) ~= 0 and not isMovesetOff() then return ((frame > 12 and frame <= 22) and MARIO_EYES_CLOSED_INTENSE) or (frame > 22 and MARIO_EYES_ANGRY) or MARIO_EYES_BLINK end
+			return ((frame > 12 and frame <= 22) and MARIO_EYES_CLOSED_INTENSE) or ((frame > 22 and frame < 32) and MARIO_EYES_LOOK_RIGHT) or MARIO_EYES_BLINK
+		end, 
+		
 	}, 
 	hands = {
 		[charSelect.CS_ANIM_MENU] = MARIO_HAND_PEACE_SIGN, 
@@ -248,5 +265,13 @@ dededeAnims = {
 		[CHAR_ANIM_DEDEDE_FULL_MOVE_LEFT] = "DEDEDE_FULL_MOVE_LEFT", 
 		[CHAR_ANIM_DEDEDE_FULL_MOVE_RIGHT] = "DEDEDE_FULL_MOVE_RIGHT", 
 		[CHAR_ANIM_DEDEDE_HAMMER_AIR] = "DEDEDE_HAMMER_AIR", 
+		[CHAR_ANIM_TIPTOE] = "DEDEDE_TIPTOE",
+		[CHAR_ANIM_CROUCH_FROM_FAST_LONGJUMP] = "DEDEDE_CROUCH", 
+		[CHAR_ANIM_CROUCH_FROM_SLOW_LONGJUMP] = "DEDEDE_CROUCH", 
+		[CHAR_ANIM_START_CROUCHING] = "DEDEDE_CROUCH", 
+		[CHAR_ANIM_CROUCHING] = "DEDEDE_CROUCH", 
+		[CHAR_ANIM_STOP_CROUCHING] = "DEDEDE_CROUCH", 
+		[CHAR_ANIM_PUT_CAP_ON] = function (m, frame) if (m.flags & MARIO_METAL_CAP) ~= 0 and not isMovesetOff() then return "DEDEDE_POWER_UP_MASK" end return "DEDEDE_POWER_UP" end, 
+		[CHAR_ANIM_AIRBORNE_ON_STOMACH] = function (m, frame) if m.action == ACT_VERTICAL_WIND then return "DEDEDE_LONG_FALL" end end, 
 	},
 }

@@ -33,6 +33,9 @@ function act_kirby_powerup(m)
 	end
 	m.actionTimer = m.actionTimer + 1
 	if m.actionTimer == 10 then
+		if charSelect.character_get_current_number(m.playerIndex) == dededeCharID and (m.flags & MARIO_METAL_CAP) ~= 0 then
+			play_character_sound(m, CHAR_SOUND_SO_LONGA_BOWSER)
+		end
 		play_kirby_sound(KIRBY_COPY_SOUND, m.pos, 1)
 		m.particleFlags = m.particleFlags | PARTICLE_SPARKLES
 		for i = 1, 10 do

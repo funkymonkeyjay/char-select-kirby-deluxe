@@ -17,7 +17,7 @@ function act_dedede_jump(m)
         gPlayerSyncTable[idx].kirbyScaleY = 750; m.marioObj.header.gfx.scale.y = 0.75
         set_mario_animation(m, CHAR_ANIM_START_CROUCHING)
         m.actionTimer = m.actionTimer + 1
-        if m.actionTimer > 13 then
+        if m.actionTimer > 10 then
             m.actionState = m.actionState + 1
             m.actionTimer = 0
 
