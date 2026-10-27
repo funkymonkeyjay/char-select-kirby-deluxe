@@ -74,6 +74,7 @@ if charSelect then
 			return set_mario_action(m, ACT_WALKING, 0)
 		end
 		]]
+
 		if currChar == dededeCharID and incomingAction == ACT_GROUND_POUND_LAND then
 			spawn_sync_object(id_bhvDededeHammer_JJJ, E_MODEL_NONE, m.pos.x + sins(m.faceAngle.y) * 200, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 200, function (o)
 				o.parentObj = m.marioObj
@@ -561,6 +562,11 @@ if charSelect then
 					m.cap = MARIO_CAP_ON_HEAD
 					gPlayerSyncTable[0].hasAddedHatFromKirby_JJJ = false
 				end
+			elseif currChar == dededeCharID then
+				-- For removing sound effects in Dedede's exit land.
+				if currChar == dededeCharID and m.marioObj.header.gfx.animInfo.animID == CHAR_ANIM_TAKE_CAP_OFF_THEN_ON then
+					m.actionState = 2
+				end
 			else
 				gPlayerSyncTable[0].hasAddedHatFromKirby_JJJ = true
 			end
@@ -578,7 +584,7 @@ if charSelect then
 		
 			if m.action ~= ACT_SQUISHED and m.action ~= ACT_BBH_ENTER_SPIN and m.squishTimer == 0 and ((m.marioObj.header.gfx.scale.x == 1 and m.marioObj.header.gfx.scale.z == 1) or (m.action == ACT_CROUCHING or m.action == ACT_START_CROUCHING or m.action == ACT_CROUCH_SLIDE)) then
 				local currChar = charSelect.character_get_current_number(idx)
-				local isKirbyStretching = m.action == ACT_EXIT_LAND_SAVE_DIALOG and currChar == kirbyCharID
+				local isKirbyStretching = m.action == ACT_EXIT_LAND_SAVE_DIALOG and currChar == kirbyCharID and m.marioObj.header.gfx.animInfo.animID ~= CHAR_ANIM_GENERAL_LAND
 				local toScale = 1000
 
 				if m.action == ACT_JUMP_LAND or m.action == ACT_FREEFALL_LAND then

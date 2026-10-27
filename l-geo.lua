@@ -44,14 +44,17 @@ function dededeHammer_JJJ(node, matStackIndex)
 	local asSwitchNode = cast_graph_node(node)
 	local m = geo_get_mario_state()
 
+	local id = m.marioObj.header.gfx.animInfo.animID
 	local frame = m.marioObj.header.gfx.animInfo.animFrame
 	local isHoldingHammer = gPlayerSyncTable[m.playerIndex].dededeIsHammer_JJJ 
 							or (m.action == ACT_DEDEDE_HAMMER_DOWN and frame < 4) -- TODO: set to frame where hammer is discarded
 							or m.action == ACT_DEDEDE_HAMMER_SPIN or m.action == ACT_DEDEDE_DIZZY or m.action == ACT_DEDEDE_HAMMER_AIR
 							or m.action == ACT_GROUND_POUND or m.action == ACT_GROUND_POUND_LAND
 							or (m.action == ACT_KIRBY_POWERUP and frame >= 12 and frame <= 33)
+							or ((id == CHAR_ANIM_TAKE_CAP_OFF_THEN_ON or id == CHAR_ANIM_MISSING_CAP) and frame >= 12 and frame < 65)
 	local isStoringHammer = m.action == ACT_KIRBY_JUMBO_STAR or (m.action & ACT_FLAG_METAL_WATER) ~= 0
 							or (m.action == ACT_KIRBY_POWERUP and frame < 12)
+							or ((id == CHAR_ANIM_TAKE_CAP_OFF_THEN_ON or id == CHAR_ANIM_MISSING_CAP) and frame < 12)
 
 	if asSwitchNode.parameter == 1 then -- Hand
 		asSwitchNode.selectedCase = isHoldingHammer and 1 or 0

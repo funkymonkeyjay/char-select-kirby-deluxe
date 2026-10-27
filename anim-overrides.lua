@@ -143,9 +143,9 @@ kirbyAnims = {
 	}, 
 	anims = {
 		[CHAR_ANIM_SINGLE_JUMP] = "KIRBY_JUMP", 
-		[CHAR_ANIM_LAND_FROM_SINGLE_JUMP] = "KIRBY_LAND", 
+		[CHAR_ANIM_LAND_FROM_SINGLE_JUMP] = function (m, frame) if m.action == ACT_EXIT_LAND_SAVE_DIALOG then return "KIRBY_EXIT_BOUNCE_2" end return "KIRBY_LAND" end, 
 		[CHAR_ANIM_GENERAL_FALL] = "KIRBY_FALL", 
-		[CHAR_ANIM_GENERAL_LAND] = "KIRBY_LAND", 
+		[CHAR_ANIM_GENERAL_LAND] = function (m, frame) if m.action == ACT_EXIT_LAND_SAVE_DIALOG then return "KIRBY_EXIT_BOUNCE" end return "KIRBY_LAND" end, 
 		[CHAR_ANIM_WALKING] = "KIRBY_WALK", 
 		[CHAR_ANIM_START_TIPTOE] = function (m, frame) m.actionTimer = 2 end, 
 		[CHAR_ANIM_TIPTOE] = "KIRBY_TIPTOE",
@@ -179,6 +179,15 @@ kirbyAnims = {
 	}, 
 }
 
+function action_value_to_string(action)
+    for k, v in pairs(_G) do
+        if v == action then
+            return k
+        end
+    end
+    return tostring(action)
+end
+
 dededeAnims = {
 	mouth = {
 		[charSelect.CS_ANIM_MENU] = function (m, frame) if frame > 116 and frame < 148 then return MARIO_MOUTH_FROWN end return MARIO_MOUTH_NORMAL end, 
@@ -201,7 +210,8 @@ dededeAnims = {
 			if (m.flags & MARIO_METAL_CAP) ~= 0 and not isMovesetOff() then return ((frame > 23 and frame < 32) and MARIO_MOUTH_OPEN) or MARIO_MOUTH_FROWN end
 			return ((frame > 19 and frame < 32) and MARIO_MOUTH_SMILE) or MARIO_MOUTH_HAPPY
 		end, 
-		--ACT_KIRBY_INHALE or (m.action == ACT_JUMP_KICK and m.marioObj.header.gfx.animInfo.animFrame < 10) or (m.action == ACT_WATER_PUNCH and m.marioObj.header.gfx.animInfo.animFrame < 5) then
+		[CHAR_ANIM_TAKE_CAP_OFF_THEN_ON] = function (m, frame) if frame > 22 and frame < 40 then return MARIO_MOUTH_HAPPY elseif frame >= 40 and frame < 65 then return MARIO_MOUTH_SMILE end return MARIO_MOUTH_NORMAL end, 
+		[CHAR_ANIM_MISSING_CAP] = function (m, frame) if frame > 22 and frame < 40 then return MARIO_MOUTH_HAPPY elseif frame >= 40 and frame < 65 then return MARIO_MOUTH_SMILE end return MARIO_MOUTH_NORMAL end, 
 	},
 	eyes = {
 		[charSelect.CS_ANIM_MENU] = function (m, frame)
@@ -234,11 +244,20 @@ dededeAnims = {
 			if (m.flags & MARIO_METAL_CAP) ~= 0 and not isMovesetOff() then return ((frame > 12 and frame <= 22) and MARIO_EYES_CLOSED_INTENSE) or (frame > 22 and MARIO_EYES_ANGRY) or MARIO_EYES_BLINK end
 			return ((frame > 12 and frame <= 22) and MARIO_EYES_CLOSED_INTENSE) or ((frame > 22 and frame < 32) and MARIO_EYES_LOOK_RIGHT) or MARIO_EYES_BLINK
 		end, 
-		
+		[CHAR_ANIM_TAKE_CAP_OFF_THEN_ON] = function (m, frame)
+			if frame == 22 or frame == 31 then audio_sample_play(KIRBY_LAND_SOUND, m.pos, 1) end
+			if frame > 12 and frame < 36 then return MARIO_EYES_ANGRY elseif frame >= 36 and frame < 62 then return MARIO_EYES_CLOSED_INTENSE end return MARIO_EYES_BLINK
+		end, 
+		[CHAR_ANIM_MISSING_CAP] = function (m, frame)
+			if frame == 22 or frame == 31 then audio_sample_play(KIRBY_LAND_SOUND, m.pos, 1) end
+			if frame > 12 and frame < 36 then return MARIO_EYES_ANGRY elseif frame >= 36 and frame < 62 then return MARIO_EYES_CLOSED_INTENSE end return MARIO_EYES_BLINK
+		end, 
 	}, 
 	hands = {
 		[charSelect.CS_ANIM_MENU] = MARIO_HAND_PEACE_SIGN, 
 		[CHAR_ANIM_KIRBY_PUFF_RISE] = MARIO_HAND_OPEN, 
+		[CHAR_ANIM_TAKE_CAP_OFF_THEN_ON] = MARIO_HAND_FISTS, 
+		[CHAR_ANIM_MISSING_CAP] = MARIO_HAND_FISTS, 
 	}, 
 	anims = {
 		[charSelect.CS_ANIM_MENU] = "DEDEDE_MENU", 
@@ -253,9 +272,9 @@ dededeAnims = {
 		[CHAR_ANIM_RUNNING] = "DEDEDE_RUN", 
 		[CHAR_ANIM_RUNNING_UNUSED] = "DEDEDE_RUN", 
 		[CHAR_ANIM_SINGLE_JUMP] = "DEDEDE_JUMP", 
-		[CHAR_ANIM_LAND_FROM_SINGLE_JUMP] = "DEDEDE_LAND", 
+		[CHAR_ANIM_LAND_FROM_SINGLE_JUMP] = function (m, frame) if m.action == ACT_EXIT_LAND_SAVE_DIALOG then return "DEDEDE_EXIT_BOUNCE_2" end return "DEDEDE_LAND" end, 
 		[CHAR_ANIM_GENERAL_FALL] = "DEDEDE_FALL", 
-		[CHAR_ANIM_GENERAL_LAND] = "DEDEDE_LAND", 
+		[CHAR_ANIM_GENERAL_LAND] = function (m, frame) if m.action == ACT_EXIT_LAND_SAVE_DIALOG then return "DEDEDE_EXIT_BOUNCE" end return "DEDEDE_LAND" end, 
 		[CHAR_ANIM_KIRBY_INHALE_IDLE] = "DEDEDE_INHALE_IDLE", 
 		[CHAR_ANIM_KIRBY_INHALE_MOVE] = "DEDEDE_INHALE_MOVE", 
 		[CHAR_ANIM_KIRBY_PUFF_FALL] = "DEDEDE_PUFF_IDLE", 
@@ -273,5 +292,7 @@ dededeAnims = {
 		[CHAR_ANIM_STOP_CROUCHING] = "DEDEDE_CROUCH", 
 		[CHAR_ANIM_PUT_CAP_ON] = function (m, frame) if (m.flags & MARIO_METAL_CAP) ~= 0 and not isMovesetOff() then return "DEDEDE_POWER_UP_MASK" end return "DEDEDE_POWER_UP" end, 
 		[CHAR_ANIM_AIRBORNE_ON_STOMACH] = function (m, frame) if m.action == ACT_VERTICAL_WIND then return "DEDEDE_LONG_FALL" end end, 
+		[CHAR_ANIM_MISSING_CAP] = "DEDEDE_EXIT_LAND", 
+		[CHAR_ANIM_TAKE_CAP_OFF_THEN_ON] = "DEDEDE_EXIT_LAND", 
 	},
 }
