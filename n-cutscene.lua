@@ -338,8 +338,6 @@ function act_kirby_death(m)
 	m.vel.x, m.vel.z = 0, 0
 
 	if m.actionTimer >= 23 then
-		m.marioBodyState.eyeState = MARIO_EYES_DEAD
-
 		if m.playerIndex == 0 then
 			local toY = m.twirlYaw < 0 and m.pos.y or m.floorHeight
 
@@ -354,29 +352,30 @@ function act_kirby_death(m)
 
 		if m.actionTimer == 23 then
 			play_cutscene_music(SEQUENCE_ARGS(15, SEQ_KIRBY_DEATH))
-			set_mario_animation(m, CHAR_ANIM_SINGLE_JUMP) -- TODO: custom anim!
+			set_mario_animation(m, CHAR_ANIM_KIRBY_DEATH)
 			m.vel.y = 30
 		end
 		local stepCase = perform_air_step(m, 0)
 		if stepCase == AIR_STEP_LANDED then
 			if m.actionState == 0 then
-				--m.faceAngle.x = 0
 				m.vel.y = 10
 				m.actionState = m.actionState + 1
 			else
-				--set_mario_animation(m, CHAR_ANIM_FALL_OVER_BACKWARDS)
 				m.actionState = 2
 			end
 		end
 		if m.actionState == 2 then
-			local animFrame = common_death_handler(m, CHAR_ANIM_FALL_OVER_BACKWARDS, 40) -- TODO: custom anim!
+			local animFrame = common_death_handler(m, CHAR_ANIM_KIRBY_DEATH_END, 40)
 			if animFrame >= 40 and m.invincTimer >= 0 and m.action ~= ACT_BUBBLED and m.playerIndex == 0 then -- Simple check for when a HOOK_ON_DEATH call prevents a death.
 				disable_time_stop()
 				camera_unfreeze()
 				gPlayerSyncTable[0].hasKirbyDied = false
 				if not mario_can_bubble(m) then play_music(SEQ_PLAYER_LEVEL, m.twirlYaw, 30) end
 			end
+		else
+			m.marioBodyState.eyeState = MARIO_EYES_DEAD
 		end
+		--smlua_anim_util_set_animation(m.marioObj, m.actionState == 2 and "KIRBY_DEATH_END" or "KIRBY_DEATH")
 	else
 		if m.playerIndex == 0 then
 			local timeDiff = math.max(13 - m.actionTimer, 0) / 13

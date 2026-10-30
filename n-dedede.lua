@@ -252,8 +252,10 @@ function act_dedede_hammer_spin(m)
 
     if (m.input & INPUT_A_PRESSED) ~= 0 then
         m.faceAngle.y = intendedYaw
+        m.forwardVel = math.sqrt(m.vel.x^2 + m.vel.z^2) * 1.2
 		return set_mario_action(m, ACT_JUMP, 0)
 	end
+
 	if (m.controller.buttonPressed & L_TRIG) ~= 0 then
 		m.forwardVel = math.min(m.forwardVel + 12, 100)
 	end

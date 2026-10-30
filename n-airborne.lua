@@ -54,10 +54,15 @@ end
 
 PUFF_TIMER_LIMIT = 250 -- Global constant for allowed puff time.
 
-local function puffHazardSurface(m, type) -- Hacky bugfix for quicksand death on puffing.
+local function puffHazardSurface(m, type) -- Hacky bugfix for quicksand death on air actions.
 	if m.playerIndex ~= 0 then return end
 	local currChar = charSelect.character_get_current_number()
-	if (type == HAZARD_TYPE_QUICKSAND or type == SURFACE_INSTANT_QUICKSAND or type == SURFACE_DEEP_QUICKSAND) and m.action == ACT_KIRBY_PUFF and m.pos.y ~= m.floorHeight then
+	--if (type == HAZARD_TYPE_QUICKSAND or type == SURFACE_INSTANT_QUICKSAND or type == SURFACE_DEEP_QUICKSAND) and m.action == ACT_KIRBY_PUFF and m.pos.y ~= m.floorHeight then
+	if (type == HAZARD_TYPE_QUICKSAND or type == SURFACE_INSTANT_QUICKSAND or type == SURFACE_DEEP_QUICKSAND)
+	and (m.action == ACT_KIRBY_PUFF or m.action == ACT_KIRBY_SLIDE or m.action == ACT_KIRBY_POWERUP or m.action == ACT_KIRBY_JUMBO_STAR
+	  or m.action == ACT_KIRBY_JUMBO_STAR or m.action == ACT_KIRBY_HURT_FORWARD or m.action == ACT_KIRBY_HURT_BACKWARD or m.action == ACT_KIRBY_HURT_LAVA
+	  or m.action == ACT_DEDEDE_JUMP or m.action == ACT_DEDEDE_HAMMER_AIR or m.action == ACT_KIRBY_DODGE)
+	and m.pos.y ~= m.floorHeight then
 		return false
 	end
 	if type == HAZARD_TYPE_LAVA_FLOOR then

@@ -48,18 +48,23 @@ function act_kirby_dodge(m)
 		local stickX = sins(m.intendedYaw - m.faceAngle.y)
 		--djui_chat_message_create("X = " .. tostring(stickX) .. " Y = " .. tostring(stickY))
 		if stickY > 0 then
-			toAnim = MARIO_ANIM_FORWARD_SPINNING
+			toAnim = CHAR_ANIM_KIRBY_DODGE_FRONT
 		else
-			toAnim = MARIO_ANIM_BACKWARD_SPINNING
+			toAnim = CHAR_ANIM_KIRBY_DODGE_BACK
 		end
 		if stickX > 0.625 then
-			toAnim = MARIO_ANIM_SIDESTEP_LEFT
+			toAnim = CHAR_ANIM_KIRBY_DODGE_LEFT
 		elseif stickX < -0.625 then
-			toAnim = MARIO_ANIM_SIDESTEP_RIGHT
+			toAnim = CHAR_ANIM_KIRBY_DODGE_RIGHT
 		end
 		set_mario_animation(m, toAnim)
-	elseif m.marioObj.header.gfx.animInfo.animFrame == 0 then
+	elseif m.actionState == 0 and m.marioObj.header.gfx.animInfo.animFrame == 2 then
 		play_sound(SOUND_ACTION_SPIN, m.marioObj.header.gfx.cameraToObject)
+	end
+
+	local animID = m.marioObj.header.gfx.animInfo.animID
+	if m.actionState == 1 and animID ~= CHAR_ANIM_KIRBY_DODGE_LAND then
+		set_mario_animation(m, CHAR_ANIM_KIRBY_DODGE_LAND)
 	end
 
 	m.actionTimer = m.actionTimer + 1

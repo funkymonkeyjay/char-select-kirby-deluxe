@@ -258,3 +258,10 @@ _G.kirbyDeluxe = {
     allocate_kirby_copy = allocate_kirby_copy,
     hook_kirby_copy = hook_kirby_copy,
 }
+
+-- Character Select hook to remove powerups + Dedede hammer on character change.
+charSelect.hook_on_character_change(function ()
+    local p = gPlayerSyncTable[0]
+    p.kirbyCopyAbility_JJJ = 0
+    p.dededeIsHammer_JJJ = false
+end)

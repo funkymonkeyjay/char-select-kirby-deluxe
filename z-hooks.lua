@@ -2,32 +2,33 @@ if incompatibilityCond then return 0 end
 
 -- KIRBY VARS --
 for i = 0, (MAX_PLAYERS - 1) do
-	gPlayerSyncTable[i].hasAddedHatFromKirby_JJJ = false
+	local p = gPlayerSyncTable[i]
+	p.hasAddedHatFromKirby_JJJ = false
 	
-	gPlayerSyncTable[i].kirbyFallTimer_JJJ = 0
-	gPlayerSyncTable[i].kirbyPuffCeiling_JJJ = 0
-	gPlayerSyncTable[i].kirbyHasMovedStick_JJJ = false
-	gPlayerSyncTable[i].kirbyForwardVel = 0
-	gPlayerSyncTable[i].kirbyVelX = 0
-	gPlayerSyncTable[i].kirbyVelY = 0
-	gPlayerSyncTable[i].kirbyVelZ = 0
-	gPlayerSyncTable[i].kirbyPuffTimer_JJJ = 0
-	gPlayerSyncTable[i].kirbyHasPuffed_JJJ = false
-	gPlayerSyncTable[i].kirbyDodgeStick = false
-	gPlayerSyncTable[i].kirbyDodgeX = 0
-	gPlayerSyncTable[i].kirbyDodgeY = 0
+	p.kirbyFallTimer_JJJ = 0
+	p.kirbyPuffCeiling_JJJ = 0
+	p.kirbyHasMovedStick_JJJ = false
+	p.kirbyForwardVel = 0
+	p.kirbyVelX = 0
+	p.kirbyVelY = 0
+	p.kirbyVelZ = 0
+	p.kirbyPuffTimer_JJJ = 0
+	p.kirbyHasPuffed_JJJ = false
+	p.kirbyDodgeStick = false
+	p.kirbyDodgeX = 0
+	p.kirbyDodgeY = 0
 	
-	gPlayerSyncTable[i].kirbyMouthCounter_JJJ = 0 -- How many objects in Kirby's mouth?
+	p.kirbyMouthCounter_JJJ = 0 -- How many objects in Kirby's mouth?
 	
-	gPlayerSyncTable[i].kirbyScaleY = 1000
-	gPlayerSyncTable[i].kirbyMouthState = 0
-	gPlayerSyncTable[i].kirbySplineFrame = 0
-	gPlayerSyncTable[i].kirbySlideTimer = 0
-	gPlayerSyncTable[i].kirbySlideCount = 0
+	p.kirbyScaleY = 1000
+	p.kirbyMouthState = 0
+	p.kirbySplineFrame = 0
+	p.kirbySlideTimer = 0
+	p.kirbySlideCount = 0
 
-	gPlayerSyncTable[i].dededeIsHammer_JJJ = false
-	gPlayerSyncTable[i].dededeHasSuperJump_JJJ = false
-	gPlayerSyncTable[i].hasKirbyDied = false
+	p.dededeIsHammer_JJJ = false
+	p.dededeHasSuperJump_JJJ = false
+	p.hasKirbyDied = false
 end
 
 if charSelect then
@@ -178,7 +179,7 @@ if charSelect then
 				m.vel.y = 32
 				if m.forwardVel < 64 then m.forwardVel = 64 end
 				gPlayerSyncTable[idx].kirbyDodgeStick = true
-				play_character_sound(m, CHAR_SOUND_HAHA_2)
+				play_character_sound(m, CHAR_SOUND_YAH_WAH_HOO)
 				return ACT_KIRBY_DODGE
 			else
 				return 1
@@ -194,7 +195,7 @@ if charSelect then
 		if not gPlayerSyncTable[m.playerIndex].dededeIsHammer_JJJ and incomingAction ~= ACT_PICKING_UP and (incomingAction == ACT_DIVE
 		or (incomingAction == ACT_PUNCHING and m.action ~= ACT_CROUCHING) or incomingAction == ACT_MOVE_PUNCHING
 		or (incomingAction == ACT_JUMP_KICK and m.action ~= ACT_KIRBY_PUFF)) or incomingAction == ACT_WATER_PUNCH then
-			if currChar == dededeCharID and incomingAction == ACT_DIVE and m.pos.y == m.floorHeight then return end
+			if currChar == dededeCharID and incomingAction == ACT_DIVE and m.action ~= ACT_VERTICAL_WIND and m.pos.y == m.floorHeight then return end
 			if gPlayerSyncTable[idx].kirbyMouthCounter_JJJ ~= 0	then
 				m.forwardVel = 0
 				if m.playerIndex == 0 and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ > 0 then
@@ -402,6 +403,8 @@ if charSelect then
 		if currChar == dededeCharID and m.action == ACT_GROUND_POUND and (m.input & INPUT_A_PRESSED) ~= 0 and not gPlayerSyncTable[idx].dededeHasSuperJump_JJJ then
 			return set_mario_action(m, ACT_DEDEDE_JUMP, 0)
 		end
+
+		if m.vel.y > 0 then gPlayerSyncTable[idx].kirbyFallTimer_JJJ = 0 end -- Shrimple as that!
 		
 		if m.pos.y ~= m.floorHeight and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ == 0 and (m.action & ACT_FLAG_SWIMMING) == 0 and (m.action & ACT_FLAG_METAL_WATER) == 0 
 			and m.action ~= ACT_SOFT_BONK and m.action ~= ACT_TOP_OF_POLE_JUMP and m.action ~= ACT_KIRBY_PUFF and m.action ~= ACT_FLYING_TRIPLE_JUMP and m.action ~= ACT_FLYING and m.action ~= ACT_SHOT_FROM_CANNON and m.action ~= ACT_WATER_JUMP 
@@ -417,7 +420,8 @@ if charSelect then
 			if gPlayerSyncTable[idx].kirbyHasPuffed_JJJ and gPlayerSyncTable[idx].kirbyFallTimer_JJJ >= 10 and m.pos.y < gPlayerSyncTable[idx].kirbyPuffCeiling_JJJ and gPlayerSyncTable[idx].kirbyPuffTimer_JJJ < PUFF_TIMER_LIMIT then
 				gPlayerSyncTable[idx].kirbyHasPuffed_JJJ = false
 			end
-			if (m.input & INPUT_A_PRESSED) ~= 0 and gPlayerSyncTable[idx].kirbyFallTimer_JJJ >= 2 then
+			--if (m.input & INPUT_A_PRESSED) ~= 0 and gPlayerSyncTable[idx].kirbyFallTimer_JJJ >= 2 then
+			if (m.input & INPUT_A_PRESSED) ~= 0 and m.pos.y - m.floorHeight > 75 then
 				if currChar == dededeCharID and (m.flags & MARIO_WING_CAP) ~= 0 then 
 					if m.action ~= ACT_GROUND_POUND then
 						spawn_mist_particles_variable(20, -20, 10)
@@ -471,7 +475,7 @@ if charSelect then
 				m.vel.y = 32
 				if m.forwardVel < 64 then m.forwardVel = 64 end
 				gPlayerSyncTable[idx].kirbyDodgeStick = true
-				play_character_sound(m, CHAR_SOUND_HAHA_2)
+				play_character_sound(m, CHAR_SOUND_YAH_WAH_HOO)
 				set_mario_action(m, ACT_KIRBY_DODGE, 0)
 			end
 		end
@@ -701,8 +705,12 @@ if charSelect then
 			end
 		elseif currChar == dededeCharID then
 			local capFlag = get_mario_cap_flag(o)
-			if not isMovesetOff() and capFlag ~= 0 and m.action ~= ACT_GETTING_BLOWN then
+			if not isMovesetOff() and capFlag ~= 0 and m.action ~= ACT_GETTING_BLOWN and (capFlag ~= MARIO_NORMAL_CAP or gBehaviorValues.MultipleCapCollection == 0) then
 				local capMusic, capTime = 0, 0
+				m.interactObj = o
+        		o.oInteractStatus = INT_STATUS_INTERACTED
+
+				m.flags = m.flags & ~MARIO_CAP_ON_HEAD & ~MARIO_CAP_IN_HAND
 				m.flags = m.flags | capFlag
 				if capFlag == MARIO_VANISH_CAP then
 					capTime = gLevelValues.vanishCapDuration
@@ -713,11 +721,14 @@ if charSelect then
 				elseif capFlag == MARIO_WING_CAP then
 					capTime = gLevelValues.wingCapDuration
 					capMusic = (4 << 8) | gLevelValues.wingCapSequence
+				elseif capFlag == MARIO_NORMAL_CAP then
+					m.cap = 0
 				end
+				m.flags = m.flags | MARIO_CAP_ON_HEAD
 				if capTime > m.capTimer then m.capTimer = capTime end
 				if capMusic ~= 0 then play_cap_music(capMusic) end
 				set_mario_action(m, ACT_PUTTING_ON_CAP, 0)
-				obj_mark_for_deletion(o)
+				--obj_mark_for_deletion(o)
 				return false
 			end
 		end
@@ -734,30 +745,31 @@ if charSelect then
 
 	hook_event(HOOK_BEFORE_MARIO_UPDATE, before_update)
 	
-	hook_event(HOOK_ON_WARP, function (type, levelNum, areaIdx, nodeId, arg)	
-		gPlayerSyncTable[0].kirbyFallTimer_JJJ = 0
-		gPlayerSyncTable[0].kirbyPuffCeiling_JJJ = 0
-		gPlayerSyncTable[0].kirbyHasMovedStick_JJJ = false
-		gPlayerSyncTable[0].kirbyForwardVel = 0
-		gPlayerSyncTable[0].kirbyVelX = 0
-		gPlayerSyncTable[0].kirbyVelY = 0
-		gPlayerSyncTable[0].kirbyVelZ = 0
-		gPlayerSyncTable[0].kirbyPuffTimer_JJJ = 0
-		gPlayerSyncTable[0].kirbyHasPuffed_JJJ = false
-		gPlayerSyncTable[0].kirbyDodgeStick = false
-		gPlayerSyncTable[0].kirbyDodgeX = 0
-		gPlayerSyncTable[0].kirbyDodgeY = 0
-		gPlayerSyncTable[0].kirbyMouthCounter_JJJ = 0
-		gPlayerSyncTable[0].kirbyScaleY = 1000
-		gPlayerSyncTable[0].kirbyMouthState = 0
-		gPlayerSyncTable[0].kirbySlideTimer = 0
-		gPlayerSyncTable[0].kirbySlideCount = 0
-		gPlayerSyncTable[0].dededeIsHammer_JJJ = false
-		if gPlayerSyncTable[0].hasKirbyDied then
+	hook_event(HOOK_ON_WARP, function (type, levelNum, areaIdx, nodeId, arg)
+		local p = gPlayerSyncTable[0]
+		p.kirbyFallTimer_JJJ = 0
+		p.kirbyPuffCeiling_JJJ = 0
+		p.kirbyHasMovedStick_JJJ = false
+		p.kirbyForwardVel = 0
+		p.kirbyVelX = 0
+		p.kirbyVelY = 0
+		p.kirbyVelZ = 0
+		p.kirbyPuffTimer_JJJ = 0
+		p.kirbyHasPuffed_JJJ = false
+		p.kirbyDodgeStick = false
+		p.kirbyDodgeX = 0
+		p.kirbyDodgeY = 0
+		p.kirbyMouthCounter_JJJ = 0
+		p.kirbyScaleY = 1000
+		p.kirbyMouthState = 0
+		p.kirbySlideTimer = 0
+		p.kirbySlideCount = 0
+		p.dededeIsHammer_JJJ = false
+		if p.hasKirbyDied then
 			disable_time_stop()
 			camera_unfreeze()
 			--sound_reset_background_music_default_volume(get_current_background_music())
-			gPlayerSyncTable[0].hasKirbyDied = false
+			p.hasKirbyDied = false
 		end
 		audio_sample_stop(KIRBY_INHALE_SOUND) -- Added to prevent the inhale sound from playing outside a level forever.
 	end)

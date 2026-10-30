@@ -358,6 +358,10 @@ Texture dedede_Dedede_Puffball_pal_rgba16[] = {
 	#include "actors/dedede/Dedede_Puffball.rgba16.pal"
 };
 
+Texture dedede_Dedede_Hair_Strand_ia8[] = {
+	#include "actors/dedede/Dedede_Hair_Strand.ia8.inc.c"
+};
+
 Texture dedede_Dedede_Hammer_Emblem_ci8[] = {
 	#include "actors/dedede/Dedede_Hammer_Emblem.ci8.inc.c"
 };
@@ -1122,6 +1126,21 @@ Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_1[] = {
 	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0),
 	gsSP2Triangles(7, 3, 4, 0, 1, 3, 7, 0),
 	gsSP2Triangles(8, 1, 7, 0, 1, 8, 2, 0),
+	gsSPEndDisplayList(),
+};
+
+Vtx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_vtx_0[6] = {
+	{{{231, 87, 52}, 0, {292, -25}, {0x03, 0x58, 0xA5, 0xFF}}},
+	{{{333, 49, 19}, 0, {-116, -25}, {0x03, 0x58, 0xA5, 0xFF}}},
+	{{{14, 10, -30}, 0, {88, 792}, {0x03, 0x58, 0xA5, 0xFF}}},
+	{{{155, 88, -48}, 0, {292, -25}, {0xCA, 0xB8, 0xA6, 0xFF}}},
+	{{{246, 47, -69}, 0, {-116, -25}, {0xCA, 0xB8, 0xA6, 0xFF}}},
+	{{{105, 12, 43}, 0, {88, 792}, {0xCA, 0xB8, 0xA6, 0xFF}}},
+};
+
+Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_tri_0[] = {
+	gsSPVertex(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_vtx_0 + 0, 6, 0),
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0),
 	gsSPEndDisplayList(),
 };
 
@@ -5303,7 +5322,7 @@ Gfx mat_dedede_Eyes__Half_[] = {
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dedede_Dedede_Eyes__Half__pal_rgba16),
 	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadTLUTCmd(5, 93),
+	gsDPLoadTLUTCmd(5, 94),
 	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_Dedede_Eyes__Half__ci8),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
 	gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -5328,7 +5347,7 @@ Gfx mat_dedede_Eyes__Closed_[] = {
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dedede_Dedede_Eyes__Closed__pal_rgba16),
 	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadTLUTCmd(5, 14),
+	gsDPLoadTLUTCmd(5, 19),
 	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_Dedede_Eyes__Closed__ci8),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
 	gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -5503,7 +5522,7 @@ Gfx mat_dedede_Eyes__Closed_Intense_[] = {
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dedede_Dedede_Eyes__Closed_Intense__pal_rgba16),
 	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadTLUTCmd(5, 12),
+	gsDPLoadTLUTCmd(5, 16),
 	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_Dedede_Eyes__Closed_Intense__ci8),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
 	gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -5567,6 +5586,27 @@ Gfx mat_revert_dedede_Puffball[] = {
 	gsDPPipeSync(),
 	gsDPSetAlphaDither(G_AD_DISABLE),
 	gsDPSetTextureLUT(G_TT_NONE),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_dedede_Hair_Strand[] = {
+	gsSPClearGeometryMode(G_CULL_BACK),
+	gsDPPipeSync(),
+	gsDPSetCombineLERP(0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0),
+	gsDPSetAlphaDither(G_AD_NOISE),
+	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 1, dedede_Dedede_Hair_Strand_ia8),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadBlock(7, 0, 0, 63, 2048),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 1, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 4, 0, G_TX_CLAMP | G_TX_NOMIRROR, 3, 0),
+	gsDPSetTileSize(0, 0, 0, 28, 60),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_revert_dedede_Hair_Strand[] = {
+	gsSPSetGeometryMode(G_CULL_BACK),
+	gsDPPipeSync(),
+	gsDPSetAlphaDither(G_AD_DISABLE),
 	gsSPEndDisplayList(),
 };
 
@@ -6416,6 +6456,83 @@ Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Eye
 	gsSPDisplayList(mat_dedede_Eyes__Angry_),
 	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_1),
 	gsSPDisplayList(mat_revert_dedede_Eyes__Angry_),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5[] = {
+	gsSPDisplayList(mat_dedede_Hair_Strand),
+	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Hair_Strand),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_mat_override_Eyes__Half__0[] = {
+	gsSPDisplayList(mat_dedede_Hair_Strand),
+	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Hair_Strand),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_mat_override_Eyes__Closed__1[] = {
+	gsSPDisplayList(mat_dedede_Hair_Strand),
+	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Hair_Strand),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_mat_override_Eyes__Left__2[] = {
+	gsSPDisplayList(mat_dedede_Hair_Strand),
+	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Hair_Strand),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_mat_override_Eyes__Right__3[] = {
+	gsSPDisplayList(mat_dedede_Hair_Strand),
+	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Hair_Strand),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_mat_override_Eyes__Up__4[] = {
+	gsSPDisplayList(mat_dedede_Hair_Strand),
+	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Hair_Strand),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_mat_override_Eyes__Down__5[] = {
+	gsSPDisplayList(mat_dedede_Hair_Strand),
+	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Hair_Strand),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_mat_override_Eyes__Dead__6[] = {
+	gsSPDisplayList(mat_dedede_Hair_Strand),
+	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Hair_Strand),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_mat_override_Eyes__Shocked__7[] = {
+	gsSPDisplayList(mat_dedede_Hair_Strand),
+	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Hair_Strand),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_mat_override_Eyes__Closed_Intense__8[] = {
+	gsSPDisplayList(mat_dedede_Hair_Strand),
+	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Hair_Strand),
+	gsSPEndDisplayList(),
+};
+
+Gfx dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_mat_override_Eyes__Angry__9[] = {
+	gsSPDisplayList(mat_dedede_Hair_Strand),
+	gsSPDisplayList(dedede_Capless_Head_Switch_Option_Capless_Head_mesh_layer_5_tri_0),
+	gsSPDisplayList(mat_revert_dedede_Hair_Strand),
 	gsSPEndDisplayList(),
 };
 
