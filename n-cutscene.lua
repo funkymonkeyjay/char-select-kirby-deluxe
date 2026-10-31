@@ -153,7 +153,9 @@ function act_kirby_jumbo_star(m)
 	m.actionTimer = m.actionTimer + 1
 	
 	set_mario_animation(m, CHAR_ANIM_KIRBY_ENDING)
-	if m.actionTimer == 129 then
+
+	local currChar = charSelect.character_get_current_number(m.playerIndex)
+	if (currChar == dededeCharID and m.actionTimer == 172) or (currChar == kirbyCharID and m.actionTimer == 129) then
 		play_character_sound(m, CHAR_SOUND_HERE_WE_GO)
 	end
 

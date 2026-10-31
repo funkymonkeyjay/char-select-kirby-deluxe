@@ -163,7 +163,7 @@ kirbyAnims = {
 		[CHAR_ANIM_SINGLE_JUMP] = "KIRBY_JUMP", 
 		[CHAR_ANIM_LAND_FROM_SINGLE_JUMP] = function (m, frame) if m.action == ACT_EXIT_LAND_SAVE_DIALOG then return "KIRBY_EXIT_BOUNCE_2" end return "KIRBY_LAND" end, 
 		[CHAR_ANIM_GENERAL_FALL] = "KIRBY_FALL", 
-		[CHAR_ANIM_GENERAL_LAND] = function (m, frame) if m.action == ACT_EXIT_LAND_SAVE_DIALOG then return "KIRBY_EXIT_BOUNCE" end return "KIRBY_LAND" end, 
+		[CHAR_ANIM_GENERAL_LAND] = function (m, frame) if m.action == ACT_EXIT_LAND_SAVE_DIALOG or m.action == ACT_SPAWN_SPIN_LANDING or m.action == ACT_END_PEACH_CUTSCENE then return "KIRBY_EXIT_BOUNCE" end return "KIRBY_LAND" end, 
 		[CHAR_ANIM_WALKING] = "KIRBY_WALK", 
 		[CHAR_ANIM_START_TIPTOE] = function (m, frame) m.actionTimer = 2 end, 
 		[CHAR_ANIM_TIPTOE] = "KIRBY_TIPTOE",
@@ -201,6 +201,10 @@ kirbyAnims = {
 		[CHAR_ANIM_KIRBY_DODGE_FRONT] = "KIRBY_DODGE_FRONT", 
 		[CHAR_ANIM_KIRBY_DODGE_BACK] = "KIRBY_DODGE_BACK", 
 		[CHAR_ANIM_KIRBY_DODGE_LAND] = "KIRBY_DODGE_LAND", 
+    	[CHAR_ANIM_SKID_ON_GROUND] = "KIRBY_STOP_START", 
+    	[CHAR_ANIM_STOP_SKID] = "KIRBY_STOP", 
+		[CHAR_ANIM_TURNING_PART1] = "KIRBY_STOP_START", 
+		[CHAR_ANIM_TURNING_PART2] = "KIRBY_STOP_RUN", 
 	}, 
 }
 
@@ -251,6 +255,17 @@ dededeAnims = {
 				return MARIO_MOUTH_SMILE
 			elseif frame >= 206 and frame < 250 then
 				return MARIO_MOUTH_FROWN
+			end
+			return MARIO_MOUTH_NORMAL
+		end, 
+		[CHAR_ANIM_SKID_ON_GROUND] = MARIO_MOUTH_FROWN, 
+    	[CHAR_ANIM_STOP_SKID] = MARIO_MOUTH_FROWN, 
+		[CHAR_ANIM_TURNING_PART1] = MARIO_MOUTH_FROWN, 
+		[CHAR_ANIM_TURNING_PART2] = MARIO_MOUTH_FROWN, 
+		[CHAR_ANIM_FIRST_PERSON] = MARIO_MOUTH_FROWN, 
+		[CHAR_ANIM_STAR_DANCE] = function (m, frame)
+			if frame > 7 and frame < 46 then
+				return MARIO_MOUTH_SMILE
 			end
 			return MARIO_MOUTH_NORMAL
 		end, 
@@ -312,6 +327,20 @@ dededeAnims = {
 			end
 			return MARIO_EYES_BLINK
 		end, 
+		[CHAR_ANIM_SKID_ON_GROUND] = MARIO_EYES_CLOSED_INTENSE, 
+		[CHAR_ANIM_TURNING_PART1] = MARIO_EYES_CLOSED_INTENSE, 
+		[CHAR_ANIM_TURNING_PART2] = function (m, frame) return frame < 3 and MARIO_EYES_CLOSED_INTENSE or MARIO_EYES_BLINK end, 
+		[CHAR_ANIM_FIRST_PERSON] = MARIO_EYES_HALF_CLOSED, 
+		[CHAR_ANIM_STAR_DANCE] = function (m, frame)
+			if frame > 7 and frame < 28 then
+				return MARIO_EYES_LOOK_UP
+			elseif (frame > 2 and frame <= 7) or (frame >= 28 and frame <= 51) then
+				return MARIO_EYES_CLOSED_INTENSE
+			elseif frame > 51 then
+				return MARIO_EYES_LOOK_RIGHT
+			end
+			return MARIO_EYES_BLINK
+		end, 
 	}, 
 	hands = {
 		[charSelect.CS_ANIM_MENU] = MARIO_HAND_PEACE_SIGN, 
@@ -319,7 +348,18 @@ dededeAnims = {
 		[CHAR_ANIM_TAKE_CAP_OFF_THEN_ON] = MARIO_HAND_FISTS, 
 		[CHAR_ANIM_MISSING_CAP] = MARIO_HAND_FISTS, 
 		[CHAR_ANIM_KIRBY_DEATH_END] = MARIO_HAND_OPEN, 
+		[CHAR_ANIM_SKID_ON_GROUND] = MARIO_HAND_OPEN, 
+		[CHAR_ANIM_TURNING_PART1] = MARIO_HAND_OPEN, 
+		[CHAR_ANIM_TURNING_PART2] = function (m, frame) return frame < 3 and MARIO_HAND_OPEN or MARIO_HAND_FISTS end, 
 		[CHAR_ANIM_KIRBY_ENDING] = function (m, frame) if frame > 206 and frame < 243 then return MARIO_HAND_RIGHT_OPEN end return MARIO_HAND_FISTS end, 
+		[CHAR_ANIM_STAR_DANCE] = function (m, frame)
+			if frame > 7 and frame < 27 then
+				return MARIO_HAND_OPEN
+			elseif frame >= 27 and frame <= 47 then
+				return MARIO_HAND_RIGHT_OPEN
+			end
+			return MARIO_HAND_FISTS
+		end
 	}, 
 	anims = {
 		[charSelect.CS_ANIM_MENU] = "DEDEDE_MENU", 
@@ -336,7 +376,7 @@ dededeAnims = {
 		[CHAR_ANIM_SINGLE_JUMP] = "DEDEDE_JUMP", 
 		[CHAR_ANIM_LAND_FROM_SINGLE_JUMP] = function (m, frame) if m.action == ACT_EXIT_LAND_SAVE_DIALOG then return "DEDEDE_EXIT_BOUNCE_2" end return "DEDEDE_LAND" end, 
 		[CHAR_ANIM_GENERAL_FALL] = "DEDEDE_FALL", 
-		[CHAR_ANIM_GENERAL_LAND] = function (m, frame) if m.action == ACT_EXIT_LAND_SAVE_DIALOG then return "DEDEDE_EXIT_BOUNCE" end return "DEDEDE_LAND" end, 
+		[CHAR_ANIM_GENERAL_LAND] = function (m, frame) if m.action == ACT_EXIT_LAND_SAVE_DIALOG or m.action == ACT_SPAWN_SPIN_LANDING or m.action == ACT_END_PEACH_CUTSCENE then return "DEDEDE_EXIT_BOUNCE" end return "DEDEDE_LAND" end, 
 		[CHAR_ANIM_KIRBY_INHALE_IDLE] = "DEDEDE_INHALE_IDLE", 
 		[CHAR_ANIM_KIRBY_INHALE_MOVE] = "DEDEDE_INHALE_MOVE", 
 		[CHAR_ANIM_KIRBY_PUFF_FALL] = "DEDEDE_PUFF_IDLE", 
@@ -364,5 +404,10 @@ dededeAnims = {
 		[CHAR_ANIM_KIRBY_DODGE_BACK] = "DEDEDE_DODGE_BACK", 
 		[CHAR_ANIM_KIRBY_DODGE_LAND] = "DEDEDE_DODGE_LAND", 
 		[CHAR_ANIM_KIRBY_ENDING] = "DEDEDE_WARP_STAR_ENDING", 
+    	[CHAR_ANIM_SKID_ON_GROUND] = "DEDEDE_STOP_START", 
+    	[CHAR_ANIM_STOP_SKID] = "DEDEDE_STOP", 
+		[CHAR_ANIM_TURNING_PART1] = "DEDEDE_STOP_START", 
+		[CHAR_ANIM_TURNING_PART2] = "DEDEDE_STOP_RUN", 
+		[CHAR_ANIM_STAR_DANCE] = "DEDEDE_CELEBRATION", 
 	},
 }
