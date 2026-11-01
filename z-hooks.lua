@@ -65,27 +65,32 @@ if charSelect then
 		end
 
 		if incomingAction == ACT_JUMBO_STAR_CUTSCENE then return ACT_KIRBY_JUMBO_STAR end
-		if (incomingAction == ACT_CROUCHING or incomingAction == ACT_CROUCH_SLIDE or incomingAction == ACT_PULLING_DOOR or incomingAction == ACT_PUSHING_DOOR) and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ < 0 then
+		if (incomingAction == ACT_PULLING_DOOR or incomingAction == ACT_PUSHING_DOOR) and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ < 0 then
 			return 1
 		end
 
-		if incomingAction == ACT_BURNING_FALL or incomingAction == ACT_BURNING_JUMP or incomingAction == ACT_BURNING_GROUND then
-			m.hurtCounter = m.hurtCounter + 8
-			return ACT_KIRBY_HURT_LAVA
-		end
-
-		if incomingAction == ACT_DEATH_ON_BACK or incomingAction == ACT_STANDING_DEATH
-		 or incomingAction == ACT_DEATH_ON_STOMACH or incomingAction == ACT_ELECTROCUTION or incomingAction == ACT_SUFFOCATION then
-			return ACT_KIRBY_DEATH
-		end
-
-		if m.hurtCounter > 0 and not (incomingAction == ACT_BACKWARD_WATER_KB or incomingAction == ACT_FORWARD_WATER_KB or incomingAction == ACT_KIRBY_HURT_LAVA) then
-			if incomingAction == ACT_HARD_FORWARD_GROUND_KB or incomingAction == ACT_FORWARD_GROUND_KB or incomingAction == ACT_SOFT_FORWARD_GROUND_KB
-			or incomingAction == ACT_FORWARD_AIR_KB or incomingAction == ACT_HARD_FORWARD_AIR_KB then
-				return ACT_KIRBY_HURT_FORWARD
-			else
-				return ACT_KIRBY_HURT_BACKWARD
+		if incomingAction ~= ACT_BUBBLED then
+			if incomingAction == ACT_BURNING_FALL or incomingAction == ACT_BURNING_JUMP or incomingAction == ACT_BURNING_GROUND then
+				m.hurtCounter = m.hurtCounter + 8
+				return ACT_KIRBY_HURT_LAVA
 			end
+
+			if incomingAction == ACT_DEATH_ON_BACK or incomingAction == ACT_STANDING_DEATH
+			or incomingAction == ACT_DEATH_ON_STOMACH or incomingAction == ACT_ELECTROCUTION or incomingAction == ACT_SUFFOCATION then
+				return ACT_KIRBY_DEATH
+			end
+
+			if m.hurtCounter > 0 and not (incomingAction == ACT_BACKWARD_WATER_KB or incomingAction == ACT_FORWARD_WATER_KB or incomingAction == ACT_KIRBY_HURT_LAVA) then
+				if incomingAction == ACT_HARD_FORWARD_GROUND_KB or incomingAction == ACT_FORWARD_GROUND_KB or incomingAction == ACT_SOFT_FORWARD_GROUND_KB
+				or incomingAction == ACT_FORWARD_AIR_KB or incomingAction == ACT_HARD_FORWARD_AIR_KB then
+					return ACT_KIRBY_HURT_FORWARD
+				else
+					return ACT_KIRBY_HURT_BACKWARD
+				end
+			end
+		elseif idx == 0 and gPlayerSyncTable[idx].hasKirbyDied then
+			disable_time_stop(); camera_unfreeze()
+			gPlayerSyncTable[idx].hasKirbyDied = false
 		end
 		
 		--local dededeMult = currChar == dededeCharID and 0.75 or 1
@@ -359,6 +364,7 @@ if charSelect then
 		end
 		
 		if ((m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) or (m.action & ACT_GROUP_MASK) == ACT_GROUP_CUTSCENE) and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ > 0 then -- Eat the contents
+			djui_chat_message_create("help!")
 			play_character_sound(m, CHAR_SOUND_PUNCH_WAH)
 			if not (m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) then
 				m.marioObj.header.gfx.scale.y = 0.75
@@ -575,7 +581,8 @@ if charSelect then
 
 		local modelId = charSelect.character_get_current_number(idx)
 		if modelId == kirbyCharID or modelId == dededeCharID then -- TODO: Is it possible to know whether or not a player has movesets disabled based on their m.playerIndex?
-			if m.health < 0x100 and m.action ~= ACT_KIRBY_DEATH then
+			--djui_chat_message_create(tostring(m.action) .. " " .. ACT_BUBBLED)
+			if m.health < 0x100 and m.action ~= ACT_KIRBY_DEATH and m.action ~= ACT_BUBBLED and m.healCounter <= 0 then
 				return set_mario_action(m, ACT_KIRBY_DEATH, 0)
 			end
 		
@@ -758,12 +765,11 @@ if charSelect then
 		p.kirbySlideTimer = 0
 		p.kirbySlideCount = 0
 		p.dededeIsHammer_JJJ = false
-		if p.hasKirbyDied then
+		--if p.hasKirbyDied then
 			disable_time_stop()
 			camera_unfreeze()
-			--sound_reset_background_music_default_volume(get_current_background_music())
 			p.hasKirbyDied = false
-		end
+		--end
 		audio_sample_stop(KIRBY_INHALE_SOUND) -- Added to prevent the inhale sound from playing outside a level forever.
 	end)
 end

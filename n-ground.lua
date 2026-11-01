@@ -286,8 +286,8 @@ function act_being_inhaled(m)
 	local o = m.marioObj
 	
 	local waterCond = (mOther.waterLevel and mOther.pos.y < (mOther.waterLevel - 30)) or (mOther.action == ACT_CROUCHING or mOther.action == ACT_CROUCH_SLIDE)
-	or ((mOther.action & ACT_GROUP_MASK) == ACT_GROUP_CUTSCENE and not (mOther.action == ACT_PULLING_DOOR or mOther.action == ACT_PUSHING_DOOR)) or (mOther.action & ACT_GROUP_MASK) == ACT_FLAG_INTANGIBLE or (mOther.action & ACT_GROUP_MASK) == ACT_FLAG_INVULNERABLE
-	or (mOther.marioObj.header.gfx.node.flags & GRAPH_RENDER_ACTIVE) == 0 or gPlayerSyncTable[mOther.playerIndex].kirbyMouthCounter_JJJ == 0
+	or ((mOther.action & ACT_GROUP_MASK) == ACT_GROUP_CUTSCENE and not (mOther.action == ACT_PULLING_DOOR or mOther.action == ACT_PUSHING_DOOR)) or (mOther.action & ACT_FLAG_INTANGIBLE) ~= 0 or (mOther.action & ACT_FLAG_INVULNERABLE) ~= 0
+	or (mOther.marioObj.header.gfx.node.flags & GRAPH_RENDER_ACTIVE) == 0
 	local escapeCond = m.actionArg >= BUTTON_PRESS_LIMIT
 	
 	--local waterCond = mOther.waterLevel and mOther.pos.y < (mOther.waterLevel - 30)
@@ -310,7 +310,10 @@ function act_being_inhaled(m)
         m.vel.y = 10
 		
 		if waterCond or escapeCond then
-			if escapeCond and not waterCond then m.vel.y = 24; set_mario_action(mOther, ACT_JUMP_KICK, 0) end
+			if escapeCond and not waterCond then
+				djui_chat_message_create("saoonasdnosad")
+				m.vel.y = 24; set_mario_action(mOther, ACT_JUMP_KICK, 0)
+			end
 			gPlayerSyncTable[mOther.playerIndex].kirbyMouthCounter_JJJ = 0
 			play_character_sound(mOther, CHAR_SOUND_PUNCH_HOO)
 			play_character_sound(m, CHAR_SOUND_OOOF)

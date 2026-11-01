@@ -319,7 +319,7 @@ function act_kirby_death(m)
 			camera_freeze()
 			enable_time_stop_if_alone()
 			if not mario_can_bubble(m) then 
-				m.twirlYaw = get_current_background_music()
+				m.slideYaw = get_current_background_music()
 				play_music(SEQ_PLAYER_LEVEL, 0, 0)
 			end
 		end
@@ -370,11 +370,17 @@ function act_kirby_death(m)
 		end
 		if m.actionState == 2 then
 			local animFrame = common_death_handler(m, CHAR_ANIM_KIRBY_DEATH_END, 40)
+			--djui_chat_message_create(tostring(m.actionTimer))
+			if m.actionTimer >= 142 and m.playerIndex == 0 then
+				disable_time_stop()
+				camera_unfreeze()
+				gPlayerSyncTable[0].hasKirbyDied = false
+			end
 			if animFrame >= 40 and m.invincTimer >= 0 and m.action ~= ACT_BUBBLED and m.playerIndex == 0 then -- Simple check for when a HOOK_ON_DEATH call prevents a death.
 				disable_time_stop()
 				camera_unfreeze()
 				gPlayerSyncTable[0].hasKirbyDied = false
-				if not mario_can_bubble(m) then play_music(SEQ_PLAYER_LEVEL, m.twirlYaw, 30) end
+				if not mario_can_bubble(m) then play_music(SEQ_PLAYER_LEVEL, m.slideYaw, 30) end
 			end
 		else
 			m.marioBodyState.eyeState = MARIO_EYES_DEAD
