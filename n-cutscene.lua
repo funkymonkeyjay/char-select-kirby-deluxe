@@ -314,7 +314,15 @@ function act_kirby_death(m)
 		m.forwardVel = 0
 		queue_rumble_data_mario(m, 5, 80)
 		play_kirby_sound(KIRBY_HURT_SOUND, m.pos, 1)
-		if m.playerIndex == 0 then set_camera_shake_from_hit(SHAKE_ENV_BOWSER_JUMP) end
+		if m.playerIndex == 0 then
+			set_camera_shake_from_hit(SHAKE_ENV_BOWSER_JUMP)
+			camera_freeze()
+			enable_time_stop_if_alone()
+			if not mario_can_bubble(m) then 
+				m.twirlYaw = get_current_background_music()
+				play_music(SEQ_PLAYER_LEVEL, 0, 0)
+			end
+		end
 		for i = 1, 10 do
 			spawn_non_sync_object(id_bhvBreakBoxTriangle, E_MODEL_CARTOON_STAR, m.pos.x, m.pos.y, m.pos.z, function (o) 
 				o.oAnimState = 3
@@ -327,12 +335,6 @@ function act_kirby_death(m)
 				o.oForwardVel = 15
 				obj_scale(o, 0.1)
 			end)
-		end
-		camera_freeze()
-		enable_time_stop_if_alone()
-		if not mario_can_bubble(m) then 
-			m.twirlYaw = get_current_background_music()
-			play_music(SEQ_PLAYER_LEVEL, 0, 0)
 		end
 	end
 	m.actionTimer = m.actionTimer + 1
@@ -353,7 +355,7 @@ function act_kirby_death(m)
 		end
 
 		if m.actionTimer == 23 then
-			play_cutscene_music(SEQUENCE_ARGS(15, SEQ_KIRBY_DEATH))
+			if m.playerIndex == 0 then play_cutscene_music(SEQUENCE_ARGS(15, SEQ_KIRBY_DEATH)) end
 			set_mario_animation(m, CHAR_ANIM_KIRBY_DEATH)
 			m.vel.y = 30
 		end
