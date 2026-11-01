@@ -460,3 +460,4 @@ hook_mario_action(ACT_DEDEDE_HAMMER_AIR, {every_frame = act_dedede_hammer_air, g
 		m.vel.y = -75
 	end
 end}, INT_FAST_ATTACK_OR_SHELL)
+

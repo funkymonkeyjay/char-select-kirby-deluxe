@@ -2,6 +2,8 @@
 
 if incompatibilityCond or not charSelect then return 0 end
 
+define_custom_obj_fields({oHasKirbySucked = 's32', oKirbySuckPlayer = 's32', oDededeHitEnemy = 's32'})
+
 E_MODEL_KIRBY_STAR = smlua_model_util_get_id("kirby_star_geo")
 E_MODEL_KIRBY_AIR = smlua_model_util_get_id("kirby_air_geo")
 E_MODEL_KIRBY_VORTEX = smlua_model_util_get_id("vortex_geo")
@@ -352,9 +354,9 @@ end
 local function bhv_dedede_hammer_loop(o)
     local m = get_mario_state_from_object(o.parentObj)
     if not m then return end
-
-    if o.oDededeHitEnemy and o.oDededeHitEnemy == 1 then
-        if m.action ~= ACT_DEDEDE_HAMMER_SPIN and (m.action ~= ACT_DEDEDE_HAMMER_AIR or o.oTimer > 5) then
+    if (o.oDededeHitEnemy and o.oDededeHitEnemy == 1) or (o.oEnemyLakituBlinkTimer and o.oEnemyLakituBlinkTimer == 2) then
+        local frame = m.marioObj.header.gfx.animInfo.animFrame
+        if m.action ~= ACT_DEDEDE_HAMMER_SPIN and (m.action ~= ACT_DEDEDE_HAMMER_AIR or o.oTimer > 5) and m.action ~= ACT_GROUND_POUND and (m.action ~= ACT_GROUND_POUND_LAND or frame >= 3) then
             obj_mark_for_deletion(o)
             return
         end
@@ -373,10 +375,12 @@ local function bhv_dedede_hammer_loop(o)
         local oHit = obj_get_first(list)
         while oHit do
             if o ~= oHit then
-                local isNotSwingingOnSurface = list == OBJ_LIST_SURFACE and (not o.oDededeHitEnemy or o.oDededeHitEnemy == 0)
+                local isNotSwingingOnSurface = list == OBJ_LIST_SURFACE and ((not o.oDededeHitEnemy or o.oDededeHitEnemy == 0) or o.oEnemyLakituBlinkTimer == 2)
                 if isNotSwingingOnSurface and obj_has_behavior_id(oHit, id_bhvSmallWhomp) ~= 0 and oHit.oAction == 6 and oHit.oSubAction ~= 10 then -- Made separate to account for collision model.
                     local _, surface = find_floor(o.oPosX, o.oPosY + 250, o.oPosZ)
-                    if m.marioObj.platform == oHit or (oHit.oPosY >= o.oPosY and surface.object == oHit) then
+                    if surface.object == oHit then djui_chat_message_create(tostring(o.oPosY - oHit.oPosY)) end
+                    local dist = o.oPosY - oHit.oPosY
+                    if m.marioObj.platform == oHit or ((dist >= 0 and dist <= 100) and surface.object == oHit) then
                         oHit.oNumLootCoins = 5
                         obj_spawn_loot_yellow_coins(oHit, 5, 20)
                         oHit.oAction = 8

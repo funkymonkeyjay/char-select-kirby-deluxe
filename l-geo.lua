@@ -49,7 +49,8 @@ function dededeHammer_JJJ(node, matStackIndex)
 	local isHoldingHammer = gPlayerSyncTable[m.playerIndex].dededeIsHammer_JJJ 
 							or (m.action == ACT_DEDEDE_HAMMER_DOWN and frame < 4) -- TODO: set to frame where hammer is discarded
 							or m.action == ACT_DEDEDE_HAMMER_SPIN or m.action == ACT_DEDEDE_DIZZY or m.action == ACT_DEDEDE_HAMMER_AIR
-							or m.action == ACT_GROUND_POUND or m.action == ACT_GROUND_POUND_LAND
+							or id == CHAR_ANIM_GROUND_POUND or id == CHAR_ANIM_TRIPLE_JUMP_GROUND_POUND
+							or id == CHAR_ANIM_START_GROUND_POUND or (id == CHAR_ANIM_GROUND_POUND_LANDING and frame <= 5)
 							or (m.action == ACT_KIRBY_POWERUP and frame >= 12 and frame <= 33)
 							or ((id == CHAR_ANIM_TAKE_CAP_OFF_THEN_ON or id == CHAR_ANIM_MISSING_CAP) and frame >= 12 and frame < 65)
 	local isStoringHammer = m.action == ACT_KIRBY_JUMBO_STAR or (m.action & ACT_FLAG_METAL_WATER) ~= 0

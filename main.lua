@@ -4,8 +4,6 @@
 
 if incompatibilityCond then return 0 end
 
-define_custom_obj_fields({oHasKirbySucked = 's32', oKirbySuckPlayer = 's32', oDededeHitEnemy = 's32'})
-
 KIRBY_COPY_SOUND = audio_sample_load("SOUND_COPY.ogg")
 KIRBY_OBJECT_SOUND = audio_sample_load("SOUND_OBJECT.ogg")
 KIRBY_LAND_SOUND = audio_sample_load("SOUND_LAND.ogg")

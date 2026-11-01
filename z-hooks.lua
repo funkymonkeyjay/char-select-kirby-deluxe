@@ -69,20 +69,6 @@ if charSelect then
 			return 1
 		end
 
-		--[[
-		m.marioObj.oMarioBurnTimer = m.marioObj.oMarioBurnTimer + 2;
-    	if m.marioObj.oMarioBurnTimer > 160 then
-			return set_mario_action(m, ACT_WALKING, 0)
-		end
-		]]
-
-		if currChar == dededeCharID and incomingAction == ACT_GROUND_POUND_LAND then
-			spawn_sync_object(id_bhvDededeHammer_JJJ, E_MODEL_NONE, m.pos.x + sins(m.faceAngle.y) * 200, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 200, function (o)
-				o.parentObj = m.marioObj
-				--o.oDededeHitEnemy = 0
-			end)
-		end
-
 		if incomingAction == ACT_BURNING_FALL or incomingAction == ACT_BURNING_JUMP or incomingAction == ACT_BURNING_GROUND then
 			m.hurtCounter = m.hurtCounter + 8
 			return ACT_KIRBY_HURT_LAVA
@@ -450,7 +436,6 @@ if charSelect then
 			local dededeMult = currChar == dededeCharID and 0.4375 or 1
 			m.faceAngle.y = approach_s16_symmetric(m.faceAngle.y, m.intendedYaw, (gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ ~= 0 and 1000 or 1750) * dededeMult)
 		end
-		
 	end
 
 	charSelect.character_hook_moveset(kirbyCharID, HOOK_MARIO_UPDATE, kirbyPostUpdate)
@@ -462,9 +447,17 @@ if charSelect then
 		
 		if idx ~= 0 then return end
 
-		if m.action == ACT_GROUND_POUND and m.actionState == 0 and currChar == dededeCharID then
-			m.vel.y = 30
-			m.actionState = 1
+		if m.action == ACT_GROUND_POUND and currChar == dededeCharID then
+			local frame = m.marioObj.header.gfx.animInfo.animFrame
+			if m.actionState == 0 then
+				m.vel.y = 30
+				m.actionState = 1
+			elseif frame == 17 then
+				spawn_sync_object(id_bhvDededeHammer_JJJ, E_MODEL_NONE, m.pos.x + sins(m.faceAngle.y) * 200, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 200, function (o)
+					o.parentObj = m.marioObj
+					o.oEnemyLakituBlinkTimer = 2 -- "oDededeHitEnemy" doesn't want to friggin behave...........
+				end)
+			end
 		end
 		
 		if m.action == ACT_CROUCH_SLIDE and (m.input & INPUT_NONZERO_ANALOG) ~= 0 then
