@@ -2099,16 +2099,16 @@ Gfx kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_mat_override_Eyes__Kirby__Normal__0[] = {
+Gfx kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_mat_override_Eyes__Kirby__Half__0[] = {
 	gsSPDisplayList(mat_kirby_ghost_Ghost),
 	gsSPDisplayList(kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_tri_0),
 	gsSPDisplayList(mat_revert_kirby_ghost_Ghost),
 	gsSPDisplayList(mat_kirby_ghost_Mouth__Kirby__Puffed_Cheeks_),
 	gsSPDisplayList(kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_tri_1),
 	gsSPDisplayList(mat_revert_kirby_ghost_Mouth__Kirby__Puffed_Cheeks_),
-	gsSPDisplayList(mat_kirby_ghost_Eyes__Kirby__Normal_),
+	gsSPDisplayList(mat_kirby_ghost_Eyes__Kirby__Half_),
 	gsSPDisplayList(kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_tri_2),
-	gsSPDisplayList(mat_revert_kirby_ghost_Eyes__Kirby__Normal_),
+	gsSPDisplayList(mat_revert_kirby_ghost_Eyes__Kirby__Half_),
 	gsSPEndDisplayList(),
 };
 
@@ -2125,7 +2125,20 @@ Gfx kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_mat_override_
 	gsSPEndDisplayList(),
 };
 
-Gfx kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_mat_override_Eyes__Kirby__Angry__2[] = {
+Gfx kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_mat_override_Eyes__Kirby__Normal__2[] = {
+	gsSPDisplayList(mat_kirby_ghost_Ghost),
+	gsSPDisplayList(kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_tri_0),
+	gsSPDisplayList(mat_revert_kirby_ghost_Ghost),
+	gsSPDisplayList(mat_kirby_ghost_Mouth__Kirby__Puffed_Cheeks_),
+	gsSPDisplayList(kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_tri_1),
+	gsSPDisplayList(mat_revert_kirby_ghost_Mouth__Kirby__Puffed_Cheeks_),
+	gsSPDisplayList(mat_kirby_ghost_Eyes__Kirby__Normal_),
+	gsSPDisplayList(kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_tri_2),
+	gsSPDisplayList(mat_revert_kirby_ghost_Eyes__Kirby__Normal_),
+	gsSPEndDisplayList(),
+};
+
+Gfx kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_mat_override_Eyes__Kirby__Angry__3[] = {
 	gsSPDisplayList(mat_kirby_ghost_Ghost),
 	gsSPDisplayList(kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_tri_0),
 	gsSPDisplayList(mat_revert_kirby_ghost_Ghost),
@@ -2138,7 +2151,7 @@ Gfx kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_mat_override_
 	gsSPEndDisplayList(),
 };
 
-Gfx kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_mat_override_Eyes__Kirby__Normal__001_3[] = {
+Gfx kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_mat_override_Eyes__Kirby__Normal__001_4[] = {
 	gsSPDisplayList(mat_kirby_ghost_Ghost),
 	gsSPDisplayList(kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_tri_0),
 	gsSPDisplayList(mat_revert_kirby_ghost_Ghost),
@@ -2151,7 +2164,7 @@ Gfx kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_mat_override_
 	gsSPEndDisplayList(),
 };
 
-Gfx kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_mat_override_Eyes__Kirby__Half__001_4[] = {
+Gfx kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_mat_override_Eyes__Kirby__Half__001_5[] = {
 	gsSPDisplayList(mat_kirby_ghost_Ghost),
 	gsSPDisplayList(kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_tri_0),
 	gsSPDisplayList(mat_revert_kirby_ghost_Ghost),
@@ -2161,19 +2174,6 @@ Gfx kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_mat_override_
 	gsSPDisplayList(mat_kirby_ghost_Eyes__Kirby__Half__001),
 	gsSPDisplayList(kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_tri_2),
 	gsSPDisplayList(mat_revert_kirby_ghost_Eyes__Kirby__Half__001),
-	gsSPEndDisplayList(),
-};
-
-Gfx kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_mat_override_Eyes__Kirby__Closed__001_5[] = {
-	gsSPDisplayList(mat_kirby_ghost_Ghost),
-	gsSPDisplayList(kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_tri_0),
-	gsSPDisplayList(mat_revert_kirby_ghost_Ghost),
-	gsSPDisplayList(mat_kirby_ghost_Mouth__Kirby__Puffed_Cheeks_),
-	gsSPDisplayList(kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_tri_1),
-	gsSPDisplayList(mat_revert_kirby_ghost_Mouth__Kirby__Puffed_Cheeks_),
-	gsSPDisplayList(mat_kirby_ghost_Eyes__Kirby__Closed__001),
-	gsSPDisplayList(kirby_ghost_Head_Closed_Switch_Option_Head_Closed_mesh_layer_5_tri_2),
-	gsSPDisplayList(mat_revert_kirby_ghost_Eyes__Kirby__Closed__001),
 	gsSPEndDisplayList(),
 };
 

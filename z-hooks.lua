@@ -550,7 +550,7 @@ if charSelect then
 
 	hook_event(HOOK_MARIO_UPDATE, function (m)
 		local idx = m.playerIndex
-
+		
 		if idx == 0 then
 			local currChar = charSelect.character_get_current_number()
 			if currChar == kirbyCharID then
@@ -639,7 +639,7 @@ if charSelect then
 				if (m.action & ACT_FLAG_MOVING) ~= 0 then
 					hScale = hScale * 0.75
 				elseif m.action & ACT_FLAG_AIR ~= 0 and m.vel.y > 0 then
-					vScale = vScale * 0.9375
+					vScale = vScale * 0.95
 				end
 			end
 		end

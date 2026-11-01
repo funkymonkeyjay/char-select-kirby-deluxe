@@ -23,6 +23,12 @@ CHAR_ANIM_DEDEDE_FULL_MOVE_LEFT =  CHAR_ANIM_MAX + 19935
 CHAR_ANIM_DEDEDE_FULL_MOVE_RIGHT = CHAR_ANIM_MAX + 19936
 CHAR_ANIM_DEDEDE_HAMMER_AIR =      CHAR_ANIM_MAX + 19937
 
+local function determineFatAnim(m, name)
+	local inbetween = ""
+	if gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ ~= 0 then inbetween = "FAT_" end
+	return "KIRBY_" .. inbetween .. name
+end
+
 kirbyAnims = {
 	mouth = {
 		[CHAR_ANIM_IDLE_ON_POLE] = MARIO_MOUTH_SMILE, 
@@ -144,8 +150,8 @@ kirbyAnims = {
 		[CHAR_ANIM_START_CROUCHING] = MARIO_EYES_CLOSED_INTENSE, 
 		[CHAR_ANIM_CROUCH_FROM_FAST_LONGJUMP] = MARIO_EYES_CLOSED_INTENSE, 
 		[CHAR_ANIM_CROUCH_FROM_SLOW_LONGJUMP] = MARIO_EYES_CLOSED_INTENSE, 
-		[CHAR_ANIM_SWIM_PART1] = function (m, frame) if gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ > 0 then return MARIO_EYES_CLOSED_INTENSE end return MARIO_EYES_BLINK end, 
-		[CHAR_ANIM_SWIM_PART2] = function (m, frame) if gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ > 0 then return MARIO_EYES_CLOSED_INTENSE end return MARIO_EYES_BLINK end,
+		[CHAR_ANIM_SWIM_PART1] = function (m, frame) if gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ ~= 0 then return MARIO_EYES_CLOSED_INTENSE end return MARIO_EYES_BLINK end, 
+		[CHAR_ANIM_SWIM_PART2] = function (m, frame) if gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ ~= 0 then return MARIO_EYES_CLOSED_INTENSE end return MARIO_EYES_BLINK end,
 		[CHAR_ANIM_SHOCKED] = MARIO_EYES_SHOCKED, 
 		[CHAR_ANIM_KIRBY_ENDING] = function (m, frame) if frame > 153 and frame < 195 then return MARIO_EYES_CLOSED_INTENSE end return MARIO_EYES_BLINK end, 
 		[CHAR_ANIM_TIPTOE] = MARIO_EYES_CLOSED, 
@@ -160,21 +166,21 @@ kirbyAnims = {
 		[CHAR_ANIM_KIRBY_DODGE_BACK] = MARIO_EYES_ANGRY, 
 	}, 
 	anims = {
-		[CHAR_ANIM_SINGLE_JUMP] = "KIRBY_JUMP", 
+		[CHAR_ANIM_SINGLE_JUMP] = function (m, frame) return determineFatAnim(m, "JUMP") end, 
 		[CHAR_ANIM_LAND_FROM_SINGLE_JUMP] = function (m, frame) if m.action == ACT_EXIT_LAND_SAVE_DIALOG then return "KIRBY_EXIT_BOUNCE_2" end return "KIRBY_LAND" end, 
-		[CHAR_ANIM_GENERAL_FALL] = "KIRBY_FALL", 
+		[CHAR_ANIM_GENERAL_FALL] = function (m, frame) return determineFatAnim(m, "FALL") end, 
 		[CHAR_ANIM_GENERAL_LAND] = function (m, frame) if m.action == ACT_EXIT_LAND_SAVE_DIALOG or m.action == ACT_SPAWN_SPIN_LANDING or m.action == ACT_END_PEACH_CUTSCENE then return "KIRBY_EXIT_BOUNCE" end return "KIRBY_LAND" end, 
-		[CHAR_ANIM_WALKING] = "KIRBY_WALK", 
+		[CHAR_ANIM_WALKING] = function (m, frame) return determineFatAnim(m, "WALK") end, 
 		[CHAR_ANIM_START_TIPTOE] = function (m, frame) m.actionTimer = 2 end, 
-		[CHAR_ANIM_TIPTOE] = "KIRBY_TIPTOE",
+		[CHAR_ANIM_TIPTOE] = function (m, frame) return determineFatAnim(m, "TIPTOE") end, 
 		[CHAR_ANIM_CROUCH_FROM_FAST_LONGJUMP] = "KIRBY_CROUCH", 
 		[CHAR_ANIM_CROUCH_FROM_SLOW_LONGJUMP] = "KIRBY_CROUCH", 
 		[CHAR_ANIM_START_CROUCHING] = "KIRBY_CROUCH", 
 		[CHAR_ANIM_CROUCHING] = "KIRBY_CROUCH", 
 		[CHAR_ANIM_CROUCH_FROM_SLIDE_KICK] = "KIRBY_SLIDE_TO_CROUCH", 
-		[CHAR_ANIM_IDLE_HEAD_LEFT] = "KIRBY_IDLE", 
-		[CHAR_ANIM_IDLE_HEAD_RIGHT] = "KIRBY_IDLE", 
-		[CHAR_ANIM_IDLE_HEAD_CENTER] = "KIRBY_IDLE", 
+		[CHAR_ANIM_IDLE_HEAD_LEFT] = function (m, frame) return determineFatAnim(m, "IDLE") end, 
+		[CHAR_ANIM_IDLE_HEAD_RIGHT] = function (m, frame) return determineFatAnim(m, "IDLE") end, 
+		[CHAR_ANIM_IDLE_HEAD_CENTER] = function (m, frame) return determineFatAnim(m, "IDLE") end, 
 		[CHAR_ANIM_STOP_CROUCHING] = "KIRBY_CROUCH", 
 		[CHAR_ANIM_KIRBY_INHALE_IDLE] = "KIRBY_INHALE_IDLE", 
 		[CHAR_ANIM_KIRBY_INHALE_MOVE] = "KIRBY_INHALE_MOVE", 
@@ -182,14 +188,14 @@ kirbyAnims = {
 		[CHAR_ANIM_KIRBY_PUFF_FALL] = "KIRBY_PUFF_IDLE", 
 		[CHAR_ANIM_KIRBY_PUFF_RISE] = "KIRBY_PUFF_UP", 
 		[CHAR_ANIM_AIR_KICK] = "KIRBY_PUFF_OUT", 
-		[CHAR_ANIM_RUNNING] = function (m, frame) if (m.flags & MARIO_METAL_CAP) ~= 0 and not isMovesetOff() then return "KIRBY_WALK" else return "KIRBY_RUN" end end, 
-		[CHAR_ANIM_RUNNING_UNUSED] = function (m, frame) if (m.flags & MARIO_METAL_CAP) ~= 0 and not isMovesetOff() then return "KIRBY_WALK" else return "KIRBY_RUN" end end, 
+		[CHAR_ANIM_RUNNING] = function (m, frame) if (m.flags & MARIO_METAL_CAP) ~= 0 and not isMovesetOff() then return determineFatAnim(m, "WALK") else return determineFatAnim(m, "RUN") end end, 
+		[CHAR_ANIM_RUNNING_UNUSED] = function (m, frame) if (m.flags & MARIO_METAL_CAP) ~= 0 and not isMovesetOff() then return determineFatAnim(m, "WALK") else return determineFatAnim(m, "RUN") end end, 
 		[CHAR_ANIM_SLIDE_KICK] = "KIRBY_SLIDE_KICK", 
-		[CHAR_ANIM_FIRST_PERSON] = "KIRBY_IDLE", 
+		[CHAR_ANIM_FIRST_PERSON] = function (m, frame) return determineFatAnim(m, "IDLE") end, 
 		[CHAR_ANIM_PUT_CAP_ON] = "KIRBY_POWER_UP", 
 		[charSelect.CS_ANIM_MENU] = "KIRBY_MENU", 
 		[CHAR_ANIM_STAR_DANCE] = "KIRBY_CELEBRATION", 
-		[CHAR_ANIM_RETURN_FROM_STAR_DANCE] = "KIRBY_IDLE", 
+		[CHAR_ANIM_RETURN_FROM_STAR_DANCE] = function (m, frame) return determineFatAnim(m, "IDLE") end, 
 		[CHAR_ANIM_MISSING_CAP] = "KIRBY_EXIT_LAND", 
 		[CHAR_ANIM_TAKE_CAP_OFF_THEN_ON] = "KIRBY_EXIT_LAND", 
 		[CHAR_ANIM_KIRBY_HELLO] = "KIRBY_HELLO", 
@@ -252,7 +258,7 @@ dededeAnims = {
 		[CHAR_ANIM_KIRBY_DODGE_BACK] = MARIO_MOUTH_FROWN, 
 		[CHAR_ANIM_KIRBY_DODGE_LAND] = MARIO_MOUTH_FROWN, 
 		[CHAR_ANIM_KIRBY_ENDING] = function (m, frame)
-			if frame > 13 and frame < 68 then
+			if (frame > 13 and frame < 68) or (frame >= 111 and frame < 126) then
 				return MARIO_MOUTH_HAPPY
 			elseif (frame > 135 and frame < 150) or (frame > 172 and frame < 206) then
 				return MARIO_MOUTH_SMILE
@@ -272,6 +278,9 @@ dededeAnims = {
 			end
 			return MARIO_MOUTH_NORMAL
 		end, 
+		[CHAR_ANIM_START_GROUND_POUND] = function (m, frame) return frame >= 7 and MARIO_MOUTH_SMILE or MARIO_MOUTH_NORMAL end, 
+		[CHAR_ANIM_TRIPLE_JUMP_GROUND_POUND] = function (m, frame) return frame >= 7 and MARIO_MOUTH_SMILE or MARIO_MOUTH_NORMAL end, 
+		[CHAR_ANIM_GROUND_POUND] = function (m, frame) if isMovesetOff() then return MARIO_MOUTH_SMILE else return frame >= 17 and MARIO_MOUTH_SMILE or MARIO_MOUTH_NORMAL end end, 
 	},
 	eyes = {
 		[charSelect.CS_ANIM_MENU] = function (m, frame)
@@ -327,6 +336,8 @@ dededeAnims = {
 				return MARIO_EYES_CLOSED_INTENSE
 			elseif (frame >= 210 and frame <= 236) then
 				return MARIO_EYES_SHOCKED
+			elseif frame >= 111 and frame <= 126 then
+				return MARIO_EYES_HALF_CLOSED
 			end
 			return MARIO_EYES_BLINK
 		end, 
@@ -344,6 +355,9 @@ dededeAnims = {
 			end
 			return MARIO_EYES_BLINK
 		end, 
+		[CHAR_ANIM_START_GROUND_POUND] = function (m, frame) return MARIO_EYES_LOOK_DOWN end, 
+		[CHAR_ANIM_TRIPLE_JUMP_GROUND_POUND] = function (m, frame) return MARIO_EYES_LOOK_DOWN end, 
+		[CHAR_ANIM_GROUND_POUND] = function (m, frame) return MARIO_EYES_LOOK_DOWN end, 
 	}, 
 	hands = {
 		[charSelect.CS_ANIM_MENU] = MARIO_HAND_PEACE_SIGN, 

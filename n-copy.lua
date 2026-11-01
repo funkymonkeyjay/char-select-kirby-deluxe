@@ -260,8 +260,17 @@ _G.kirbyDeluxe = {
 }
 
 -- Character Select hook to remove powerups + Dedede hammer on character change.
-charSelect.hook_on_character_change(function ()
-    local p = gPlayerSyncTable[0]
-    p.kirbyCopyAbility_JJJ = 0
+charSelect.hook_on_character_change(function (currChar, prevChar)
+    local p, m = gPlayerSyncTable[0], gMarioStates[0]
+    p.kirbyMouthCounter_JJJ = 0
+    
     p.dededeIsHammer_JJJ = false
+    if currChar == kirbyCharID or currChar == dededeCharID then
+        if currChar == kirbyCharID and p.kirbyCopyAbility_JJJ ~= 0 then
+            m.flags = m.flags & ~(MARIO_WING_CAP | MARIO_METAL_CAP | MARIO_VANISH_CAP)
+            p.kirbyCopyAbility_JJJ = 0
+        end
+        m.marioBodyState.punchState = 0 -- Reset punchState for local player.
+    end
+    
 end)

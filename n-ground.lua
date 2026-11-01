@@ -287,7 +287,7 @@ function act_being_inhaled(m)
 	
 	local waterCond = (mOther.waterLevel and mOther.pos.y < (mOther.waterLevel - 30)) or (mOther.action == ACT_CROUCHING or mOther.action == ACT_CROUCH_SLIDE)
 	or ((mOther.action & ACT_GROUP_MASK) == ACT_GROUP_CUTSCENE and not (mOther.action == ACT_PULLING_DOOR or mOther.action == ACT_PUSHING_DOOR)) or (mOther.action & ACT_GROUP_MASK) == ACT_FLAG_INTANGIBLE or (mOther.action & ACT_GROUP_MASK) == ACT_FLAG_INVULNERABLE
-	or (mOther.marioObj.header.gfx.node.flags & GRAPH_RENDER_ACTIVE) == 0
+	or (mOther.marioObj.header.gfx.node.flags & GRAPH_RENDER_ACTIVE) == 0 or gPlayerSyncTable[mOther.playerIndex].kirbyMouthCounter_JJJ == 0
 	local escapeCond = m.actionArg >= BUTTON_PRESS_LIMIT
 	
 	--local waterCond = mOther.waterLevel and mOther.pos.y < (mOther.waterLevel - 30)
