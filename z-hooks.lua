@@ -264,6 +264,9 @@ if charSelect then
 			set_mario_action(m, ACT_SLIDE_KICK, 0)
 			return
 		end
+		if m.action == ACT_JUMP and (m.prevAction & ACT_FLAG_ON_POLE) ~= 0 then
+			m.actionArg = 1
+		end
 		if m.action == ACT_SLIDE_KICK then
 			play_kirby_sound(KIRBY_SLIDE_SOUND, m.pos, 1)
 			set_mario_action(m, ACT_KIRBY_SLIDE, 0)
@@ -423,7 +426,7 @@ if charSelect then
 				gPlayerSyncTable[idx].kirbyHasPuffed_JJJ = false
 			end
 			--if (m.input & INPUT_A_PRESSED) ~= 0 and gPlayerSyncTable[idx].kirbyFallTimer_JJJ >= 2 then
-			if (m.input & INPUT_A_PRESSED) ~= 0 and m.pos.y - m.floorHeight > 75 then
+			if (m.input & INPUT_A_PRESSED) ~= 0 and m.pos.y - m.floorHeight > 75 and not (m.action == ACT_JUMP and m.actionArg ~= 0 and gPlayerSyncTable[idx].kirbyFallTimer_JJJ < 2) then
 				if currChar == dededeCharID and (m.flags & MARIO_WING_CAP) ~= 0 then 
 					if m.action ~= ACT_GROUND_POUND then
 						spawn_mist_particles_variable(20, -20, 10)

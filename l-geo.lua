@@ -49,19 +49,17 @@ function dededeHammer_JJJ(node, matStackIndex)
 							or id == CHAR_ANIM_START_GROUND_POUND or (id == CHAR_ANIM_GROUND_POUND_LANDING and frame <= 5)
 							or (m.action == ACT_KIRBY_POWERUP and frame >= 12 and frame <= 33)
 							or ((id == CHAR_ANIM_TAKE_CAP_OFF_THEN_ON or id == CHAR_ANIM_MISSING_CAP) and frame >= 12 and frame < 65)
+							or (id == CHAR_ANIM_START_CROUCHING or id == CHAR_ANIM_CROUCHING or id == CHAR_ANIM_STOP_CROUCHING
+							or id == CHAR_ANIM_CROUCH_FROM_FAST_LONGJUMP or id == CHAR_ANIM_CROUCH_FROM_SLOW_LONGJUMP)
 							) and not (id == CHAR_ANIM_SIDESTEP_LEFT or id == CHAR_ANIM_SIDESTEP_RIGHT or (id == CHAR_ANIM_GROUND_POUND_LANDING and frame > 5)
-							or (m.prevAction == ACT_GROUND_POUND_LAND and id == CHAR_ANIM_STOP_SLIDE) or (hammerCond and 
-							(id == CHAR_ANIM_START_CROUCHING or id == CHAR_ANIM_CROUCHING or id == CHAR_ANIM_STOP_CROUCHING
-							or id == CHAR_ANIM_CROUCH_FROM_FAST_LONGJUMP or id == CHAR_ANIM_CROUCH_FROM_SLOW_LONGJUMP)))
+							or (m.prevAction == ACT_GROUND_POUND_LAND and id == CHAR_ANIM_STOP_SLIDE))
 
 	local isStoringHammer = m.action == ACT_KIRBY_JUMBO_STAR or (m.action & ACT_FLAG_METAL_WATER) ~= 0
 							or (m.action == ACT_KIRBY_POWERUP and frame < 12)
 							or ((id == CHAR_ANIM_TAKE_CAP_OFF_THEN_ON or id == CHAR_ANIM_MISSING_CAP) and frame < 12)
 							or (hammerCond and (id == CHAR_ANIM_SKID_ON_GROUND
 							or id == CHAR_ANIM_TURNING_PART1 or (id == CHAR_ANIM_TURNING_PART2 and frame < 3) or (m.prevAction == ACT_GROUND_POUND_LAND and id == CHAR_ANIM_STOP_SLIDE)
-							or id == CHAR_ANIM_SIDESTEP_LEFT or id == CHAR_ANIM_SIDESTEP_RIGHT or (id == CHAR_ANIM_GROUND_POUND_LANDING and frame > 5)
-							or id == CHAR_ANIM_START_CROUCHING or id == CHAR_ANIM_CROUCHING or id == CHAR_ANIM_STOP_CROUCHING
-							or id == CHAR_ANIM_CROUCH_FROM_FAST_LONGJUMP or id == CHAR_ANIM_CROUCH_FROM_SLOW_LONGJUMP))
+							or id == CHAR_ANIM_SIDESTEP_LEFT or id == CHAR_ANIM_SIDESTEP_RIGHT or (id == CHAR_ANIM_GROUND_POUND_LANDING and frame > 5)))
 							
 
 	if asSwitchNode.parameter == 1 then -- Hand
