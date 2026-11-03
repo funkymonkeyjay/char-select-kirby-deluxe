@@ -7,16 +7,12 @@ ACT_BEING_INHALED = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_INTANGIBLE)
 
 function act_kirby_hello(m)
     if m.actionTimer == 0 then
-		--if m.actionArg == 0 then
-			if gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ == 0 then
-				play_character_sound(m, CHAR_SOUND_HELLO)
-			else
-				play_character_sound(m, CHAR_SOUND_HOOHOO)
-			end
-			set_mario_animation(m, CHAR_ANIM_KIRBY_HELLO)
-		--else
-			-- TODO: DEDEDE STUFF
-		--end
+		if gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ == 0 then
+			play_character_sound(m, CHAR_SOUND_HELLO)
+		else
+			play_character_sound(m, CHAR_SOUND_HOOHOO)
+		end
+		set_mario_animation(m, CHAR_ANIM_KIRBY_HELLO)
         mario_set_forward_vel(m, 0.0)
 		--gPlayerSyncTable[m.playerIndex].kirbyCopyAbility_JJJ = 0
 		kirbyRemoveAbility(m) -- Function that removes all abilities and spawns an ability essence object
@@ -193,7 +189,7 @@ local allowedBehaviors = {
 	{id = id_bhvCoinInsideBoo,      canRotate = false,  canEat = false,                                                   allowSuckFunc = function (o) return o.oAction > 0 end,                                           deleteOnDetect = false, isNPC = true}, 
 	{id = id_bhvHauntedChair,       canRotate = true,   canEat = true,                                                    allowSuckFunc = function (o) return o.oAction > 0 and o.oHauntedChairUnkF4 == 0 end,             deleteOnDetect = false}, 
 	{id = id_bhvFlyingBookend,      canRotate = true,   canEat = true,                                                    allowSuckFunc = function (o) return o.oAction > 0 end,                                           deleteOnDetect = false}, 
-	{id = id_bhvHoot,               canRotate = true,   canEat = true,                                                    allowSuckFunc = function (o) return (o.header.gfx.node.flags & GRAPH_RENDER_INVISIBLE) == 0 end, deleteOnDetect = false, isNPC = true, ability = "wing"}, 
+	{id = id_bhvHoot,               canRotate = true,   canEat = true,                                                    allowSuckFunc = function (o) return (o.header.gfx.node.flags & GRAPH_RENDER_INVISIBLE) == 0 end, deleteOnDetect = false, isNPC = true, ability = KIRBY_COPY_ANGEL}, 
 	{id = id_bhvYoshi,              canRotate = true,   canEat = true,                                                    allowSuckFunc = true,                                                                            deleteOnDetect = false, isNPC = true, onEatFunc = function (o, m)
 		play_sound(SOUND_GENERAL_COLLECT_1UP, gGlobalSoundSource); m.specialTripleJump = true; m.numLives = 100
 	end, onEatStart = function (o)
@@ -206,9 +202,9 @@ local allowedBehaviors = {
 	end, deleteOnDetect = false}, 
 }
 
-_G.kirbyDeluxe.hook_inhale_behavior = function (id, canRotate, canEat, allowSuckFunc, deleteOnDetect, onEatFunc, onEatStart, isNPC) -- Allows the modder to hook a custom behavior for Kirby to inhale.
+_G.kirbyDeluxe.hook_inhale_behavior = function (id, canRotate, canEat, allowSuckFunc, deleteOnDetect, onEatFunc, onEatStart, isNPC, ability) -- Allows the modder to hook a custom behavior for Kirby to inhale.
 	if not id then return end
-	local trueCanRotate, trueCanEat, trueAllowSuckFunc, trueDeleteOnDetect, trueOnEatFunc, trueOnEatStart, trueIsNPC = true, true, true, false, nil, nil, false
+	local trueCanRotate, trueCanEat, trueAllowSuckFunc, trueDeleteOnDetect, trueOnEatFunc, trueOnEatStart, trueIsNPC, trueAbility = true, true, true, false, nil, nil, false, nil
 	if canRotate ~= nil      then trueCanRotate = canRotate           end
 	if canEat ~= nil         then trueCanEat = canEat                 end
 	if allowSuckFunc ~= nil  then trueAllowSuckFunc = allowSuckFunc   end
@@ -216,6 +212,7 @@ _G.kirbyDeluxe.hook_inhale_behavior = function (id, canRotate, canEat, allowSuck
 	if onEatFunc ~= nil      then trueOnEatFunc = onEatFunc           end
 	if isNPC ~= nil          then trueIsNPC = isNPC                   end
 	if onEatStart ~= nil     then trueOnEatStart = onEatStart         end
+	if ability ~= nil        then trueAbility = ability               end
 	return table.insert(allowedBehaviors, {
 		id = id,                             -- Behavior ID of the object to inhale.
 		canRotate = trueCanRotate,           -- Check to see if an object can rotate as its being inhaled.
@@ -224,11 +221,12 @@ _G.kirbyDeluxe.hook_inhale_behavior = function (id, canRotate, canEat, allowSuck
 		deleteOnDetect = trueDeleteOnDetect, -- Deletes an object if it's within Kirby's inhale range.
 		onEatFunc = trueOnEatFunc,           -- Special function that activates once the object's been deleted (I.E. add to Big Bully #2's condition once a bully has been eaten)
 		onEatStart = trueOnEatStart,         -- Special function that activates the moment the object starts getting inhaled, good for single-frame sounds.
-		isNPC = trueIsNPC                    -- Adds to "Unusual Objects" check.
+		isNPC = trueIsNPC,                   -- Adds to "Unusual Objects" check.
+		ability = trueAbility                -- Add Copy Ability to enemy.
 	})
 end
 
-_G.kirbyDeluxe.edit_inhale_behavior = function (id, canRotate, canEat, allowSuckFunc, deleteOnDetect, onEatFunc, onEatStart, isNPC) -- Allows the modder to edit an existing behavior for Kirby to inhale.
+_G.kirbyDeluxe.edit_inhale_behavior = function (id, canRotate, canEat, allowSuckFunc, deleteOnDetect, onEatFunc, onEatStart, isNPC, ability) -- Allows the modder to edit an existing behavior for Kirby to inhale.
 	if not id then return end
 	local returnBeh
 	for i = 1, #allowedBehaviors do
@@ -245,6 +243,7 @@ _G.kirbyDeluxe.edit_inhale_behavior = function (id, canRotate, canEat, allowSuck
 		if onEatFunc ~= nil      then returnBeh.onEatFunc = onEatFunc           end
 		if onEatStart ~= nil     then returnBeh.onEatStart = onEatStart         end
 		if isNPC ~= nil          then returnBeh.isNPC = isNPC                   end
+		if ability ~= nil        then returnBeh.ability = ability               end
 	end
 end
 
@@ -371,6 +370,7 @@ hook_mario_action(ACT_BEING_INHALED, act_being_inhaled)
 hook_event(HOOK_MARIO_UPDATE, function (m)
 	local idx = m.playerIndex
 	
+	local currChar = charSelect.character_get_current_number(0)
 	local isInhaling = idx == 0 and m.action == ACT_KIRBY_INHALE
 	
 	if gServerSettings.playerInteractions == PLAYER_INTERACTIONS_PVP then
@@ -470,6 +470,10 @@ hook_event(HOOK_MARIO_UPDATE, function (m)
 							m.vel.y, m.forwardVel = 7, 0
 							play_kirby_sound(KIRBY_OBJECT_SOUND, m.pos, 1)
 							if gPlayerSyncTable[idx].kirbyMouthCounter_JJJ >= 0 then
+								if currentBehavior.ability and currChar == kirbyCharID then
+									-- "math.random" added to replicate the "Mix" roulette, too lazy to implement the actual roulette itself.
+									gPlayerSyncTable[idx].kirbyToAbility = gPlayerSyncTable[idx].kirbyToAbility ~= 0 and math.random(1, #kirbyAbilityHooks) or currentBehavior.ability
+								end
 								gPlayerSyncTable[idx].kirbyMouthCounter_JJJ = gPlayerSyncTable[idx].kirbyMouthCounter_JJJ + 1
 							end
 						else

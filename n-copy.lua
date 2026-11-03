@@ -1,4 +1,5 @@
 gPlayerSyncTable[0].kirbyCopyAbility_JJJ = 0
+gPlayerSyncTable[0].kirbyToAbility = 0
 
 ACT_KIRBY_GHOST = allocate_mario_action(ACT_FLAG_INVULNERABLE | ACT_FLAG_SWIMMING_OR_FLYING | ACT_FLAG_METAL_WATER)
 ACT_KIRBY_GHOST_DASH = allocate_mario_action(ACT_FLAG_INVULNERABLE | ACT_FLAG_SWIMMING_OR_FLYING | ACT_FLAG_ATTACKING | ACT_FLAG_METAL_WATER)
@@ -270,6 +271,7 @@ charSelect.hook_on_character_change(function (currChar, prevChar)
             m.flags = m.flags & ~(MARIO_WING_CAP | MARIO_METAL_CAP | MARIO_VANISH_CAP)
             p.kirbyCopyAbility_JJJ = 0
         end
+        p.kirbyToAbility = 0
         m.marioBodyState.punchState = 0 -- Reset punchState for local player.
     end
     

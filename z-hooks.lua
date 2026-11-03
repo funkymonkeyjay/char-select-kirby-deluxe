@@ -216,6 +216,7 @@ if charSelect then
 					end)
 				end
 				gPlayerSyncTable[idx].kirbyMouthCounter_JJJ = 0
+				gPlayerSyncTable[idx].kirbyToAbility = 0
 				if incomingAction ~= ACT_WATER_PUNCH then
 					m.vel.y = 24
 					return ACT_JUMP_KICK
@@ -376,9 +377,13 @@ if charSelect then
 		if (m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) and (m.controller.stickX == 0 and m.controller.stickY == 0) then
 			gPlayerSyncTable[idx].kirbyDodgeStick = false
 		end
-		
+
 		if ((m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) or (m.action & ACT_GROUP_MASK) == ACT_GROUP_CUTSCENE) and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ > 0 then -- Eat the contents
 			play_character_sound(m, CHAR_SOUND_PUNCH_WAH)
+			if gPlayerSyncTable[idx].kirbyToAbility ~= 0 and currChar == kirbyCharID then
+				gPlayerSyncTable[idx].kirbyCopyAbility_JJJ = gPlayerSyncTable[idx].kirbyToAbility
+				gPlayerSyncTable[idx].kirbyToAbility = 0
+			end
 			if not (m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) then
 				m.marioObj.header.gfx.scale.y = 0.75
 			end
@@ -740,7 +745,7 @@ if charSelect then
 				m.flags = m.flags | MARIO_CAP_ON_HEAD
 				if capTime > m.capTimer then m.capTimer = capTime end
 				if capMusic ~= 0 then play_cap_music(capMusic) end
-				set_mario_action(m, ACT_PUTTING_ON_CAP, 0)
+				drop_and_set_mario_action(m, ACT_PUTTING_ON_CAP, 0)
 				--obj_mark_for_deletion(o)
 				return false
 			end
@@ -775,6 +780,7 @@ if charSelect then
 		p.kirbyMouthState = 0
 		p.kirbySlideTimer = 0
 		p.kirbySlideCount = 0
+		p.kirbyToAbility = 0
 		p.dededeIsHammer_JJJ = false
 		if p.hasKirbyDied then
 			disable_time_stop()
