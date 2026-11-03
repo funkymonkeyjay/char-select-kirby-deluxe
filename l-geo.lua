@@ -2,12 +2,6 @@
 
 if incompatibilityCond then return 0 end
 
-function isMovesetOff() -- Global function to check if movesets are off or restricted.
-	if charSelect.are_movesets_restricted() then return true end
-	if charSelect.get_options_status(charSelect.optionTableRef.localMoveset) == 0 then return true end
-	return false
-end
-
 function dededeCap_JJJ(node, matStackIndex)
 	local switchCase = cast_graph_node(node)
 	local o = geo_get_current_object()
@@ -46,16 +40,29 @@ function dededeHammer_JJJ(node, matStackIndex)
 
 	local id = m.marioObj.header.gfx.animInfo.animID
 	local frame = m.marioObj.header.gfx.animInfo.animFrame
-	local isHoldingHammer = gPlayerSyncTable[m.playerIndex].dededeIsHammer_JJJ 
+	local hammerCond = gPlayerSyncTable[m.playerIndex].dededeIsHammer_JJJ 
+
+	local isHoldingHammer = (hammerCond
 							or (m.action == ACT_DEDEDE_HAMMER_DOWN and frame < 4) -- TODO: set to frame where hammer is discarded
 							or m.action == ACT_DEDEDE_HAMMER_SPIN or m.action == ACT_DEDEDE_DIZZY or m.action == ACT_DEDEDE_HAMMER_AIR
 							or id == CHAR_ANIM_GROUND_POUND or id == CHAR_ANIM_TRIPLE_JUMP_GROUND_POUND
 							or id == CHAR_ANIM_START_GROUND_POUND or (id == CHAR_ANIM_GROUND_POUND_LANDING and frame <= 5)
 							or (m.action == ACT_KIRBY_POWERUP and frame >= 12 and frame <= 33)
 							or ((id == CHAR_ANIM_TAKE_CAP_OFF_THEN_ON or id == CHAR_ANIM_MISSING_CAP) and frame >= 12 and frame < 65)
+							) and not (id == CHAR_ANIM_SIDESTEP_LEFT or id == CHAR_ANIM_SIDESTEP_RIGHT or (id == CHAR_ANIM_GROUND_POUND_LANDING and frame > 5)
+							or (m.prevAction == ACT_GROUND_POUND_LAND and id == CHAR_ANIM_STOP_SLIDE) or (hammerCond and 
+							(id == CHAR_ANIM_START_CROUCHING or id == CHAR_ANIM_CROUCHING or id == CHAR_ANIM_STOP_CROUCHING
+							or id == CHAR_ANIM_CROUCH_FROM_FAST_LONGJUMP or id == CHAR_ANIM_CROUCH_FROM_SLOW_LONGJUMP)))
+
 	local isStoringHammer = m.action == ACT_KIRBY_JUMBO_STAR or (m.action & ACT_FLAG_METAL_WATER) ~= 0
 							or (m.action == ACT_KIRBY_POWERUP and frame < 12)
 							or ((id == CHAR_ANIM_TAKE_CAP_OFF_THEN_ON or id == CHAR_ANIM_MISSING_CAP) and frame < 12)
+							or (hammerCond and (id == CHAR_ANIM_SKID_ON_GROUND
+							or id == CHAR_ANIM_TURNING_PART1 or (id == CHAR_ANIM_TURNING_PART2 and frame < 3) or (m.prevAction == ACT_GROUND_POUND_LAND and id == CHAR_ANIM_STOP_SLIDE)
+							or id == CHAR_ANIM_SIDESTEP_LEFT or id == CHAR_ANIM_SIDESTEP_RIGHT or (id == CHAR_ANIM_GROUND_POUND_LANDING and frame > 5)
+							or id == CHAR_ANIM_START_CROUCHING or id == CHAR_ANIM_CROUCHING or id == CHAR_ANIM_STOP_CROUCHING
+							or id == CHAR_ANIM_CROUCH_FROM_FAST_LONGJUMP or id == CHAR_ANIM_CROUCH_FROM_SLOW_LONGJUMP))
+							
 
 	if asSwitchNode.parameter == 1 then -- Hand
 		asSwitchNode.selectedCase = isHoldingHammer and 1 or 0

@@ -318,10 +318,7 @@ function act_kirby_death(m)
 			set_camera_shake_from_hit(SHAKE_ENV_BOWSER_JUMP)
 			camera_freeze()
 			enable_time_stop_if_alone()
-			if not mario_can_bubble(m) then 
-				m.slideYaw = get_current_background_music()
-				play_music(SEQ_PLAYER_LEVEL, 0, 0)
-			end
+			play_secondary_music(0, 0, 0, 0)
 		end
 		for i = 1, 10 do
 			spawn_non_sync_object(id_bhvBreakBoxTriangle, E_MODEL_CARTOON_STAR, m.pos.x, m.pos.y, m.pos.z, function (o) 
@@ -355,7 +352,7 @@ function act_kirby_death(m)
 		end
 
 		if m.actionTimer == 23 then
-			if m.playerIndex == 0 then play_cutscene_music(SEQUENCE_ARGS(15, SEQ_KIRBY_DEATH)) end
+			if m.playerIndex == 0 then stop_secondary_music(0); play_secondary_music(SEQ_KIRBY_DEATH, 0, 192, 0) end
 			set_mario_animation(m, CHAR_ANIM_KIRBY_DEATH)
 			m.vel.y = 30
 		end
@@ -370,22 +367,16 @@ function act_kirby_death(m)
 		end
 		if m.actionState == 2 then
 			local animFrame = common_death_handler(m, CHAR_ANIM_KIRBY_DEATH_END, 40)
-			--djui_chat_message_create(tostring(m.actionTimer))
-			if m.actionTimer >= 142 and m.playerIndex == 0 then
+			if ((m.actionTimer >= 140 or m.action == ACT_BUBBLED) -- Check for when the player is bubbled or has exited the level.
+			 or (animFrame >= 40 and m.invincTimer >= 0 and m.action ~= ACT_BUBBLED)) and m.playerIndex == 0 then -- Simple check for when a HOOK_ON_DEATH call prevents a death.
 				disable_time_stop()
 				camera_unfreeze()
+				stop_secondary_music(200)
 				gPlayerSyncTable[0].hasKirbyDied = false
-			end
-			if animFrame >= 40 and m.invincTimer >= 0 and m.action ~= ACT_BUBBLED and m.playerIndex == 0 then -- Simple check for when a HOOK_ON_DEATH call prevents a death.
-				disable_time_stop()
-				camera_unfreeze()
-				gPlayerSyncTable[0].hasKirbyDied = false
-				if not mario_can_bubble(m) then play_music(SEQ_PLAYER_LEVEL, m.slideYaw, 30) end
 			end
 		else
 			m.marioBodyState.eyeState = MARIO_EYES_DEAD
 		end
-		--smlua_anim_util_set_animation(m.marioObj, m.actionState == 2 and "KIRBY_DEATH_END" or "KIRBY_DEATH")
 	else
 		if m.playerIndex == 0 then
 			local timeDiff = math.max(13 - m.actionTimer, 0) / 13

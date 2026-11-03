@@ -246,8 +246,22 @@ gGlobalSyncTable.kirbyUnusualObjects = false
 OPTION_UNUSUAL_OBJS = charSelect.add_option("Inhale Unusuals", nil, nil, nil, {"Allows Kirby/Dedede", "To Inhale Unusual Objects", "(Host Only)"}, false)
 charSelect.get_option(OPTION_UNUSUAL_OBJS).lock = function () if not network_is_server() then return "Host Only" end end
 
-if network_is_server() then
-    hook_event(HOOK_UPDATE, function() gGlobalSyncTable.kirbyUnusualObjects = charSelect.get_options_status(OPTION_UNUSUAL_OBJS) ~= 0 end)
+if network_is_server() then -- Loads a host's config.
+	-- Loading config.
+	local configName = "kirbyDeluxeUnusualCond_JJJ"
+	if mod_storage_exists(configName) then gGlobalSyncTable.kirbyUnusualObjects = mod_storage_load_bool(configName) end
+	mod_storage_save_bool(configName, gGlobalSyncTable.kirbyUnusualObjects)
+
+	-- Setting config on start.
+	charSelect.set_options_status(OPTION_UNUSUAL_OBJS, gGlobalSyncTable.kirbyUnusualObjects and 1 or 0)
+
+	-- Updating config.
+	local prevCond = gGlobalSyncTable.kirbyUnusualObjects
+    hook_event(HOOK_UPDATE, function()
+		gGlobalSyncTable.kirbyUnusualObjects = charSelect.get_options_status(OPTION_UNUSUAL_OBJS) ~= 0
+		if gGlobalSyncTable.kirbyUnusualObjects ~= prevCond then mod_storage_save_bool(configName, gGlobalSyncTable.kirbyUnusualObjects) end
+		prevCond = gGlobalSyncTable.kirbyUnusualObjects
+	end)
 end
 
 -- SO RETRO! COMPATIBILITY
@@ -262,4 +276,24 @@ if retroCharAPI then
 		retroCharAPI.add_cs_character_palette(kirbyCharID, {NES_OUTLINE, NES_SHADE, NES_MAIN}, {NES_OUTLINE, NES_SHADE_FIRE, NES_MAIN_FIRE}, 1, 3)
 	end
 	hook_event(HOOK_ON_MODS_LOADED, setup_retro_sprites)
+end
+
+-- MISC. FUNCTIONS
+function getPlayerCount()
+	local count = 0
+	local mObj = obj_get_first(OBJ_LIST_PLAYER)
+    while mObj do
+		local m = get_mario_state_from_object(mObj)
+		if is_player_in_local_area(m) ~= 0 then
+			count = count + 1
+		end
+		mObj = obj_get_next(mObj)
+	end
+	return count
+end
+
+function isMovesetOff() -- Global function to check if movesets are off or restricted.
+	if charSelect.are_movesets_restricted() then return true end
+	if charSelect.get_options_status(charSelect.optionTableRef.localMoveset) == 0 then return true end
+	return false
 end

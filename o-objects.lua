@@ -210,7 +210,10 @@ local function bhv_kirby_star_loop(o)
                         local m = get_mario_state_from_object(oHit)
                         if m and m.playerIndex == 0 then
                             local p = gPlayerSyncTable[m.playerIndex]
-                            if (m.action & ACT_FLAG_INTANGIBLE) == 0 and (m.action & ACT_FLAG_INVULNERABLE) == 0 and m.invincTimer == 0 and p.kirbyCopyAbility_JJJ ~= KIRBY_COPY_GHOST and p.kirbyCopyAbility_JJJ ~= KIRBY_COPY_STEEL and (o.oInteractionSubtype & INT_SUBTYPE_DELAY_INVINCIBILITY) == 0 then
+                            if (m.action & ACT_FLAG_INTANGIBLE) == 0 and (m.action & ACT_FLAG_INVULNERABLE) == 0 and m.invincTimer == 0
+                             and (m.flags & MARIO_VANISH_CAP) == 0 and (m.flags & MARIO_METAL_CAP) == 0 and m.action ~= ACT_BUBBLED
+                             and p.kirbyCopyAbility_JJJ ~= KIRBY_COPY_GHOST and p.kirbyCopyAbility_JJJ ~= KIRBY_COPY_STEEL
+                             and (o.oInteractionSubtype & INT_SUBTYPE_DELAY_INVINCIBILITY) == 0 then
                                 hasAttacked = 1
                                 determine_knockback_action_jjj(m, o)
                                 play_kirby_sound(KIRBY_HIT_SOUND, o.header.gfx.pos, 0.5)
@@ -400,7 +403,10 @@ local function bhv_dedede_hammer_loop(o)
                                 local mOther = get_mario_state_from_object(oHit)
                                 if mOther and mOther.playerIndex == 0 then
                                     local p = gPlayerSyncTable[mOther.playerIndex]
-                                    if (mOther.action & ACT_FLAG_INTANGIBLE) == 0 and (mOther.action & ACT_FLAG_INVULNERABLE) == 0 and mOther.invincTimer == 0 and p.kirbyCopyAbility_JJJ ~= KIRBY_COPY_GHOST and p.kirbyCopyAbility_JJJ ~= KIRBY_COPY_STEEL and (o.oInteractionSubtype & INT_SUBTYPE_DELAY_INVINCIBILITY) == 0 then
+                                    if (mOther.action & ACT_FLAG_INTANGIBLE) == 0 and (mOther.action & ACT_FLAG_INVULNERABLE) == 0 and mOther.invincTimer == 0
+                                     and (mOther.flags & MARIO_VANISH_CAP) == 0 and (mOther.flags & MARIO_METAL_CAP) == 0 and mOther.action ~= ACT_BUBBLED
+                                     and p.kirbyCopyAbility_JJJ ~= KIRBY_COPY_GHOST and p.kirbyCopyAbility_JJJ ~= KIRBY_COPY_STEEL
+                                     and (o.oInteractionSubtype & INT_SUBTYPE_DELAY_INVINCIBILITY) == 0 then
                                         determine_knockback_action_jjj(mOther, o, 3)
                                         play_kirby_sound(KIRBY_HIT_SOUND, o.header.gfx.pos, 0.5)
                                     end

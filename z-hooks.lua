@@ -46,7 +46,12 @@ if charSelect then
 		local currChar = charSelect.character_get_current_number(idx)
 		if (currChar == kirbyCharID or currChar == dededeCharID) then
 			local dededeMult = currChar == dededeCharID and 0.75 or 1
-			if incomingAction == ACT_JUMP or incomingAction == ACT_DOUBLE_JUMP or incomingAction == ACT_TRIPLE_JUMP then gPlayerSyncTable[idx].kirbyScaleY = 1000; m.marioObj.header.gfx.scale.y = 1 end
+			if incomingAction == ACT_JUMP or incomingAction == ACT_DOUBLE_JUMP or incomingAction == ACT_TRIPLE_JUMP or (incomingAction == ACT_WALL_KICK_AIR and isMovesetOff()) or
+			(((m.action == ACT_START_CROUCHING or m.action == ACT_CROUCHING or m.action == ACT_STOP_CROUCHING) and incomingAction == ACT_BACKFLIP) or
+			incomingAction == ACT_LONG_JUMP or (incomingAction == ACT_FORWARD_ROLLOUT and m.action ~= ACT_KIRBY_DODGE) or incomingAction == ACT_BACKWARD_ROLLOUT
+			 or incomingAction == ACT_DOUBLE_JUMP or incomingAction == ACT_TRIPLE_JUMP or incomingAction == ACT_SIDE_FLIP) then
+				gPlayerSyncTable[idx].kirbyScaleY = 1000; m.marioObj.header.gfx.scale.y = 1
+			end
 			if incomingAction == ACT_START_CROUCHING or incomingAction == ACT_CROUCH_SLIDE then gPlayerSyncTable[idx].kirbyScaleY = 2500 * dededeMult; m.marioObj.header.gfx.scale.y = 2.5 * dededeMult end
 			-- TODO: more need to be added.
 		end
@@ -55,6 +60,8 @@ if charSelect then
 	local function kirbyBeforeActions(m, incomingAction, actionArg)
 		local idx = m.playerIndex
 		local floorObjectVel = (m.floor and m.floor.object and m.floor.object.oForwardVel) or 0
+
+		if m.action == ACT_KIRBY_INHALE then audio_sample_stop(KIRBY_INHALE_SOUND) end
 
 		local currChar = charSelect.character_get_current_number(idx)
 		if currChar ~= dededeCharID then
@@ -88,9 +95,13 @@ if charSelect then
 					return ACT_KIRBY_HURT_BACKWARD
 				end
 			end
-		elseif idx == 0 and gPlayerSyncTable[idx].hasKirbyDied then
-			disable_time_stop(); camera_unfreeze()
-			gPlayerSyncTable[idx].hasKirbyDied = false
+		--elseif idx == 0 and gPlayerSyncTable[idx].hasKirbyDied then
+			--disable_time_stop(); camera_unfreeze(); 
+			--gPlayerSyncTable[idx].hasKirbyDied = false
+		end
+
+		if currChar == dededeCharID and m.action == ACT_KIRBY_INHALE and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ ~= 0 and m.action ~= ACT_DEDEDE_FULL_AIM then
+			return ACT_DEDEDE_FULL_AIM
 		end
 		
 		--local dededeMult = currChar == dededeCharID and 0.75 or 1
@@ -108,10 +119,6 @@ if charSelect then
 			else
 				return 1
 			end
-		end
-		
-		if m.action == ACT_KIRBY_INHALE then
-			audio_sample_stop(KIRBY_INHALE_SOUND)
 		end
 		
 		if incomingAction == ACT_JUMP_KICK and m.action == ACT_KIRBY_PUFF then
@@ -134,7 +141,7 @@ if charSelect then
 			end
 		end
 
-		if (incomingAction == ACT_SLIDE_KICK or (incomingAction == ACT_PUNCHING and m.action == ACT_CROUCHING)) and currChar == dededeCharID then
+		if (incomingAction == ACT_SLIDE_KICK or (incomingAction == ACT_PUNCHING and m.action == ACT_CROUCHING)) and currChar == dededeCharID and not gPlayerSyncTable[m.playerIndex].dededeIsHammer_JJJ then
 			return ACT_DEDEDE_GORDO
 		end
 		
@@ -177,9 +184,17 @@ if charSelect then
 			end
 		end
 
-		if currChar == dededeCharID then
-			if m.action == ACT_KIRBY_INHALE and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ ~= 0 and m.action ~= ACT_DEDEDE_FULL_AIM then
-				return ACT_DEDEDE_FULL_AIM
+		if gPlayerSyncTable[m.playerIndex].dededeIsHammer_JJJ then
+			if incomingAction == ACT_DIVE or incomingAction == ACT_JUMP_KICK
+			 or incomingAction == ACT_PUNCHING or incomingAction == ACT_MOVE_PUNCHING or incomingAction == ACT_READING_SIGN
+			 or incomingAction == ACT_GRAB_POLE_FAST or incomingAction == ACT_GRAB_POLE_SLOW
+			 or incomingAction == ACT_PUSHING_DOOR or incomingAction == ACT_PULLING_DOOR then
+				if (incomingAction == ACT_DIVE and m.pos.y ~= m.floorHeight) or incomingAction == ACT_JUMP_KICK then
+					return ACT_DEDEDE_HAMMER_AIR
+				elseif incomingAction == ACT_PUNCHING or incomingAction == ACT_MOVE_PUNCHING or (incomingAction == ACT_DIVE and m.pos.y == m.floorHeight) then
+					return ACT_DEDEDE_HAMMER_DOWN
+				end
+				return 1
 			end
 		end
 		
@@ -211,14 +226,10 @@ if charSelect then
 			end
 		end
 
-		if gPlayerSyncTable[m.playerIndex].dededeIsHammer_JJJ and incomingAction == ACT_PUNCHING and (m.action == ACT_IDLE or m.action == ACT_WALKING) then
-			return 1
-		end
-
 		if ((m.action == ACT_START_CROUCHING or m.action == ACT_CROUCHING or m.action == ACT_STOP_CROUCHING) and incomingAction == ACT_BACKFLIP) or
 			incomingAction == ACT_LONG_JUMP or (incomingAction == ACT_FORWARD_ROLLOUT and m.action ~= ACT_KIRBY_DODGE) or incomingAction == ACT_BACKWARD_ROLLOUT or incomingAction == ACT_DOUBLE_JUMP or incomingAction == ACT_TRIPLE_JUMP or incomingAction == ACT_SIDE_FLIP then
 			--(incomingAction == ACT_FORWARD_ROLLOUT and m.action ~= ACT_KIRBY_DODGE) or incomingAction == ACT_BACKWARD_ROLLOUT or incomingAction == ACT_DOUBLE_JUMP or incomingAction == ACT_TRIPLE_JUMP or incomingAction == ACT_SIDE_FLIP then
-			gPlayerSyncTable[idx].kirbyScaleY = 1000; m.marioObj.header.gfx.scale.y = 1
+			--gPlayerSyncTable[idx].kirbyScaleY = 1000; m.marioObj.header.gfx.scale.y = 1
 			if currChar == dededeCharID and (incomingAction == ACT_BACKFLIP or incomingAction == ACT_LONG_JUMP) and not gPlayerSyncTable[idx].dededeHasSuperJump_JJJ then
 				return ACT_DEDEDE_JUMP
 			else
@@ -336,7 +347,7 @@ if charSelect then
 			end
 		elseif not (m.heldObj or m.action == ACT_DEDEDE_GORDO or m.action == ACT_DEDEDE_HAMMER_FLIP or m.action == ACT_DEDEDE_HAMMER_UP or m.action == ACT_DEDEDE_HAMMER_DOWN) then
 			--if (m.controller.buttonDown & X_BUTTON) ~= 0 then
-			if (m.controller.buttonDown & L_TRIG) ~= 0 and checkFlags(m) then
+			if (m.controller.buttonPressed & L_TRIG) ~= 0 and checkFlags(m) then
 				if m.pos.y ~= m.floorHeight
 				 and m.action ~= ACT_DEDEDE_HAMMER_AIR and m.action ~= ACT_KIRBY_PUFF
 				 and not (gPlayerSyncTable[idx].dededeHasAirSpin_JJJ or gPlayerSyncTable[idx].dededeIsHammer_JJJ) then
@@ -353,7 +364,7 @@ if charSelect then
 						end
 					end
 				end
-			elseif gPlayerSyncTable[0].dededeIsHammer_JJJ then
+			elseif (m.controller.buttonDown & L_TRIG) == 0 and gPlayerSyncTable[0].dededeIsHammer_JJJ then
 				drop_and_set_mario_action(m, m.pos.y == m.floorHeight and ACT_DEDEDE_HAMMER_DOWN or ACT_DEDEDE_HAMMER_AIR, 0)
 				gPlayerSyncTable[0].dededeIsHammer_JJJ = false
 			end
@@ -364,7 +375,6 @@ if charSelect then
 		end
 		
 		if ((m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) or (m.action & ACT_GROUP_MASK) == ACT_GROUP_CUTSCENE) and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ > 0 then -- Eat the contents
-			djui_chat_message_create("help!")
 			play_character_sound(m, CHAR_SOUND_PUNCH_WAH)
 			if not (m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) then
 				m.marioObj.header.gfx.scale.y = 0.75
@@ -398,7 +408,7 @@ if charSelect then
 
 		if m.vel.y > 0 then gPlayerSyncTable[idx].kirbyFallTimer_JJJ = 0 end -- Shrimple as that!
 		
-		if m.pos.y ~= m.floorHeight and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ == 0 and (m.action & ACT_FLAG_SWIMMING) == 0 and (m.action & ACT_FLAG_METAL_WATER) == 0 
+		if m.pos.y ~= m.floorHeight and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ == 0 and (m.action & ACT_FLAG_SWIMMING) == 0 and (m.action & ACT_FLAG_METAL_WATER) == 0 and not gPlayerSyncTable[idx].dededeIsHammer_JJJ
 			and m.action ~= ACT_SOFT_BONK and m.action ~= ACT_TOP_OF_POLE_JUMP and m.action ~= ACT_KIRBY_PUFF and m.action ~= ACT_FLYING_TRIPLE_JUMP and m.action ~= ACT_FLYING and m.action ~= ACT_SHOT_FROM_CANNON and m.action ~= ACT_WATER_JUMP 
 			and m.action ~= ACT_START_HANGING and m.action ~= ACT_HANGING and m.action ~= ACT_HANG_MOVING and m.action ~= ACT_BUBBLED and m.action ~= ACT_KIRBY_INHALE and not (m.action == ACT_LONG_JUMP and m.forwardVel < 0) and m.heldObj == nil then
 			gPlayerSyncTable[idx].kirbyFallTimer_JJJ = gPlayerSyncTable[idx].kirbyFallTimer_JJJ + 1
@@ -595,7 +605,7 @@ if charSelect then
 					toScale = 500
 				elseif m.action == ACT_START_CROUCHING or m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE or m.action == ACT_KIRBY_SLIDE or m.action == ACT_SLIDE_KICK_SLIDE or m.action == ACT_CROUCH_SLIDE or m.action == ACT_JUMP_LAND
 					 or (isKirbyStretching and (m.marioObj.header.gfx.animInfo.animFrame >= 28 and m.marioObj.header.gfx.animInfo.animFrame < 34)) or m.action == ACT_LONG_JUMP_LAND then
-					toScale = 625
+					toScale = 625 + (currChar == dededeCharID and 225 or 0)
 				elseif m.action == ACT_FORWARD_ROLLOUT then
 					toScale = 900
 				elseif (m.action == ACT_JUMP and m.vel.y > 0) or (m.action == ACT_KIRBY_PUFF and m.vel.y > 0) or m.action == ACT_KIRBY_DODGE then
@@ -614,7 +624,7 @@ if charSelect then
 					m.marioObj.header.gfx.scale.x = 0.75
 					m.marioObj.header.gfx.scale.z = 0.75
 				elseif m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE then
-					local toScale = currChar == dededeCharID and 1.125 or 1.5
+					local toScale = currChar == dededeCharID and 1.1 or 1.5
 					m.marioObj.header.gfx.scale.x = math.lerp(m.marioObj.header.gfx.scale.x, toScale, 0.85)
 					m.marioObj.header.gfx.scale.z = math.lerp(m.marioObj.header.gfx.scale.z, toScale, 0.85)
 				end
@@ -737,13 +747,11 @@ if charSelect then
 			network_send_object(o, true)
 		end
 	end)
-	  	
-	local function before_update(m) -- Code by Baconator2558, meant to use one idle animation instead of three.
+	
+	hook_event(HOOK_BEFORE_MARIO_UPDATE, function (m) -- Code by Baconator2558, meant to use one idle animation instead of three.
 		local currChar = charSelect.character_get_current_number(m.playerIndex)
 		if currChar == kirbyCharID or currChar == dededeCharID then if (m.action == ACT_IDLE) then m.actionState = 0 end end
-	end
-
-	hook_event(HOOK_BEFORE_MARIO_UPDATE, before_update)
+	end)
 	
 	hook_event(HOOK_ON_WARP, function (type, levelNum, areaIdx, nodeId, arg)
 		local p = gPlayerSyncTable[0]
@@ -765,12 +773,27 @@ if charSelect then
 		p.kirbySlideTimer = 0
 		p.kirbySlideCount = 0
 		p.dededeIsHammer_JJJ = false
-		--if p.hasKirbyDied then
+		if p.hasKirbyDied then
 			disable_time_stop()
 			camera_unfreeze()
+			stop_secondary_music(0)
 			p.hasKirbyDied = false
-		--end
+		end
 		audio_sample_stop(KIRBY_INHALE_SOUND) -- Added to prevent the inhale sound from playing outside a level forever.
+	end)
+
+	hook_event(HOOK_ON_HUD_RENDER_BEHIND, function ()
+		local modelId = charSelect.character_get_current_number()
+		local m = gMarioStates[0]
+
+		if m.action == ACT_KIRBY_DEATH then
+			local START_TIMER, END_TIMER = 120, 140
+			local alpha = math.clamp((m.actionTimer - START_TIMER) / (END_TIMER - START_TIMER), 0, 1)
+
+			djui_hud_set_resolution(RESOLUTION_DJUI)
+			djui_hud_set_color(0, 0, 0, 255 * alpha)
+			djui_hud_render_rect(0, 0, djui_hud_get_screen_width(), djui_hud_get_screen_height())
+		end
 	end)
 end
 
