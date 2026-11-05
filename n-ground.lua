@@ -517,7 +517,8 @@ function act_kirby_inhale(m)
 	mario_drop_held_object(m)
 	
 	if m.actionTimer == 0 and m.playerIndex == 0 then
-		play_kirby_sound(KIRBY_INHALE_SOUND, m.pos, 1)
+		local currChar = charSelect.character_get_current_number(m.playerIndex)
+		play_kirby_sound(currChar == dededeCharID and DEDEDE_INHALE_SOUND or KIRBY_INHALE_SOUND, m.pos, 1)
 	end
 	
 	m.actionTimer = m.actionTimer + 1

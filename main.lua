@@ -4,6 +4,7 @@
 
 if incompatibilityCond then return 0 end
 
+-- Kirby/General Sound Effects
 KIRBY_COPY_SOUND = audio_sample_load("SOUND_COPY.ogg")
 KIRBY_OBJECT_SOUND = audio_sample_load("SOUND_OBJECT.ogg")
 KIRBY_LAND_SOUND = audio_sample_load("SOUND_LAND.ogg")
@@ -13,6 +14,8 @@ KIRBY_INHALE_SOUND = audio_sample_load("SOUND_INHALE.ogg")
 KIRBY_SLIDE_SOUND = audio_sample_load("SOUND_SLIDE_KICK.ogg")
 KIRBY_HURT_SOUND = audio_sample_load("SOUND_HURT.ogg")
 
+DEDEDE_INHALE_SOUND = audio_sample_load("SOUND_INHALE_DDD.ogg")
+
 -- KIRBY --
 E_MODEL_KIRBY = smlua_model_util_get_id("kirby_geo")
 
@@ -20,14 +23,16 @@ local TEX_GRAFFITI_KIRBY = get_texture_info("kirby-graffiti")
 local TEX_CUSTOM_LIFE_ICON = get_texture_info("kirby-icon") 
 
 local KIRBY_VOICETABLE = {
-	[CHAR_SOUND_OKEY_DOKEY] =         'VOICE_LETSAGO2.ogg', 
-	[CHAR_SOUND_HELLO] =              {'VOICE_LETSAGO4.ogg', 'VOICE_LETSAGO.ogg', 'VOICE_LETSAGO3.ogg', 'VOICE_LETSAGO2.ogg'}, 
-	[CHAR_SOUND_LETS_A_GO] =          'VOICE_LETSAGO2.ogg', 
 	[CHAR_SOUND_PUNCH_YAH] =          'SOUND_LAUNCH_STAR.ogg', 
 	[CHAR_SOUND_PUNCH_WAH] =          'SOUND_SWALLOW.ogg', 
 	[CHAR_SOUND_PUNCH_HOO] =          'SOUND_EXHALE.ogg', 
 	[CHAR_SOUND_YAH_WAH_HOO] =        'SOUND_JUMP.ogg', 
 	[CHAR_SOUND_HOOHOO] =             'SOUND_PUFF.ogg', 
+	[CHAR_SOUND_YAHOO] =              'SOUND_JUMP.ogg', 
+
+	[CHAR_SOUND_OKEY_DOKEY] =         'VOICE_LETSAGO2.ogg', 
+	[CHAR_SOUND_HELLO] =              {'VOICE_LETSAGO4.ogg', 'VOICE_LETSAGO.ogg', 'VOICE_LETSAGO3.ogg', 'VOICE_LETSAGO2.ogg'}, 
+	[CHAR_SOUND_LETS_A_GO] =          'VOICE_LETSAGO2.ogg', 
 	[CHAR_SOUND_YAHOO_WAHA_YIPPEE] =  'VOICE_LETSAGO3.ogg', 
 	[CHAR_SOUND_UH] =                 'VOICE_LEDGE.ogg', 
 	[CHAR_SOUND_UH2] =                'VOICE_ATTACK.ogg', 
@@ -36,7 +41,6 @@ local KIRBY_VOICETABLE = {
 	[CHAR_SOUND_OOOF2] =              'VOICE_HURT.ogg', 
 	[CHAR_SOUND_HAHA] =               'VOICE_ATTACK.ogg', 
 	[CHAR_SOUND_HAHA_2] =             'VOICE_ATTACK.ogg', 
-	[CHAR_SOUND_YAHOO] =              'SOUND_JUMP.ogg', 
 	[CHAR_SOUND_DOH] =                'VOICE_HURT.ogg', 
 	[CHAR_SOUND_WHOA] =               'VOICE_WHOA.ogg', 
 	[CHAR_SOUND_EEUH] =               'VOICE_LIFT.ogg', 
@@ -56,6 +60,17 @@ local KIRBY_VOICETABLE = {
 	[CHAR_SOUND_DYING] =    'VOICE_DYING.ogg', 
 	[CHAR_SOUND_DROWNING] = 'VOICE_HURT2.ogg', 
 	[CHAR_SOUND_MAMA_MIA] = 'VOICE_DYING2.ogg' 
+}
+
+local DEDEDE_VOICETABLE = {
+	[CHAR_SOUND_PUNCH_YAH] =          'SOUND_LAUNCH_STAR.ogg', 
+	[CHAR_SOUND_PUNCH_WAH] =          'SOUND_SWALLOW.ogg', 
+	[CHAR_SOUND_PUNCH_HOO] =          'SOUND_EXHALE.ogg', 
+	[CHAR_SOUND_YAH_WAH_HOO] =        'SOUND_JUMP_DDD.ogg', 
+	[CHAR_SOUND_HOOHOO] =             'SOUND_PUFF.ogg', 
+	[CHAR_SOUND_YAHOO] =              'SOUND_JUMP_DDD.ogg', 
+
+	[CHAR_SOUND_WAAAOOOW] =           'VOICEDDD_FALL.ogg', 
 }
 
 local KIRBY_PALETTES = {
@@ -217,11 +232,13 @@ dededeCharID = charSelect.character_add("King Dedede", "Lorem Ipsum", "@funkymon
 charSelect.character_set_nickname(dededeCharID, "Dedede")
 
 charSelect.character_add_caps(E_MODEL_DEDEDE, dededeCaps)
+charSelect.character_add_voice(E_MODEL_DEDEDE, DEDEDE_VOICETABLE)
 charSelect.character_add_animations(E_MODEL_DEDEDE, dededeAnims.anims, dededeAnims.eyes, dededeAnims.hands)
 
 charSelect.character_add_menu_instrumental(dededeCharID, KIRBY_MENU_THEME)
 charSelect.character_set_category(dededeCharID, "Kirby", true)
 
+-- SEQUENCES
 SEQ_KIRBY_TRIUMPH = smlua_audio_utils_allocate_sequence()
 smlua_audio_utils_replace_sequence(SEQ_KIRBY_TRIUMPH, 0x1A, 100, "mus_triumph_return")
 charSelect.character_add_sequence_replacement(kirbyCharID, SEQ_EVENT_CUTSCENE_VICTORY, SEQ_KIRBY_TRIUMPH)

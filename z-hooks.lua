@@ -61,7 +61,7 @@ if charSelect then
 		local idx = m.playerIndex
 		local floorObjectVel = (m.floor and m.floor.object and m.floor.object.oForwardVel) or 0
 
-		if m.action == ACT_KIRBY_INHALE then audio_sample_stop(KIRBY_INHALE_SOUND) end
+		if m.action == ACT_KIRBY_INHALE then audio_sample_stop(KIRBY_INHALE_SOUND); audio_sample_stop(DEDEDE_INHALE_SOUND) end
 
 		local currChar = charSelect.character_get_current_number(idx)
 		if currChar ~= dededeCharID then
@@ -69,6 +69,10 @@ if charSelect then
 			if hR ~= nil then
 				return hR
 			end
+		end
+
+		if incomingAction == ACT_START_CROUCHING or incomingAction == ACT_CROUCH_SLIDE then
+			play_kirby_sound(KIRBY_LAND_SOUND, m.pos, 0.125)
 		end
 
 		if incomingAction == ACT_JUMBO_STAR_CUTSCENE then return ACT_KIRBY_JUMBO_STAR end
@@ -379,10 +383,11 @@ if charSelect then
 		end
 
 		if ((m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) or (m.action & ACT_GROUP_MASK) == ACT_GROUP_CUTSCENE) and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ > 0 then -- Eat the contents
-			play_character_sound(m, CHAR_SOUND_PUNCH_WAH)
 			if gPlayerSyncTable[idx].kirbyToAbility ~= 0 and currChar == kirbyCharID then
 				gPlayerSyncTable[idx].kirbyCopyAbility_JJJ = gPlayerSyncTable[idx].kirbyToAbility
 				gPlayerSyncTable[idx].kirbyToAbility = 0
+			else
+				play_character_sound(m, CHAR_SOUND_PUNCH_WAH)
 			end
 			if not (m.action == ACT_CROUCHING or m.action == ACT_CROUCH_SLIDE) then
 				m.marioObj.header.gfx.scale.y = 0.75
@@ -497,7 +502,8 @@ if charSelect then
 			end
 		end
 		
-		if m.action == ACT_PUTTING_ON_CAP or (m.action == ACT_JUMP and m.actionArg == 1 and m.vel.y > 0 and charSelect.character_get_current_number(0) == kirbyCharID) then
+		--if m.action == ACT_PUTTING_ON_CAP or (m.action == ACT_JUMP and m.actionArg == 1 and m.vel.y > 0 and charSelect.character_get_current_number() == kirbyCharID) then
+		if m.action == ACT_PUTTING_ON_CAP then
 			m.particleFlags = m.particleFlags | PARTICLE_SPARKLES
 		end
 		
@@ -527,7 +533,7 @@ if charSelect then
 				elseif soundBits == SOUND_ACTION_TERRAIN_STEP or soundBits == SOUND_ACTION_TERRAIN_STEP + m.terrainSoundAddend
 					   or soundBits == SOUND_ACTION_TERRAIN_STEP_TIPTOE or soundBits == SOUND_ACTION_TERRAIN_STEP_TIPTOE + m.terrainSoundAddend
 					   or (currChar == dededeCharID and (soundBits == SOUND_ACTION_METAL_STEP or soundBits == SOUND_ACTION_METAL_STEP_TIPTOE or soundBits == SOUND_ACTION_METAL_STEP_WATER)) then
-					play_kirby_sound(KIRBY_STEP_SOUND, m.pos, 1)
+					play_kirby_sound(currChar == dededeCharID and KIRBY_LAND_SOUND or KIRBY_STEP_SOUND, m.pos, currChar == dededeCharID and 0.375 or 1)
 					return NO_SOUND
 				elseif currChar == dededeCharID and soundBits == SOUND_ACTION_METAL_HEAVY_LANDING then
 					return SOUND_ACTION_TERRAIN_HEAVY_LANDING + m.terrainSoundAddend
@@ -535,7 +541,6 @@ if charSelect then
 					   or soundBits == SOUND_ACTION_TERRAIN_BODY_HIT_GROUND or soundBits == SOUND_ACTION_TERRAIN_BODY_HIT_GROUND + m.terrainSoundAddend
 					   or (currChar == dededeCharID and (soundBits == SOUND_ACTION_METAL_LANDING or soundBits == SOUND_ACTION_METAL_LAND_WATER)) then
 					play_kirby_sound(KIRBY_LAND_SOUND, m.pos, 1)
-					
 					return NO_SOUND
 				elseif soundBits == SOUND_ACTION_TERRAIN_JUMP or soundBits == SOUND_ACTION_TERRAIN_JUMP + m.terrainSoundAddend
 					   or soundBits == SOUND_ACTION_METAL_JUMP or soundBits == SOUND_ACTION_METAL_JUMP_WATER then
@@ -789,6 +794,7 @@ if charSelect then
 			p.hasKirbyDied = false
 		end
 		audio_sample_stop(KIRBY_INHALE_SOUND) -- Added to prevent the inhale sound from playing outside a level forever.
+		audio_sample_stop(DEDEDE_INHALE_SOUND)
 	end)
 
 	hook_event(HOOK_ON_HUD_RENDER_BEHIND, function ()
