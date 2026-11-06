@@ -44,7 +44,7 @@ function dededeHammer_JJJ(node, matStackIndex)
 
 	local isHoldingHammer = (hammerCond
 							or (m.action == ACT_DEDEDE_HAMMER_DOWN and frame < 4) -- TODO: set to frame where hammer is discarded
-							or m.action == ACT_DEDEDE_HAMMER_SPIN or m.action == ACT_DEDEDE_DIZZY or m.action == ACT_DEDEDE_HAMMER_AIR
+							or m.action == ACT_DEDEDE_HAMMER_SPIN or (m.action == ACT_DEDEDE_DIZZY and frame <= 46) or m.action == ACT_DEDEDE_HAMMER_AIR
 							or id == CHAR_ANIM_GROUND_POUND or id == CHAR_ANIM_TRIPLE_JUMP_GROUND_POUND
 							or id == CHAR_ANIM_START_GROUND_POUND or (id == CHAR_ANIM_GROUND_POUND_LANDING and frame <= 5)
 							or (m.action == ACT_KIRBY_POWERUP and frame >= 12 and frame <= 33)

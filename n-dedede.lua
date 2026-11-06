@@ -13,36 +13,22 @@ function act_dedede_jump(m)
     end
 
     if m.actionState == 0 then -- Startup
-        -- TODO: set anim (startup)
         gPlayerSyncTable[idx].kirbyScaleY = 750; m.marioObj.header.gfx.scale.y = 0.75
-        set_mario_animation(m, CHAR_ANIM_START_CROUCHING)
+        if m.actionTimer == 0 then set_mario_animation(m, CHAR_ANIM_CROUCHING) end -- Resets the frame timer, don't know why this works.
+        set_mario_animation(m, CHAR_ANIM_DEDEDE_JUMP_START)
         m.actionTimer = m.actionTimer + 1
         if m.actionTimer > 10 then
-            m.actionState = m.actionState + 1
+            m.actionState = 1
             m.actionTimer = 0
-
             play_mario_sound(m, SOUND_ACTION_TERRAIN_JUMP, CHAR_SOUND_YAH_WAH_HOO)
             m.vel.y = 128
         end
-    elseif m.actionState == 1 then
-
+    elseif m.actionState == 1 then -- Jump
         gPlayerSyncTable[idx].kirbyScaleY = 1250
-        -- TODO: set anim (liftoff)
-        set_mario_animation(m, CHAR_ANIM_GENERAL_FALL)
+        set_mario_animation(m, CHAR_ANIM_DEDEDE_JUMP)
         if (m.input & INPUT_Z_PRESSED) ~= 0 then
             return set_mario_action(m, ACT_GROUND_POUND, 0)
         end
-
-        --m.vel.x, m.vel.z = m.vel.x * 1.5, m.vel.z * 1.5
-    elseif m.actionState == 2 then
-        m.vel.y = 0
-        if m.actionTimer == 0 then
-            gPlayerSyncTable[idx].kirbyScaleY = 250; m.marioObj.header.gfx.scale.y = 0.25
-            m.actionTimer = 1
-        end
-        m.vel.x, m.vel.z = 0, 0
-        m.forwardVel = 0
-        if is_anim_at_end(m) == 1 then set_mario_action(m, ACT_IDLE, 0) end
     end
 
     local stepCase = perform_air_step(m, AIR_STEP_CHECK_LEDGE_GRAB | AIR_STEP_CHECK_HANG)
@@ -58,15 +44,7 @@ function act_dedede_jump(m)
             set_mario_action(m, ACT_BUTT_STUCK_IN_GROUND, 0)
             return
         end
-
         set_mario_action(m, ACT_DEDEDE_JUMP_LAND, 0)
-        --m.actionState = m.actionState + 1
-        
-        --set_mario_animation(m, CHAR_ANIM_GENERAL_LAND) -- TODO: set anim (grounded)
-        --play_mario_heavy_landing_sound(m, SOUND_ACTION_TERRAIN_HEAVY_LANDING)
-        --set_mario_particle_flags(m, PARTICLE_MIST_CIRCLE, 0)
-        --if (idx == 0) then set_camera_shake_from_hit(SHAKE_ENV_BOWSER_JUMP) end
-        --play_sound(SOUND_OBJ_BOWSER_WALK, m.marioObj.header.gfx.cameraToObject)
     end
 end
 
@@ -82,9 +60,8 @@ ACT_DEDEDE_JUMP_LAND = allocate_mario_action(ACT_FLAG_ATTACKING)
 function act_dedede_jump_land(m)
     local idx = m.playerIndex
     gPlayerSyncTable[idx].dededeHasSuperJump_JJJ = false
-    --if check_common_landing_cancels(m, ACT_JUMP) ~= 0 then return end
 
-    set_mario_animation(m, CHAR_ANIM_GENERAL_LAND)
+    set_mario_animation(m, CHAR_ANIM_DEDEDE_JUMP_LAND)
 
     if m.actionTimer == 0 then
         gPlayerSyncTable[idx].kirbyScaleY = 250; m.marioObj.header.gfx.scale.y = 0.25
@@ -118,7 +95,6 @@ function act_dedede_full_aim(m)
     m.vel.x, m.vel.z = 0, 0
 	m.forwardVel = 0
 
-    --djui_chat_message_create(tostring(m.intendedMag))
 	if (m.faceAngle.y > m.intendedYaw - 1500 and m.faceAngle.y < m.intendedYaw + 1500) or m.pos.y ~= m.floorHeight then
 		set_mario_animation(m, CHAR_ANIM_DEDEDE_FULL_IDLE)
 	else
@@ -172,47 +148,6 @@ local function act_dedede_dive_slide(m) -- Pretty much the same as ACT_DIVE_SLID
 
     common_slide_action(m, ACT_STOMACH_SLIDE_STOP, ACT_FREEFALL, CHAR_ANIM_DIVE)
     return 0
-    --[[
-    set_character_animation(m, CHAR_ANIM_DIVE)
-
-    update_air_without_turn(m)
-
-    local stepCase = perform_air_step(m, 0)
-    if stepCase == AIR_STEP_NONE then
-        if m->vel[1] < 0.0f && m->faceAngle[0] > -0x2AAA then
-            m->faceAngle[0] -= 0x200;
-            if (m->faceAngle[0] < -0x2AAA) {
-                m->faceAngle[0] = -0x2AAA;
-            }
-        }
-        m->marioObj->header.gfx.angle.x = -m.faceAngle.x
-    elseif stepCase == AIR_STEP_LANDED then
-        if should_get_stuck_in_ground(m) == 1 and m.faceAngle.x == -0x2AAA then
-            queue_rumble_data_mario(m, 5, 80)
-            play_character_sound(m, CHAR_SOUND_OOOF2)
-            set_mario_particle_flags(m, PARTICLE_MIST_CIRCLE, 0)
-            drop_and_set_mario_action(m, ACT_HEAD_STUCK_IN_GROUND, 0)
-        elseif check_fall_damage(m, ACT_HARD_FORWARD_GROUND_KB) == 0 then
-            if not m.heldObj then
-                set_mario_action(m, ACT_DIVE_SLIDE, 0)
-            else
-                set_mario_action(m, ACT_DIVE_PICKING_UP, 0)
-            end
-        end
-    elseif stepCase == AIR_STEP_HIT_WALL then
-        local noWallCond = not m.wall and gServerSettings.bouncyLevelBounds ~= BOUNCY_LEVEL_BOUNDS_OFF
-        if not noWallCond then
-            mario_bonk_reflection(m, 1)
-            m.faceAngle.x = 0
-            if m.vel.y > 0 then m.vel.y = 0 end
-
-            set_mario_particle_flags(m, PARTICLE_VERTICAL_STAR, 0)
-            drop_and_set_mario_action(m, ACT_BACKWARD_AIR_KB, 0)
-        end
-    elseif stepCase == AIR_STEP_HIT_LAVA_WALL then
-        lava_boost_on_wall(m)
-    end
-    ]]
 end
 
 hook_mario_action(ACT_DEDEDE_DIVE_SLIDE, {every_frame = act_dedede_dive_slide, gravity = function (m)
@@ -234,15 +169,12 @@ function act_dedede_hammer_spin(m)
         end)
     end
 
-    if m.intendedMag > 0 then
-    --if not (m.controller.stickX == 0 and m.controller.stickY == 0) then
-        --intendedYaw = atan2s(-m.controller.stickY, m.controller.stickX) + m.area.camera.yaw
-        intendedYaw = m.intendedYaw
-    end
+    if m.intendedMag > 0 then intendedYaw = m.intendedYaw end
 
     m.actionTimer = m.actionTimer + 1
     if m.actionTimer > 110 then
         m.faceAngle.y = intendedYaw
+        play_character_sound(m, CHAR_SOUND_WHOA)
         return set_mario_action(m, ACT_DEDEDE_DIZZY, 0)
     end
 
@@ -267,7 +199,6 @@ function act_dedede_hammer_spin(m)
         return set_mario_action(m, ACT_STOMACH_SLIDE, 0)
     end
 
-    --set_mario_animation(m, CHAR_ANIM_TWIRL)
     set_mario_animation(m, CHAR_ANIM_DEDEDE_SPIN)
 
     m.vel.x = math.lerp(m.vel.x, sins(intendedYaw) * m.forwardVel, 0.05)
@@ -282,9 +213,10 @@ function act_dedede_hammer_spin(m)
     if stepCase == GROUND_STEP_LEFT_GROUND then
         m.faceAngle.y = intendedYaw
         set_mario_action(m, ACT_FREEFALL, 0)
-        set_character_animation(m, CHAR_ANIM_GENERAL_FALL) -- TODO: could set to custom anim
+        set_character_animation(m, CHAR_ANIM_GENERAL_FALL)
         return
-    elseif stepCase == GROUND_STEP_HIT_WALL then
+    --elseif (stepCase == GROUND_STEP_HIT_WALL or m.wall ~= nil) and math.sqrt(m.vel.x^2 + m.vel.z^2) > 15 then
+    elseif (stepCase == GROUND_STEP_HIT_WALL or m.wall ~= nil) then -- Removing the "math.sqrt" function has BLJ-like consequences, just letting everyone know this is a FEATURE.
         play_sound(SOUND_ACTION_HIT, m.marioObj.header.gfx.cameraToObject)
         m.vel.x = -m.vel.x * 1.25
         m.vel.z = -m.vel.z * 1.25
@@ -312,7 +244,7 @@ ACT_DEDEDE_DIZZY = allocate_mario_action(ACT_FLAG_MOVING | ACT_FLAG_INVULNERABLE
 
 function act_dedede_dizzy(m)
     if not m then return 0 end
-    common_ground_knockback_action(m, CHAR_ANIM_FORWARD_KB, 20, 1, m.actionArg) -- TODO: custom anim
+    common_ground_knockback_action(m, CHAR_ANIM_DEDEDE_DIZZY, 20, 1, m.actionArg) -- TODO: custom anim
     return 0
 end
 

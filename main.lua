@@ -67,7 +67,7 @@ local DEDEDE_VOICETABLE = {
 	[CHAR_SOUND_PUNCH_WAH] =          'SOUND_SWALLOW.ogg', 
 	[CHAR_SOUND_PUNCH_HOO] =          'SOUND_EXHALE.ogg', 
 	[CHAR_SOUND_YAH_WAH_HOO] =        'SOUND_JUMP_DDD.ogg', 
-	[CHAR_SOUND_HOOHOO] =             'SOUND_PUFF.ogg', 
+	[CHAR_SOUND_HOOHOO] =             'SOUND_PUFF_DDD.ogg', 
 	[CHAR_SOUND_YAHOO] =              'SOUND_JUMP_DDD.ogg', 
 
 	[CHAR_SOUND_WAAAOOOW] =           'VOICEDDD_FALL.ogg', 
@@ -152,11 +152,6 @@ local KIRBY_PALETTES = {
 		[SHOES] = "715CC2", [EMBLEM] = "FFFF00"
 	},
 }
-
-function play_kirby_sound(m, pos, vol)
-	if is_game_paused() or charSelect.is_menu_open() then return end
-	return audio_sample_play(m, pos, vol or 1)
-end
 
 local KIRBY_HEALTHMETER = {
     label = {
@@ -313,4 +308,9 @@ function isMovesetOff() -- Global function to check if movesets are off or restr
 	if charSelect.are_movesets_restricted() then return true end
 	if charSelect.get_options_status(charSelect.optionTableRef.localMoveset) == 0 then return true end
 	return false
+end
+
+function play_kirby_sound(m, pos, vol)
+	if is_game_paused() or charSelect.is_menu_open() then return end
+	return audio_sample_play(m, pos, vol or 1)
 end
