@@ -82,6 +82,7 @@ if charSelect then
 
 		if incomingAction ~= ACT_BUBBLED then
 			if incomingAction == ACT_BURNING_FALL or incomingAction == ACT_BURNING_JUMP or incomingAction == ACT_BURNING_GROUND then
+				if m.action == ACT_KIRBY_HURT_LAVA then return 1 end
 				m.hurtCounter = m.hurtCounter + 8
 				return ACT_KIRBY_HURT_LAVA
 			end
@@ -92,6 +93,7 @@ if charSelect then
 			end
 
 			if m.hurtCounter > 0 and not (incomingAction == ACT_BACKWARD_WATER_KB or incomingAction == ACT_FORWARD_WATER_KB or incomingAction == ACT_KIRBY_HURT_LAVA) then
+				if m.action == ACT_KIRBY_HURT_FORWARD or m.action == ACT_KIRBY_HURT_BACKWARD then return 1 end
 				if incomingAction == ACT_HARD_FORWARD_GROUND_KB or incomingAction == ACT_FORWARD_GROUND_KB or incomingAction == ACT_SOFT_FORWARD_GROUND_KB
 				or incomingAction == ACT_FORWARD_AIR_KB or incomingAction == ACT_HARD_FORWARD_AIR_KB then
 					return ACT_KIRBY_HURT_FORWARD
@@ -104,7 +106,7 @@ if charSelect then
 			--gPlayerSyncTable[idx].hasKirbyDied = false
 		end
 
-		if currChar == dededeCharID and m.action == ACT_KIRBY_INHALE and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ ~= 0 and m.action ~= ACT_DEDEDE_FULL_AIM then
+		if currChar == dededeCharID and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ ~= 0 and m.action ~= ACT_DEDEDE_FULL_AIM then
 			return ACT_DEDEDE_FULL_AIM
 		end
 		
@@ -353,9 +355,9 @@ if charSelect then
 			if (m.controller.buttonPressed & X_BUTTON) ~= 0 and gPlayerSyncTable[0].kirbyCopyAbility_JJJ ~= 0 then -- Alternative/Traditional way of getting rid of a copy ability.
 				kirbyRemoveAbility(m)
 			end
-		elseif not (m.heldObj or m.action == ACT_DEDEDE_GORDO or m.action == ACT_DEDEDE_HAMMER_FLIP or m.action == ACT_DEDEDE_HAMMER_UP or m.action == ACT_DEDEDE_HAMMER_DOWN) then
+		elseif not (m.heldObj or m.action == ACT_DEDEDE_GORDO or m.action == ACT_DEDEDE_HAMMER_FLIP or m.action == ACT_DEDEDE_HAMMER_UP or m.action == ACT_DEDEDE_HAMMER_DOWN) and checkFlags(m) then
 			--if (m.controller.buttonDown & X_BUTTON) ~= 0 then
-			if (m.controller.buttonPressed & L_TRIG) ~= 0 and checkFlags(m) then
+			if (m.controller.buttonPressed & L_TRIG) ~= 0 then
 				if m.pos.y ~= m.floorHeight
 				 and m.action ~= ACT_DEDEDE_HAMMER_AIR and m.action ~= ACT_KIRBY_PUFF
 				 and not (gPlayerSyncTable[idx].dededeHasAirSpin_JJJ or gPlayerSyncTable[idx].dededeIsHammer_JJJ) then

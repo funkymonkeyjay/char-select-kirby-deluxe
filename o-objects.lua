@@ -378,8 +378,10 @@ local function bhv_dedede_hammer_loop(o)
         local oHit = obj_get_first(list)
         while oHit do
             if o ~= oHit then
-                local isNotSwingingOnSurface = list == OBJ_LIST_SURFACE and ((not o.oDededeHitEnemy or o.oDededeHitEnemy == 0) or o.oEnemyLakituBlinkTimer == 2)
-                if isNotSwingingOnSurface and obj_has_behavior_id(oHit, id_bhvSmallWhomp) ~= 0 and oHit.oAction == 6 and oHit.oSubAction ~= 10 then -- Made separate to account for collision model.
+                local isNotSwinging = (not o.oDededeHitEnemy or o.oDededeHitEnemy == 0) or o.oEnemyLakituBlinkTimer == 2
+                --local isNotSwingingOnSurface = list == OBJ_LIST_SURFACE and ((not o.oDededeHitEnemy or o.oDededeHitEnemy == 0) or o.oEnemyLakituBlinkTimer == 2)
+                --if isNotSwingingOnSurface and obj_has_behavior_id(oHit, id_bhvSmallWhomp) ~= 0 and oHit.oAction == 6 and oHit.oSubAction ~= 10 then -- Made separate to account for collision model.
+                if obj_has_behavior_id(oHit, id_bhvSmallWhomp) ~= 0 and oHit.oAction == 6 and oHit.oSubAction ~= 10 then -- Made separate to account for collision model.
                     local _, surface = find_floor(o.oPosX, o.oPosY + 250, o.oPosZ)
                     if surface.object == oHit then djui_chat_message_create(tostring(o.oPosY - oHit.oPosY)) end
                     local dist = o.oPosY - oHit.oPosY
@@ -392,13 +394,9 @@ local function bhv_dedede_hammer_loop(o)
                     end
                 else
                     if oHit.oHeldState == HELD_FREE and obj_check_hitbox_overlap(o, oHit) and (oHit.header.gfx.node.flags & GRAPH_RENDER_INVISIBLE) == 0 then
-                        if isNotSwingingOnSurface then
-                            if obj_has_behavior_id(oHit, id_bhvWoodenPost) ~= 0 and oHit.oWoodenPostSpeedY == 0 then
-                                play_sound(SOUND_GENERAL_POUND_WOOD_POST, oHit.header.gfx.cameraToObject)
-                                oHit.oWoodenPostSpeedY = -190
-                                oHit.oWoodenPostMarioPounding = 1
-                            end
-                        else
+                        --if isNotSwingingOnSurface then
+
+                        --else
                             if list == OBJ_LIST_PLAYER and gServerSettings.playerInteractions == PLAYER_INTERACTIONS_PVP then
                                 local mOther = get_mario_state_from_object(oHit)
                                 if mOther and mOther.playerIndex == 0 then
@@ -411,17 +409,35 @@ local function bhv_dedede_hammer_loop(o)
                                         play_kirby_sound(KIRBY_HIT_SOUND, o.header.gfx.pos, 0.5)
                                     end
                                 end
+                            elseif obj_has_behavior_id(oHit, id_bhvWoodenPost) ~= 0 and oHit.oWoodenPostSpeedY == 0 and isNotSwinging then
+                                play_kirby_sound(KIRBY_HIT_SOUND, o.header.gfx.pos, 0.5)
+                                play_sound(SOUND_GENERAL_POUND_WOOD_POST, oHit.header.gfx.cameraToObject)
+                                oHit.oWoodenPostSpeedY = -190
+                                oHit.oWoodenPostMarioPounding = 1
+                            elseif (obj_has_behavior_id(oHit, id_bhvToadMessage) == 1 or obj_has_behavior_id(oHit, id_bhvBobombBuddy) == 1 or obj_has_behavior_id(oHit, id_bhvBobombBuddyOpensCannon) == 1) and isNotSwinging then
+                                if oHit.header.gfx.scale.y == 1 then
+                                    play_sound(SOUND_OBJ_STOMPED, oHit.header.gfx.cameraToObject)
+                                    if obj_has_behavior_id(oHit, id_bhvBobombBuddy) == 1 or obj_has_behavior_id(oHit, id_bhvBobombBuddyOpensCannon) == 1 then
+                                        play_sound(SOUND_OBJ_BOBOMB_BUDDY_TALK, oHit.header.gfx.cameraToObject) 
+                                    else
+                                        local toadChar = gCharacters[CT_TOAD]
+                                        play_sound_with_freq_scale(toadChar.sounds[CHAR_SOUND_OOOF2], oHit.header.gfx.cameraToObject, toadChar.soundFreqScale)
+                                    end
+                                end
+                                oHit.header.gfx.scale.y = 0.45
+                                oHit.header.gfx.scale.x = 1.5
+                                oHit.header.gfx.scale.z = 1.5
                             elseif obj_has_behavior_id(oHit, id_bhvMrI) == 1 then
-                                if oHit.oDededeHitEnemy == 0 then
+                                if oHit.oAction ~= 3 then
                                     play_kirby_sound(KIRBY_HIT_SOUND, o.header.gfx.pos, 0.5)
                                     oHit.oAction = 3
-                                    oHit.oDededeHitEnemy = 1
+                                    --oHit.oDededeHitEnemy = 1
                                     break
                                 end
                             else
-                                if (oHit.oInteractType == INTERACT_BREAKABLE or obj_is_attackable(oHit)) and obj_has_behavior_id(oHit, id_bhvBowser) == 0 then
-                                    oHit.oInteractStatus = oHit.oInteractStatus | INT_STATUS_WAS_ATTACKED | INT_STATUS_INTERACTED | INT_STATUS_TOUCHED_BOB_OMB | ATTACK_PUNCH
-                                end
+                                --if (oHit.oInteractType == INTERACT_BREAKABLE or obj_is_attackable(oHit)) and obj_has_behavior_id(oHit, id_bhvBowser) == 0 then
+                                    --oHit.oInteractStatus = oHit.oInteractStatus | INT_STATUS_WAS_ATTACKED | INT_STATUS_INTERACTED | INT_STATUS_TOUCHED_BOB_OMB | ATTACK_PUNCH
+                                --end
                                 if oHit.oHeldState == HELD_FREE and oHit.oIntangibleTimer >= 0 then
                                     if (oHit.oInteractType == INTERACT_BREAKABLE or oHit.oInteractType == INTERACT_BULLY or oHit.oInteractType == INTERACT_SPINY_WALKING or obj_is_attackable(oHit))
                                         and obj_has_behavior_id(oHit, id_bhvBowser) == 0 then
@@ -430,15 +446,15 @@ local function bhv_dedede_hammer_loop(o)
                                             oHit.oMoveAngleYaw = oHit.oFaceAngleYaw
                                             oHit.oForwardVel = o.oForwardVel * 1.5
                                         end
-                                        if oHit.oDededeHitEnemy == 0 then
+                                        local interactionStatus = (INT_STATUS_WAS_ATTACKED | INT_STATUS_INTERACTED | INT_STATUS_TOUCHED_BOB_OMB | ATTACK_PUNCH)
+                                        if (oHit.oInteractStatus & interactionStatus) == 0 then
                                             play_kirby_sound(KIRBY_HIT_SOUND, o.header.gfx.pos, 0.5)
-                                            oHit.oDededeHitEnemy = 1
                                         end
-                                        oHit.oInteractStatus = oHit.oInteractStatus | INT_STATUS_WAS_ATTACKED | INT_STATUS_INTERACTED | INT_STATUS_TOUCHED_BOB_OMB | ATTACK_PUNCH
+                                        oHit.oInteractStatus = oHit.oInteractStatus | interactionStatus
                                     end
                                 end
                             end
-                        end
+                       -- end
                     end
                 end
             end

@@ -43,7 +43,7 @@ function dededeHammer_JJJ(node, matStackIndex)
 	local hammerCond = gPlayerSyncTable[m.playerIndex].dededeIsHammer_JJJ 
 
 	local isHoldingHammer = (hammerCond
-							or (m.action == ACT_DEDEDE_HAMMER_DOWN and frame < 4) -- TODO: set to frame where hammer is discarded
+							or (m.action == ACT_DEDEDE_HAMMER_DOWN and (hammerCond or frame < 14))
 							or m.action == ACT_DEDEDE_HAMMER_SPIN or (m.action == ACT_DEDEDE_DIZZY and frame <= 46) or m.action == ACT_DEDEDE_HAMMER_AIR
 							or id == CHAR_ANIM_GROUND_POUND or id == CHAR_ANIM_TRIPLE_JUMP_GROUND_POUND
 							or id == CHAR_ANIM_START_GROUND_POUND or (id == CHAR_ANIM_GROUND_POUND_LANDING and frame <= 5)
@@ -51,6 +51,7 @@ function dededeHammer_JJJ(node, matStackIndex)
 							or ((id == CHAR_ANIM_TAKE_CAP_OFF_THEN_ON or id == CHAR_ANIM_MISSING_CAP) and frame >= 12 and frame < 65)
 							or (id == CHAR_ANIM_START_CROUCHING or id == CHAR_ANIM_CROUCHING or id == CHAR_ANIM_STOP_CROUCHING
 							or id == CHAR_ANIM_CROUCH_FROM_FAST_LONGJUMP or id == CHAR_ANIM_CROUCH_FROM_SLOW_LONGJUMP)
+							or id == CHAR_ANIM_DEDEDE_GORDO or (id == CHAR_ANIM_DEDEDE_GORDO_FLIP and frame <= 17)
 							) and not (id == CHAR_ANIM_SIDESTEP_LEFT or id == CHAR_ANIM_SIDESTEP_RIGHT or (id == CHAR_ANIM_GROUND_POUND_LANDING and frame > 5)
 							or (m.prevAction == ACT_GROUND_POUND_LAND and id == CHAR_ANIM_STOP_SLIDE))
 
