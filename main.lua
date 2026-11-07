@@ -272,6 +272,11 @@ SEQ_KIRBY_MASKED = smlua_audio_utils_allocate_sequence()
 smlua_audio_utils_replace_sequence(SEQ_KIRBY_MASKED, 0x2A, 100, "mus_masked")
 charSelect.character_add_sequence_replacement(dededeCharID, SEQ_EVENT_METAL_CAP, SEQ_KIRBY_MASKED)
 
+SEQ_KIRBY_CREDITS = smlua_audio_utils_allocate_sequence()
+smlua_audio_utils_replace_sequence(SEQ_KIRBY_CREDITS, 0x2A, 100, "mus_credits")
+charSelect.character_add_sequence_replacement(kirbyCharID, SEQ_EVENT_CUTSCENE_CREDITS, SEQ_KIRBY_CREDITS)
+charSelect.character_add_sequence_replacement(dededeCharID, SEQ_EVENT_CUTSCENE_CREDITS, SEQ_KIRBY_CREDITS)
+
 -- CONFIG
 gGlobalSyncTable.kirbyUnusualObjects = false
 

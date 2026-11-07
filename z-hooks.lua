@@ -25,6 +25,7 @@ for i = 0, (MAX_PLAYERS - 1) do
 	p.kirbySplineFrame = 0
 	p.kirbySlideTimer = 0
 	p.kirbySlideCount = 0
+	p.kirbyAltCostume = 1
 
 	p.dededeIsHammer_JJJ = false
 	p.dededeHasSuperJump_JJJ = false

@@ -65,7 +65,7 @@ local function puffHazardSurface(m, type) -- Hacky bugfix for quicksand death on
 	and m.pos.y ~= m.floorHeight then
 		return false
 	end
-	if type == HAZARD_TYPE_LAVA_FLOOR then
+	if type == HAZARD_TYPE_LAVA_FLOOR and (currChar == kirbyCharID or currChar == dededeCharID) then
 		if (m.action == ACT_KIRBY_HURT_BACKWARD or m.action == ACT_KIRBY_HURT_FORWARD or m.action == ACT_KIRBY_HURT_LAVA) or ((currChar == kirbyCharID or currChar == dededeCharID) and not isMovesetOff() and m.invincTimer > 0) then
 			return false
 		elseif m.invincTimer <= 0 then
