@@ -267,7 +267,7 @@ charSelect.hook_on_character_change(function (currChar, prevChar)
     
     p.dededeIsHammer_JJJ = false
     if currChar == kirbyCharID or currChar == dededeCharID then
-        if currChar == kirbyCharID and p.kirbyCopyAbility_JJJ ~= 0 then
+        if currChar == kirbyCharID and p.kirbyCopyAbility_JJJ ~= 0 and not isMovesetOff() then
             m.flags = m.flags & ~(MARIO_WING_CAP | MARIO_METAL_CAP | MARIO_VANISH_CAP)
             p.kirbyCopyAbility_JJJ = 0
         end

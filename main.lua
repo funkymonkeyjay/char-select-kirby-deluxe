@@ -36,7 +36,6 @@ local KIRBY_VOICETABLE = {
 	[CHAR_SOUND_YAHOO_WAHA_YIPPEE] =  'VOICE_LETSAGO3.ogg', 
 	[CHAR_SOUND_UH] =                 'VOICE_LEDGE.ogg', 
 	[CHAR_SOUND_UH2] =                'VOICE_ATTACK.ogg', 
-	[CHAR_SOUND_DOH] =                'VOICE_HURT.ogg', 
 	[CHAR_SOUND_OOOF] =               'VOICE_HURT2.ogg', 
 	[CHAR_SOUND_OOOF2] =              'VOICE_HURT.ogg', 
 	[CHAR_SOUND_HAHA] =               'VOICE_ATTACK.ogg', 
@@ -50,16 +49,13 @@ local KIRBY_VOICETABLE = {
 	[CHAR_SOUND_WAH2] =               'VOICE_BIG_THROW.ogg', 
 	[CHAR_SOUND_HRMM] =               'VOICE_LIFT.ogg', 
 	[CHAR_SOUND_HERE_WE_GO] =         'VOICE_LETSAGO2.ogg', 
-	--[CHAR_SOUND_HERE_WE_GO] =         function (m) if m.action == ACT_RELEASING_BOWSER then return 'VOICE_BOWSER.ogg' end end, 
 	[CHAR_SOUND_SO_LONGA_BOWSER] =    'VOICE_BOWSER.ogg', 
-
 	[CHAR_SOUND_ATTACKED] =     {'VOICE_HURT.ogg', 'VOICE_HURT3.ogg', 'VOICE_HURT2.ogg'}, 
 	[CHAR_SOUND_PANTING] =      'VOICE_PANT.ogg', 
 	[CHAR_SOUND_ON_FIRE] =      'VOICE_BURNING.ogg', 
-
 	[CHAR_SOUND_DYING] =    'VOICE_DYING.ogg', 
 	[CHAR_SOUND_DROWNING] = 'VOICE_HURT2.ogg', 
-	[CHAR_SOUND_MAMA_MIA] = 'VOICE_DYING2.ogg' 
+	[CHAR_SOUND_MAMA_MIA] = 'VOICE_DYING2.ogg', 
 }
 
 local DEDEDE_VOICETABLE = {
@@ -71,6 +67,30 @@ local DEDEDE_VOICETABLE = {
 	[CHAR_SOUND_YAHOO] =              'SOUND_JUMP_DDD.ogg', 
 
 	[CHAR_SOUND_WAAAOOOW] =           'VOICEDDD_FALL.ogg', 
+	[CHAR_SOUND_SO_LONGA_BOWSER] =    {'VOICEDDD_BOWSER1.ogg', 'VOICEDDD_BOWSER2.ogg'}, 
+	[CHAR_SOUND_DYING] =              'VOICEDDD_DYING.ogg',
+	[CHAR_SOUND_DOH] =                'VOICEDDD_HURT2.ogg', 
+	[CHAR_SOUND_OOOF2] =              'VOICEDDD_HURT3.ogg', 
+	[CHAR_SOUND_OOOF2] =              'VOICEDDD_HURT.ogg', 
+	[CHAR_SOUND_ATTACKED] =           'VOICEDDD_HURT.ogg', 
+	[CHAR_SOUND_WHOA] =               'VOICEDDD_WHOA.ogg', 
+	[CHAR_SOUND_UH] =                 'VOICEDDD_HURT3.ogg', 
+	[CHAR_SOUND_UH2] =                'VOICEDDD_BIG_THROW.ogg', 
+	[CHAR_SOUND_WAH2] =               'VOICEDDD_BIG_THROW.ogg', 
+	[CHAR_SOUND_OKEY_DOKEY] =         'VOICEDDD_LETSAGO.ogg', 
+	[CHAR_SOUND_LETS_A_GO] =          'VOICEDDD_OKEYDOKEY.ogg', 
+	[CHAR_SOUND_HERE_WE_GO] =         'VOICEDDD_HEREWEGO.ogg', 
+	[CHAR_SOUND_MAMA_MIA] =           'VOICEDDD_MAMAMIA.ogg', 
+	[CHAR_SOUND_DROWNING] =           'VOICEDDD_HURT2.ogg', 
+	[CHAR_SOUND_ON_FIRE] =            'VOICEDDD_BIG_THROW.ogg', 
+	[CHAR_SOUND_PANTING] =            'VOICEDDD_PANT.ogg', 
+	[CHAR_SOUND_HAHA] =               'VOICEDDD_HEREWEGO.ogg', 
+	[CHAR_SOUND_HAHA_2] =             'VOICEDDD_LETSAGO.ogg', 
+	[CHAR_SOUND_EEUH] =               'VOICEDDD_LIFT.ogg', 
+	[CHAR_SOUND_HRMM] =               'VOICEDDD_LIFT.ogg', 
+	[CHAR_SOUND_GROUND_POUND_WAH] =   'VOICEDDD_HURT2.ogg', 
+	[CHAR_SOUND_TWIRL_BOUNCE] =       'VOICEDDD_BIG_THROW.ogg', 
+	[CHAR_SOUND_YAHOO_WAHA_YIPPEE] =  'VOICEDDD_YAHOO.ogg', 
 }
 
 local KIRBY_PALETTES = {

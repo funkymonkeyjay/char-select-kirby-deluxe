@@ -341,11 +341,15 @@ if charSelect then
 				prevPowerup = gPlayerSyncTable[0].kirbyCopyAbility_JJJ
 			end
 
-			m.capTimer = 0
-			m.flags = m.flags & ~(MARIO_WING_CAP | MARIO_METAL_CAP | MARIO_VANISH_CAP)
-			local hR = call_kirby_copy_hook(idx, HOOK_MARIO_UPDATE, m)
-			if hR ~= nil then
-				return hR
+			if not charSelect.is_menu_open() then
+				m.capTimer = 0
+				m.flags = m.flags & ~(MARIO_WING_CAP | MARIO_METAL_CAP | MARIO_VANISH_CAP)
+				local hR = call_kirby_copy_hook(idx, HOOK_MARIO_UPDATE, m)
+				if hR ~= nil then
+					return hR
+				end
+			else
+				m.capTimer = 1
 			end
 			
 			if checkFlags(m) and (m.controller.buttonPressed & L_TRIG) ~= 0 and m.action ~= ACT_KIRBY_HELLO and m.pos.y == m.floorHeight and m.forwardVel == 0 then

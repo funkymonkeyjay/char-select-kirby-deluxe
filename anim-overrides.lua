@@ -333,10 +333,12 @@ dededeAnims = {
 		end, 
 		[CHAR_ANIM_TAKE_CAP_OFF_THEN_ON] = function (m, frame)
 			if frame == 22 or frame == 31 then audio_sample_play(KIRBY_LAND_SOUND, m.pos, 1) end
+			if frame == 47 then local dededeLaugh = charSelect.character_get_voice(m)[CHAR_SOUND_TWIRL_BOUNCE]; audio_sample_play(dededeLaugh, m.marioObj.header.gfx.cameraToObject, 1) end
 			if frame > 12 and frame < 36 then return MARIO_EYES_ANGRY elseif frame >= 36 and frame < 62 then return MARIO_EYES_CLOSED_INTENSE end return MARIO_EYES_BLINK
 		end, 
 		[CHAR_ANIM_MISSING_CAP] = function (m, frame)
 			if frame == 22 or frame == 31 then audio_sample_play(KIRBY_LAND_SOUND, m.pos, 1) end
+			if frame == 47 then local dededeLaugh = charSelect.character_get_voice(m)[CHAR_SOUND_TWIRL_BOUNCE]; audio_sample_play(dededeLaugh, m.marioObj.header.gfx.cameraToObject, 1) end
 			if frame > 12 and frame < 36 then return MARIO_EYES_ANGRY elseif frame >= 36 and frame < 62 then return MARIO_EYES_CLOSED_INTENSE end return MARIO_EYES_BLINK
 		end, 
 		[CHAR_ANIM_KIRBY_DEATH_END] = function (m, frame) if frame < 10 then return MARIO_EYES_CLOSED_INTENSE end return MARIO_EYES_DEAD end, 
