@@ -37,6 +37,24 @@ local function determineFatAnim(m, name)
 	return "KIRBY_" .. inbetween .. name
 end
 
+-- Function to give characters unique angry faces when they're interacting with a boss. (TAKEN FROM SPLATIDOLS 64)
+local DIST_LIMIT = 2000
+local function checkForBoss(m)
+	if m.action ~= ACT_READING_NPC_DIALOG then return false end
+	local bossList = {id_bhvKingBobomb,id_bhvWhompKingBoss,id_bhvWigglerHead,id_bhvWigglerBody,id_bhvBowser,id_bhvEyerokHand,id_bhvEyerokBoss} -- Listing boss behavior IDs with text, although Eyerok's dialog gets skipped in Co-op DX for some reason.
+	local hasBoss = false
+	for i = 1,#bossList do
+		local currBoss = bossList[i]
+		local o = obj_get_first_with_behavior_id(currBoss)
+		while o do
+			local distToPlayer = calc_abs_dist({x = o.oPosX,y = o.oPosY,z = o.oPosZ},{x = m.pos.x,y = m.pos.y,z = m.pos.z})
+			hasBoss = distToPlayer < DIST_LIMIT
+			o = obj_get_next_with_same_behavior_id(o)
+		end
+	end
+	return hasBoss
+end
+
 kirbyAnims = {
 	mouth = {
 		[CHAR_ANIM_IDLE_ON_POLE] = MARIO_MOUTH_SMILE, 
@@ -80,7 +98,7 @@ kirbyAnims = {
 		[CHAR_ANIM_MISSING_CAP] =          function (m, frame) if frame > 30 then return MARIO_MOUTH_SMILE end return MARIO_MOUTH_NORMAL end, 
 		[CHAR_ANIM_KIRBY_HELLO] = function (m, frame) if frame > 8 and frame < 36 then return MARIO_MOUTH_HAPPY end return MARIO_MOUTH_SMILE end, 
 		[CHAR_ANIM_PUT_CAP_ON] = function (m, frame) if frame > 19 and frame < 32 then return MARIO_MOUTH_HAPPY end return MARIO_MOUTH_SMILE end, 
-		[CHAR_ANIM_FIRST_PERSON] = function (m, frame) if m.action == ACT_CREDITS_CUTSCENE or m.action == ACT_FIRST_PERSON or m.action == ACT_INTRO_CUTSCENE or m.action == ACT_WARP_DOOR_SPAWN then return MARIO_MOUTH_NORMAL end return MARIO_MOUTH_OPEN end, 
+		[CHAR_ANIM_FIRST_PERSON] = function (m, frame) return checkForBoss(m) and MARIO_MOUTH_FROWN or MARIO_MOUTH_NORMAL end, 
 		[CHAR_ANIM_CREDITS_LOOK_UP] = MARIO_MOUTH_SMILE, 
 		[CHAR_ANIM_IDLE_HEAD_LEFT] = function (m, frame) if gPlayerSyncTable[m.playerIndex].kirbyAltCostume == kirbyRetroCosID then return MARIO_MOUTH_SMILE end return MARIO_MOUTH_NORMAL end, 
 		[CHAR_ANIM_IDLE_HEAD_RIGHT] = function (m, frame) if gPlayerSyncTable[m.playerIndex].kirbyAltCostume == kirbyRetroCosID then return MARIO_MOUTH_SMILE end return MARIO_MOUTH_NORMAL end, 
@@ -172,6 +190,7 @@ kirbyAnims = {
 		[CHAR_ANIM_KIRBY_DODGE_RIGHT] = MARIO_EYES_ANGRY, 
 		[CHAR_ANIM_KIRBY_DODGE_FRONT] = MARIO_EYES_ANGRY, 
 		[CHAR_ANIM_KIRBY_DODGE_BACK] = MARIO_EYES_ANGRY, 
+		[CHAR_ANIM_FIRST_PERSON] = function (m, frame) return checkForBoss(m) and MARIO_EYES_ANGRY or MARIO_EYES_BLINK end, 
 	}, 
 	anims = {
 		[CHAR_ANIM_SINGLE_JUMP] = function (m, frame) return determineFatAnim(m, "JUMP") end, 
@@ -279,7 +298,7 @@ dededeAnims = {
     	[CHAR_ANIM_STOP_SKID] = MARIO_MOUTH_FROWN, 
 		[CHAR_ANIM_TURNING_PART1] = MARIO_MOUTH_FROWN, 
 		[CHAR_ANIM_TURNING_PART2] = MARIO_MOUTH_FROWN, 
-		[CHAR_ANIM_FIRST_PERSON] = MARIO_MOUTH_FROWN, 
+		[CHAR_ANIM_FIRST_PERSON] = function (m, frame) return checkForBoss(m) and MARIO_MOUTH_FROWN or MARIO_MOUTH_NORMAL end, 
 		[CHAR_ANIM_STAR_DANCE] = function (m, frame)
 			if frame > 7 and frame < 46 then
 				return MARIO_MOUTH_SMILE
@@ -368,7 +387,7 @@ dededeAnims = {
 		[CHAR_ANIM_SKID_ON_GROUND] = MARIO_EYES_CLOSED_INTENSE, 
 		[CHAR_ANIM_TURNING_PART1] = MARIO_EYES_CLOSED_INTENSE, 
 		[CHAR_ANIM_TURNING_PART2] = function (m, frame) return frame < 3 and MARIO_EYES_CLOSED_INTENSE or MARIO_EYES_BLINK end, 
-		[CHAR_ANIM_FIRST_PERSON] = MARIO_EYES_HALF_CLOSED, 
+		[CHAR_ANIM_FIRST_PERSON] = function (m, frame) return checkForBoss(m) and MARIO_EYES_HALF_CLOSED or MARIO_EYES_BLINK end, 
 		[CHAR_ANIM_STAR_DANCE] = function (m, frame)
 			if frame > 7 and frame < 28 then
 				return MARIO_EYES_LOOK_UP
