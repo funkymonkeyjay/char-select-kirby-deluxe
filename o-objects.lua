@@ -2,7 +2,7 @@
 
 if incompatibilityCond or not charSelect then return 0 end
 
-define_custom_obj_fields({oHasKirbySucked = 's32', oKirbySuckPlayer = 's32', oDededeHitEnemy = 's32'})
+define_custom_obj_fields({oHasKirbySucked = 's32', oKirbySuckPlayer = 's32', oDededeHitEnemy = 's32', oKirbySuckTimer = 's32'})
 
 E_MODEL_KIRBY_STAR = smlua_model_util_get_id("kirby_star_geo")
 E_MODEL_KIRBY_AIR = smlua_model_util_get_id("kirby_air_geo")

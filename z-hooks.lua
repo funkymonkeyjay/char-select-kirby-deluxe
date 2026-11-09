@@ -54,7 +54,6 @@ if charSelect then
 				gPlayerSyncTable[idx].kirbyScaleY = 1000; m.marioObj.header.gfx.scale.y = 1
 			end
 			if incomingAction == ACT_START_CROUCHING or incomingAction == ACT_CROUCH_SLIDE then gPlayerSyncTable[idx].kirbyScaleY = 2500 * dededeMult; m.marioObj.header.gfx.scale.y = 2.5 * dededeMult end
-			-- TODO: more need to be added.
 		end
 	end)
 	
@@ -316,6 +315,7 @@ if charSelect then
 		gPlayerSyncTable[m.playerIndex].kirbyCopyAbility_JJJ = 0
 	end
 
+	local hasBowserSwingSound = false
 	local prevPowerup = 0
 	local function kirbyPostUpdate(m)
 		local idx = m.playerIndex
@@ -472,6 +472,19 @@ if charSelect then
 			local dededeMult = currChar == dededeCharID and 0.4375 or 1
 			m.faceAngle.y = approach_s16_symmetric(m.faceAngle.y, m.intendedYaw, (gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ ~= 0 and 1000 or 1750) * dededeMult)
 		end
+
+		if m.action == ACT_HOLDING_BOWSER and gNetworkPlayers[0].currLevelNum == LEVEL_BOWSER_3 and (currChar == kirbyCharID or currChar == dededeCharID) then
+			local nearestBowser = cur_obj_nearest_object_with_behavior(get_behavior_from_id(id_bhvBowser))
+			if nearestBowser.oHealth == 1 then
+				local nearestBomb = cur_obj_nearest_object_with_behavior(get_behavior_from_id(id_bhvBowserBomb)) -- Originally from Bowser QTE by Squishy6094
+				local bombAngle = atan2s(nearestBomb.oPosZ - m.pos.z, nearestBomb.oPosX - m.pos.x)
+				if m.angleVel.y >= 0xFFF and math.abs(math.s16(m.faceAngle.y - bombAngle)) < 0x800 then
+					if not hasBowserSwingSound then play_character_sound(m, currChar == kirbyCharID and CHAR_SOUND_BOWSER_SWING or CHAR_SOUND_HRMM); hasBowserSwingSound = true end
+				else
+					hasBowserSwingSound = false
+				end
+			end
+		end
 	end
 
 	charSelect.character_hook_moveset(kirbyCharID, HOOK_MARIO_UPDATE, kirbyPostUpdate)
@@ -557,6 +570,7 @@ if charSelect then
 		end
 	end)
 	
+	--[[
 	charSelect.character_hook_moveset(kirbyCharID, HOOK_CHARACTER_SOUND, function (m, sound)
 		if sound == CHAR_SOUND_HERE_WE_GO and not (m.action == ACT_STAR_DANCE_EXIT or m.action == ACT_STAR_DANCE_NO_EXIT or m.action == ACT_STAR_DANCE_WATER) then
 			if m.action == ACT_HOLDING_BOWSER then
@@ -566,7 +580,8 @@ if charSelect then
 			end
 		end
 	end)
-	
+	]]
+
 	charSelect.character_hook_moveset(kirbyCharID, HOOK_ON_INTERACT, function(m) local idx = m.playerIndex; gPlayerSyncTable[idx].kirbyFallTimer_JJJ = 0 end)
 	charSelect.character_hook_moveset(dededeCharID, HOOK_ON_INTERACT, function(m) local idx = m.playerIndex; gPlayerSyncTable[idx].kirbyFallTimer_JJJ = 0 end)
 	
@@ -587,7 +602,7 @@ if charSelect then
 	hook_event(HOOK_MARIO_UPDATE, function (m)
 		local idx = m.playerIndex
 		
-		if idx == 0 then
+		if idx == 0 and not (m.action == ACT_CREDITS_CUTSCENE or m.action == ACT_END_WAVING_CUTSCENE) then
 			local currChar = charSelect.character_get_current_number()
 			if currChar == kirbyCharID then
 				if gPlayerSyncTable[0].hasAddedHatFromKirby_JJJ and (m.flags & MARIO_CAP_ON_HEAD) == 0 then

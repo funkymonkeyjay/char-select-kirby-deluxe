@@ -241,6 +241,7 @@ kirbyAnims = {
 		[CHAR_ANIM_START_GROUND_POUND] = "KIRBY_START_GROUND_POUND", 
 		[CHAR_ANIM_TRIPLE_JUMP_GROUND_POUND] = "KIRBY_START_GROUND_POUND", 
 		[CHAR_ANIM_GROUND_POUND] = "KIRBY_GROUND_POUND", 
+		[CHAR_ANIM_CREDITS_WAVING] = "KIRBY_CREDITS_WAVE", 
 	}, 
 }
 
@@ -318,6 +319,7 @@ dededeAnims = {
 		[CHAR_ANIM_DIVE] = MARIO_MOUTH_FROWN, 
 		[CHAR_ANIM_SLIDE_DIVE] = MARIO_MOUTH_FROWN, 
 		[CHAR_ANIM_SLOW_LAND_FROM_DIVE] = MARIO_MOUTH_FROWN, 
+		[CHAR_ANIM_CREDITS_WAVING] = MARIO_MOUTH_SMILE, 
 	},
 	eyes = {
 		[charSelect.CS_ANIM_MENU] = function (m, frame)
@@ -418,6 +420,7 @@ dededeAnims = {
 				return MARIO_EYES_HALF_CLOSED
 			end
 		end, 
+		[CHAR_ANIM_CREDITS_WAVING] = MARIO_EYES_LOOK_LEFT, 
 	}, 
 	hands = {
 		[charSelect.CS_ANIM_MENU] = MARIO_HAND_PEACE_SIGN, 
@@ -436,7 +439,8 @@ dededeAnims = {
 				return MARIO_HAND_RIGHT_OPEN
 			end
 			return MARIO_HAND_FISTS
-		end
+		end, 
+		[CHAR_ANIM_CREDITS_WAVING] = MARIO_HAND_OPEN, 
 	}, 
 	anims = {
 		[charSelect.CS_ANIM_MENU] = "DEDEDE_MENU", 
@@ -505,5 +509,6 @@ dededeAnims = {
 		end, 
 		[CHAR_ANIM_DIVE] = "DEDEDE_DIVE", 
 		[CHAR_ANIM_SLIDE_DIVE] = "DEDEDE_DIVE", 
+		[CHAR_ANIM_CREDITS_WAVING] = "DEDEDE_CREDITS_WAVE", 
 	},
 }

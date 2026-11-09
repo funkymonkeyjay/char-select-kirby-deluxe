@@ -22,6 +22,25 @@ E_MODEL_KIRBY = smlua_model_util_get_id("kirby_geo")
 local TEX_GRAFFITI_KIRBY = get_texture_info("kirby-graffiti")
 local TEX_CUSTOM_LIFE_ICON = get_texture_info("kirby-icon") 
 
+CHAR_SOUND_BOWSER_SWING = CHAR_SOUND_MAX + 1
+local VOICE_KIRBY_HERE_WE_GO =   audio_sample_load('VOICE_LETSAGO2.ogg')
+local VOICE_KIRBY_BOWSER =       audio_sample_load('VOICE_BOWSER.ogg')
+local VOICE_KIRBY_BOWSER_THROW = audio_sample_load('VOICE_BOWSER_THROW.ogg')
+
+local function checkBowserThrow(m, origReturn)
+	if m.playerIndex == 0 and m.action == ACT_HOLDING_BOWSER and gNetworkPlayers[0].currLevelNum == LEVEL_BOWSER_3 then
+		local nearestBowser = cur_obj_nearest_object_with_behavior(get_behavior_from_id(id_bhvBowser))
+		if nearestBowser.oHealth == 1 then
+			local nearestBomb = cur_obj_nearest_object_with_behavior(get_behavior_from_id(id_bhvBowserBomb)) -- Originally from Bowser QTE by Squishy6094
+			local bombAngle = atan2s(nearestBomb.oPosZ - m.pos.z, nearestBomb.oPosX - m.pos.x)
+			if m.angleVel.y >= 0xFFF and math.abs(math.s16(m.faceAngle.y - bombAngle)) < 0x1600 then
+				return VOICE_KIRBY_BOWSER_THROW
+			end
+		end
+	end
+	return origReturn
+end
+
 local KIRBY_VOICETABLE = {
 	[CHAR_SOUND_PUNCH_YAH] =          'SOUND_LAUNCH_STAR.ogg', 
 	[CHAR_SOUND_PUNCH_WAH] =          'SOUND_SWALLOW.ogg', 
@@ -48,17 +67,21 @@ local KIRBY_VOICETABLE = {
 	[CHAR_SOUND_GROUND_POUND_WAH] =   'VOICE_ATTACK.ogg', 
 	[CHAR_SOUND_WAH2] =               'VOICE_BIG_THROW.ogg', 
 	[CHAR_SOUND_HRMM] =               'VOICE_LIFT.ogg', 
-	[CHAR_SOUND_HERE_WE_GO] =         'VOICE_LETSAGO2.ogg', 
-	[CHAR_SOUND_SO_LONGA_BOWSER] =    'VOICE_BOWSER.ogg', 
+	[CHAR_SOUND_HERE_WE_GO] =         function (m) return checkBowserThrow(m, m.action == ACT_HOLDING_BOWSER and VOICE_KIRBY_BOWSER or VOICE_KIRBY_HERE_WE_GO) end, 
+	[CHAR_SOUND_SO_LONGA_BOWSER] =    function (m) return checkBowserThrow(m, VOICE_KIRBY_BOWSER) end, 
 	[CHAR_SOUND_ATTACKED] =     {'VOICE_HURT.ogg', 'VOICE_HURT3.ogg', 'VOICE_HURT2.ogg'}, 
 	[CHAR_SOUND_PANTING] =      'VOICE_PANT.ogg', 
 	[CHAR_SOUND_ON_FIRE] =      'VOICE_BURNING.ogg', 
 	[CHAR_SOUND_DYING] =    'VOICE_DYING.ogg', 
 	[CHAR_SOUND_DROWNING] = 'VOICE_HURT2.ogg', 
 	[CHAR_SOUND_MAMA_MIA] = 'VOICE_DYING2.ogg', 
+	[CHAR_SOUND_BOWSER_SWING] = 'VOICE_BOWSER_SWING.ogg', 
 
 	[SOUND_MENU_THANK_YOU_PLAYING_MY_GAME] = 'SOUND_KIRBYS_BIRTHDAY.ogg', 
 }
+
+local VOICE_DEDEDE_HERE_WE_GO = audio_sample_load('VOICEDDD_LETSAGO.ogg')
+local VOICE_DEDEDE_BOWSER =     audio_sample_load('VOICEDDD_BOWSER1.ogg')
 
 local DEDEDE_VOICETABLE = {
 	[CHAR_SOUND_PUNCH_YAH] =          'SOUND_LAUNCH_STAR.ogg', 
@@ -81,7 +104,7 @@ local DEDEDE_VOICETABLE = {
 	[CHAR_SOUND_WAH2] =               'VOICEDDD_BIG_THROW.ogg', 
 	[CHAR_SOUND_OKEY_DOKEY] =         'VOICEDDD_LETSAGO.ogg', 
 	[CHAR_SOUND_LETS_A_GO] =          'VOICEDDD_OKEYDOKEY.ogg', 
-	[CHAR_SOUND_HERE_WE_GO] =         'VOICEDDD_HEREWEGO.ogg', 
+	[CHAR_SOUND_HERE_WE_GO] =         function (m) return m.action == ACT_HOLDING_BOWSER and VOICE_DEDEDE_BOWSER or VOICE_DEDEDE_HERE_WE_GO end, 
 	[CHAR_SOUND_MAMA_MIA] =           'VOICEDDD_MAMAMIA.ogg', 
 	[CHAR_SOUND_DROWNING] =           'VOICEDDD_HURT2.ogg', 
 	[CHAR_SOUND_ON_FIRE] =            'VOICEDDD_BIG_THROW.ogg', 
@@ -280,6 +303,17 @@ SEQ_KIRBY_CREDITS = smlua_audio_utils_allocate_sequence()
 smlua_audio_utils_replace_sequence(SEQ_KIRBY_CREDITS, 0x2A, 100, "mus_credits")
 charSelect.character_add_sequence_replacement(kirbyCharID, SEQ_EVENT_CUTSCENE_CREDITS, SEQ_KIRBY_CREDITS)
 charSelect.character_add_sequence_replacement(dededeCharID, SEQ_EVENT_CUTSCENE_CREDITS, SEQ_KIRBY_CREDITS)
+
+-- OBJECT REPLACEMENTS
+local butterFlyTexture = get_texture_info("kirby-butterfly-tex")
+charSelect.character_add_texture_replacement(kirbyCharID, "butterfly_seg3_texture_030043A8", butterFlyTexture)
+charSelect.character_add_texture_replacement(dededeCharID, "butterfly_seg3_texture_030043A8", butterFlyTexture)
+
+local E_MODEL_STAR_BLOCK = smlua_model_util_get_id("star_block_geo")
+charSelect.character_add_model_replacement(kirbyCharID, id_bhvBreakableBox, E_MODEL_STAR_BLOCK)
+charSelect.character_add_model_replacement(kirbyCharID, id_bhvBreakableBoxSmall, E_MODEL_STAR_BLOCK)
+charSelect.character_add_model_replacement(dededeCharID, id_bhvBreakableBox, E_MODEL_STAR_BLOCK)
+charSelect.character_add_model_replacement(dededeCharID, id_bhvBreakableBoxSmall, E_MODEL_STAR_BLOCK)
 
 -- CONFIG
 gGlobalSyncTable.kirbyUnusualObjects = false

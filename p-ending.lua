@@ -7,7 +7,7 @@ hook_event(HOOK_UPDATE, function()
 
     if currLevel == LEVEL_ENDING and (currChar == kirbyCharID or currChar == dededeCharID) then
         if not sKirbyEndCond then
-            seq_player_fade_out(SEQ_PLAYER_LEVEL, 2000)
+            seq_player_fade_out(SEQ_PLAYER_LEVEL, 2500)
             sKirbyEndCond = true
         end
     else

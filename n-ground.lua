@@ -114,6 +114,7 @@ end})
 local allowedBehaviors = {
 	{id = id_bhvBobomb,             canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
 	{id = id_bhvBreakableBoxSmall,  canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
+	{id = id_bhvBreakableBox,       canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false, timer = 15}, 
 	{id = id_bhvEnemyLakitu,        canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
 	{id = id_bhvFlyGuy,             canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
 	{id = id_bhvGoomba,             canRotate = true,  canEat = true,                                                     allowSuckFunc = true,                                                                            deleteOnDetect = false}, 
@@ -202,9 +203,9 @@ local allowedBehaviors = {
 	end, deleteOnDetect = false}, 
 }
 
-_G.kirbyDeluxe.hook_inhale_behavior = function (id, canRotate, canEat, allowSuckFunc, deleteOnDetect, onEatFunc, onEatStart, isNPC, ability) -- Allows the modder to hook a custom behavior for Kirby to inhale.
+_G.kirbyDeluxe.hook_inhale_behavior = function (id, canRotate, canEat, allowSuckFunc, deleteOnDetect, onEatFunc, onEatStart, timer, isNPC, ability) -- Allows the modder to hook a custom behavior for Kirby to inhale.
 	if not id then return end
-	local trueCanRotate, trueCanEat, trueAllowSuckFunc, trueDeleteOnDetect, trueOnEatFunc, trueOnEatStart, trueIsNPC, trueAbility = true, true, true, false, nil, nil, false, nil
+	local trueCanRotate, trueCanEat, trueAllowSuckFunc, trueDeleteOnDetect, trueOnEatFunc, trueOnEatStart, trueIsNPC, trueAbility, trueTimer = true, true, true, false, nil, nil, false, nil, nil
 	if canRotate ~= nil      then trueCanRotate = canRotate           end
 	if canEat ~= nil         then trueCanEat = canEat                 end
 	if allowSuckFunc ~= nil  then trueAllowSuckFunc = allowSuckFunc   end
@@ -213,6 +214,7 @@ _G.kirbyDeluxe.hook_inhale_behavior = function (id, canRotate, canEat, allowSuck
 	if isNPC ~= nil          then trueIsNPC = isNPC                   end
 	if onEatStart ~= nil     then trueOnEatStart = onEatStart         end
 	if ability ~= nil        then trueAbility = ability               end
+	if timer ~= nil          then trueTimer = timer                   end
 	return table.insert(allowedBehaviors, {
 		id = id,                             -- Behavior ID of the object to inhale.
 		canRotate = trueCanRotate,           -- Check to see if an object can rotate as its being inhaled.
@@ -221,12 +223,13 @@ _G.kirbyDeluxe.hook_inhale_behavior = function (id, canRotate, canEat, allowSuck
 		deleteOnDetect = trueDeleteOnDetect, -- Deletes an object if it's within Kirby's inhale range.
 		onEatFunc = trueOnEatFunc,           -- Special function that activates once the object's been deleted (I.E. add to Big Bully #2's condition once a bully has been eaten)
 		onEatStart = trueOnEatStart,         -- Special function that activates the moment the object starts getting inhaled, good for single-frame sounds.
+		timer = trueTimer,                   -- How long should the object "shake" before getting inhaled? (Set to -1 for infinite shaking, also controls size of Star Bullet depending on the timer's multiple of 15)
 		isNPC = trueIsNPC,                   -- Adds to "Unusual Objects" check.
 		ability = trueAbility                -- Add Copy Ability to enemy.
 	})
 end
 
-_G.kirbyDeluxe.edit_inhale_behavior = function (id, canRotate, canEat, allowSuckFunc, deleteOnDetect, onEatFunc, onEatStart, isNPC, ability) -- Allows the modder to edit an existing behavior for Kirby to inhale.
+_G.kirbyDeluxe.edit_inhale_behavior = function (id, canRotate, canEat, allowSuckFunc, deleteOnDetect, onEatFunc, onEatStart, timer, isNPC, ability) -- Allows the modder to edit an existing behavior for Kirby to inhale.
 	if not id then return end
 	local returnBeh
 	for i = 1, #allowedBehaviors do
@@ -242,6 +245,7 @@ _G.kirbyDeluxe.edit_inhale_behavior = function (id, canRotate, canEat, allowSuck
 		if deleteOnDetect ~= nil then returnBeh.deleteOnDetect = deleteOnDetect end
 		if onEatFunc ~= nil      then returnBeh.onEatFunc = onEatFunc           end
 		if onEatStart ~= nil     then returnBeh.onEatStart = onEatStart         end
+		if timer ~= nil          then returnBeh.timer = timer                   end
 		if isNPC ~= nil          then returnBeh.isNPC = isNPC                   end
 		if ability ~= nil        then returnBeh.ability = ability               end
 	end
@@ -310,7 +314,6 @@ function act_being_inhaled(m)
 		
 		if waterCond or escapeCond then
 			if escapeCond and not waterCond then
-				djui_chat_message_create("saoonasdnosad")
 				m.vel.y = 24; set_mario_action(mOther, ACT_JUMP_KICK, 0)
 			end
 			gPlayerSyncTable[mOther.playerIndex].kirbyMouthCounter_JJJ = 0
@@ -408,6 +411,10 @@ hook_event(HOOK_MARIO_UPDATE, function (m)
 		end
 	end
 	
+	-- For pre-inhale shaking.
+	local SHAKE_MULT = 1000
+	local shakeVars = {-SHAKE_MULT, SHAKE_MULT, SHAKE_MULT, -SHAKE_MULT}
+
 	for i = 1, #allowedBehaviors do
 		local currentBehavior = allowedBehaviors[i]
 		local o = obj_get_first_with_behavior_id(currentBehavior.id)
@@ -426,64 +433,72 @@ hook_event(HOOK_MARIO_UPDATE, function (m)
 						end
 					end
 					if currentBehavior.deleteOnDetect then obj_mark_for_deletion(o); break end
-					
+
 					local canRotate = run_func_or_get_var(currentBehavior.canRotate, o)
 					local canEat = run_func_or_get_var(currentBehavior.canEat, o)
-						
+							
 					o.oHasKirbySucked = 1
 					o.oKirbySuckPlayer = network_global_index_from_local(idx) + 1
-					
-					if canRotate then
-						local turnAngle = get_area_update_counter() * 840 * TURN_ANGLE_SPEED
-						obj_set_move_angle(o, approach_s32(o.oMoveAnglePitch, turnAngle, TURN_SPEED, TURN_SPEED), approach_s32(o.oMoveAngleYaw, turnAngle, TURN_SPEED, TURN_SPEED), approach_s32(o.oMoveAngleRoll, turnAngle, TURN_SPEED, TURN_SPEED))
-						obj_set_gfx_angle(o, approach_s32(o.header.gfx.angle.x, turnAngle, TURN_SPEED, TURN_SPEED), approach_s32(o.header.gfx.angle.y, turnAngle, TURN_SPEED, TURN_SPEED), approach_s32(o.header.gfx.angle.z, turnAngle, TURN_SPEED, TURN_SPEED))
-						obj_set_face_angle(o, approach_s32(o.oFaceAnglePitch, turnAngle, TURN_SPEED, TURN_SPEED), approach_s32(o.oFaceAngleYaw, turnAngle, TURN_SPEED, TURN_SPEED), approach_s32(o.oFaceAngleRoll, turnAngle, TURN_SPEED, TURN_SPEED))
-					end
-					
-					o.oPosX = approach_f32(o.oPosX, o.oPosX - (sins(angle) * ENEMY_SPEED), SUCK_SPEED, SUCK_SPEED)
-					o.oPosY = approach_f32(o.oPosY, m.pos.y, ENEMY_SPEED / 4, ENEMY_SPEED / 4)
-					o.oPosZ = approach_f32(o.oPosZ, o.oPosZ - (coss(angle) * ENEMY_SPEED), SUCK_SPEED, SUCK_SPEED)
-					
-					obj_update_gfx_pos_and_angle(o)
-					
-					if distToKirby < EAT_DIST then
-						if currentBehavior.onEatFunc then currentBehavior.onEatFunc(o, m) end
-						if canEat then
-							local coinAmount = math.max(o.oNumLootCoins or 0, o.oDamageOrCoinValue or 0)
-							if o.oNumLootCoins < 0 then
-								o.oNumLootCoins = math.max(o.oNumLootCoins, 1)
-								obj_spawn_loot_blue_coins(o, 1, 1, 0)
-							else
-								if obj_has_behavior_id(o, id_bhvKoopaShell) == 0 then
-									if obj_has_behavior_id(o, id_bhvBobomb) ~= 0 then
-										o.oNumLootCoins = 1
-									elseif obj_has_behavior_id(o, id_bhvBreakableBoxSmall) ~= 0 then
-										o.oNumLootCoins = 3
-									end
-									obj_spawn_loot_yellow_coins(o, o.oNumLootCoins, 5)
-								end
-							end
 
-							o.activeFlags = ACTIVE_FLAG_DEACTIVATED
-							o.oInteractStatus = 0
-							
-							m.vel.y, m.forwardVel = 7, 0
-							play_kirby_sound(KIRBY_OBJECT_SOUND, m.pos, 1)
-							if gPlayerSyncTable[idx].kirbyMouthCounter_JJJ >= 0 then
-								if currentBehavior.ability and currChar == kirbyCharID then
-									-- "math.random" added to replicate the "Mix" roulette, too lazy to implement the actual roulette itself.
-									gPlayerSyncTable[idx].kirbyToAbility = gPlayerSyncTable[idx].kirbyToAbility ~= 0 and math.random(1, #kirbyAbilityHooks) or currentBehavior.ability
-								end
-								gPlayerSyncTable[idx].kirbyMouthCounter_JJJ = gPlayerSyncTable[idx].kirbyMouthCounter_JJJ + 1
-							end
-						else
-							obj_set_move_angle(o, 0, 0, 0)
-							obj_set_gfx_angle(o, 0, 0, 0)
-							obj_set_face_angle(o, 0, 0, 0)
-							o.oHasKirbySucked = 0
-							o.oKirbySuckPlayer = 0
-							goto continue
+					if not currentBehavior.timer or (type(currentBehavior.timer) ~= "boolean" and o.oKirbySuckTimer >= currentBehavior.timer) then
+						if canRotate then
+							local turnAngle = get_area_update_counter() * 840 * TURN_ANGLE_SPEED
+							obj_set_move_angle(o, approach_s32(o.oMoveAnglePitch, turnAngle, TURN_SPEED, TURN_SPEED), approach_s32(o.oMoveAngleYaw, turnAngle, TURN_SPEED, TURN_SPEED), approach_s32(o.oMoveAngleRoll, turnAngle, TURN_SPEED, TURN_SPEED))
+							obj_set_gfx_angle(o, approach_s32(o.header.gfx.angle.x, turnAngle, TURN_SPEED, TURN_SPEED), approach_s32(o.header.gfx.angle.y, turnAngle, TURN_SPEED, TURN_SPEED), approach_s32(o.header.gfx.angle.z, turnAngle, TURN_SPEED, TURN_SPEED))
+							obj_set_face_angle(o, approach_s32(o.oFaceAnglePitch, turnAngle, TURN_SPEED, TURN_SPEED), approach_s32(o.oFaceAngleYaw, turnAngle, TURN_SPEED, TURN_SPEED), approach_s32(o.oFaceAngleRoll, turnAngle, TURN_SPEED, TURN_SPEED))
 						end
+						
+						o.oPosX = approach_f32(o.oPosX, o.oPosX - (sins(angle) * ENEMY_SPEED), SUCK_SPEED, SUCK_SPEED)
+						o.oPosY = approach_f32(o.oPosY, m.pos.y, ENEMY_SPEED / 4, ENEMY_SPEED / 4)
+						o.oPosZ = approach_f32(o.oPosZ, o.oPosZ - (coss(angle) * ENEMY_SPEED), SUCK_SPEED, SUCK_SPEED)
+						
+						obj_update_gfx_pos_and_angle(o)
+						
+						if distToKirby < EAT_DIST then
+							if currentBehavior.onEatFunc then currentBehavior.onEatFunc(o, m) end
+							if canEat then
+								local coinAmount = math.max(o.oNumLootCoins or 0, o.oDamageOrCoinValue or 0)
+								if o.oNumLootCoins < 0 then
+									o.oNumLootCoins = math.max(o.oNumLootCoins, 1)
+									obj_spawn_loot_blue_coins(o, 1, 1, 0)
+								else
+									if obj_has_behavior_id(o, id_bhvKoopaShell) == 0 then
+										if obj_has_behavior_id(o, id_bhvBobomb) ~= 0 then
+											o.oNumLootCoins = 1
+										elseif obj_has_behavior_id(o, id_bhvBreakableBoxSmall) ~= 0 then
+											o.oNumLootCoins = 3
+										end
+										obj_spawn_loot_yellow_coins(o, o.oNumLootCoins, 5)
+									end
+								end
+
+								o.activeFlags = ACTIVE_FLAG_DEACTIVATED
+								o.oInteractStatus = 0
+								
+								m.vel.y, m.forwardVel = 7, 0
+								play_kirby_sound(KIRBY_OBJECT_SOUND, m.pos, 1)
+								if gPlayerSyncTable[idx].kirbyMouthCounter_JJJ >= 0 then
+									if currentBehavior.ability and currChar == kirbyCharID then
+										-- "math.random" added to replicate the "Mix" roulette, too lazy to implement the actual roulette itself.
+										gPlayerSyncTable[idx].kirbyToAbility = gPlayerSyncTable[idx].kirbyToAbility ~= 0 and math.random(1, #kirbyAbilityHooks) or currentBehavior.ability
+									end
+									gPlayerSyncTable[idx].kirbyMouthCounter_JJJ = gPlayerSyncTable[idx].kirbyMouthCounter_JJJ + 1 + (math.floor(o.oKirbySuckTimer / 15))
+								end
+							else
+								obj_set_move_angle(o, 0, 0, 0)
+								obj_set_gfx_angle(o, 0, 0, 0)
+								obj_set_face_angle(o, 0, 0, 0)
+								o.oHasKirbySucked = 0
+								o.oKirbySuckPlayer = 0
+								goto continue
+							end
+						end
+					elseif currentBehavior.timer and type(currentBehavior.timer) ~= "boolean" and (o.oKirbySuckTimer < currentBehavior.timer or currentBehavior.timer < 0) then
+						if canRotate then
+							local modulus = (o.oKirbySuckTimer % 4) + 1
+							obj_set_face_angle(o, 0, o.oFaceAngleYaw + shakeVars[modulus], 0)
+						end
+						if currentBehavior.timer >= 0 then o.oKirbySuckTimer = o.oKirbySuckTimer + 1 end
 					end
 				elseif o.oHasKirbySucked == 1 then -- Reset enemy.
 					if currentBehavior.onLetGoFunc then currentBehavior.onLetGoFunc(o, m) end
@@ -492,6 +507,7 @@ hook_event(HOOK_MARIO_UPDATE, function (m)
 					obj_set_face_angle(o, 0, 0, 0)
 					o.oHasKirbySucked = 0
 					o.oKirbySuckPlayer = 0
+					o.oKirbySuckTimer = 0
 					goto continue
 				end
 			end
