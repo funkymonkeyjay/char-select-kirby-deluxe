@@ -55,6 +55,11 @@ local function checkForBoss(m)
 	return hasBoss
 end
 
+local function bowserThrowCheck(m)
+	local nearestBowser = cur_obj_nearest_object_with_behavior(get_behavior_from_id(id_bhvBowser))
+	return gNetworkPlayers[m.playerIndex].currLevelNum == LEVEL_BOWSER_3 and nearestBowser.oHealth == 1 and m.angleVel.y >= 0xBFE
+end
+
 kirbyAnims = {
 	mouth = {
 		[CHAR_ANIM_IDLE_ON_POLE] = MARIO_MOUTH_SMILE, 
@@ -120,6 +125,7 @@ kirbyAnims = {
 		[CHAR_ANIM_KIRBY_DODGE_RIGHT] = MARIO_MOUTH_OPEN, 
 		[CHAR_ANIM_KIRBY_DODGE_FRONT] = MARIO_MOUTH_OPEN, 
 		[CHAR_ANIM_KIRBY_DODGE_BACK] = MARIO_MOUTH_OPEN, 
+		[CHAR_ANIM_SWINGING_BOWSER] = function (m, frame) return bowserThrowCheck(m) and MARIO_MOUTH_OPEN or MARIO_MOUTH_NORMAL end, 
 	}, 
 	eyes = {
 		[CHAR_ANIM_FINAL_BOWSER_RAISE_HAND_SPIN] = function (m, frame) if frame > 62 and frame < 99 then return MARIO_EYES_CLOSED_INTENSE end return MARIO_EYES_BLINK end, 
@@ -157,7 +163,7 @@ kirbyAnims = {
 		[CHAR_ANIM_WATER_FORWARD_KB] = MARIO_EYES_CLOSED_INTENSE, 
 		[CHAR_ANIM_WATER_STAR_DANCE] = function (m, frame) if frame > 18 and frame < 50 then return MARIO_EYES_CLOSED_INTENSE end return MARIO_EYES_BLINK end, 
 		[CHAR_ANIM_GRAB_BOWSER] = MARIO_EYES_CLOSED_INTENSE, 
-		[CHAR_ANIM_SWINGING_BOWSER] = MARIO_EYES_ANGRY, 
+		[CHAR_ANIM_SWINGING_BOWSER] = function (m, frame) return bowserThrowCheck(m) and MARIO_EYES_CLOSED_INTENSE or MARIO_EYES_ANGRY end, 
 		[CHAR_ANIM_HOLDING_BOWSER] = MARIO_EYES_ANGRY, 
 		[CHAR_ANIM_HEAVY_THROW] = function (m, frame) if frame < 10 then return MARIO_EYES_CLOSED_INTENSE end return MARIO_EYES_ANGRY end, 
 		[CHAR_ANIM_WALK_WITH_HEAVY_OBJ] = MARIO_EYES_CLOSED_INTENSE, 
@@ -320,6 +326,7 @@ dededeAnims = {
 		[CHAR_ANIM_SLIDE_DIVE] = MARIO_MOUTH_FROWN, 
 		[CHAR_ANIM_SLOW_LAND_FROM_DIVE] = MARIO_MOUTH_FROWN, 
 		[CHAR_ANIM_CREDITS_WAVING] = MARIO_MOUTH_SMILE, 
+		[CHAR_ANIM_SWINGING_BOWSER] = MARIO_MOUTH_FROWN, 
 	},
 	eyes = {
 		[charSelect.CS_ANIM_MENU] = function (m, frame)
@@ -421,6 +428,7 @@ dededeAnims = {
 			end
 		end, 
 		[CHAR_ANIM_CREDITS_WAVING] = MARIO_EYES_LOOK_LEFT, 
+		[CHAR_ANIM_SWINGING_BOWSER] = function (m, frame) return bowserThrowCheck(m) and MARIO_EYES_CLOSED_INTENSE or MARIO_EYES_ANGRY end, 
 	}, 
 	hands = {
 		[charSelect.CS_ANIM_MENU] = MARIO_HAND_PEACE_SIGN, 

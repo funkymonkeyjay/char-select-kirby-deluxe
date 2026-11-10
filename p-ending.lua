@@ -36,3 +36,15 @@ hook_event(HOOK_ON_HUD_RENDER_BEHIND, function()
     djui_hud_set_resolution(RESOLUTION_N64)
     renderCakeEnding()
 end)
+
+-- Failsafe, for some reason character select didn't want to read "SOUND_MENU_THANK_YOU_PLAYING_MY_GAME" this time around.
+hook_event(HOOK_ON_PLAY_SOUND, function (soundBits, pos)
+    if soundBits == SOUND_MENU_THANK_YOU_PLAYING_MY_GAME then
+        local currChar = charSelect.character_get_current_number()
+        if currChar == kirbyCharID or currChar == dededeCharID then
+            local thankYouSound = audio_stream_load('SOUND_KIRBYS_BIRTHDAY.ogg')
+            audio_stream_play(thankYouSound, false, 1)
+            return NO_SOUND
+        end
+    end
+end)

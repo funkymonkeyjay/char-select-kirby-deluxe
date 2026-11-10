@@ -479,7 +479,7 @@ if charSelect then
 				local nearestBomb = cur_obj_nearest_object_with_behavior(get_behavior_from_id(id_bhvBowserBomb)) -- Originally from Bowser QTE by Squishy6094
 				local bombAngle = atan2s(nearestBomb.oPosZ - m.pos.z, nearestBomb.oPosX - m.pos.x)
 				if m.angleVel.y >= 0xFFF and math.abs(math.s16(m.faceAngle.y - bombAngle)) < 0x800 then
-					if not hasBowserSwingSound then play_character_sound(m, currChar == kirbyCharID and CHAR_SOUND_BOWSER_SWING or CHAR_SOUND_HRMM); hasBowserSwingSound = true end
+					if not hasBowserSwingSound then play_character_sound(m, currChar == kirbyCharID and CHAR_SOUND_BOWSER_SWING or CHAR_SOUND_GROUND_POUND_WAH); hasBowserSwingSound = true end
 				else
 					hasBowserSwingSound = false
 				end

@@ -33,7 +33,7 @@ local function checkBowserThrow(m, origReturn)
 		if nearestBowser.oHealth == 1 then
 			local nearestBomb = cur_obj_nearest_object_with_behavior(get_behavior_from_id(id_bhvBowserBomb)) -- Originally from Bowser QTE by Squishy6094
 			local bombAngle = atan2s(nearestBomb.oPosZ - m.pos.z, nearestBomb.oPosX - m.pos.x)
-			if m.angleVel.y >= 0xFFF and math.abs(math.s16(m.faceAngle.y - bombAngle)) < 0x1600 then
+			if m.angleVel.y >= 0xFFF and math.abs(math.s16(m.faceAngle.y - bombAngle)) < 0x1200 then
 				return VOICE_KIRBY_BOWSER_THROW
 			end
 		end
@@ -77,10 +77,10 @@ local KIRBY_VOICETABLE = {
 	[CHAR_SOUND_MAMA_MIA] = 'VOICE_DYING2.ogg', 
 	[CHAR_SOUND_BOWSER_SWING] = 'VOICE_BOWSER_SWING.ogg', 
 
-	[SOUND_MENU_THANK_YOU_PLAYING_MY_GAME] = 'SOUND_KIRBYS_BIRTHDAY.ogg', 
+	--[SOUND_MENU_THANK_YOU_PLAYING_MY_GAME] = 'SOUND_KIRBYS_BIRTHDAY.ogg', 
 }
 
-local VOICE_DEDEDE_HERE_WE_GO = audio_sample_load('VOICEDDD_LETSAGO.ogg')
+local VOICE_DEDEDE_HERE_WE_GO = audio_sample_load('VOICEDDD_HEREWEGO.ogg')
 local VOICE_DEDEDE_BOWSER =     audio_sample_load('VOICEDDD_BOWSER1.ogg')
 
 local DEDEDE_VOICETABLE = {
@@ -117,7 +117,7 @@ local DEDEDE_VOICETABLE = {
 	[CHAR_SOUND_TWIRL_BOUNCE] =       'VOICEDDD_BIG_THROW.ogg', 
 	[CHAR_SOUND_YAHOO_WAHA_YIPPEE] =  'VOICEDDD_YAHOO.ogg', 
 
-	[SOUND_MENU_THANK_YOU_PLAYING_MY_GAME] = 'SOUND_KIRBYS_BIRTHDAY.ogg', 
+	--[SOUND_MENU_THANK_YOU_PLAYING_MY_GAME] = 'SOUND_KIRBYS_BIRTHDAY.ogg', 
 }
 
 local KIRBY_PALETTES = {
@@ -270,7 +270,7 @@ charSelect.character_add_palette_preset(E_MODEL_DEDEDE, {
 	[EMBLEM] = "FFBC00"
 })
 
-dededeCharID = charSelect.character_add("King Dedede", "Lorem Ipsum", "@funkymonkeyjay", "0089FF", E_MODEL_DEDEDE, CT_MARIO, TEX_CUSTOM_LIFE_ICON, 1.6)
+dededeCharID = charSelect.character_add("King Dedede", "The self-proclaimed king of Dream Land! He may be a bit of an egocentric troublemaker with a gluttonous appetite, but really, his heart of gold can shine whenever the situation calls for it, such as protecting the Dream Land residents, especially his Waddle Dee servants from time-to-time. Therefore; one could make the argument that a slice of cake for ol' Triple-D may be well-earned!", "@funkymonkeyjay", "0089FF", E_MODEL_DEDEDE, CT_MARIO, TEX_CUSTOM_LIFE_ICON, 1.6)
 charSelect.character_set_nickname(dededeCharID, "Dedede")
 
 charSelect.character_add_caps(E_MODEL_DEDEDE, dededeCaps)
@@ -339,6 +339,17 @@ if network_is_server() then -- Loads a host's config.
 	end)
 end
 
+-- CREDITS
+local MOD_NAME = "Kirby Deluxe!"
+charSelect.credit_add(MOD_NAME, "Nintendo/HAL Labs.", "Kirby (Franchise)")
+charSelect.credit_add(MOD_NAME, "Squishy6094", "Copy Ability System\n\"Star Updraft\" Obj.\nGordo Object\nIdeas + Assistance")
+for i = 1, 3 do charSelect.credit_add(MOD_NAME, "", "") end
+charSelect.credit_add(MOD_NAME, "pancakesSM64", "Masked/Credits M64")
+charSelect.credit_add(MOD_NAME, "WindowBreaker", "\"Jay Boy\" Render")
+charSelect.credit_add(MOD_NAME, "EmilyEmmi", "Footstep Sound Help")
+charSelect.credit_add(MOD_NAME, "Cooliokid 956", "Inhale Vortex Help")
+charSelect.credit_add(MOD_NAME, "Wikirby", "Kirby Series Assets")
+
 -- SO RETRO! COMPATIBILITY
 if retroCharAPI then
 	local NES_OUTLINE = {r = 0, g = 0, b = 0}
@@ -352,6 +363,11 @@ if retroCharAPI then
 	end
 	hook_event(HOOK_ON_MODS_LOADED, setup_retro_sprites)
 end
+
+-- SIMPLE API HOOK
+_G.kirbyDeluxe = {}
+kirbyDeluxe.addAnimToMouth = function (index, func_or_index) kirbyAnims.mouth[index] = func_or_index end
+--kirbyDeluxe.addAnimToMouth(CHAR_ANIM_A_POSE, 4)
 
 -- MISC. FUNCTIONS
 function getPlayerCount()

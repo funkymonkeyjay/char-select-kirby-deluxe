@@ -9,8 +9,8 @@ if VERSION_NUMBER < VERSION_REQUIRED then
 	incompatibilityCond = true
 end
 
-local csVersion = _G.charSelect and _G.charSelect.version_get_full()
-if not _G.charSelectExists then
+local csVersion = charSelect and charSelect.version_get_full()
+if not charSelectExists then
 	table.insert(messages, "\\#D9D9D9\\\n\"[CS] \\#FF79AA\\Kirby \\#FFFF3C\\Deluxe!\\#D9D9D9\\\"\nRequires \"Character Select\"\nto use as a Library!\n\nPlease turn on \"Character Select\"\nand Restart the Room!")
 	incompatibilityCond = true
 elseif csVersion and csVersion.api == 1 and csVersion.major < CS_VERSION_REQUIRED then

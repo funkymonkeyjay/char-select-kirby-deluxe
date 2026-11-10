@@ -216,7 +216,6 @@ function act_dedede_hammer_spin(m)
         set_character_animation(m, CHAR_ANIM_GENERAL_FALL)
         return
     elseif (stepCase == GROUND_STEP_HIT_WALL or m.wall ~= nil) and math.sqrt(m.vel.x^2 + m.vel.z^2) > 15 then
-    --elseif (stepCase == GROUND_STEP_HIT_WALL or m.wall ~= nil) then -- Removing the "math.sqrt" function has BLJ-like consequences, just letting everyone know this is a FEATURE.
         play_sound(SOUND_ACTION_HIT, m.marioObj.header.gfx.cameraToObject)
         m.vel.x = -m.vel.x * 1.25
         m.vel.z = -m.vel.z * 1.25

@@ -80,7 +80,10 @@ function dededePartner_JJJ(node, matStackIndex)
 	local bodyState = geo_get_body_state()
 
 	local m = geo_get_mario_state()
-	if not isMovesetOff() and m.action == ACT_END_PEACH_CUTSCENE then return end
+	if (not isMovesetOff() and m.action == ACT_END_PEACH_CUTSCENE) or m.action == ACT_TELEPORT_FADE_IN or m.action == ACT_TELEPORT_FADE_OUT then
+		asSwitchNode.selectedCase = 2
+		return
+	end
 
 	if bodyState.capState & 2 ~= 0 then -- Bronto Burt
 		asSwitchNode.selectedCase = 0

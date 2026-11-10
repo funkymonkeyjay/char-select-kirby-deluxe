@@ -255,10 +255,10 @@ local function hook_kirby_copy(copyID, hook, func)
     kirbyAbilityHooks[copyID][hook] = func
 end
 
-_G.kirbyDeluxe = {
-    allocate_kirby_copy = allocate_kirby_copy,
-    hook_kirby_copy = hook_kirby_copy,
-}
+--_G.kirbyDeluxe = {
+kirbyDeluxe.allocate_kirby_copy = allocate_kirby_copy
+kirbyDeluxe.hook_kirby_copy = hook_kirby_copy
+--}
 
 -- Character Select hook to remove powerups + Dedede hammer on character change.
 charSelect.hook_on_character_change(function (currChar, prevChar)
