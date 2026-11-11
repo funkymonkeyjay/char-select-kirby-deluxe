@@ -71,6 +71,15 @@ if charSelect then
 			end
 		end
 
+		if incomingAction == ACT_GROUND_POUND_LAND and currChar == dededeCharID and (m.flags & MARIO_METAL_CAP) ~= 0 and idx == 0 then
+			--for i = 1, 4 do
+			set_camera_shake_from_hit(SHAKE_LARGE_DAMAGE)
+			play_sound(SOUND_GENERAL2_BOBOMB_EXPLOSION, m.marioObj.header.gfx.cameraToObject)
+			maskedFireTimer = 0
+			--obj_mark_for_deletion(fireballSpawner)
+            --end
+		end
+
 		if m.action == ACT_WATER_PLUNGE then
 			--return ACT_KIRBY_SWIM
 		end
@@ -330,6 +339,26 @@ if charSelect then
 		if gPlayerSyncTable[idx].kirbySlideTimer < 0 then
 			gPlayerSyncTable[idx].kirbySlideTimer = 0
 			gPlayerSyncTable[idx].kirbySlideCount = 0
+		end
+
+		if maskedFireTimer >= 0 then
+			local count = m.action == ACT_GROUND_POUND_LAND and 3 or 1
+			local space = 65535 / count
+			for i = 1, count do
+				local fireball = spawn_sync_object(id_bhvBouncingFireballFlame, E_MODEL_RED_FLAME, m.pos.x + sins(m.faceAngle.y) * 275, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 275, function (o)
+					o.oMoveAngleYaw = m.marioObj.oMoveAngleYaw + (space * i)
+				end)
+				local size = (10 - maskedFireTimer) * 0.375 * (count >= 3 and 0.75 or 1)
+				obj_scale_xyz(fireball, size, size, size)
+				if maskedFireTimer == 0 then
+					obj_become_tangible(fireball)
+				end
+				fireball.oAction = 1
+			end
+			maskedFireTimer = maskedFireTimer + 1
+			if maskedFireTimer >= 5 then
+				maskedFireTimer = -1
+			end
 		end
 
 		local currChar = charSelect.character_get_current_number(idx)
@@ -849,10 +878,11 @@ if charSelect then
 			local x = worldPos.x
 			local y = worldPos.y - ((TEX_CIRCLE_TRANS.height / 2) * desiredScale)
 			
+			local w, h = TEX_CIRCLE_TRANS.width * desiredScale, TEX_CIRCLE_TRANS.height * desiredScale
 			djui_hud_render_rect(0, 0, djui_hud_get_screen_width(), y)
-			djui_hud_render_rect(0, y, x - (TEX_CIRCLE_TRANS.width * desiredScale), 50 * djui_hud_get_screen_height())
-			djui_hud_render_rect(x + (TEX_CIRCLE_TRANS.width * desiredScale), y, djui_hud_get_screen_width(), 50 * djui_hud_get_screen_height())
-			djui_hud_render_rect(x - (TEX_CIRCLE_TRANS.width * desiredScale), y + (TEX_CIRCLE_TRANS.height * desiredScale), TEX_CIRCLE_TRANS.width * desiredScale * 2, djui_hud_get_screen_height())
+			djui_hud_render_rect(0, y, x - w, 50 * djui_hud_get_screen_height())
+			djui_hud_render_rect(x + w, y, djui_hud_get_screen_width(), 50 * djui_hud_get_screen_height())
+			djui_hud_render_rect(x - w, y + h, w * 2, djui_hud_get_screen_height())
 
 			djui_hud_render_texture(TEX_CIRCLE_TRANS, x, y, -desiredScale, desiredScale)
 			djui_hud_render_texture(TEX_CIRCLE_TRANS, x, y, desiredScale, desiredScale)

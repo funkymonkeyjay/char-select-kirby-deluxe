@@ -329,7 +329,6 @@ end
 id_bhvKirbyAir_JJJ = hook_behavior(nil, OBJ_LIST_PUSHABLE, true, bhv_kirby_air_init, bhv_kirby_air_loop, "bhvKirbyAir_JJJ")
 
 -- DEDEDE'S HAMMER COLLISION
-
 local function bhv_dedede_hammer_init(o)
     o.oFaceAngleRoll = 0
     o.oMoveAngleRoll = 0
@@ -464,3 +463,31 @@ local function bhv_dedede_hammer_loop(o)
 end
 
 id_bhvDededeHammer_JJJ = hook_behavior(nil, OBJ_LIST_DESTRUCTIVE, false, bhv_dedede_hammer_init, bhv_dedede_hammer_loop, "bhvDededeHammer_JJJ")
+
+-- SMALL SHOCKWAVE
+
+function bhv_dedede_shock_wave_init(o)
+    o.oOpacity = 255
+    o.oFlags = (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)
+end
+
+function bhv_dedede_shock_wave_loop(o)
+    
+    o.oBowserShockWaveUnkF4 = o.oTimer * 5;
+    cur_obj_scale(o.oBowserShockWaveUnkF4)
+
+    local TIME_LIMIT = 30
+    if o.oTimer > TIME_LIMIT then
+        o.oOpacity = o.oOpacity - 20
+        if o.oOpacity <= 0 then
+            obj_mark_for_deletion(o)
+        end
+    elseif o.oTimer < TIME_LIMIT and mario_is_in_air_action(gMarioStates[0]) == 0 then
+        local shockLow, shockHigh = o.oBowserShockWaveUnkF4 * 4.5, o.oBowserShockWaveUnkF4 * 5
+        if shockLow < o.oDistanceToMario and o.oDistanceToMario < shockHigh then
+            gMarioStates[0].marioObj.oInteractStatus = gMarioStates[0].marioObj.oInteractStatus | INT_STATUS_HIT_BY_SHOCKWAVE
+        end
+    end
+end
+
+id_bhvDededeShockwave_JJJ = hook_behavior(nil, OBJ_LIST_DEFAULT, false, bhv_dedede_shock_wave_init, bhv_dedede_shock_wave_loop, "bhvDededeShockwave_JJJ")

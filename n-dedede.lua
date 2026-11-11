@@ -66,9 +66,20 @@ function act_dedede_jump_land(m)
     if m.actionTimer == 0 then
         gPlayerSyncTable[idx].kirbyScaleY = 250; m.marioObj.header.gfx.scale.y = 0.25
         
-        play_mario_heavy_landing_sound(m, SOUND_ACTION_TERRAIN_HEAVY_LANDING)
         set_mario_particle_flags(m, PARTICLE_MIST_CIRCLE, 0)
-        if (idx == 0) then set_camera_shake_from_hit(SHAKE_ENV_BOWSER_JUMP) end
+        if (idx == 0) then
+            if (m.flags & MARIO_METAL_CAP) ~= 0 then
+                spawn_sync_object(id_bhvDededeShockwave_JJJ, E_MODEL_BOWSER_WAVE, m.pos.x, m.pos.y, m.pos.z, function(o) end)
+                set_camera_shake_from_hit(SHAKE_LARGE_DAMAGE)
+            else
+                set_camera_shake_from_hit(SHAKE_ENV_BOWSER_JUMP)
+            end
+        end
+        if (m.flags & MARIO_METAL_CAP) ~= 0 then
+            play_sound(SOUND_OBJ_BOWSER_WALK, m.marioObj.header.gfx.cameraToObject)
+        else
+            play_mario_heavy_landing_sound(m, SOUND_ACTION_TERRAIN_HEAVY_LANDING)
+        end
 
         m.actionTimer = 1
     end
@@ -179,6 +190,18 @@ function act_dedede_hammer_spin(m)
     end
 
     if math.sqrt(m.vel.x^2 + m.vel.z^2) > 48 then
+        if m.flags & MARIO_METAL_CAP ~= 0 then
+            if m.playerIndex == 0 and m.actionTimer % 3 == 0 then
+                local angle = atan2s(m.vel.x, m.vel.z)
+                play_sound(SOUND_GENERAL_FLAME_OUT, m.marioObj.header.gfx.cameraToObject)
+                spawn_sync_object(id_bhvFlameBouncing, E_MODEL_BLUE_FLAME, m.pos.x - sins(intendedYaw) * 150, m.pos.y, m.pos.z - coss(intendedYaw) * 150, function (o)
+                    o.oMoveAngleYaw = -angle
+                    o.header.gfx.scale.x = 3
+                    o.oTimer = 290
+                end)
+            end
+            set_mario_particle_flags(m, PARTICLE_FIRE, 0)
+        end
         set_mario_particle_flags(m, PARTICLE_DUST, 0)
     end
 
@@ -332,6 +355,7 @@ hook_mario_action(ACT_DEDEDE_HAMMER_FLIP, act_dedede_hammer_flip)
 ACT_DEDEDE_HAMMER_UP = allocate_mario_action(ACT_FLAG_STATIONARY)
 ACT_DEDEDE_HAMMER_DOWN = allocate_mario_action(ACT_FLAG_ATTACKING | ACT_FLAG_STATIONARY) -- the ACT_FLAG_ATTACKING flag is the reason why they're two actions instead of one.
 
+maskedFireTimer = -1
 local function act_dedede_hammer(m, arg)
     if not m then return 0 end
     if (m.input & INPUT_UNKNOWN_10) ~= 0 then return drop_and_set_mario_action(m, ACT_SHOCKWAVE_BOUNCE, 0) end
@@ -347,8 +371,12 @@ local function act_dedede_hammer(m, arg)
             o.parentObj = m.marioObj
             o.oDededeHitEnemy = 0
         end)
-        play_sound(SOUND_ACTION_BOUNCE_OFF_OBJECT, m.marioObj.header.gfx.cameraToObject)
+        play_sound((m.flags & MARIO_METAL_CAP) ~= 0 and SOUND_GENERAL_WALL_EXPLOSION or SOUND_ACTION_BOUNCE_OFF_OBJECT, m.marioObj.header.gfx.cameraToObject)
         spawn_sync_object(id_bhvHorStarParticleSpawner, E_MODEL_NONE, m.pos.x + sins(m.faceAngle.y) * 200, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 200, nil)
+        if m.playerIndex == 0 and m.actionTimer % 20 == 0 and (m.flags & MARIO_METAL_CAP) ~= 0 then
+            set_camera_shake_from_hit(SHAKE_MED_DAMAGE)
+            maskedFireTimer = 0
+        end
     elseif arg == 0 then
         if frame >= 3 and (m.controller.buttonDown & L_TRIG) == 0 then
             set_mario_action(m, ACT_DEDEDE_HAMMER_DOWN, 0)
