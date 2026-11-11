@@ -71,6 +71,10 @@ if charSelect then
 			end
 		end
 
+		if m.action == ACT_WATER_PLUNGE then
+			--return ACT_KIRBY_SWIM
+		end
+
 		if incomingAction == ACT_START_CROUCHING or incomingAction == ACT_CROUCH_SLIDE then
 			play_kirby_sound(KIRBY_LAND_SOUND, m.pos, 0.125)
 		end
@@ -819,17 +823,39 @@ if charSelect then
 		audio_sample_stop(DEDEDE_INHALE_SOUND)
 	end)
 
+	local TEX_CIRCLE_TRANS = get_texture_info("texture_transition_circle_half")
 	hook_event(HOOK_ON_HUD_RENDER_BEHIND, function ()
 		local modelId = charSelect.character_get_current_number()
 		local m = gMarioStates[0]
 
+		djui_hud_set_resolution(RESOLUTION_N64)
 		if m.action == ACT_KIRBY_DEATH then
 			local START_TIMER, END_TIMER = 120, 140
 			local alpha = math.clamp((m.actionTimer - START_TIMER) / (END_TIMER - START_TIMER), 0, 1)
 
-			djui_hud_set_resolution(RESOLUTION_DJUI)
 			djui_hud_set_color(0, 0, 0, 255 * alpha)
 			djui_hud_render_rect(0, 0, djui_hud_get_screen_width(), djui_hud_get_screen_height())
+		elseif m.action == ACT_KIRBY_POWERUP then
+			local alpha = math.clamp(m.actionTimer < 3 and (m.actionTimer / 3) or (1 - ((m.actionTimer - 18) / 9)), 0, 1)
+			djui_hud_set_color(0, 0, 0, 85 * alpha)
+
+			local worldPos = {x = 0, y = 0, z = 0}
+			djui_hud_world_pos_to_screen_pos({x = m.pos.x, y = m.pos.y + 78 + (modelId == dededeCharID and 50 or 0), z = m.pos.z}, worldPos)
+
+			local nonFloorScale = (math.max(-worldPos.z, 0) / 625)
+			local calculatedScale = ((0.67^nonFloorScale) * 5.5) - 0.45
+			local desiredScale = calculatedScale * (modelId == dededeCharID and 1.5 or 1)
+
+			local x = worldPos.x
+			local y = worldPos.y - ((TEX_CIRCLE_TRANS.height / 2) * desiredScale)
+			
+			djui_hud_render_rect(0, 0, djui_hud_get_screen_width(), y)
+			djui_hud_render_rect(0, y, x - (TEX_CIRCLE_TRANS.width * desiredScale), 50 * djui_hud_get_screen_height())
+			djui_hud_render_rect(x + (TEX_CIRCLE_TRANS.width * desiredScale), y, djui_hud_get_screen_width(), 50 * djui_hud_get_screen_height())
+			djui_hud_render_rect(x - (TEX_CIRCLE_TRANS.width * desiredScale), y + (TEX_CIRCLE_TRANS.height * desiredScale), TEX_CIRCLE_TRANS.width * desiredScale * 2, djui_hud_get_screen_height())
+
+			djui_hud_render_texture(TEX_CIRCLE_TRANS, x, y, -desiredScale, desiredScale)
+			djui_hud_render_texture(TEX_CIRCLE_TRANS, x, y, desiredScale, desiredScale)
 		end
 	end)
 end

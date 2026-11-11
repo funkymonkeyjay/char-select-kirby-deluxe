@@ -2,8 +2,9 @@ if incompatibilityCond then return 0 end
 
 ACT_KIRBY_POWERUP = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_STATIONARY | ACT_FLAG_INTANGIBLE)
 
+--hasCopyLightsOn = false
 local origCamY, origFocusY = 0, 0
-local light1, light2 = 0, 0
+--local light1, light2 = 0, 0
 function act_kirby_powerup(m)
 	local TO_BRIGHTNESS_LEVEL = 1200
 
@@ -18,15 +19,16 @@ function act_kirby_powerup(m)
 		if m.playerIndex == 0 then
 			m.actionArg = 45
 
-			le_set_mode(LE_MODE_AFFECT_ALL_SHADED_AND_COLORED)
-			set_skybox_color(0, 128); set_skybox_color(1, 128); set_skybox_color(2, 128)
-			set_fog_color(0, 128); set_fog_color(1, 128); set_fog_color(2, 128)
+			--le_set_mode(LE_MODE_AFFECT_ALL_SHADED_AND_COLORED)
+			--set_skybox_color(0, 128); set_skybox_color(1, 128); set_skybox_color(2, 128)
+			--set_fog_color(0, 128); set_fog_color(1, 128); set_fog_color(2, 128)
 
-			le_set_ambient_color(128, 128, 128)
-			light1 = le_add_light(m.pos.x, m.pos.y + 400, m.pos.z, 255, 255, 255, 600, 100)
-			light2 = le_add_light(m.pos.x + sins(m.faceAngle.y) * 400, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 400, 255, 255, 255, 1000, 100)
+			--le_set_ambient_color(128, 128, 128)
+			--light1 = le_add_light(m.pos.x, m.pos.y + 400, m.pos.z, 255, 255, 255, 600, 100)
+			--light2 = le_add_light(m.pos.x + sins(m.faceAngle.y) * 400, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 400, 255, 255, 255, 1000, 100)
 
 			origCamY, origFocusY = gLakituState.pos.y, gLakituState.focus.y
+			--hasCopyLightsOn = true
 		end
 		
 		vec3f_zero(m.vel)
@@ -77,11 +79,12 @@ function act_kirby_powerup(m)
 			if get_current_fov() <= 45 then
 				set_override_fov(0)
 				
-				le_set_mode(LE_MODE_AFFECT_ONLY_GEOMETRY_MODE)
-				set_skybox_color(0, 255); set_skybox_color(1, 255); set_skybox_color(2, 255)
-				set_fog_color(0, 255); set_fog_color(1, 255); set_fog_color(2, 255)
-				le_set_ambient_color(255, 255, 255)
-				le_remove_light(light1); le_remove_light(light2)
+				--le_set_mode(LE_MODE_AFFECT_ONLY_GEOMETRY_MODE)
+				--set_skybox_color(0, 255); set_skybox_color(1, 255); set_skybox_color(2, 255)
+				--set_fog_color(0, 255); set_fog_color(1, 255); set_fog_color(2, 255)
+				--le_set_ambient_color(255, 255, 255)
+				--le_remove_light(light1); le_remove_light(light2)
+				--hasCopyLightsOn = false
 			end
 		end
 	end

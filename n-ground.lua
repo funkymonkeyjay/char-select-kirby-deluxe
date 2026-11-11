@@ -255,14 +255,14 @@ end
 _G.kirbyInhaleHookBehavior = _G.kirbyDeluxe.hook_inhale_behavior
 _G.kirbyInhaleEditBehavior = _G.kirbyDeluxe.edit_inhale_behavior
 
-if not _G.betterCoins then -- Prevents coins messing up with Squishy's "Better Coins".
-	_G.kirbyInhaleHookBehavior(id_bhvBlueCoinJumping,     false, false, true,                                   false, nil, nil, true)
-	_G.kirbyInhaleHookBehavior(id_bhvYellowCoin,          false, false, true,                                   false, nil, nil, true)
-	_G.kirbyInhaleHookBehavior(id_bhvMovingYellowCoin,    false, false, true,                                   false, nil, nil, true)
-	_G.kirbyInhaleHookBehavior(id_bhvTemporaryYellowCoin, false, false, true,                                   false, nil, nil, true)
-	_G.kirbyInhaleHookBehavior(id_bhvRedCoin,             false, false, true,                                   false, nil, nil, true)
-	_G.kirbyInhaleHookBehavior(id_bhvBlueCoinSliding,     false, false, true,                                   false, nil, nil, true)
-	_G.kirbyInhaleHookBehavior(id_bhvHiddenBlueCoin,      false, false, function (o) return o.oAction == 2 end, false, nil, nil, true)
+if not betterCoins then -- Prevents coins messing up with Squishy's "Better Coins".
+	_G.kirbyInhaleHookBehavior(id_bhvBlueCoinJumping,     false, false, true,                                   false, nil, nil, nil, true)
+	_G.kirbyInhaleHookBehavior(id_bhvYellowCoin,          false, false, true,                                   false, nil, nil, nil, true)
+	_G.kirbyInhaleHookBehavior(id_bhvMovingYellowCoin,    false, false, true,                                   false, nil, nil, nil, true)
+	_G.kirbyInhaleHookBehavior(id_bhvTemporaryYellowCoin, false, false, true,                                   false, nil, nil, nil, true)
+	_G.kirbyInhaleHookBehavior(id_bhvRedCoin,             false, false, true,                                   false, nil, nil, nil, true)
+	_G.kirbyInhaleHookBehavior(id_bhvBlueCoinSliding,     false, false, true,                                   false, nil, nil, nil, true)
+	_G.kirbyInhaleHookBehavior(id_bhvHiddenBlueCoin,      false, false, function (o) return o.oAction == 2 end, false, nil, nil, nil, true)
 end
 
 local function run_func_or_get_var(x, ...) if type(x) == "function" then return x(...) else return x end end

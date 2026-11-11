@@ -4,6 +4,7 @@
 
 if incompatibilityCond then return 0 end
 
+
 -- Kirby/General Sound Effects
 KIRBY_COPY_SOUND = audio_sample_load("SOUND_COPY.ogg")
 KIRBY_OBJECT_SOUND = audio_sample_load("SOUND_OBJECT.ogg")
