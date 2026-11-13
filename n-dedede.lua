@@ -355,7 +355,6 @@ hook_mario_action(ACT_DEDEDE_HAMMER_FLIP, act_dedede_hammer_flip)
 ACT_DEDEDE_HAMMER_UP = allocate_mario_action(ACT_FLAG_STATIONARY)
 ACT_DEDEDE_HAMMER_DOWN = allocate_mario_action(ACT_FLAG_ATTACKING | ACT_FLAG_STATIONARY) -- the ACT_FLAG_ATTACKING flag is the reason why they're two actions instead of one.
 
-maskedFireTimer = -1
 local function act_dedede_hammer(m, arg)
     if not m then return 0 end
     if (m.input & INPUT_UNKNOWN_10) ~= 0 then return drop_and_set_mario_action(m, ACT_SHOCKWAVE_BOUNCE, 0) end
@@ -373,9 +372,20 @@ local function act_dedede_hammer(m, arg)
         end)
         play_sound((m.flags & MARIO_METAL_CAP) ~= 0 and SOUND_GENERAL_WALL_EXPLOSION or SOUND_ACTION_BOUNCE_OFF_OBJECT, m.marioObj.header.gfx.cameraToObject)
         spawn_sync_object(id_bhvHorStarParticleSpawner, E_MODEL_NONE, m.pos.x + sins(m.faceAngle.y) * 200, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 200, nil)
-        if m.playerIndex == 0 and m.actionTimer % 20 == 0 and (m.flags & MARIO_METAL_CAP) ~= 0 then
+        if m.playerIndex == 0 and (m.flags & MARIO_METAL_CAP) ~= 0 then
             set_camera_shake_from_hit(SHAKE_MED_DAMAGE)
-            maskedFireTimer = 0
+
+            local fireball = spawn_sync_object(id_bhvDededeBouncingFireball_JJJ, E_MODEL_RED_FLAME, m.pos.x + sins(m.faceAngle.y) * 275, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 275, function (o)
+                o.oMoveAngleYaw = m.marioObj.oMoveAngleYaw
+                o.oBehParams = 1
+            end)
+            fireball.oHomeX = fireball.oPosX
+            fireball.oHomeY = fireball.oPosY
+            fireball.oHomeZ = fireball.oPosZ
+            local size = 4.25
+            obj_scale_xyz(fireball, size, size, size)
+            obj_become_tangible(fireball)
+            --maskedFireTimer = 0
         end
     elseif arg == 0 then
         if frame >= 3 and (m.controller.buttonDown & L_TRIG) == 0 then

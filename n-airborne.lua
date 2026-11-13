@@ -196,71 +196,76 @@ hook_mario_action(ACT_KIRBY_PUFF, {every_frame = act_kirby_puff, gravity = funct
 end})
 
 -- WATER ACTION!
-ACT_KIRBY_SWIM = allocate_mario_action(ACT_FLAG_MOVING | ACT_FLAG_SWIMMING | ACT_FLAG_SWIMMING_OR_FLYING | ACT_FLAG_WATER_OR_TEXT | ACT_FLAG_PAUSE_EXIT)
+ACT_KIRBY_SWIM = allocate_mario_action(ACT_GROUP_SUBMERGED | ACT_FLAG_SWIMMING | ACT_FLAG_WATER_OR_TEXT | ACT_FLAG_MOVING | ACT_FLAG_SWIMMING_OR_FLYING | ACT_FLAG_PAUSE_EXIT)
 
-local toApplyVel = 0
+local prevMag, prevYaw = 0, 0
 function act_kirby_swim(m)
-	if (m.flags & MARIO_METAL_CAP) ~= 0 then
-		return set_mario_action(m, ACT_METAL_WATER_FALLING, 1)
-	end
+	m.health = m.health + 1
+
+	local dirAngle = 0
+	local downA, downZ = (m.controller.buttonDown & A_BUTTON) ~= 0, (m.controller.buttonDown & Z_TRIG) ~= 0
 	
-	if (m.input & INPUT_A_PRESSED) ~= 0 then -- check_water_jump recreated in LUA.
-		local probe = m.pos.y + 1.5
-		if probe >= m.waterLevel - 80 and m.faceAngle.x >= 0 and m.controller.stickY < -60 then
-			--local allowForceAction = true
-			m.angleVel.x, m.angleVel.y, m.angleVel.z = 0, 0, 0
-			m.vel.y = 62
-			if m.heldObj then -- CURRENT ISSUE: kirby can avoid HOOK_ALLOW_FORCE_WATER_ACTION
-				return set_mario_action(m, ACT_HOLD_WATER_JUMP, 0)
-			else
+	local isOnSurface = m.pos.y >= m.waterLevel - 100
+	local isMoving = downA or downZ or m.intendedMag ~= 0
+	if isOnSurface then
+		set_character_animation(m, isMoving and CHAR_ANIM_PUSHING or CHAR_ANIM_STAND_AGAINST_WALL) -- TODO: add moving anims
+	elseif m.forwardVel <= 50 then
+		set_character_animation(m, isMoving and CHAR_ANIM_FLUTTERKICK or CHAR_ANIM_WATER_IDLE)
+	end
+
+	if downA and not downZ then
+		if isOnSurface and (m.controller.buttonPressed & A_BUTTON) ~= 0 then
+			if not m.heldObj then
 				return set_mario_action(m, ACT_WATER_JUMP, 0)
+			else
+				return set_mario_action(m, ACT_HOLD_WATER_JUMP, 0)
 			end
+		else
+			dirAngle = 7500
 		end
+	elseif downZ and not downA then
+		dirAngle = -7500
 	end
 
-	local verticalDir = 0
-    if (m.controller.buttonDown & A_BUTTON) ~= 0 then
-        verticalDir = 24
-    elseif (m.controller.buttonDown & Z_TRIG) ~= 0 then
-        verticalDir = -24
-    end
-    toApplyVel = math.lerp(toApplyVel, verticalDir, 0.1)
-    m.vel.y = toApplyVel
+	if isOnSurface and not downZ then dirAngle = 0 end
 
-	-- common_swimming_step
-	local stepCase = perform_water_step(m)
-	if stepCase == WATER_STEP_HIT_FLOOR then
-		local floorPitch = -find_floor_slope(m, -0x8000)
-        if m.faceAngle.y < floorPitch then
-            m.faceAngle.x = floorPitch
-		end
-	elseif stepCase == WATER_STEP_HIT_CEILING then
-
-	elseif stepCase == WATER_STEP_HIT_WALL then
-		
+	if dirAngle <= 0 then
+		m.pos.y = m.pos.y + 1.5
 	end
 
-	local toSpeed = m.intendedMag/32 * 32
+	if (m.controller.buttonPressed & B_BUTTON) ~= 0 and (m.intendedMag == 0 or m.forwardVel < 100) and not isOnSurface then
+		play_sound(SOUND_ACTION_SWIM_FAST, m.marioObj.header.gfx.cameraToObject)
+		m.marioObj.header.gfx.animInfo.animID = -1
+		set_character_animation(m, CHAR_ANIM_SWIM_PART1)
+		m.marioObj.header.gfx.animInfo.animFrame = 0
+		if m.forwardVel == 0 then
+			-- TODO: spawn bubble
+		end
+		local ANGLE_LIMIT = 90
+		local angleDiff = (sm64_to_degrees(m.faceAngle.y) - sm64_to_degrees(m.intendedYaw) + 180 + 360) % 360 - 180
+		if angleDiff < -ANGLE_LIMIT or angleDiff > ANGLE_LIMIT then
+			m.faceAngle.y = m.intendedYaw
+		end
+		m.forwardVel = m.intendedMag == 0 and 160 or 100
+	end
+	m.forwardVel = approach_f32_symmetric(m.forwardVel, 0, 3)
 
-	m.forwardVel = math.lerp(m.forwardVel, toSpeed, 0.05)
+	m.faceAngle.x = approach_s16_symmetric(m.faceAngle.x, dirAngle, 500)
+	if (prevMag == 0 and m.intendedMag ~= 0) and m.forwardVel <= 50 then
+		play_sound(SOUND_ACTION_SWIM, m.marioObj.header.gfx.cameraToObject)
+		m.faceAngle.y = m.intendedYaw
+	end
+	m.faceAngle.y = approach_s16_symmetric(m.faceAngle.y, m.intendedYaw, 400)
 
-    m.vel.x = math.lerp(m.vel.x, m.forwardVel * sins(m.intendedYaw), 0.1)
-    m.vel.z = math.lerp(m.vel.z, m.forwardVel * coss(m.intendedYaw), 0.1)
+	local forwardVel = m.forwardVel / 10
+	local angleX, angleZ = sins(m.faceAngle.y) * coss(m.faceAngle.x), coss(m.faceAngle.y) * coss(m.faceAngle.x)
+	m.vel.x = approach_f32_symmetric(m.vel.x, (((m.intendedMag / 2) * angleX) + (forwardVel * 2 * angleX)) / (isOnSurface and 1.75 or 1), 8)
+	m.vel.z = approach_f32_symmetric(m.vel.z, (((m.intendedMag / 2) * angleZ) + (forwardVel * 2 * angleZ)) / (isOnSurface and 1.75 or 1), 8)
+	m.vel.y = approach_f32_symmetric(m.vel.y, math.clamp((dirAngle / 400) * (forwardVel + 1), -32, 32), 2)
 
-    local dirAngle = (m.vel.z == 0 and m.vel.x == 0) and m.faceAngle.y or atan2s(m.vel.z, m.vel.x)
-    m.faceAngle.y = approach_s16_symmetric(m.faceAngle.y, dirAngle, 1000)
-    m.marioObj.header.gfx.angle.x = math.lerp(m.marioObj.header.gfx.angle.x, m.vel.y * 2400, 0.1)
-    m.faceAngle.x = m.marioObj.header.gfx.angle.x
-
-	-- slowly go down
-	--m.vel.y = math.lerp(m.vel.y, 0, 10) - 2
-
-	--update_swimming_yaw(m);
-    --update_swimming_pitch(m);
-    --update_swimming_speed(m, swimStrength / 10.0f);
-	
-	float_surface_gfx(m)
-	set_swimming_at_surface_particles(m, PARTICLE_WAVE_TRAIL)
+	perform_water_step(m)
+	set_swimming_at_surface_particles(m, PARTICLE_IDLE_WATER_WAVE)
+	prevMag, prevYaw = m.intendedMag, m.intendedYaw
 end
 
 hook_mario_action(ACT_KIRBY_SWIM, act_kirby_swim)

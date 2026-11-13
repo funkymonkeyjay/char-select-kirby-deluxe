@@ -465,7 +465,6 @@ end
 id_bhvDededeHammer_JJJ = hook_behavior(nil, OBJ_LIST_DESTRUCTIVE, false, bhv_dedede_hammer_init, bhv_dedede_hammer_loop, "bhvDededeHammer_JJJ")
 
 -- SMALL SHOCKWAVE
-
 function bhv_dedede_shock_wave_init(o)
     o.oOpacity = 255
     o.oFlags = (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)
@@ -475,6 +474,7 @@ function bhv_dedede_shock_wave_loop(o)
     
     o.oBowserShockWaveUnkF4 = o.oTimer * 5;
     cur_obj_scale(o.oBowserShockWaveUnkF4)
+    cur_obj_align_gfx_with_floor()
 
     local TIME_LIMIT = 30
     if o.oTimer > TIME_LIMIT then
@@ -487,7 +487,100 @@ function bhv_dedede_shock_wave_loop(o)
         if shockLow < o.oDistanceToMario and o.oDistanceToMario < shockHigh then
             gMarioStates[0].marioObj.oInteractStatus = gMarioStates[0].marioObj.oInteractStatus | INT_STATUS_HIT_BY_SHOCKWAVE
         end
+
+        -- Object collisions
+        for _, list in ipairs(objectLists) do
+            local oHit = obj_get_first(list)
+            while oHit and list ~= OBJ_LIST_PLAYER do
+                if o ~= oHit then
+                    local distanceToObject = lateral_dist_between_objects(o, oHit)
+                    local distY = o.oPosY - oHit.oPosY
+                    if (shockLow < distanceToObject and distanceToObject < shockHigh) and math.abs(distY) <= 100 and (oHit.header.gfx.node.flags & GRAPH_RENDER_INVISIBLE) == 0 then
+                        if (oHit.oInteractType == INTERACT_BREAKABLE or obj_is_attackable(oHit)) and obj_has_behavior_id(oHit, id_bhvBowser) == 0 then
+                            oHit.oInteractStatus = oHit.oInteractStatus | INT_STATUS_WAS_ATTACKED | INT_STATUS_INTERACTED | INT_STATUS_TOUCHED_BOB_OMB | ATTACK_PUNCH
+                        end
+                    end
+                end
+                oHit = obj_get_next(oHit)
+            end
+        end
     end
 end
 
 id_bhvDededeShockwave_JJJ = hook_behavior(nil, OBJ_LIST_DEFAULT, false, bhv_dedede_shock_wave_init, bhv_dedede_shock_wave_loop, "bhvDededeShockwave_JJJ")
+
+-- BOUNCING FIREBALL RECREATION
+
+local function bhv_dedede_bouncing_fireball_flame_init(o)
+    o.oFlags = OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE
+    o.oInteractType = INTERACT_FLAME
+    o.oGraphYOffset = 30
+    obj_set_billboard(o)
+
+    local hitbox = get_temp_object_hitbox()
+    hitbox.downOffset = 25
+    hitbox.radius = 50
+    hitbox.height = 25
+    obj_set_hitbox(o, hitbox)
+
+    o.oWallHitboxRadius = 30
+    o.oGravity              = -8
+    o.oBounciness           = -1.5
+    o.oDragStrength         = 1
+    o.oFriction             = 1
+    o.oBuoyancy             = 2
+
+    o.oForwardVel = 30
+    o.oVelY = 60
+    o.oAnimState = random_float() * 10
+
+    --o.oHomeX = o.oPosX
+    --o.oHomeY = o.oPosY
+    --o.oHomeZ = o.oPosZ
+
+    o.activeFlags = o.activeFlags | ACTIVE_FLAG_UNK9
+end
+
+local function bhv_dedede_bouncing_fireball_flame_loop(o)
+    cur_obj_update_floor_and_walls()
+
+    if o.oTimer > 45 then
+        obj_mark_for_deletion(o)
+    else
+        if o.oTimer == 0 then
+            play_sound(SOUND_OBJ_FLAME_BLOWN, o.header.gfx.cameraToObject)
+        end
+        if o.oBehParams ~= 0 then
+            if o.oTimer < 5 then
+                local fireball = spawn_sync_object(id_bhvDededeBouncingFireball_JJJ, E_MODEL_RED_FLAME, o.oHomeX, o.oHomeY, o.oHomeZ, function (oFire)
+                    oFire.oMoveAngleYaw = o.oMoveAngleYaw
+                    oFire.oIntangibleTimer = -1
+                    oFire.oBehParams = 0
+                end)
+                local size = (10 - o.oTimer) * 0.425 * (o.oBehParams >= 3 and 0.75 or 1)
+                obj_scale_xyz(fireball, size, size, size)
+            end
+        
+            for _, list in ipairs(objectLists) do
+                local oHit = obj_get_first(list)
+                while oHit and list ~= OBJ_LIST_PLAYER do
+                    if o ~= oHit then
+                        if oHit.oHeldState == HELD_FREE and obj_check_hitbox_overlap(o, oHit) then
+                            if (oHit.oInteractType == INTERACT_BREAKABLE or obj_is_attackable(oHit)) and obj_has_behavior_id(oHit, id_bhvBowser) == 0 then
+                                oHit.oInteractStatus = oHit.oInteractStatus | INT_STATUS_WAS_ATTACKED | INT_STATUS_INTERACTED | INT_STATUS_TOUCHED_BOB_OMB | ATTACK_PUNCH
+                                play_sound(SOUND_GENERAL_FLAME_OUT, oHit.header.gfx.cameraToObject)
+                            end
+                        end
+                    end
+                    oHit = obj_get_next(oHit)
+                end
+            end
+        end
+    end
+    cur_obj_move_standard(78)
+    o.oInteractStatus = 0
+
+    o.oAnimState = o.oAnimState + 1
+end
+
+id_bhvDededeBouncingFireball_JJJ = hook_behavior(nil, OBJ_LIST_GENACTOR, false, bhv_dedede_bouncing_fireball_flame_init, bhv_dedede_bouncing_fireball_flame_loop, "bhvDededeBouncingFireball_JJJ")

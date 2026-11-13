@@ -306,8 +306,10 @@ hook_mario_action(ACT_KIRBY_HURT_FORWARD, {every_frame = act_kirby_hurt_forward,
 hook_mario_action(ACT_KIRBY_HURT_BACKWARD, {every_frame = act_kirby_hurt_backward, gravity = function (m) m.vel.y = m.vel.y - 4 if m.vel.y < -75 then m.vel.y = -75 end end})
 hook_mario_action(ACT_KIRBY_HURT_LAVA, {every_frame = act_kirby_hurt_lava, gravity = function (m) m.vel.y = m.vel.y - 4 if m.vel.y < -75 then m.vel.y = -75 end end})
 
+hook_event(HOOK_ALLOW_FORCE_WATER_ACTION, function (m, isInWaterAction) if m.action == ACT_KIRBY_DEATH then return false end end)
 ACT_KIRBY_DEATH = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_AIR | ACT_FLAG_STATIONARY | ACT_FLAG_INTANGIBLE | ACT_FLAG_INVULNERABLE | ACT_FLAG_CUSTOM_ACTION | ACT_FLAG_PAUSE_EXIT)
-function act_kirby_death(m)
+
+function act_kirby_death(m) -- KNOWN ISSUE: no matter how much I try, the death action doesn't behave correctly in water.
 	if m.playerIndex == 0 then gPlayerSyncTable[0].hasKirbyDied = true end
 
 	m.faceAngle.y = m.area.camera.yaw
@@ -359,6 +361,7 @@ function act_kirby_death(m)
 			set_mario_animation(m, CHAR_ANIM_KIRBY_DEATH)
 			m.vel.y = 30
 		end
+
 		local stepCase = perform_air_step(m, 0)
 		if stepCase == AIR_STEP_LANDED then
 			if m.actionState == 0 then

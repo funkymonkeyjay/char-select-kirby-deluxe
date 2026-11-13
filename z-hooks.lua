@@ -71,17 +71,28 @@ if charSelect then
 			end
 		end
 
+		if m.action == ACT_KIRBY_SWIM then m.forwardVel = math.clamp(m.forwardVel, -16, 16) end
+
 		if incomingAction == ACT_GROUND_POUND_LAND and currChar == dededeCharID and (m.flags & MARIO_METAL_CAP) ~= 0 and idx == 0 then
 			--for i = 1, 4 do
 			set_camera_shake_from_hit(SHAKE_LARGE_DAMAGE)
 			play_sound(SOUND_GENERAL2_BOBOMB_EXPLOSION, m.marioObj.header.gfx.cameraToObject)
-			maskedFireTimer = 0
+
+			local space = 65535 / 3
+			for i = 1, 3 do
+				local fireball = spawn_sync_object(id_bhvDededeBouncingFireball_JJJ, E_MODEL_RED_FLAME, m.pos.x + sins(m.faceAngle.y) * 275, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 275, function (o)
+					o.oMoveAngleYaw = m.marioObj.oMoveAngleYaw + (space * i)
+					o.oBehParams = 3
+					o.oIntangibleTimer = 0
+				end)
+				fireball.oHomeX = fireball.oPosX
+				fireball.oHomeY = fireball.oPosY
+				fireball.oHomeZ = fireball.oPosZ
+				local size = 3.1875
+				obj_scale_xyz(fireball, size, size, size)
+			end
 			--obj_mark_for_deletion(fireballSpawner)
             --end
-		end
-
-		if m.action == ACT_WATER_PLUNGE then
-			--return ACT_KIRBY_SWIM
 		end
 
 		if incomingAction == ACT_START_CROUCHING or incomingAction == ACT_CROUCH_SLIDE then
@@ -105,6 +116,8 @@ if charSelect then
 				return ACT_KIRBY_DEATH
 			end
 
+			if incomingAction == ACT_FORWARD_WATER_KB or incomingAction == ACT_BACKWARD_WATER_KB then play_kirby_sound(KIRBY_HURT_SOUND, m.pos, 1) end
+
 			if m.hurtCounter > 0 and not (incomingAction == ACT_BACKWARD_WATER_KB or incomingAction == ACT_FORWARD_WATER_KB or incomingAction == ACT_KIRBY_HURT_LAVA) then
 				if m.action == ACT_KIRBY_HURT_FORWARD or m.action == ACT_KIRBY_HURT_BACKWARD then return 1 end
 				if incomingAction == ACT_HARD_FORWARD_GROUND_KB or incomingAction == ACT_FORWARD_GROUND_KB or incomingAction == ACT_SOFT_FORWARD_GROUND_KB
@@ -117,6 +130,12 @@ if charSelect then
 		--elseif idx == 0 and gPlayerSyncTable[idx].hasKirbyDied then
 			--disable_time_stop(); camera_unfreeze(); 
 			--gPlayerSyncTable[idx].hasKirbyDied = false
+		end
+
+		if ((incomingAction & ACT_FLAG_SWIMMING) ~= 0)
+		   and incomingAction ~= ACT_WATER_PLUNGE and incomingAction ~= ACT_BACKWARD_WATER_KB and incomingAction ~= ACT_FORWARD_WATER_KB
+		   and incomingAction ~= ACT_WATER_SHOCKED and incomingAction ~= ACT_VERTICAL_WIND then
+			return ACT_KIRBY_SWIM
 		end
 
 		if currChar == dededeCharID and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ ~= 0 and m.action ~= ACT_DEDEDE_FULL_AIM then
@@ -341,25 +360,28 @@ if charSelect then
 			gPlayerSyncTable[idx].kirbySlideCount = 0
 		end
 
+		--[[
 		if maskedFireTimer >= 0 then
 			local count = m.action == ACT_GROUND_POUND_LAND and 3 or 1
 			local space = 65535 / count
 			for i = 1, count do
-				local fireball = spawn_sync_object(id_bhvBouncingFireballFlame, E_MODEL_RED_FLAME, m.pos.x + sins(m.faceAngle.y) * 275, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 275, function (o)
+				local fireball = spawn_sync_object(id_bhvDededeBouncingFireball_JJJ, E_MODEL_RED_FLAME, m.pos.x + sins(m.faceAngle.y) * 275, m.pos.y, m.pos.z + coss(m.faceAngle.y) * 275, function (o)
 					o.oMoveAngleYaw = m.marioObj.oMoveAngleYaw + (space * i)
+					o.oBehParams = count
 				end)
-				local size = (10 - maskedFireTimer) * 0.375 * (count >= 3 and 0.75 or 1)
+				fireball.oHomeX = fireball.oPosX
+				fireball.oHomeY = fireball.oPosY
+				fireball.oHomeZ = fireball.oPosZ
+				local size = (10 - maskedFireTimer) * 0.425 * (count >= 3 and 0.75 or 1)
 				obj_scale_xyz(fireball, size, size, size)
-				if maskedFireTimer == 0 then
-					obj_become_tangible(fireball)
-				end
-				fireball.oAction = 1
+				obj_become_tangible(fireball)
 			end
 			maskedFireTimer = maskedFireTimer + 1
 			if maskedFireTimer >= 5 then
 				maskedFireTimer = -1
 			end
 		end
+		]]
 
 		local currChar = charSelect.character_get_current_number(idx)
 		if currChar ~= dededeCharID then
@@ -858,7 +880,7 @@ if charSelect then
 		local m = gMarioStates[0]
 
 		djui_hud_set_resolution(RESOLUTION_N64)
-		if m.action == ACT_KIRBY_DEATH then
+		if m.action == ACT_KIRBY_DEATH and m.twirlYaw < 0 then
 			local START_TIMER, END_TIMER = 120, 140
 			local alpha = math.clamp((m.actionTimer - START_TIMER) / (END_TIMER - START_TIMER), 0, 1)
 
