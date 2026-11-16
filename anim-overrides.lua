@@ -202,7 +202,7 @@ kirbyAnims = {
 	}, 
 	anims = {
 		[CHAR_ANIM_SINGLE_JUMP] = function (m, frame) return determineFatAnim(m, "JUMP") end, 
-		[CHAR_ANIM_LAND_FROM_SINGLE_JUMP] = function (m, frame) if m.action == ACT_EXIT_LAND_SAVE_DIALOG then return "KIRBY_EXIT_BOUNCE_2" end return "KIRBY_LAND" end, 
+		[CHAR_ANIM_LAND_FROM_SINGLE_JUMP] = function (m, frame) if m.action == ACT_EXIT_LAND_SAVE_DIALOG or m.action == ACT_INTRO_CUTSCENE then return "KIRBY_EXIT_BOUNCE_2" end return "KIRBY_LAND" end, 
 		[CHAR_ANIM_GENERAL_FALL] = function (m, frame) return determineFatAnim(m, "FALL") end, 
 		[CHAR_ANIM_GENERAL_LAND] = function (m, frame) if m.action == ACT_EXIT_LAND_SAVE_DIALOG or m.action == ACT_SPAWN_SPIN_LANDING or m.action == ACT_END_PEACH_CUTSCENE then return "KIRBY_EXIT_BOUNCE" end return "KIRBY_LAND" end, 
 		[CHAR_ANIM_WALKING] = function (m, frame) return determineFatAnim(m, "WALK") end, 
@@ -468,7 +468,7 @@ dededeAnims = {
 		[CHAR_ANIM_RUNNING] = "DEDEDE_RUN", 
 		[CHAR_ANIM_RUNNING_UNUSED] = "DEDEDE_RUN", 
 		[CHAR_ANIM_SINGLE_JUMP] = "DEDEDE_JUMP", 
-		[CHAR_ANIM_LAND_FROM_SINGLE_JUMP] = function (m, frame) if m.action == ACT_EXIT_LAND_SAVE_DIALOG then return "DEDEDE_EXIT_BOUNCE_2" end return "DEDEDE_LAND" end, 
+		[CHAR_ANIM_LAND_FROM_SINGLE_JUMP] = function (m, frame) if m.action == ACT_EXIT_LAND_SAVE_DIALOG or m.action == ACT_INTRO_CUTSCENE then return "DEDEDE_EXIT_BOUNCE_2" end return "DEDEDE_LAND" end, 
 		[CHAR_ANIM_GENERAL_FALL] = "DEDEDE_FALL", 
 		[CHAR_ANIM_GENERAL_LAND] = function (m, frame) if m.action == ACT_EXIT_LAND_SAVE_DIALOG or m.action == ACT_SPAWN_SPIN_LANDING or m.action == ACT_END_PEACH_CUTSCENE then return "DEDEDE_EXIT_BOUNCE" end return "DEDEDE_LAND" end, 
 		[CHAR_ANIM_KIRBY_INHALE_IDLE] = "DEDEDE_INHALE_IDLE", 
