@@ -867,7 +867,6 @@ if charSelect then
 		if p.hasKirbyDied then
 			disable_time_stop()
 			camera_unfreeze()
-			stop_secondary_music(0)
 			p.hasKirbyDied = false
 		end
 		audio_sample_stop(KIRBY_INHALE_SOUND) -- Added to prevent the inhale sound from playing outside a level forever.
@@ -880,12 +879,15 @@ if charSelect then
 		local m = gMarioStates[0]
 
 		djui_hud_set_resolution(RESOLUTION_N64)
-		if m.action == ACT_KIRBY_DEATH and m.twirlYaw < 0 then
-			local START_TIMER, END_TIMER = 120, 140
-			local alpha = math.clamp((m.actionTimer - START_TIMER) / (END_TIMER - START_TIMER), 0, 1)
+		if m.action == ACT_KIRBY_DEATH and is_transition_playing() then
+			if not mario_can_bubble(m) then
+				local START_TIMER, END_TIMER = 28, 43
+				local alpha = math.clamp((deathTimer - START_TIMER) / (END_TIMER - START_TIMER), 0, 1)
 
-			djui_hud_set_color(0, 0, 0, 255 * alpha)
-			djui_hud_render_rect(0, 0, djui_hud_get_screen_width(), djui_hud_get_screen_height())
+				djui_hud_set_color(0, 0, 0, 255 * alpha)
+				djui_hud_render_rect(0, 0, djui_hud_get_screen_width(), djui_hud_get_screen_height())
+			end
+			deathTimer = deathTimer + 1
 		elseif m.action == ACT_KIRBY_POWERUP then
 			local alpha = math.clamp(m.actionTimer < 3 and (m.actionTimer / 3) or (1 - ((m.actionTimer - 18) / 9)), 0, 1)
 			djui_hud_set_color(0, 0, 0, 85 * alpha)
@@ -908,6 +910,8 @@ if charSelect then
 
 			djui_hud_render_texture(TEX_CIRCLE_TRANS, x, y, -desiredScale, desiredScale)
 			djui_hud_render_texture(TEX_CIRCLE_TRANS, x, y, desiredScale, desiredScale)
+		else
+			deathTimer = 0
 		end
 	end)
 end

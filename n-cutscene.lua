@@ -309,12 +309,13 @@ hook_mario_action(ACT_KIRBY_HURT_LAVA, {every_frame = act_kirby_hurt_lava, gravi
 hook_event(HOOK_ALLOW_FORCE_WATER_ACTION, function (m, isInWaterAction) if m.action == ACT_KIRBY_DEATH then return false end end)
 ACT_KIRBY_DEATH = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_AIR | ACT_FLAG_STATIONARY | ACT_FLAG_INTANGIBLE | ACT_FLAG_INVULNERABLE | ACT_FLAG_CUSTOM_ACTION | ACT_FLAG_PAUSE_EXIT)
 
-function act_kirby_death(m) -- KNOWN ISSUE: no matter how much I try, the death action doesn't behave correctly in water.
+deathTimer = 0 -- Local timer that counts how many frames have passed since the transition first played.
+function act_kirby_death(m)
 	if m.playerIndex == 0 then gPlayerSyncTable[0].hasKirbyDied = true end
 
 	m.faceAngle.y = m.area.camera.yaw
     m.marioObj.header.gfx.angle.y = m.faceAngle.y
-	
+
 	if m.actionTimer == 0 then
 		m.forwardVel = 0
 		queue_rumble_data_mario(m, 5, 80)
@@ -345,7 +346,8 @@ function act_kirby_death(m) -- KNOWN ISSUE: no matter how much I try, the death 
 
 	if m.actionTimer >= 23 then
 		if m.playerIndex == 0 then
-			local toY = m.twirlYaw < 0 and m.pos.y or m.floorHeight
+			--local toY = m.twirlYaw < 0 and m.pos.y or m.floorHeight
+			local toY = m.twirlYaw < 0 and m.marioObj.header.gfx.pos.y or m.floorHeight
 
 			gLakituState.pos.x = math.lerp(gLakituState.pos.x, m.pos.x + sins(m.faceAngle.y) * 400, 0.0625)
 			gLakituState.pos.y = math.lerp(gLakituState.pos.y, toY + 300, 0.0625)
@@ -356,24 +358,33 @@ function act_kirby_death(m) -- KNOWN ISSUE: no matter how much I try, the death 
 			gLakituState.focus.z = math.lerp(gLakituState.focus.z, m.pos.z - coss(m.faceAngle.y) * 200, 0.03125)
 		end
 
+		m.vel.y = m.vel.y - 3
+		if m.vel.y < -56.25 then
+			m.vel.y = -56.25
+		end
+
 		if m.actionTimer == 23 then
 			if m.playerIndex == 0 then stop_secondary_music(0); play_secondary_music(SEQ_KIRBY_DEATH, 0, 192, 0) end
 			set_mario_animation(m, CHAR_ANIM_KIRBY_DEATH)
 			m.vel.y = 30
 		end
 
-		local stepCase = perform_air_step(m, 0)
-		if stepCase == AIR_STEP_LANDED then
+		m.marioObj.header.gfx.pos.y = m.marioObj.header.gfx.pos.y + m.vel.y
+		if m.actionTimer > 135 and m.actionState == 0 then m.pos.y = m.marioObj.header.gfx.pos.y end -- For whenever Kirby falls into a pit.
+		if m.marioObj.header.gfx.pos.y < m.floorHeight and m.vel.y < 0 then
 			if m.actionState == 0 then
 				m.vel.y = 10
 				m.actionState = m.actionState + 1
 			else
 				m.actionState = 2
 			end
+			m.marioObj.header.gfx.pos.y = m.floorHeight
 		end
+
 		if m.actionState == 2 then
 			local animFrame = common_death_handler(m, CHAR_ANIM_KIRBY_DEATH_END, 40)
-			if ((m.actionTimer >= 140 or m.action == ACT_BUBBLED) -- Check for when the player is bubbled or has exited the level.
+			--if ((m.actionTimer >= 135 or m.action == ACT_BUBBLED) -- Check for when the player is bubbled or has exited the level.
+			if ((deathTimer >= 43 or m.action == ACT_BUBBLED) -- Check for when the player is bubbled or has exited the level.
 			 or (animFrame >= 40 and m.invincTimer >= 0 and m.action ~= ACT_BUBBLED)) and m.playerIndex == 0 then -- Simple check for when a HOOK_ON_DEATH call prevents a death.
 				disable_time_stop()
 				camera_unfreeze()
@@ -393,19 +404,15 @@ function act_kirby_death(m) -- KNOWN ISSUE: no matter how much I try, the death 
 
 		set_mario_animation(m, CHAR_ANIM_BACKWARD_AIR_KB)
 		local dist = vec3f_dist(m.pos, {x = m.pos.x, y = m.floorHeight, z = m.pos.z})
-		if dist > 500 then
+		if dist > (m.pos.y < m.waterLevel and 2000 or 500) then
 			m.twirlYaw = -1
 		else
 			m.twirlYaw = 0
 		end
+		--djui_chat_message_create(tostring(m.twirlYaw) .. ", " .. tostring(m.floorHeight) .. ", " .. tostring(dist))
 	end
 end
-hook_mario_action(ACT_KIRBY_DEATH, {every_frame = act_kirby_death, gravity = function (m) 
-	m.vel.y = m.vel.y - 3
-	if m.vel.y < -56.25 then
-		m.vel.y = -56.25
-	end
-end})
+hook_mario_action(ACT_KIRBY_DEATH, act_kirby_death)
 
 -- CUSTOM ENDING "WARP STAR" OBJECT
 local function setStarPosAngle(o, m)
@@ -447,9 +454,11 @@ end
 id_bhvGrandWarpStar = hook_behavior(nil, OBJ_LIST_DEFAULT, true, grand_warp_star_init, grand_warp_star_loop, "bhvGrandWarpStar")
 
 -- DEBUG
+--[[
 hook_event(HOOK_UPDATE, function()
 	local nearestBowser = obj_get_nearest_object_with_behavior_id(o, id_bhvBowser)
 	if nearestBowser then
 		nearestBowser.oHealth = 1
 	end
 end)
+]]

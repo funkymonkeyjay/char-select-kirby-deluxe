@@ -255,7 +255,7 @@ function act_kirby_swim(m)
 		play_sound(SOUND_ACTION_SWIM, m.marioObj.header.gfx.cameraToObject)
 		m.faceAngle.y = m.intendedYaw
 	end
-	m.faceAngle.y = approach_s16_symmetric(m.faceAngle.y, m.intendedYaw, 400)
+	m.faceAngle.y = approach_s16_symmetric(m.faceAngle.y, m.intendedYaw, 700)
 
 	local forwardVel = m.forwardVel / 10
 	local angleX, angleZ = sins(m.faceAngle.y) * coss(m.faceAngle.x), coss(m.faceAngle.y) * coss(m.faceAngle.x)

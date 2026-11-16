@@ -126,7 +126,7 @@ kirbyAnims = {
 		[CHAR_ANIM_KIRBY_DODGE_FRONT] = MARIO_MOUTH_OPEN, 
 		[CHAR_ANIM_KIRBY_DODGE_BACK] = MARIO_MOUTH_OPEN, 
 		[CHAR_ANIM_SWINGING_BOWSER] = function (m, frame) return bowserThrowCheck(m) and MARIO_MOUTH_OPEN or MARIO_MOUTH_NORMAL end, 
-		[CHAR_ANIM_WALK_PANTING] = MARIO_MOUTH_FROWN, 
+		--[CHAR_ANIM_WALK_PANTING] = MARIO_MOUTH_FROWN, 
 	}, 
 	eyes = {
 		[CHAR_ANIM_FINAL_BOWSER_RAISE_HAND_SPIN] = function (m, frame) if frame > 62 and frame < 99 then return MARIO_EYES_CLOSED_INTENSE end return MARIO_EYES_BLINK end, 
@@ -198,6 +198,7 @@ kirbyAnims = {
 		[CHAR_ANIM_KIRBY_DODGE_FRONT] = MARIO_EYES_ANGRY, 
 		[CHAR_ANIM_KIRBY_DODGE_BACK] = MARIO_EYES_ANGRY, 
 		[CHAR_ANIM_FIRST_PERSON] = function (m, frame) return checkForBoss(m) and MARIO_EYES_ANGRY or MARIO_EYES_BLINK end, 
+		--[CHAR_ANIM_WALK_PANTING] = MARIO_EYES_CLOSED, 
 	}, 
 	anims = {
 		[CHAR_ANIM_SINGLE_JUMP] = function (m, frame) return determineFatAnim(m, "JUMP") end, 
