@@ -198,7 +198,7 @@ local allowedBehaviors = {
 	end}, 
 	{id = id_bhvStar,               canRotate = false, canEat = false,                                                    allowSuckFunc = function (o, m)
 		local mO = m.marioObj
-		local ray = collision_find_surface_on_ray(mO.oPosX, mO.oPosY + mO.hitboxHeight*0.5, mO.oPosZ, o.oPosX - mO.oPosX, (o.oPosY + o.hitboxHeight*0.5) - (mO.oPosY + mO.hitboxHeight*0.5), o.oPosZ - mO.oPosZ, 128)
+		local ray = collision_find_surface_on_ray(mO.oPosX, mO.oPosY + mO.hitboxHeight*0.5, mO.oPosZ, o.oPosX - mO.oPosX, (o.oPosY + o.hitboxHeight*0.5) - (mO.oPosY + mO.hitboxHeight*0.5), o.oPosZ - mO.oPosZ, 3)
 		return ray.surface == nil
 	end, deleteOnDetect = false}, 
 }
