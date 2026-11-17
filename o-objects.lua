@@ -484,7 +484,7 @@ function bhv_dedede_shock_wave_loop(o)
         end
     elseif o.oTimer < TIME_LIMIT and mario_is_in_air_action(gMarioStates[0]) == 0 then
         local shockLow, shockHigh = o.oBowserShockWaveUnkF4 * 4.5, o.oBowserShockWaveUnkF4 * 5
-        if shockLow < o.oDistanceToMario and o.oDistanceToMario < shockHigh then
+        if shockLow < o.oDistanceToMario and o.oDistanceToMario < shockHigh and gServerSettings.playerInteractions == PLAYER_INTERACTIONS_PVP then
             gMarioStates[0].marioObj.oInteractStatus = gMarioStates[0].marioObj.oInteractStatus | INT_STATUS_HIT_BY_SHOCKWAVE
         end
 
@@ -524,11 +524,14 @@ local function bhv_dedede_bouncing_fireball_flame_init(o)
     obj_set_hitbox(o, hitbox)
 
     o.oWallHitboxRadius = 30
-    o.oGravity              = -8
-    o.oBounciness           = -1.5
-    o.oDragStrength         = 1
-    o.oFriction             = 1
-    o.oBuoyancy             = 2
+    o.oGravity          = -8
+    o.oBounciness       = -1.5
+    o.oDragStrength     = 1
+    o.oFriction         = 1
+    o.oBuoyancy         = 2
+    if gServerSettings.playerInteractions == PLAYER_INTERACTIONS_PVP then
+        o.oInteractType = INTERACT_FLAME
+    end
 
     o.oForwardVel = 30
     o.oVelY = 60

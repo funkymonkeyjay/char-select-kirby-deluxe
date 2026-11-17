@@ -597,6 +597,11 @@ if charSelect then
 	charSelect.character_hook_moveset(dededeCharID, HOOK_BEFORE_MARIO_UPDATE, kirbyPreUpdate)
 	
 	hook_event(HOOK_ON_PLAY_SOUND, function (soundBits, pos)
+		local currCharLocal = charSelect.character_get_current_number()
+		if (currCharLocal == kirbyCharID or currCharLocal == dededeCharID) and soundBits == SOUND_GENERAL_COLLECT_1UP then
+			play_kirby_sound(KIRBY_1UP_SOUND, gGlobalSoundSource, 6)
+			return NO_SOUND
+		end
 		for i = 0, MAX_PLAYERS - 1 do
 			local m = gMarioStates[i]
 			local currChar = charSelect.character_get_current_number(m.playerIndex)

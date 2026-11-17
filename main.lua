@@ -14,6 +14,7 @@ KIRBY_HIT_SOUND = audio_sample_load("SOUND_HITENEMY.ogg")
 KIRBY_INHALE_SOUND = audio_sample_load("SOUND_INHALE.ogg")
 KIRBY_SLIDE_SOUND = audio_sample_load("SOUND_SLIDE_KICK.ogg")
 KIRBY_HURT_SOUND = audio_sample_load("SOUND_HURT.ogg")
+KIRBY_1UP_SOUND = audio_sample_load("SOUND_1UP.ogg")
 
 DEDEDE_INHALE_SOUND = audio_sample_load("SOUND_INHALE_DDD.ogg")
 
@@ -306,15 +307,20 @@ charSelect.character_add_sequence_replacement(kirbyCharID, SEQ_EVENT_CUTSCENE_CR
 charSelect.character_add_sequence_replacement(dededeCharID, SEQ_EVENT_CUTSCENE_CREDITS, SEQ_KIRBY_CREDITS)
 
 -- OBJECT REPLACEMENTS
-local butterFlyTexture = get_texture_info("kirby-butterfly-tex")
-charSelect.character_add_texture_replacement(kirbyCharID, "butterfly_seg3_texture_030043A8", butterFlyTexture)
-charSelect.character_add_texture_replacement(dededeCharID, "butterfly_seg3_texture_030043A8", butterFlyTexture)
+local TEX_BUTTERFLY = get_texture_info("kirby-butterfly-tex")
+charSelect.character_add_texture_replacement(kirbyCharID, "butterfly_seg3_texture_030043A8", TEX_BUTTERFLY)
+charSelect.character_add_texture_replacement(dededeCharID, "butterfly_seg3_texture_030043A8", TEX_BUTTERFLY)
 
 local E_MODEL_STAR_BLOCK = smlua_model_util_get_id("star_block_geo")
 charSelect.character_add_model_replacement(kirbyCharID, id_bhvBreakableBox, E_MODEL_STAR_BLOCK)
 charSelect.character_add_model_replacement(kirbyCharID, id_bhvBreakableBoxSmall, E_MODEL_STAR_BLOCK)
 charSelect.character_add_model_replacement(dededeCharID, id_bhvBreakableBox, E_MODEL_STAR_BLOCK)
 charSelect.character_add_model_replacement(dededeCharID, id_bhvBreakableBoxSmall, E_MODEL_STAR_BLOCK)
+
+local TEX_KIRBY_ONE_UP = get_texture_info("kirby-1up-tex")
+local TEX_DEDEDE_ONE_UP = get_texture_info("dedede-1up-tex")
+charSelect.character_add_texture_replacement(kirbyCharID, "mushroom_1up_seg3_texture_03029628", TEX_KIRBY_ONE_UP)
+charSelect.character_add_texture_replacement(dededeCharID, "mushroom_1up_seg3_texture_03029628", TEX_DEDEDE_ONE_UP)
 
 -- CONFIG
 gGlobalSyncTable.kirbyUnusualObjects = false
