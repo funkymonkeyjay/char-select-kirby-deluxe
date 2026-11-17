@@ -198,6 +198,9 @@ function act_dedede_hammer_spin(m)
                     o.oMoveAngleYaw = -angle
                     o.header.gfx.scale.x = 3
                     o.oTimer = 290
+                    if gServerSettings.playerInteractions ~= PLAYER_INTERACTIONS_PVP then
+                        o.oIntangibleTimer = -1
+                    end
                 end)
             end
             set_mario_particle_flags(m, PARTICLE_FIRE, 0)
