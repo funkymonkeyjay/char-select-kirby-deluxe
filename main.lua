@@ -28,6 +28,7 @@ CHAR_SOUND_BOWSER_SWING = CHAR_SOUND_MAX + 1
 local VOICE_KIRBY_HERE_WE_GO =   audio_sample_load('VOICE_LETSAGO2.ogg')
 local VOICE_KIRBY_BOWSER =       audio_sample_load('VOICE_BOWSER.ogg')
 local VOICE_KIRBY_BOWSER_THROW = audio_sample_load('VOICE_BOWSER_THROW.ogg')
+local VOICE_KIRBY_YAHOO =        audio_sample_load('VOICE_LETSAGO3.ogg')
 
 local function checkBowserThrow(m, origReturn)
 	if m.playerIndex == 0 and m.action == ACT_HOLDING_BOWSER and gNetworkPlayers[0].currLevelNum == LEVEL_BOWSER_3 then
@@ -43,6 +44,8 @@ local function checkBowserThrow(m, origReturn)
 	return origReturn
 end
 
+
+
 local KIRBY_VOICETABLE = {
 	[CHAR_SOUND_PUNCH_YAH] =          'SOUND_LAUNCH_STAR.ogg', 
 	[CHAR_SOUND_PUNCH_WAH] =          'SOUND_SWALLOW.ogg', 
@@ -54,7 +57,7 @@ local KIRBY_VOICETABLE = {
 	[CHAR_SOUND_OKEY_DOKEY] =         'VOICE_LETSAGO2.ogg', 
 	[CHAR_SOUND_HELLO] =              {'VOICE_LETSAGO4.ogg', 'VOICE_LETSAGO.ogg', 'VOICE_LETSAGO3.ogg', 'VOICE_LETSAGO2.ogg'}, 
 	[CHAR_SOUND_LETS_A_GO] =          'VOICE_LETSAGO2.ogg', 
-	[CHAR_SOUND_YAHOO_WAHA_YIPPEE] =  'VOICE_LETSAGO3.ogg', 
+	[CHAR_SOUND_YAHOO_WAHA_YIPPEE] =  function (m) return isMovesetOff() and VOICE_KIRBY_YAHOO or nil end, 
 	[CHAR_SOUND_UH] =                 'VOICE_LEDGE.ogg', 
 	[CHAR_SOUND_UH2] =                'VOICE_ATTACK.ogg', 
 	[CHAR_SOUND_OOOF] =               'VOICE_HURT2.ogg', 

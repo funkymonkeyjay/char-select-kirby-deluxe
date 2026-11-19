@@ -88,7 +88,8 @@ function act_kirby_puff(m)
 	if m.actionTimer == 0 then
 		m.actionTimer = gPlayerSyncTable[idx].kirbyPuffTimer_JJJ
 	end
-	m.actionTimer = m.actionTimer + 1
+	local currChar = charSelect.character_get_current_number(idx)
+	m.actionTimer = m.actionTimer + ((currChar == dededeCharID or (m.flags & MARIO_METAL_CAP) ~= 0) and 2 or 1)
 	--local kirbyIsTired = gPlayerSyncTable[idx].kirbyPuffTimer_JJJ > PUFF_TIMER_LIMIT
 	local kirbyIsTired = m.actionTimer > PUFF_TIMER_LIMIT
 	
@@ -143,11 +144,11 @@ function act_kirby_puff(m)
 				--if gGlobalSyncTable.kirbyInfinitePuff and idx == 0 then
 					--truePuffPower = 1
 				--else
-					local ceilingValue = gPlayerSyncTable[idx].kirbyPuffCeiling_JJJ
+					local ceilingValue = gPlayerSyncTable[idx].kirbyPuffCeiling_JJJ + 600
 					local puffPosition = ceilingValue - m.pos.y
 					local puffPosMax = math.max(puffPosition, 0)
 					
-					local puffPower = puffPosMax / 800
+					local puffPower = puffPosMax / 1100
 					
 					local maxClamp = math.max(puffPower, 0)
 					truePuffPower = math.min(maxClamp, 1)

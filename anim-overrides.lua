@@ -31,6 +31,8 @@ CHAR_ANIM_DEDEDE_HAMMER_DOWN =     CHAR_ANIM_MAX + 19943
 CHAR_ANIM_DEDEDE_GORDO =           CHAR_ANIM_MAX + 19944
 CHAR_ANIM_DEDEDE_GORDO_FLIP =      CHAR_ANIM_MAX + 19945
 
+isMetalRoll = false
+
 local function determineFatAnim(m, name)
 	local inbetween = ""
 	if gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ ~= 0 then inbetween = "FAT_" end
@@ -203,7 +205,7 @@ kirbyAnims = {
 	anims = {
 		[CHAR_ANIM_SINGLE_JUMP] = function (m, frame) return determineFatAnim(m, "JUMP") end, 
 		[CHAR_ANIM_LAND_FROM_SINGLE_JUMP] = function (m, frame) if m.action == ACT_EXIT_LAND_SAVE_DIALOG or m.action == ACT_INTRO_CUTSCENE then return "KIRBY_EXIT_BOUNCE_2" end return "KIRBY_LAND" end, 
-		[CHAR_ANIM_GENERAL_FALL] = function (m, frame) return determineFatAnim(m, "FALL") end, 
+		[CHAR_ANIM_GENERAL_FALL] = function (m, frame) return (m.action == ACT_FREEFALL and gPlayerSyncTable[m.playerIndex].kirbyIsAbilityAction) and "KIRBY_WING_PUFF" or determineFatAnim(m, "FALL") end, 
 		[CHAR_ANIM_GENERAL_LAND] = function (m, frame) if m.action == ACT_EXIT_LAND_SAVE_DIALOG or m.action == ACT_SPAWN_SPIN_LANDING or m.action == ACT_END_PEACH_CUTSCENE then return "KIRBY_EXIT_BOUNCE" end return "KIRBY_LAND" end, 
 		[CHAR_ANIM_WALKING] = function (m, frame) return determineFatAnim(m, "WALK") end, 
 		[CHAR_ANIM_START_TIPTOE] = function (m, frame) m.actionTimer = 2 end, 
@@ -251,6 +253,9 @@ kirbyAnims = {
 		[CHAR_ANIM_GROUND_POUND] = "KIRBY_GROUND_POUND", 
 		[CHAR_ANIM_CREDITS_WAVING] = "KIRBY_CREDITS_WAVE", 
 		[CHAR_ANIM_WALK_PANTING] = "KIRBY_WEAK", 
+		[CHAR_ANIM_SLIDE] = function (m, frame) if gPlayerSyncTable[m.playerIndex].kirbyIsAbilityAction then return m.forwardVel > 0 and "KIRBY_METAL_ROLL" or "KIRBY_METAL_ROLL_BACK" end end, 
+		[CHAR_ANIM_FLY_FROM_CANNON] = function (m, frame) return m.prevAction ~= ACT_SHOT_FROM_CANNON and "KIRBY_WING_FLY_START" or nil end, 
+		[CHAR_ANIM_FORWARD_SPINNING_FLIP] = function (m, frame) return m.prevAction ~= ACT_SHOT_FROM_CANNON and "KIRBY_WING_FLY_START" or nil end, 
 	}, 
 }
 

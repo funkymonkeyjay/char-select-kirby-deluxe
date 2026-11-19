@@ -299,6 +299,15 @@ if charSelect then
 	
 	local function kirbyActions(m)
 		local idx = m.playerIndex
+
+		local currChar = charSelect.character_get_current_number(idx)
+		if currChar ~= dededeCharID then
+			local hR = call_kirby_copy_hook(m.playerIndex, HOOK_ON_SET_MARIO_ACTION, m)
+			if hR ~= nil then
+				return hR
+			end
+		end
+
 		if m.action == ACT_PUNCHING and m.prevAction == ACT_CROUCHING then
 			set_mario_action(m, ACT_SLIDE_KICK, 0)
 			return
@@ -484,7 +493,7 @@ if charSelect then
 		if m.vel.y > 0 then gPlayerSyncTable[idx].kirbyFallTimer_JJJ = 0 end -- Shrimple as that!
 		
 		if m.pos.y ~= m.floorHeight and gPlayerSyncTable[idx].kirbyMouthCounter_JJJ == 0 and (m.action & ACT_FLAG_SWIMMING) == 0 and (m.action & ACT_FLAG_METAL_WATER) == 0 and not gPlayerSyncTable[idx].dededeIsHammer_JJJ
-			and m.action ~= ACT_SOFT_BONK and m.action ~= ACT_TOP_OF_POLE_JUMP and m.action ~= ACT_KIRBY_PUFF and m.action ~= ACT_FLYING_TRIPLE_JUMP and m.action ~= ACT_FLYING and m.action ~= ACT_SHOT_FROM_CANNON and m.action ~= ACT_WATER_JUMP 
+			and m.action ~= ACT_SOFT_BONK and m.action ~= ACT_TOP_OF_POLE_JUMP and m.action ~= ACT_KIRBY_PUFF and m.action ~= ACT_FLYING_TRIPLE_JUMP and m.action ~= ACT_FLYING and m.action ~= ACT_SHOT_FROM_CANNON and m.action ~= ACT_WATER_JUMP and m.action ~= ACT_GROUND_POUND
 			and m.action ~= ACT_START_HANGING and m.action ~= ACT_HANGING and m.action ~= ACT_HANG_MOVING and m.action ~= ACT_BUBBLED and m.action ~= ACT_KIRBY_INHALE and not (m.action == ACT_LONG_JUMP and m.forwardVel < 0) and m.heldObj == nil then
 			gPlayerSyncTable[idx].kirbyFallTimer_JJJ = gPlayerSyncTable[idx].kirbyFallTimer_JJJ + 1
 			if gPlayerSyncTable[idx].kirbyFallTimer_JJJ > 40 and (m.action == ACT_JUMP or m.action == ACT_FREEFALL or m.action == ACT_JUMP_KICK or m.action == ACT_TOP_OF_POLE_JUMP) and m.vel.y < 0 then
@@ -508,11 +517,13 @@ if charSelect then
 						m.vel.y = 64
 					end
 				elseif not gPlayerSyncTable[idx].kirbyHasPuffed_JJJ then
-					play_character_sound(m, CHAR_SOUND_HOOHOO)
 					gPlayerSyncTable[idx].kirbyHasMovedStick_JJJ = false
 					m.vel.y = 16
 					drop_and_set_mario_action(m, ACT_KIRBY_PUFF, 0)
-					set_mario_animation(m, CHAR_ANIM_KIRBY_PUFF_RISE)
+					if m.action == ACT_KIRBY_PUFF then
+						play_character_sound(m, CHAR_SOUND_HOOHOO)
+						set_mario_animation(m, CHAR_ANIM_KIRBY_PUFF_RISE)
+					end
 				end
 			end
 		else
@@ -737,7 +748,7 @@ if charSelect then
 			return hR
 		end
 
-		--local hScale, vScale = (m.action & ACT_FLAG_MOVING) ~= 0 and 1.2 or 1.0, 1.0 -- Make Kirby 20% faster.
+		--local hScale, vScale = (m.action & ACT_FLAG_MOVING) ~= 0 and 1.1 or 1.0, 1.0 -- Make Kirby 20% faster.
 		local hScale, vScale = 1.0, 1.0
 		
 		if gPlayerSyncTable[m.playerIndex].kirbyMouthCounter_JJJ ~= 0 then
